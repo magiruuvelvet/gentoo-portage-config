@@ -1,2 +1,2 @@
 #!/bin/bash
-git commit -am "$(date +"%Y-%M-%d-%H:%M")"
+git commit -am "$(date +"%Y-%m-%d-%H:%M")"
