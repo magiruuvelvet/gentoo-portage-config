@@ -1,3 +1,11 @@
 app-emulation/qemu aio bzip2 caps curl fdt filecaps gnutls jpeg lzo numa opengl png seccomp snappy spice ssh usb usbredir vhost-net vnc xattr xfs
 app-emulation/spice gstreamer lz4
 app-emulation/libvirt caps dbus fuse libssh libvirtd lxc macvtap -numa policykit qemu udev vepa virt-network -zfs
+app-emulation/libvirt-glib introspection
+sys-libs/libosinfo introspection
+app-emulation/virt-manager gtk
+
+net-libs/gtk-vnc introspection
+net-misc/spice-gtk introspection pulseaudio usbredir dbus lz4 mjpeg gstvideo
+x11-libs/vte introspection
+sys-auth/polkit introspection
