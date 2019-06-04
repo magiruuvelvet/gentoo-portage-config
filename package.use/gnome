@@ -1,0 +1,2 @@
+gnome-base/gconf -policykit PYTHON_TARGETS: python2_7
+app-text/gnome-doc-utils PYTHON_TARGETS: python2_7

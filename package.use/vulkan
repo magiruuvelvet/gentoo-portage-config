@@ -1,0 +1,2 @@
+dev-util/vulkan-tools X vulkaninfo -cube -wayland
+media-libs/vulkan-loader X layers -abi_x86_32

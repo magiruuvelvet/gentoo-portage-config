@@ -1,0 +1,2 @@
+sys-auth/polkit nls pam jit
+#sys-auth/elogind acl pam policykit

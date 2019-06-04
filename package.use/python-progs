@@ -1,0 +1,1 @@
+net-misc/streamlink PYTHON_TARGETS: python3_6 PYTHON_SINGLE_TARGET: python3_6

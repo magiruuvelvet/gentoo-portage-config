@@ -1,0 +1,2 @@
+mail-mta/postfix mysql mbox memcached sqlite
+net-mail/dovecot bzip2 caps lz4 lzma sieve managesieve mysql sqlite tcpd zlib

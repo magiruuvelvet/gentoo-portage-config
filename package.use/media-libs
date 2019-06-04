@@ -1,0 +1,21 @@
+media-libs/libpng apng
+media-libs/lv2 plugins
+media-libs/libaom -tests
+media-libs/gd fontconfig jpeg png truetype zlib tiff webp xpm
+media-libs/libcanberra sound udev alsa gstreamer pulseaudio -gtk -gtk3 -gnome
+media-libs/libao alsa pulseaudio
+media-libs/raptor curl unicode json
+media-libs/libvpx highbitdepth postproc svc
+media-libs/imlib2 X bzip2 gif jpeg mp3 png shm tiff zlib
+media-libs/freeimage jpeg jpeg2k mng openexr png raw tiff webp
+media-libs/jasper opengl jpeg
+
+gnome-base/librsvg -vala -introspection -tools
+
+media-libs/speex abi_x86_32
+media-libs/speexdsp abi_x86_32
+media-libs/gd png fontconfig jpeg truetype
+
+media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads udev video vulkan xinerama
+media-libs/openal sdl
+media-libs/libsoundtouch -openmp

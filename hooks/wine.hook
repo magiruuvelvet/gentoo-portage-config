@@ -1,0 +1,17 @@
+# wine hook
+# remove useless desktop files I don't want and use
+
+hook_wine_postinst() {
+    echo -e ">>> Removing wine desktop files..."
+    rm -f /usr/share/applications/wine-browsedrive.desktop
+    rm -f /usr/share/applications/wine-notepad.desktop
+    rm -f /usr/share/applications/wine-uninstaller.desktop
+    rm -f /usr/share/applications/wine-vanilla.desktop
+    rm -f /usr/share/applications/wine-winecfg.desktop
+    rm -f /usr/share/applications/wine.desktop
+}
+
+hook_winetricks_postinst() {
+    echo -e ">>> Removing winetricks desktop files..."
+    rm -f /usr/share/applications/winetricks.desktop
+}

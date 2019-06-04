@@ -1,0 +1,45 @@
+kde-plasma/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-frameworks/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-apps/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+
+kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
+
+kde-plasma/plasma-desktop fontconfig touchpad mouse
+kde-plasma/plasma-workspace -calendar qalculate
+
+kde-plasma/kwin multimedia
+kde-plasma/kde-cli-tools kdesu
+kde-plasma/kscreenlocker pam seccomp
+kde-plasma/plasma-vault networkmanager
+kde-plasma/powerdevil brightness-control wireless
+kde-plasma/plasma-nm modemmanager
+
+kde-frameworks/kio acl kwallet
+kde-frameworks/kinit caps
+kde-frameworks/kwallet gpg
+kde-frameworks/kauth policykit
+kde-frameworks/knotifications dbus phonon
+kde-frameworks/kconfig dbus
+
+kde-apps/kio-extras sftp taglib activities man-activities openexr samba phonon -mtp
+kde-apps/thumbnailers raw
+kde-apps/ark bzip2 lzma zip
+kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
+net-fs/samba client
+
+media-libs/phonon pulseaudio gstreamer -vlc
+media-libs/phonon-gstreamer network alsa
+
+kde-plasma/ksysguard lm_sensors
+kde-plasma/libksysguard X webengine
+
+media-sound/kid3 taglib kde flac mp3 mp4 vorbis
+
+sys-apps/accountsservice
+x11-misc/sddm pam
+
+app-misc/ddcutil X drm usb-monitor user-permissions VIDEO_CARDS: -*
+sci-libs/libqalculate icu
+
+>=app-text/xmlto-0.0.28-r1 text

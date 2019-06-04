@@ -1,0 +1,1 @@
+sys-fs/cryptsetup -argon2 -luks1_default openssl udev -gcrypt -nettle

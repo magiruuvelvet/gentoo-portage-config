@@ -1,0 +1,34 @@
+random portage notes as I'm a Gentoo beginner coming from Arch
+
+https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet
+
+some overlays (may be useful or not)
+https://gpo.zugaina.org/
+
+eselect repository enable $name
+
+
+
+kernel upgrade
+https://wiki.gentoo.org/wiki/Kernel/Configuration
+cd /usr/src/linux
+
+make
+make modules_install
+make install
+cd /lib/modules/$version; depmod -a
+emerge x11-drivers/nvidia-drivers sys-power/bbswitch
+update-initramfs $version
+
+
+
+list all @world packages
+cat /var/lib/portage/world
+
+
+list all available versions of a package
+equery y <package>
+
+
+list files installed by a package
+equery files --tree <package>

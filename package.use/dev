@@ -1,0 +1,13 @@
+sys-devel/llvm abi_x86_32 xml libffi gold
+sys-devel/clang abi_x86_32 xml
+dev-util/lldb PYTHON_TARGETS: python2_7
+
+dev-util/ctags json xml yaml
+
+dev-libs/elfutils bzip2 nls utils lzma
+
+dev-libs/libusb udev
+dev-libs/glib dbus
+dev-libs/newt PYTHON_TARGETS: python3_6
+dev-libs/nss nss-pem cacert utils
+dev-libs/xmlsec nss openssl

@@ -1,0 +1,4 @@
+hook_compton_postinst() {
+    echo -e ">>> Removing compton desktop files..."
+    rm -f /usr/share/applications/compton.desktop
+}

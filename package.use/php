@@ -1,0 +1,6 @@
+dev-lang/php acl berkdb bzip2 cjk cli ctype fileinfo filter gdbm hash iconv ipv6 json nls opcache phar posix readline session simplexml ssl systemd tokenizer unicode xml zlib bcmath argon2 calendar cgi curl exif flatfile fpm ftp gd gmp imap inifile intl mhash mysql mysqli pdo sockets sqlite threads tidy tokyocabinet truetype webp xmlreader xmlrpc xmlwriter xpm xslt zip zip-encryption pcntl
+app-eselect/eselect-php fpm
+
+dev-db/tokyocabinet threads
+
+dev-php/pecl-memcached igbinary json

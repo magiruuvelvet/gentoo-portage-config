@@ -1,0 +1,4 @@
+games-emulation/rpcs3 alsa pulseaudio joystick llvm vulkan
+
+# change to qt5 once its ready
+games-emulation/dolphin alsa pulseaudio evdev ffmpeg openal pch -qt5 sdl wxwidgets

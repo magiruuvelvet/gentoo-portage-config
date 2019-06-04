@@ -1,0 +1,35 @@
+# remove firmware to avoid conflicts with external firmware
+# handling tools which contains everything and not just a
+# very minimal subset of firmware files
+# Gentoo, what are you doing????
+
+# > missing firmware files for my hardware (gentoo firmware packages)
+# iwlwifi ucode 8000C 36 (gentoo package only contains a very ancient version)
+# bluetooth (missing in bluez-firmware)
+# sound card (missing in alsa-firmware)
+
+# solution:
+# install Arch's pacman and install the linux-firmware package
+# problem solved ✓
+#
+# don't forget to copy over the files from /var/chroot/archlinux/
+# when installing stuff with pacman in Gentoo
+
+sys-kernel/gentoo-sources symlink -firmware
+sys-firmware/* bluetooth
+virtual/linux-sources -firmware
+
+# don't make redistributable package, allow unknown licenses
+sys-kernel/linux-firmware -redistributable savedconfig unknown-license
+
+# arch linux uses this too and my CPU is affected with typical intel bugs
+sys-firmware/intel-microcode initramfs
+
+sys-kernel/genkernel firmware
+sys-kernel/genkernel-next firmware
+
+app-laptop/laptop-mode-tools acpi -apm bluetooth
+
+sys-apps/kmod lzma zlib
+
+>=sys-apps/util-linux-2.33.2 static-libs

@@ -1,0 +1,26 @@
+dev-qt/* qml icu -debug
+dev-qt/qtcore icu
+dev-qt/qtgui gif libinput png jpeg udev xcb dbus egl
+dev-qt/qtwidgets png xcb
+dev-qt/qtdbus
+dev-qt/qtbluetooth qml
+dev-qt/qtnetwork
+dev-qt/qtconcurrent
+dev-qt/qtmultimedia qml gstreamer alsa pulseaudio widgets
+dev-qt/qtvirtualkeyboard xcb -spell
+dev-qt/qtquickcontrols widgets
+dev-qt/qtquickcontrols2
+dev-qt/qtdeclarative jit widgets -localstorage
+dev-qt/qttest
+dev-qt/qtwayland libinput xcomposite
+dev-qt/qtgraphicaleffects
+dev-qt/qtprintsupport cups
+dev-qt/qtwebchannel qml
+dev-qt/qtwebengine widgets jumbo-build -bindist -debug -system-ffmpeg -system-icu
+
+
+dev-libs/re2 icu
+
+>=x11-libs/libxcb-1.13.1 xkb
+>=x11-libs/libxkbcommon-0.8.4 X
+>=dev-libs/libpcre2-10.33 pcre16

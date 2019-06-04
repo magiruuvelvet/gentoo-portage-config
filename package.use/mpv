@@ -1,0 +1,2 @@
+media-video/mpv X alsa archive bluray cdda cli cplugins drm dvd egl iconv javascript libass libcaca libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib -tools -jpeg -cuda -vulkan
+app-shells/mpv-bash-completion luajit

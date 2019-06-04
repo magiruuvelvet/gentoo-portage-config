@@ -1,0 +1,42 @@
+# mask 3rd party repos with other software available
+# other than the one I'm looking for to avoid breakage
+# with main repositories
+# unmask individual packages in package.unmask to install them
+
+*/*::poly-c
+*/*::seden
+*/*::dotnet
+*/*::jorgicio
+*/*::chaoslab
+*/*::cynede
+*/*::stefantalpalaru
+
+# use seden bumblebee for better compatibility with CUDA
+
+# package blacklist, avoid to install
+media-video/vlc
+media-libs/phonon-vlc
+dev-java/icedtea-bin
+dev-java/icedtea-sound
+dev-java/icedtea-web
+
+# official bumblebee packages are broken and don't support CUDA (nvidia-uvm.ko)
+x11-misc/bumblebee::gentoo
+x11-misc/primus::gentoo
+
+# locked packages (5.1 kernel not feeling so good on my laptop right now)
+>=sys-kernel/gentoo-sources-5.1
+>sys-kernel/gentoo-sources-5.0.18
+
+# install version 14 because of license (money$$$)
+>=app-emulation/vmware-workstation-15.1
+
+# CUDA nvcc works just fine with clang and is easier to install side-by-side with older versions
+# than GCC which takes years to compile and mostly fails due to sanity checks with GLIBC(XX) symbols
+# lock this dependency of an older GCC version to prevent install attempts which fails with a SIGSEGV in "ar"
+# note: the build process seems to scan system libraries against the stage1 libstdc++.so which lacks the
+# current GLIBC symbols obviously and than refuses to continue
+<=sys-devel/gcc-8.3.0
+=sys-devel/gcc-8.3.0-r1
+=sys-devel/gcc-8.3.0
+=sys-devel/gcc-8.2.0

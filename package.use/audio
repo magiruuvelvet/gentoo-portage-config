@@ -1,0 +1,3 @@
+media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame
+media-sound/cantata -cdda -cddb -cdio -http-server -mtp -musicbrainz -replaygain -streaming taglib -udisks -zeroconf
+media-sound/mpd alsa audiofile bzip2 cue curl dbus faad ffmpeg flac icu pulseaudio sqlite unicode wavpack zip zlib

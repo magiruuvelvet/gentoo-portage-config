@@ -1,0 +1,25 @@
+x11-base/xorg-server glamor suid udev xorg xephyr xvfb kdrive -unwind
+x11-base/xorg-drivers keyboard libinput mouse joystick synaptics wacom INPUT_DEVICES: keyboard libinput mouse joystick synaptics wacom
+
+x11-drivers/xf86-video-intel dri sna udev xvmc -uxa
+
+x11-libs/libva opengl utils vdpau
+x11-libs/cairo opengl xcb
+x11-libs/libXfont2 truetype
+
+x11-apps/xdpyinfo xinerama
+
+media-libs/mesa pic vaapi vdpau vulkan vulkan-overlay wayland lm_sensors
+media-libs/freetype -infinality png utils
+media-libs/harfbuzz icu
+
+x11-libs/cairo X
+dev-cpp/cairomm X
+
+x11-drivers/nvidia-drivers X driver kms acpi uvm multilib -compat -tools -gtk3
+x11-misc/bumblebee bbswitch abi_x86_32
+x11-misc/primus abi_x86_32
+
+>=x11-libs/gdk-pixbuf-2.38.1 X
+>=x11-libs/pango-1.42.4-r1 X
+>=x11-libs/cairo-1.16.0-r3 X

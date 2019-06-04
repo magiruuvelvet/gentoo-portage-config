@@ -1,0 +1,34 @@
+# unmasked 3rd party packages
+
+# figure out how to compile waterfox without constant 15% CPU usage at runtime :thinking:
+# currently using the prebuilt official binary releases from Mr. Alex
+www-client/waterfox::poly-c
+
+x11-misc/bumblebee::seden
+#x11-misc/primus::seden
+
+# patched ebuild to allow NVIDIA GLVND to be installed
+# no problems with it being installed, just use "optirun -b primus" instead of "primusrun"
+# GLVND is required for Vulkan support in "nvidia-xrun"
+x11-misc/primus::localrepo
+
+# proprietary telemetry build of VS Code
+###app-editors/visual-studio-code::dotnet
+# much better *insert drake meme here*
+app-editors/vscodium::jorgicio
+
+# netflix'n'chill
+dev-qt/qtwebengine-widevine::jorgicio
+
+# full caddy build with many plugins I need
+# official repos are lacking some USE flags here
+www-servers/caddy::chaoslab
+
+# need this for work
+<app-emulation/vmware-workstation-15::stefantalpalaru
+app-emulation/vmware-modules::stefantalpalaru
+
+# not currently in use, using AppImage for now until I figured out
+# an weird PCH problem in LLVM 9 in recent rpcs3 versions
+games-emulation/rpcs3::stefantalpalaru
+games-emulation/rpcs3::localrepo
