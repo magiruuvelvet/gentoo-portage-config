@@ -5,6 +5,11 @@ dev-python/ipython matplotlib
 dev-python/cryptography idna
 dev-python/requests socks5
 
+dev-python/pygtk PYTHON_TARGETS: python2_7
+dev-python/pycairo PYTHON_TARGETS: python2_7
+dev-python/pygobject PYTHON_TARGETS: python2_7
+dev-python/numpy PYTHON_TARGETS: python2_7
+
 dev-python/nototools PYTHON_TARGETS: python2_7
 dev-python/fonttools PYTHON_TARGETS: python3_6
 

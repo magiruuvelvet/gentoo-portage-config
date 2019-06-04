@@ -1,2 +1,3 @@
-app-office/libreoffice cups branding dbus kde -gtk -mariadb -accessibility -bluetooth -gtk2 -java
+app-office/libreoffice cups branding dbus pdfimport kde mariadb -gtk -accessibility -bluetooth -gtk2 -java
+app-office/libreoffice LIBREOFFICE_EXTENSIONS: -nlpsolver
 app-office/libreoffice-l10n L10N: en ja de

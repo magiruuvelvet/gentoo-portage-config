@@ -15,12 +15,12 @@ done
 
 # helper function to print hook feedback
 print_run_hook_msg() {
-    echo -e "\e[1m\e[38;2;188;18;160m>>> Running $1 hook for $2...\e[0m"
+    echo -e "\e[1m\e[38;2;188;18;160m>>> Running $1 hook for [$2]...\e[0m"
 }
 
-# print current phase
+# print current ebuild phase
 if [ ! -z "$EBUILD_PHASE" ]; then
-    echo -e "\e[1m>>> [${CATEGORY}/${PN}] Running emerge phase $EBUILD_PHASE...\e[0m"
+    echo -e "\e[1m>>> \e[38;2;120;120;39m[${CATEGORY}/${PN}]\e[0m\e[1m Running ebuild phase \e[38;2;48;90;116m$EBUILD_PHASE\e[0m\e[1m...\e[0m"
 fi
 
 # invoke emerge hook trigger
