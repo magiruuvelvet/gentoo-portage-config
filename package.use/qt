@@ -1,4 +1,4 @@
-dev-qt/* qml icu -debug
+dev-qt/* qml icu udev dbus -debug -designer
 dev-qt/qtcore icu
 dev-qt/qtgui gif libinput png jpeg udev xcb dbus egl
 dev-qt/qtwidgets png xcb
@@ -18,6 +18,9 @@ dev-qt/qtprintsupport cups
 dev-qt/qtwebchannel qml
 dev-qt/qtwebengine widgets jumbo-build -bindist -debug -system-ffmpeg -system-icu
 
+dev-qt/qt-creator autotools clang cmake cppcheck doc git glsl help android ios lsp python scxml valgrind webengine -designer
+
+dev-python/PyQt5 bluetooth ssl dbus declarative gui multimedia network networkauth opengl sensors serialport sql svg webchannel websockets widgets x11extras xmlpatterns
 
 dev-libs/re2 icu
 

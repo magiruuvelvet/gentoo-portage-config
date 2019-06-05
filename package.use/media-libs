@@ -11,6 +11,7 @@ media-libs/freeimage jpeg jpeg2k mng openexr png raw tiff webp
 media-libs/jasper opengl jpeg
 media-libs/aalib X
 media-libs/gegl cairo ffmpeg jpeg2k openexr pdf raw svg tiff webp zlib
+media-libs/opencolorio opengl
 
 gnome-base/librsvg -vala -introspection -tools
 
