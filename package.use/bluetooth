@@ -1,1 +1,2 @@
 net-wireless/bluez mesh btpclient obex readline udev alsa experimental user-session
+media-sound/bluez-alsa aac ldac ofono hcitop

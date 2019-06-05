@@ -27,6 +27,8 @@ kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 net-fs/samba client
+kde-apps/krdc vnc rdp
+net-libs/libvncserver zlib lzo jpeg png threads
 
 media-libs/phonon pulseaudio gstreamer -vlc
 media-libs/phonon-gstreamer network alsa
