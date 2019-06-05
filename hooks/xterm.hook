@@ -1,0 +1,5 @@
+hook_xterm_postinst() {
+    echo -e ">>> Removing xterm desktop files..."
+    rm -f /usr/share/applications/uxterm.desktop
+    rm -f /usr/share/applications/xterm.desktop
+}

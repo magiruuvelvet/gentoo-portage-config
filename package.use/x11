@@ -20,6 +20,8 @@ x11-drivers/nvidia-drivers X driver kms acpi uvm multilib -compat -tools -gtk3
 x11-misc/bumblebee bbswitch abi_x86_32
 x11-misc/primus abi_x86_32
 
+x11-terms/xterm unicode truetype xinerama
+
 >=x11-libs/gdk-pixbuf-2.38.1 X
 >=x11-libs/pango-1.42.4-r1 X
 >=x11-libs/cairo-1.16.0-r3 X

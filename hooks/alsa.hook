@@ -1,0 +1,4 @@
+hook_alsa_tools_postinst() {
+    echo -e ">>> Removing alsa-tools desktop files..."
+    rm -f /usr/share/applications/hwmixvolume.desktop
+}

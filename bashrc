@@ -45,6 +45,18 @@ post_install() {
             print_run_hook_msg "post install" "${CATEGORY}/${PN}"
             hook_compton_postinst ;;
 
+        x11-terms/xterm)
+            print_run_hook_msg "post install" "${CATEGORY}/${PN}"
+            hook_xterm_postinst ;;
+
+        sys-process/htop)
+            print_run_hook_msg "post install" "${CATEGORY}/${PN}"
+            hook_htop_postinst ;;
+
+        media-sound/alsa-tools)
+            print_run_hook_msg "post install" "${CATEGORY}/${PN}"
+            hook_alsa_tools_postinst ;;
+
         *) : ;;
     esac
 }

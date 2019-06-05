@@ -1,0 +1,4 @@
+hook_htop_postinst() {
+    echo -e ">>> Removing htop desktop files..."
+    rm -f /usr/share/applications/htop.desktop
+}
