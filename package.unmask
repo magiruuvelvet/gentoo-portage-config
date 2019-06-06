@@ -1,9 +1,5 @@
 # unmasked 3rd party packages
 
-# figure out how to compile waterfox without constant 15% CPU usage at runtime :thinking:
-# currently using the prebuilt official binary releases from Mr. Alex
-www-client/waterfox::poly-c
-
 x11-misc/bumblebee::seden
 #x11-misc/primus::seden
 
@@ -12,9 +8,7 @@ x11-misc/bumblebee::seden
 # GLVND is required for Vulkan support in "nvidia-xrun"
 x11-misc/primus::localrepo
 
-# proprietary telemetry build of VS Code
-###app-editors/visual-studio-code::dotnet
-# much better *insert drake meme here*
+# telemetry free build of VS Code
 app-editors/vscodium::jorgicio
 
 # netflix'n'chill

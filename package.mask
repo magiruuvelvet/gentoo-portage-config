@@ -3,12 +3,9 @@
 # with main repositories
 # unmask individual packages in package.unmask to install them
 
-*/*::poly-c
 */*::seden
-*/*::dotnet
 */*::jorgicio
 */*::chaoslab
-*/*::cynede
 */*::stefantalpalaru
 
 # use seden bumblebee for better compatibility with CUDA

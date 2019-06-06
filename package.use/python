@@ -93,3 +93,9 @@ dev-python/fonttools PYTHON_TARGETS: python3_6
 >=dev-python/setuptools_scm_git_archive-1.0 python_targets_python2_7
 >=dev-python/backports-1.0 python_targets_python2_7
 >=dev-python/future-0.17.0 python_targets_python2_7
+>=dev-python/beautifulsoup-3.2.1-r1:python-2 python_targets_python2_7
+>=dev-python/beautifulsoup-4.6.3 python_targets_python2_7
+>=dev-python/html5lib-1.0.1 python_targets_python2_7
+>=dev-python/simplejson-3.16.0 python_targets_python2_7
+>=dev-python/webencodings-0.5.1 python_targets_python2_7
+>=dev-python/lxml-4.3.3 python_targets_python2_7
