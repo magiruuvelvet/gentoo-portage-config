@@ -1,0 +1,7 @@
+# iOS Apple bullshit, I just want to debug my web shit in mobile safari on iOS please! *reee*
+
+app-pda/libplist PYTHON_TARGETS: python3_6
+app-pda/libimobiledevice PYTHON_TARGETS: python3_6
+
+# oh shit, ios-webkit-debug-proxy actually works on Gentoo
+# I never managed to get this piece of shit to work on Arch Linux
