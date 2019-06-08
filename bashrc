@@ -25,10 +25,21 @@ fi
 
 # invoke emerge hook trigger
 case "$EBUILD_PHASE" in
+    prepare)        prepare ;;
     postinst)       post_install ;;
 
     *) : ;;
 esac
+
+prepare() {
+    case "${CATEGORY}/${PN}" in
+        sys-libs/glibc)
+            # fix glibc configure and build by removing custom library paths
+            unset LD_LIBRARY_PATH ;;
+
+        *) : ;;
+    esac
+}
 
 # post install hook trigger
 post_install() {
