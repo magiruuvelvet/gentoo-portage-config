@@ -4,4 +4,4 @@ net-libs/libproxy -gnome -kde -mono -networkmanager -perl -python -spidermonkey 
 net-libs/glib-networking -gnome
 net-libs/mbedtls threads zlib
 
->=net-libs/zeromq-4.3.1 drafts
+net-libs/zeromq drafts

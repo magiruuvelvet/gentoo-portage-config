@@ -44,4 +44,4 @@ x11-misc/sddm pam
 app-misc/ddcutil X drm usb-monitor user-permissions VIDEO_CARDS: -*
 sci-libs/libqalculate icu
 
->=app-text/xmlto-0.0.28-r1 text
+app-text/xmlto text

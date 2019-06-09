@@ -24,6 +24,6 @@ dev-python/PyQt5 bluetooth ssl dbus declarative gui multimedia network networkau
 
 dev-libs/re2 icu
 
->=x11-libs/libxcb-1.13.1 xkb
->=x11-libs/libxkbcommon-0.8.4 X
->=dev-libs/libpcre2-10.33 pcre16
+x11-libs/libxcb xkb
+x11-libs/libxkbcommon X
+dev-libs/libpcre2 pcre16

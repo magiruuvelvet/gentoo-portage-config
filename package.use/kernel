@@ -32,4 +32,4 @@ app-laptop/laptop-mode-tools acpi -apm bluetooth
 
 sys-apps/kmod lzma zlib
 
->=sys-apps/util-linux-2.33.2 static-libs
+sys-apps/util-linux static-libs
