@@ -1,10 +1,17 @@
 #!/bin/sh
 
+. /etc/portage/hooks/functions/desktop-utils.sh
+
+instprep() {
+    echo -e ">>> Removing ${PN} desktop files..."
+    remove_desktop_files
+}
+
 postinst() {
     # remove useless desktop files I don't want and use
     # this is not how wine should be used
     # binfmt.d integration is already disabled with a USE flag
-    echo -e ">>> Removing wine desktop files..."
+    echo -e ">>> Removing ${PN} desktop files..."
     rm -f /usr/share/applications/wine-browsedrive.desktop
     rm -f /usr/share/applications/wine-notepad.desktop
     rm -f /usr/share/applications/wine-uninstaller.desktop
@@ -14,6 +21,7 @@ postinst() {
 }
 
 case "$1" in
+    instprep) instprep ;;
     postinst) postinst ;;
     *) : ;;
 esac

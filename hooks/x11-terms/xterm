@@ -1,12 +1,20 @@
 #!/bin/sh
 
+. /etc/portage/hooks/functions/desktop-utils.sh
+
+instprep() {
+    echo -e ">>> Removing ${PN} desktop files..."
+    remove_desktop_files
+}
+
 postinst() {
-    echo -e ">>> Removing xterm desktop files..."
+    echo -e ">>> Removing ${PN} desktop files..."
     rm -f /usr/share/applications/uxterm.desktop
     rm -f /usr/share/applications/xterm.desktop
 }
 
 case "$1" in
+    instprep) instprep ;;
     postinst) postinst ;;
     *) : ;;
 esac
