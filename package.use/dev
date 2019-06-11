@@ -5,6 +5,7 @@ sys-devel/gdb python lzma client source-highlight xml -server
 
 dev-util/ctags json xml yaml
 dev-util/cppcheck pcre PYTHON_TARGETS: python3_6
+dev-util/gtk-doc PYTHON_TARGETS: python2_7
 
 dev-libs/elfutils bzip2 nls utils lzma
 

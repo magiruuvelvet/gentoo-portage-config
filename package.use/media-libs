@@ -12,6 +12,7 @@ media-libs/jasper opengl jpeg
 media-libs/aalib X
 media-libs/gegl cairo ffmpeg jpeg2k openexr pdf raw svg tiff webp zlib
 media-libs/opencolorio opengl
+media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
 
 gnome-base/librsvg -vala -introspection -tools
 
@@ -23,3 +24,5 @@ media-libs/libsdl X alsa joystick pulseaudio sound video aalib opengl xinerama x
 media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads udev video vulkan xinerama
 media-libs/openal sdl
 media-libs/libsoundtouch -openmp
+
+app-text/tesseract openmp jpeg math png tiff webp L10N: *

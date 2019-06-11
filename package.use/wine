@@ -1,4 +1,4 @@
-app-emulation/wine-vanilla X alsa pulseaudio faudio fontconfig gecko netapi samba gstreamer jpeg png mp3 ncurses realtime ssl threads truetype udev vkd3d vulkan opengl opencl xcomposite xinerama xml sdl udisks mono perl -run-exes
+app-emulation/wine-vanilla X alsa pulseaudio faudio fontconfig gecko netapi samba gstreamer jpeg png mp3 ncurses realtime ssl threads truetype udev vkd3d vulkan opengl opencl openal xcomposite xinerama xml sdl udisks mono perl gsm -run-exes
 app-emulation/winetricks kde rar
 virtual/wine
 
