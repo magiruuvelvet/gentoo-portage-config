@@ -11,9 +11,6 @@ postinst() {
     rm -f /usr/share/applications/wine-vanilla.desktop
     rm -f /usr/share/applications/wine-winecfg.desktop
     rm -f /usr/share/applications/wine.desktop
-
-    # run winetricks hook, just in case™
-    /etc/portage/hooks/app-emulation/winetricks postinst
 }
 
 case "$1" in

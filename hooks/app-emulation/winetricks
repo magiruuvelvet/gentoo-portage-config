@@ -3,9 +3,6 @@
 postinst() {
     echo -e ">>> Removing winetricks desktop files..."
     rm -f /usr/share/applications/winetricks.desktop
-
-    # run wine hook, just in case™
-    /etc/portage/hooks/app-emulation/wine-vanilla postinst
 }
 
 case "$1" in
