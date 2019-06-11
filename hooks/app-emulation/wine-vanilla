@@ -1,7 +1,9 @@
-# wine hook
-# remove useless desktop files I don't want and use
+#!/bin/sh
 
-hook_wine_postinst() {
+postinst() {
+    # remove useless desktop files I don't want and use
+    # this is not how wine should be used
+    # binfmt.d integration is already disabled with a USE flag
     echo -e ">>> Removing wine desktop files..."
     rm -f /usr/share/applications/wine-browsedrive.desktop
     rm -f /usr/share/applications/wine-notepad.desktop
@@ -9,9 +11,12 @@ hook_wine_postinst() {
     rm -f /usr/share/applications/wine-vanilla.desktop
     rm -f /usr/share/applications/wine-winecfg.desktop
     rm -f /usr/share/applications/wine.desktop
+
+    # run winetricks hook, just in case™
+    /etc/portage/hooks/app-emulation/winetricks postinst
 }
 
-hook_winetricks_postinst() {
-    echo -e ">>> Removing winetricks desktop files..."
-    rm -f /usr/share/applications/winetricks.desktop
-}
+case "$1" in
+    postinst) postinst ;;
+    *) : ;;
+esac

@@ -1,4 +1,11 @@
-hook_htop_postinst() {
+#!/bin/sh
+
+postinst() {
     echo -e ">>> Removing htop desktop files..."
     rm -f /usr/share/applications/htop.desktop
 }
+
+case "$1" in
+    postinst) postinst ;;
+    *) : ;;
+esac

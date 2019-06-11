@@ -1,4 +1,11 @@
-hook_compton_postinst() {
+#!/bin/sh
+
+postinst() {
     echo -e ">>> Removing compton desktop files..."
     rm -f /usr/share/applications/compton.desktop
 }
+
+case "$1" in
+    postinst) postinst ;;
+    *) : ;;
+esac
