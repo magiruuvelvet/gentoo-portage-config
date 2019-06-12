@@ -26,6 +26,9 @@ kde-apps/kio-extras sftp taglib activities man-activities openexr samba phonon -
 kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
+
+app-editors/okteta -handbook
+
 net-fs/samba client
 kde-apps/krdc vnc rdp
 net-libs/libvncserver zlib lzo jpeg png threads

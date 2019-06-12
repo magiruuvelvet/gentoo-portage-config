@@ -11,6 +11,7 @@ dev-qt/qtvirtualkeyboard xcb -spell
 dev-qt/qtquickcontrols widgets
 dev-qt/qtquickcontrols2
 dev-qt/qtdeclarative jit widgets -localstorage
+dev-qt/qtscript jit scripttools
 dev-qt/qttest
 dev-qt/qtwayland libinput xcomposite
 dev-qt/qtgraphicaleffects
