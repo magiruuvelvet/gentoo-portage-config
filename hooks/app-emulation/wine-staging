@@ -1,0 +1,17 @@
+#!/bin/sh
+
+. /etc/portage/hooks/functions/desktop-utils.sh
+
+instprep() {
+    echo -e ">>> Removing ${PN} desktop files..."
+    remove_desktop_files
+
+    if [ ! -z "$ED" ]; then
+        rm -r "$ED/usr/share/${PN}-${PV}/applications"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

@@ -1,0 +1,2 @@
+sys-apps/smartmontools -daemon
+sys-apps/gsmartcontrol

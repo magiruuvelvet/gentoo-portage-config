@@ -5,6 +5,10 @@
 instprep() {
     echo -e ">>> Removing ${PN} desktop files..."
     remove_desktop_files
+
+    if [ ! -z "$ED" ]; then
+        rm -r "$ED/usr/share/${PN}-${PV}/applications"
+    fi
 }
 
 postinst() {
