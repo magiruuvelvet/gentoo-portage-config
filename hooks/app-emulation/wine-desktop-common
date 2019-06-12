@@ -1,0 +1,20 @@
+#!/bin/sh
+
+. /etc/portage/hooks/functions/desktop-utils.sh
+
+# get rid of useless desktop files and other random stuff
+# only keep the icons because they may be useful :)
+
+instprep() {
+    echo -e ">>> Removing ${PN} desktop files and directories..."
+    remove_desktop_files
+    remove_desktop_directories
+
+    echo -e ">>> Removing ${PN} xdg menu files..."
+    remove_xdg_menus
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

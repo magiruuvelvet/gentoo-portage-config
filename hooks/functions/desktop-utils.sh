@@ -6,3 +6,15 @@ remove_desktop_files() {
         rm -r "$ED/usr/share/applications"
     fi
 }
+
+remove_desktop_directories() {
+    if [ ! -z "$ED" ]; then
+        rm -r "$ED/usr/share/desktop-directories"
+    fi
+}
+
+remove_xdg_menus() {
+    if [ ! -z "$ED" ]; then
+        rm -r "$ED/etc/xdg/menus"
+    fi
+}
