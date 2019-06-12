@@ -16,3 +16,6 @@ dev-libs/nss nss-pem cacert utils
 dev-libs/xmlsec nss openssl
 
 dev-cpp/eigen c++11
+
+# git version of llvm
+=sys-devel/llvm-9999 -gold -abi_x86_32

@@ -96,6 +96,7 @@ x11-proto/xproto abi_x86_32
 sys-fs/eudev abi_x86_32
 
 x11-drivers/nvidia-drivers abi_x86_32
+dev-util/vulkan-tools abi_x86_32
 dev-util/spirv-tools abi_x86_32
 media-libs/vulkan-loader abi_x86_32
 media-libs/vulkan-layers abi_x86_32
