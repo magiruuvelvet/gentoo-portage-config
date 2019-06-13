@@ -21,16 +21,19 @@ kde-frameworks/kwallet gpg
 kde-frameworks/kauth policykit
 kde-frameworks/knotifications dbus phonon
 kde-frameworks/kconfig dbus
+kde-frameworks/purpose -kaccounts
 
 kde-apps/kio-extras sftp taglib activities man-activities openexr samba phonon -mtp
 kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
+kde-apps/kdenlive semantic-desktop
 
 # fancyviewer pulls in a lot of speech and accessibility stuff (not needed and increases compile times)
 kde-apps/libkleo -fancyviewer
 
 app-editors/okteta -handbook
+www-client/falkon X dbus kde
 
 net-fs/samba client
 kde-apps/krdc vnc rdp
