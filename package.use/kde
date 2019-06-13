@@ -27,6 +27,9 @@ kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 
+# fancyviewer pulls in a lot of speech and accessibility stuff (not needed and increases compile times)
+kde-apps/libkleo -fancyviewer
+
 app-editors/okteta -handbook
 
 net-fs/samba client

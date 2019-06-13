@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# put the overwritten commands in /usr/local/bin which
+# is placed before /usr/bin in $PATH
+
+# - single instance mode with `pidof` and `kill`
+# - image viewer wrapper to load all images in current directory as playlist
+
+instprep() {
+    echo -e ">>> Copying ${PN} binaries for several process operations..."
+
+    cd "${ED}/usr/bin"
+
+    # for use with net-misc/streamlink
+    cp mpv mpv-streamlink
+
+    # for use as image viewer
+    cp mpv mvi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
