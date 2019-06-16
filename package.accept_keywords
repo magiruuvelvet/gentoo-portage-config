@@ -2,10 +2,6 @@
 =media-sound/pulseaudio-modules-bt-9999 **
 =net-misc/streamlink-9999 **
 
-# added for rpcs3 to workaround some weird PCH header problems with the bundled git submodule
-# make sure this version doesn't become the default, rename file in /etc/env.d/ accordingly
-=sys-devel/llvm-9999 **
-
 # eselect repositories
 =x11-misc/bumblebee-9999-r4 **
 =x11-misc/primus-9999-r1 **

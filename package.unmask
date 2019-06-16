@@ -21,8 +21,3 @@ www-servers/caddy::chaoslab
 # need this for work
 <app-emulation/vmware-workstation-15::stefantalpalaru
 app-emulation/vmware-modules::stefantalpalaru
-
-# not currently in use, using AppImage for now until I figured out
-# an weird PCH problem in LLVM 9 in recent rpcs3 versions
-games-emulation/rpcs3::stefantalpalaru
-games-emulation/rpcs3::localrepo
