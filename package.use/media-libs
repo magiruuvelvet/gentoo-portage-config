@@ -14,6 +14,7 @@ media-libs/gegl cairo ffmpeg jpeg2k openexr pdf raw svg tiff webp zlib
 media-libs/opencolorio opengl
 media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
 media-libs/mlt ffmpeg frei0r kdenlive melt qt5 sdl xml opengl fftw
+media-libs/tiff cxx jbig jpeg lzma webp zlib zstd
 
 media-plugins/frei0r-plugins -*
 

@@ -67,3 +67,5 @@ media-libs/codec2 abi_x86_32
 app-arch/snappy abi_x86_32
 media-sound/twolame abi_x86_32
 dev-libs/libcdio abi_x86_32
+media-libs/jbigkit abi_x86_32
+app-arch/zstd abi_x86_32

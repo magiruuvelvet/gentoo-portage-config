@@ -13,6 +13,8 @@ dev-python/numpy PYTHON_TARGETS: python2_7
 dev-python/nototools PYTHON_TARGETS: python2_7
 dev-python/fonttools PYTHON_TARGETS: python3_6
 
+dev-python/pillow zlib jpeg jpeg2k lcms tiff truetype webp
+
 dev-python/lxml python_targets_python3_6
 dev-python/pygments python_targets_python3_6
 dev-python/rdflib python_targets_python3_6
@@ -100,3 +102,5 @@ dev-python/simplejson python_targets_python2_7
 dev-python/webencodings python_targets_python2_7
 dev-python/lxml python_targets_python2_7
 dev-python/backports-shutil_which python_targets_python2_7
+dev-python/pillow python_targets_python2_7
+dev-python/olefile python_targets_python2_7
