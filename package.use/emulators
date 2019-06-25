@@ -1,4 +1,5 @@
+# no ebuild provides these package, managed manually outside portage in /opt/rpcs3
 games-emulation/rpcs3 alsa pulseaudio joystick llvm vulkan
 
-# change to qt5 once its ready
+# change to qt5 once its ready (mostly the config dialogs are non-existent)
 games-emulation/dolphin alsa pulseaudio evdev ffmpeg openal pch -qt5 sdl wxwidgets

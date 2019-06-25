@@ -1,5 +1,5 @@
-sys-devel/llvm abi_x86_32 xml libffi gold
-sys-devel/clang abi_x86_32 xml
+sys-devel/llvm abi_x86_32 xml libffi gold LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
+sys-devel/clang abi_x86_32 xml LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
 dev-util/lldb python PYTHON_TARGETS: python2_7
 sys-devel/gdb python lzma client source-highlight xml -server
 

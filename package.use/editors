@@ -1,1 +1,4 @@
 app-editors/vscodium qt5
+
+# for xxd command
+app-editors/vim-core minimal
