@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# remove the obtrusive and shitty Gentoo ruby gems default
+# which conflict and break with my /opt/ruby/gems setup
+# causing major fuckups and breakage
+# I was wondering why my gems wasn't updating, until I figured
+# out they where installed/updated in the wrong directory
+# *reeeeeeeeeeee*
+# thanks Gentoo
+
+instprep() {
+    # FIXME: hardcoded ruby target version
+    rm "$ED/usr/lib64/ruby/site_ruby/2.6.0/rubygems/defaults/operating_system.rb"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
