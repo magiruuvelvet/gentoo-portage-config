@@ -1,0 +1,13 @@
+#!/bin/sh
+
+. /etc/portage/hooks/functions/desktop-utils.sh
+
+instprep() {
+    echo -e ">>> Removing ${PN} desktop files..."
+    remove_desktop_files
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
