@@ -34,6 +34,7 @@ kde-apps/libkleo -fancyviewer
 
 app-editors/okteta -handbook
 www-client/falkon X dbus kde
+net-p2p/ktorrent -handbook -mediaplayer -scanfolder -search -shutdown
 
 net-fs/samba client
 kde-apps/krdc vnc rdp

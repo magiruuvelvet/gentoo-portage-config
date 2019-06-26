@@ -1,0 +1,14 @@
+# uninstalled lutris again because its cancer as fuck
+# just want to download old binary wine releases and
+# not a babysitting ""game manager""
+gnome-base/gnome-desktop introspection
+gnome-base/gsettings-desktop-schemas introspection
+net-libs/webkit-gtk -* X opengl introspection
+net-libs/libsoup introspection
+x11-libs/libnotify introspection
+
+
+
+# use this instead of get binary wine releases with bundled dependencies
+app-emulation/playonlinux PYTHON_TARGETS: python2_7
+dev-python/wxpython cairo libnotify PYTHON_TARGETS: python2_7
