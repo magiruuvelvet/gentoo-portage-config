@@ -24,7 +24,7 @@ x11-misc/primus::gentoo
 # locked packages (5.1 kernel not feeling so good on my laptop right now)
 >=sys-kernel/gentoo-sources-5.1
 >sys-kernel/gentoo-sources-5.0.18
-<=sys-kernel/gentoo-sources-4.19.55
+<=sys-kernel/gentoo-sources-4.19.99
 
 # install version 14 because of license (money$$$)
 >=app-emulation/vmware-workstation-15.1

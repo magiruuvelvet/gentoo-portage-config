@@ -1,1 +1,1 @@
-dev-libs/boost threads nls icu context
+dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
