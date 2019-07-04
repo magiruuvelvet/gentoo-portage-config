@@ -18,7 +18,7 @@ media-libs/tiff cxx jbig jpeg lzma webp zlib zstd
 
 media-plugins/frei0r-plugins -*
 
-gnome-base/librsvg -vala -introspection -tools
+gnome-base/librsvg -vala introspection -tools
 
 media-libs/speex abi_x86_32
 media-libs/speexdsp abi_x86_32
