@@ -28,13 +28,3 @@ x11-misc/primus::gentoo
 
 # install version 14 because of license (money$$$)
 >=app-emulation/vmware-workstation-15.1
-
-# CUDA nvcc works just fine with clang and is easier to install side-by-side with older versions
-# than GCC which takes years to compile and mostly fails due to sanity checks with GLIBC(XX) symbols
-# lock this dependency of an older GCC version to prevent install attempts which fails with a SIGSEGV in "ar"
-# note: the build process seems to scan system libraries against the stage1 libstdc++.so which lacks the
-# current GLIBC symbols obviously and than refuses to continue
-<=sys-devel/gcc-8.3.0
-=sys-devel/gcc-8.3.0-r1
-=sys-devel/gcc-8.3.0
-=sys-devel/gcc-8.2.0
