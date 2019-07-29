@@ -8,6 +8,10 @@
 */*::chaoslab
 */*::stefantalpalaru
 
+# make sure the correct unwind library from LLVM is installed
+# this one is the wrong one and causes serious problems with stack frames
+sys-libs/libunwind
+
 # use seden bumblebee for better compatibility with CUDA
 
 # package blacklist, avoid to install
