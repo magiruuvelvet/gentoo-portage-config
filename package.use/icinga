@@ -1,0 +1,3 @@
+net-analyzer/icinga2 -apache2 -nginx -vim-syntax nano-syntax -console mail mariadb -mysql -postgres
+net-analyzer/monitoring-plugins dns ssh mysql
+www-apps/icingaweb2 fpm mysql
