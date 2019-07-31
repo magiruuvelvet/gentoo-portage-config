@@ -1,0 +1,11 @@
+diff --git a/src/core/Config.cpp b/src/core/Config.cpp
+--- a/src/core/Config.cpp
++++ b/src/core/Config.cpp
+@@ -324,7 +324,6 @@
+                 sanitytext_ = rhs.sanitytext_;
+                 
+                 cacheids_ = rhs.cacheids_;
+-                cacheidnocontext_ = cacheidnocontext_;
+             }
+             return *this;
+         }

@@ -6,7 +6,7 @@ kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 
 kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
 
 kde-plasma/plasma-desktop fontconfig touchpad mouse
-kde-plasma/plasma-workspace -calendar qalculate
+kde-plasma/plasma-workspace -calendar qalculate qrcode
 
 kde-plasma/kwin multimedia
 kde-plasma/kde-cli-tools kdesu
@@ -23,7 +23,7 @@ kde-frameworks/knotifications dbus phonon
 kde-frameworks/kconfig dbus
 kde-frameworks/purpose -kaccounts
 
-kde-apps/kio-extras sftp taglib activities man-activities openexr samba phonon -mtp
+kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff

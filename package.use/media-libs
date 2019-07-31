@@ -7,10 +7,10 @@ media-libs/libao alsa pulseaudio
 media-libs/raptor curl unicode json
 media-libs/libvpx highbitdepth postproc svc
 media-libs/imlib2 X bzip2 gif jpeg mp3 png shm tiff zlib
-media-libs/freeimage jpeg jpeg2k mng openexr png raw tiff webp
+media-libs/freeimage jpeg jpeg2k mng -openexr png raw tiff webp
 media-libs/jasper opengl jpeg
 media-libs/aalib X
-media-libs/gegl cairo ffmpeg jpeg2k openexr pdf raw svg tiff webp zlib
+media-libs/gegl cairo ffmpeg jpeg2k -openexr pdf raw svg tiff webp zlib
 media-libs/opencolorio opengl
 media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
 media-libs/mlt ffmpeg frei0r kdenlive melt qt5 sdl xml opengl fftw PYTHON_TARGETS: python3_7 python3_6
@@ -31,3 +31,4 @@ media-libs/openal sdl
 media-libs/libsoundtouch -openmp
 
 app-text/tesseract openmp jpeg math png tiff webp L10N: *
+app-text/tessdata_fast osd L10N: *

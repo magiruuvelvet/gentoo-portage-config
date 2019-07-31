@@ -2,6 +2,7 @@ x11-libs/gtk+ xinerama introspection -broadway -cloudprint -colord -cups -waylan
 x11-libs/pango introspection
 x11-libs/gdk-pixbuf introspection
 dev-libs/atk introspection
+x11-libs/gtksourceview introspection
 dev-cpp/gtkmm X
 
 x11-libs/wxGTK X opengl gstreamer libnotify sdl tiff
