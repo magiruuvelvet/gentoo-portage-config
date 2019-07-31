@@ -1,13 +1,43 @@
-# libunwind support broken in libc++ ??
-# causing linker errors when not linking explicitly against it with -lunwind
-#  __udivdi3
-#  __register_frame
-#  __unregister_frame
-#  ...
+# default system toolchain
+# almost GNU-free
 
-sys-libs/llvm-libunwind abi_x86_32 static-libs
+#
+# notes:
+#
+#   - libcxx requires LLVM/lld to link against compiler-rt and libunwind
+#     to remove the libgcc_s dependency; GNU/ld and GNU/gold fail to find
+#     the builtin symbols, even though they are there (symbol incompatibility?)
+#
+#   - toolchain is almost GNU-free, the last remaining bit is GNU/glibc
+#     as the C language runtime library; looking forward to musl in the future
+#
+#   - the toolchain is 32-bit compatible
+#
+#   - the default linker is set to LLVM/lld using a symlink hack !!
+#       ln -s /usr/bin/lld /usr/x86_64-pc-linux-gnu/binutils-bin/2.32/ld.lld
+#       binutils-config --linker ld.lld
+#     don't forget to update when upgrading binutils
+#
+#
 
-sys-libs/libcxx abi_x86_32 libcxxabi -libunwind static-libs
-sys-libs/libcxxabi abi_x86_32 -libunwind static-libs
+# make backups with: quickpkg sys-libs/llvm-libunwind sys-libs/compiler-rt sys-libs/compiler-rt-sanitizers sys-libs/libcxx sys-libs/libcxxabi sys-devel/llvm sys-devel/clang-common sys-devel/clang-runtime sys-devel/clang dev-util/lldb sys-libs/libomp
 
 # mask: sys-libs/libunwind (this is the wrong library)
+
+sys-libs/llvm-libunwind abi_x86_32 static-libs test
+sys-libs/compiler-rt clang test
+sys-libs/compiler-rt-sanitizers clang test
+
+sys-libs/libcxx abi_x86_32 libcxxabi libunwind static-libs test
+sys-libs/libcxxabi abi_x86_32 libunwind static-libs test
+
+sys-devel/llvm abi_x86_32 xml libffi gold LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
+
+sys-devel/clang-common
+sys-devel/clang-runtime abi_x86_32 libcxx compiler-rt
+sys-devel/clang abi_x86_32 xml default-compiler-rt default-libcxx LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
+
+dev-util/lldb python PYTHON_TARGETS: python2_7
+
+# OpenMP runtime library for LLVM/clang compiler
+sys-libs/libomp abi_x86_32

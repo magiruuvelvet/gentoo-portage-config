@@ -75,6 +75,7 @@ dev-python/pycryptodome python_targets_python3_6
 virtual/python-cffi python_targets_python3_6
 virtual/python-singledispatch python_targets_python3_6
 virtual/python-futures python_targets_python3_6
+dev-python/lit python_targets_python3_6
 
 dev-python/m2crypto python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
@@ -105,3 +106,4 @@ dev-python/lxml python_targets_python2_7
 dev-python/backports-shutil_which python_targets_python2_7
 dev-python/pillow python_targets_python2_7
 dev-python/olefile python_targets_python2_7
+dev-python/lit python_targets_python2_7
