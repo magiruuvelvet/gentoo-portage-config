@@ -1,0 +1,32 @@
+#!/bin/sh
+
+prepare() {
+    echo -e ">>> LLVM/lld compatibility link will be created for version $PV"
+}
+
+instprep() {
+    echo -e ">>> Registering LLVM/lld linker as supported linker..."
+    ln -s /usr/bin/lld "$ED/usr/x86_64-pc-linux-gnu/binutils-bin/$PV/ld.lld"
+}
+
+postinst() {
+    echo
+    echo
+    echo
+    echo -e "Gentoo has reset your linker back to GNU/ld !!!!!!!!!!"
+    echo -e "Please run: 'binutils-config --linker ld.lld' as root !!"
+    echo
+    echo
+    echo
+    binutils-config --linker ld.lld || true
+    ld -v
+    echo
+    echo
+}
+
+case "$1" in
+    prepare) prepare ;;
+    instprep) instprep ;;
+    postinst) postinst ;;
+    *) : ;;
+esac
