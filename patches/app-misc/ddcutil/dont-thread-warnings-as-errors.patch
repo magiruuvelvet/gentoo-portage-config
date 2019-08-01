@@ -1,0 +1,133 @@
+diff --git a/src/adl/Makefile.am b/src/adl/Makefile.am
+index 5b236b1..23f00f7 100644
+--- a/src/adl/Makefile.am
++++ b/src/adl/Makefile.am
+@@ -6,7 +6,6 @@ AM_CPPFLAGS =        \
+ AM_CPPFLAGS +=  -I@ADL_HEADER_DIR@
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ 
+ if ENABLE_CALLGRAPH_COND
+ AM_CFLAGS += -fdump-rtl-expand
+diff --git a/src/app_sysenv/Makefile.am b/src/app_sysenv/Makefile.am
+index 7aff8a9..77eeceb 100644
+--- a/src/app_sysenv/Makefile.am
++++ b/src/app_sysenv/Makefile.am
+@@ -15,7 +15,6 @@ endif
+ 
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ # AM_CFLAGS += -Wpedantic
+ 
+ if ENABLE_CALLGRAPH_COND
+diff --git a/src/base/Makefile.am b/src/base/Makefile.am
+index 2a38856..8a50bbf 100644
+--- a/src/base/Makefile.am
++++ b/src/base/Makefile.am
+@@ -4,7 +4,6 @@ AM_CPPFLAGS =        \
+   -I$(top_srcdir)/src/public
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ # AM_CFLAGS += -Wpedantic
+ 
+ if ENABLE_CALLGRAPH_COND
+diff --git a/src/cmdline/Makefile.am b/src/cmdline/Makefile.am
+index e871901..a3bfe2d 100644
+--- a/src/cmdline/Makefile.am
++++ b/src/cmdline/Makefile.am
+@@ -4,7 +4,6 @@ AM_CPPFLAGS =        \
+   -I$(top_srcdir)/src/public
+ 
+ AM_CFLAGS  = -Wall 
+-AM_CFLAGS += -Werror
+ # flags g_option parser structs in cmd_parser_goption.c
+ # AM_CFLAGS += -Wpedantic
+ 
+diff --git a/src/ddc/Makefile.am b/src/ddc/Makefile.am
+index 35cb34b..9ef7b83 100644
+--- a/src/ddc/Makefile.am
++++ b/src/ddc/Makefile.am
+@@ -9,7 +9,6 @@ AM_CPPFLAGS +=  \
+ endif
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ # Causes PROGRAM_LOGIC_ERROR() macro to fail:
+ # AM_CFLAGS += -Wpedantic
+ 
+diff --git a/src/dynvcp/Makefile.am b/src/dynvcp/Makefile.am
+index 948f0f1..efe894f 100644
+--- a/src/dynvcp/Makefile.am
++++ b/src/dynvcp/Makefile.am
+@@ -9,7 +9,6 @@ AM_CPPFLAGS +=  \
+ endif
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ # Causes PROGRAM_LOGIC_ERROR() macro to fail:
+ # AM_CFLAGS += -Wpedantic
+ 
+diff --git a/src/i2c/Makefile.am b/src/i2c/Makefile.am
+index 8ab7cf8..b68b313 100644
+--- a/src/i2c/Makefile.am
++++ b/src/i2c/Makefile.am
+@@ -4,7 +4,6 @@ AM_CPPFLAGS =        \
+   -I$(top_srcdir)/src/public
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ # AM_CFLAGS += -Wpedantic
+ 
+ if ENABLE_CALLGRAPH_COND
+diff --git a/src/sample_clients/Makefile.am b/src/sample_clients/Makefile.am
+index e69e780..63d2307 100644
+--- a/src/sample_clients/Makefile.am
++++ b/src/sample_clients/Makefile.am
+@@ -7,7 +7,6 @@ AM_CPPFLAGS=     \
+ -I$(top_srcdir)/src
+ 
+ AM_CFLAGS = -Wall -fPIC
+-AM_CFLAGS += -Werror
+ 
+ check_PROGRAMS =
+ if ENABLE_SHARED_LIB_COND
+diff --git a/src/test/Makefile.am b/src/test/Makefile.am
+index 925f1e3..fc79375 100644
+--- a/src/test/Makefile.am
++++ b/src/test/Makefile.am
+@@ -12,7 +12,7 @@ endif
+ 
+ 
+ 
+-AM_CFLAGS = -Wall -Werror
++AM_CFLAGS = -Wall
+ 
+ if ENABLE_CALLGRAPH_COND
+ AM_CFLAGS += -fdump-rtl-expand
+diff --git a/src/util/Makefile.am b/src/util/Makefile.am
+index eaadfd9..893a391 100644
+--- a/src/util/Makefile.am
++++ b/src/util/Makefile.am
+@@ -3,7 +3,6 @@ AM_CPPFLAGS =        \
+   $(LIBDRM_CFLAGS)
+ 
+ AM_CFLAGS = -Wall 
+-AM_CFLAGS += -Werror
+ # -pedantic issues warnings re code that doesn't conform to ISO C
+ #  Alas, -m modifier on sscanf is a POSIX extension, not ISO C
+ #  In combination with -Werror, causes device_util.c to fail compilation
+diff --git a/src/vcp/Makefile.am b/src/vcp/Makefile.am
+index d441928..8fe3244 100644
+--- a/src/vcp/Makefile.am
++++ b/src/vcp/Makefile.am
+@@ -4,7 +4,6 @@ AM_CPPFLAGS =        \
+   -I$(top_srcdir)/src/public
+ 
+ AM_CFLAGS  = -Wall 
+-AM_CFLAGS += -Werror
+ # vcp_feature_codes.c requires extensive changes if -Wpedantic
+ # AM_CFLAGS += -Wpedantic
+ 
