@@ -106,8 +106,13 @@ Fully working without issues:
  - Ruby
  - Perl
  - Rust (still depends on libgcc_s for some reason :thinking: )
+ - NodeJS
  - NetworkManager
  - ModemManager
+ - dbus-daemon
+ - pulseaudio
+ - alsa userland tools
+ - systemd
  - *and many more...* (can't maintain a full list here)
 
 
@@ -125,6 +130,6 @@ is wasteful to load 2 standard libraries into memory at the same time.
  - LibreOffice
  - Oracle DB Library (some packages depend on it, some with USE flags, some with a hard dependency)
  - Polkit
- - `media-libs/vulkan-loader`
- - Wine
+ - `media-libs/vulkan-loader` (assembler errors)
+ - Wine (compiles and links, but undefined behavior during runtime, can't launch anything)
 
