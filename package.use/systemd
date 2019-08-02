@@ -1,2 +1,2 @@
-sys-apps/systemd abi_x86_32 acl idn kmod lz4 lzma nat pam pcre policykit seccomp sysv-utils elfutils -gcrypt -audit
+sys-apps/systemd abi_x86_32 acl idn kmod lz4 lzma nat pam pcre policykit seccomp sysv-utils -elfutils -gcrypt -audit
 sys-apps/busybox -static
