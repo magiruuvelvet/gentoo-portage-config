@@ -32,8 +32,10 @@ side note: I plan to keep GPL licensed packages and keep GNU/bash as my default 
  - `dev-db/mariadb` (compiles and links, but segfaults at startup instantly due to libunwind)
  - `app-office/libreoffice` (doesn't compile with libc++, missing removed features)
  - `sys-libs/db` (Oracle DB library), USE flagged - get rid of this library entirely\
-   (you can't expect from Oracle to add libc++ support, naming conflicts and std:: poisoning)
+    (you can't expect from Oracle to add libc++ support, naming conflicts and std:: poisoning)
  - `sys-apps/gsmartcontrol` (naming conflicts with libc++)
+ - `media-libs/id3lib` (naming conflicts with libc++, adds non-standard extensions to the std:: namespace)\
+    (the dev tried to "polyfill" C++ features xD)
  - `dev-qt/qtwebengine` (compiles and links, but constantly crashes; only very basic stuff works)
 
 
@@ -78,3 +80,51 @@ Received signal: 11
 ```
 
 Crashes in libunwind somewhere.
+
+
+---
+
+
+Fully working without issues:
+
+ - Qt Framework (except Web Engine)
+ - KDE Frameworks
+ - KDE Plasma Desktop
+ - KDE Apps
+ - many Qt applications
+ - i3
+ - Wayland
+ - Vulkan (with one exception, see below)
+ - fcitx (including all plugins; mozc, pinyin, ...)
+ - GNU/binutils (compiled with LLVM toolchain)
+ - GNU/coreutils (compiled with LLVM toolchain)
+ - Bash shell
+ - Zsh shell
+ - Gtk+ Framework
+ - GtkMM (C++ bindings)
+ - Python (and so Portage)
+ - Ruby
+ - Perl
+ - Rust (still depends on libgcc_s for some reason :thinking: )
+ - NetworkManager
+ - ModemManager
+ - *and many more...* (can't maintain a full list here)
+
+
+Not working, needs debugging and probably patches:
+
+I'm compiling these packages with gcc and they are working, but it
+is wasteful to load 2 standard libraries into memory at the same time.
+
+ - Linux kernel obviously, same for kernel modules
+ - NVIDIA drivers (because kernel module)
+ - X11 (works on FreeBSD though which also uses LLVM by default)
+ - X11 drivers
+ - some X11 libs
+ - MariaDB
+ - LibreOffice
+ - Oracle DB Library (some packages depend on it, some with USE flags, some with a hard dependency)
+ - Polkit
+ - `media-libs/vulkan-loader`
+ - Wine
+
