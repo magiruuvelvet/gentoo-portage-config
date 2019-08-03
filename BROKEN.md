@@ -41,3 +41,18 @@ by a SIGSEGV trying to generate a backtrace with libunwind.
 This crash also includes everything depending on the chromium engine, like Qt Web Engine,
 Electron, and more. Prebuilt binaries against the GNU libraries are working just fine.
 This crash only affects self compiled binaries.
+
+
+## LLDB (LLVM Debugger)
+
+The LLVM Debugger has serious trouble finding the correct split debug files
+stored under `/usr/lib/debug` and instead uses `/usr/lib/debug/usr/lib64/crti.o.debug`
+for literally everything when debugging symbols are not inside the same file.
+As a consequence this causes no symbols to be found:
+`libQt5Core.so.5\`___lldb_unnamed_symbol6383$$libQt5Core.so.5 + 91`
+
+I tracked this issue down to the LLD ELF Linker. All other libraries which were
+linked with GNU/ld have the correct debugging information loaded, but libraries
+linked with LLVM/lld use `crti.o.debug` instead. I tested this by recompiling
+libraries with the 2 toolchains and then check the `image list` output of LLDB.
+100% reproducible all the time. Bug in LLDB or LLD???

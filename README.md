@@ -93,6 +93,7 @@ Fully working without issues:
  - KDE Apps
  - many Qt applications
  - i3
+ - mesa
  - Wayland
  - Vulkan (with one exception, see below)
  - fcitx (including all plugins; mozc, pinyin, ...)
