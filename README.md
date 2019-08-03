@@ -109,7 +109,7 @@ Fully working without issues:
  - NodeJS
  - NetworkManager
  - ModemManager
- - dbus-daemon
+ - dbus-daemon (requires workaround)
  - pulseaudio
  - alsa userland tools
  - systemd
@@ -132,4 +132,6 @@ is wasteful to load 2 standard libraries into memory at the same time.
  - Polkit
  - `media-libs/vulkan-loader` (assembler errors)
  - Wine (compiles and links, but undefined behavior during runtime, can't launch anything)
+ - Chromium
 
+see also [BROKEN.md](./BROKEN.md) with more detailed descriptions
