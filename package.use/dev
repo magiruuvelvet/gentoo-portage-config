@@ -16,5 +16,4 @@ dev-libs/xmlsec nss openssl
 
 dev-cpp/eigen c++11
 
-# linker error: clang::tooling::CompilationDatabase::loadFromDirectory()
-app-doc/doxygen -clang qt5
+app-doc/doxygen clang qt5

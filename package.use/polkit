@@ -1,2 +1,2 @@
-sys-auth/polkit nls pam jit
+sys-auth/polkit nls pam jit kde
 sys-auth/elogind acl pam policykit
