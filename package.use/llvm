@@ -34,10 +34,13 @@ sys-libs/libcxxabi abi_x86_32 libunwind static-libs test
 sys-devel/llvm abi_x86_32 xml libffi gold LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
 
 sys-devel/clang-common
-sys-devel/clang-runtime abi_x86_32 libcxx compiler-rt
+sys-devel/clang-runtime abi_x86_32 libcxx compiler-rt openmp sanitize crt
 sys-devel/clang abi_x86_32 xml default-compiler-rt default-libcxx LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
 
 dev-util/lldb python PYTHON_TARGETS: python2_7
 
 # OpenMP runtime library for LLVM/clang compiler
 sys-libs/libomp abi_x86_32
+
+# crt implementation
+sys-libs/netbsd-csu abi_x86_32

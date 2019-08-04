@@ -11,6 +11,9 @@
 *sys-libs/libcxxabi
 *sys-libs/libomp
 
+# crt implementation
+*sys-libs/netbsd-csu
+
 # remove GNU toolchains from the @system group
 -*sys-devel/gcc
 -*sys-devel/binutils
