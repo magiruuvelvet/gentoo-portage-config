@@ -1,0 +1,24 @@
+diff --git a/src/greeter/GreeterApp.cpp b/src/greeter/GreeterApp.cpp
+index d47998e..4326f10 100644
+--- a/src/greeter/GreeterApp.cpp
++++ b/src/greeter/GreeterApp.cpp
+@@ -296,18 +296,7 @@ int main(int argc, char **argv)
+         platform = QStringLiteral("xcb");
+     }
+ 
+-    // HiDPI
+-    bool hiDpiEnabled = false;
+-    if (platform == QStringLiteral("xcb"))
+-        hiDpiEnabled = SDDM::mainConfig.X11.EnableHiDPI.get();
+-    else if (platform.startsWith(QStringLiteral("wayland")))
+-        hiDpiEnabled = SDDM::mainConfig.Wayland.EnableHiDPI.get();
+-    if (hiDpiEnabled) {
+-        qDebug() << "High-DPI autoscaling Enabled";
+-        QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+-    } else {
+-        qDebug() << "High-DPI autoscaling not Enabled";
+-    }
++    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling, false);
+ 
+     QGuiApplication app(argc, argv);
+ 

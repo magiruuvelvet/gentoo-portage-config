@@ -60,6 +60,8 @@ libraries with the 2 toolchains and then check the `image list` output of LLDB.
 
 ## LibreOffice
 
+***RESOLVED!!***
+
 Incompatible with LLVM/libc++, makes use of old deprecated and removed features in the C++ standard.
 `std::unexpected_handler` was deprecated in C++11 and completely removed in C++17, LibreOffice still
 depends on this. The funny thing is they are compiling their entire code base with the `-std=gnu++2a`

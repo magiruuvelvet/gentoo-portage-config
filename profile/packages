@@ -1,0 +1,16 @@
+# add LLVM toolchains to the @system group
+*sys-devel/llvm
+*sys-devel/lld
+*sys-devel/clang
+*sys-devel/clang-common
+*sys-devel/clang-runtime
+*sys-libs/llvm-libunwind
+*sys-libs/compiler-rt
+*sys-libs/compiler-rt-sanitizers
+*sys-libs/libcxx
+*sys-libs/libcxxabi
+*sys-libs/libomp
+
+# remove GNU toolchains from the @system group
+-*sys-devel/gcc
+-*sys-devel/binutils

@@ -1,0 +1,34 @@
+diff --git a/bridges/source/cpp_uno/gcc3_linux_ia64/share.hxx b/bridges/source/cpp_uno/gcc3_linux_ia64/share.hxx
+index 30111698e..c7d8444a5 100644
+--- a/bridges/source/cpp_uno/gcc3_linux_ia64/share.hxx
++++ b/bridges/source/cpp_uno/gcc3_linux_ia64/share.hxx
+@@ -26,6 +26,12 @@
+ #include <cstddef>
+ #include "vtablefactory.hxx"
+ 
++// polyfill removed std::unexpected_handler
++namespace std
++{
++    typedef void (*unexpected_handler)();
++}
++
+ namespace CPPU_CURRENT_NAMESPACE
+ {
+ 
+diff --git a/bridges/source/cpp_uno/gcc3_linux_x86-64/share.hxx b/bridges/source/cpp_uno/gcc3_linux_x86-64/share.hxx
+index 94ad43ae9..2061b0018 100644
+--- a/bridges/source/cpp_uno/gcc3_linux_x86-64/share.hxx
++++ b/bridges/source/cpp_uno/gcc3_linux_x86-64/share.hxx
+@@ -23,6 +23,12 @@
+ #include <exception>
+ #include <cstddef>
+ 
++// polyfill removed std::unexpected_handler
++namespace std
++{
++    typedef void (*unexpected_handler)();
++}
++
+ #include <cxxabi.h>
+ #ifndef _GLIBCXX_CDTOR_CALLABI // new in GCC 4.7 cxxabi.h
+ #define _GLIBCXX_CDTOR_CALLABI

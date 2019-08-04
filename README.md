@@ -30,7 +30,6 @@ side note: I plan to keep GPL licensed packages and keep GNU/bash as my default 
 #### Packages which refuse to work with a non-GNU setup
 
  - `dev-db/mariadb` (compiles and links, but segfaults at startup instantly due to libunwind)
- - `app-office/libreoffice` (doesn't compile with libc++, missing removed features)
  - `sys-libs/db` (Oracle DB library), USE flagged - get rid of this library entirely\
     (you can't expect from Oracle to add libc++ support, naming conflicts and std:: poisoning)
  - `sys-apps/gsmartcontrol` (naming conflicts with libc++)
@@ -114,6 +113,7 @@ Fully working without issues:
  - pulseaudio
  - alsa userland tools
  - systemd
+ - LibreOffice (requires libc++ compatibility patch)
  - *and many more...* (can't maintain a full list here)
 
 
@@ -128,7 +128,6 @@ is wasteful to load 2 standard libraries into memory at the same time.
  - X11 drivers
  - some X11 libs
  - MariaDB
- - LibreOffice
  - Oracle DB Library (some packages depend on it, some with USE flags, some with a hard dependency)
  - Polkit
  - `media-libs/vulkan-loader` (assembler errors)

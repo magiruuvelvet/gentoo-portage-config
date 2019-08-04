@@ -1,0 +1,7 @@
+# mask GNU toolchains
+sys-devel/gcc
+sys-devel/binutils
+
+# mask the wrong unwind library
+# the LLVM one must be used
+sys-libs/libunwind
