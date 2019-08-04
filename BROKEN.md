@@ -49,10 +49,33 @@ The LLVM Debugger has serious trouble finding the correct split debug files
 stored under `/usr/lib/debug` and instead uses `/usr/lib/debug/usr/lib64/crti.o.debug`
 for literally everything when debugging symbols are not inside the same file.
 As a consequence this causes no symbols to be found:
-`libQt5Core.so.5\`___lldb_unnamed_symbol6383$$libQt5Core.so.5 + 91`
+`libQt5Core.so.5``___lldb_unnamed_symbol6383$$libQt5Core.so.5 + 91`
 
 I tracked this issue down to the LLD ELF Linker. All other libraries which were
 linked with GNU/ld have the correct debugging information loaded, but libraries
 linked with LLVM/lld use `crti.o.debug` instead. I tested this by recompiling
 libraries with the 2 toolchains and then check the `image list` output of LLDB.
 100% reproducible all the time. Bug in LLDB or LLD???
+
+
+## LibreOffice
+
+Incompatible with LLVM/libc++, makes use of old deprecated and removed features in the C++ standard.
+`std::unexpected_handler` was deprecated in C++11 and completely removed in C++17, LibreOffice still
+depends on this. The funny thing is they are compiling their entire code base with the `-std=gnu++2a`
+flag. Removing the GNU part from this std translates to `-std=c++2a`, which is C++20. I'm literally
+rolling on floor laughing; how can the GNU people still have this old shit in their libstdc++ header
+files when C++20 is requested.
+
+clang and libc++ follows strict ISO C++ compliance (no vendor extensions), hence this error is generated.
+Requires a fix upstream in LibreOffice.
+
+```plain
+bridges/source/cpp_uno/gcc3_linux_x86-64/share.hxx:116:10: error: no type named 'unexpected_handler' in namespace 'std'
+    std::unexpected_handler unexpectedHandler;
+    ~~~~~^
+1 error generated.
+```
+
+A temporary workaround would be to compile LO with the `-stdlib=libstdc++` flag and call it a day,
+but on a GNU-free system this is not an option and needs a patch upstream in LibreOffice.
