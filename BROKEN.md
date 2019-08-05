@@ -45,6 +45,12 @@ This crash only affects self compiled binaries.
 
 ## LLDB (LLVM Debugger)
 
+***WORKAROUND:*** Build `glibc` without `splitdebug` (if you need debugging symbols use `nostrip`)
+and LLDB finds the correct split debug files again. For even more compatibility it is recommended
+to build the entire system with `nostrip` instead of `splitdebug`, when debugging symbols are desired.
+This increases the ELF file sizes as consequence, which may hurt performance in some cases.
+Side note: LLDB still has trouble finding some debugging symbols when not using the `nostrip` option.
+
 The LLVM Debugger has serious trouble finding the correct split debug files
 stored under `/usr/lib/debug` and instead uses `/usr/lib/debug/usr/lib64/crti.o.debug`
 for literally everything when debugging symbols are not inside the same file.
@@ -60,7 +66,7 @@ libraries with the 2 toolchains and then check the `image list` output of LLDB.
 
 ## LibreOffice
 
-***RESOLVED!!***
+***RESOLVED!!*** (see patch)
 
 Incompatible with LLVM/libc++, makes use of old deprecated and removed features in the C++ standard.
 `std::unexpected_handler` was deprecated in C++11 and completely removed in C++17, LibreOffice still
