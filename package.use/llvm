@@ -20,13 +20,15 @@
 #
 #
 
-# make backups with: quickpkg sys-libs/llvm-libunwind sys-libs/compiler-rt sys-libs/compiler-rt-sanitizers sys-libs/libcxx sys-libs/libcxxabi sys-devel/llvm sys-devel/clang-common sys-devel/clang-runtime sys-devel/clang dev-util/lldb sys-libs/libomp
+# make backups with: quickpkg sys-libs/llvm-libunwind sys-libs/compiler-rt sys-libs/compiler-rt-sanitizers sys-libs/libcxx sys-libs/libcxxabi sys-devel/llvm sys-devel/clang-common sys-devel/clang-runtime sys-devel/clang dev-util/lldb sys-libs/libomp sys-devel/lld
 
 # mask: sys-libs/libunwind (this is the wrong library)
 
 sys-libs/llvm-libunwind abi_x86_32 static-libs test
 sys-libs/compiler-rt clang test
 sys-libs/compiler-rt-sanitizers clang test
+
+sys-devel/lld
 
 sys-libs/libcxx abi_x86_32 libcxxabi libunwind static-libs test
 sys-libs/libcxxabi abi_x86_32 libunwind static-libs test
@@ -42,5 +44,5 @@ dev-util/lldb python PYTHON_TARGETS: python2_7
 # OpenMP runtime library for LLVM/clang compiler
 sys-libs/libomp abi_x86_32
 
-# crt implementation
+# crt implementation (incompatible with glibc dynamic loading)
 sys-libs/netbsd-csu abi_x86_32
