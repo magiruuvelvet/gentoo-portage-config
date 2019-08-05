@@ -135,3 +135,16 @@ is wasteful to load 2 standard libraries into memory at the same time.
  - Chromium
 
 see also [BROKEN.md](./BROKEN.md) with more detailed descriptions
+
+
+## Random interesting notes
+
+glibc compatibility layer for musl to run closed source programs built against glibc:
+[https://github.com/AdelieLinux/gcompat](https://github.com/AdelieLinux/gcompat)
+
+to name a few programs:
+
+ - Valve Steam
+ - RAR Linux
+ - xflux
+ - "closed source" electron apps (Skype, Discord, ...)
