@@ -1,4 +1,4 @@
-dev-lang/ruby berkdb -gdbm ssl jemalloc socks5 jit rdoc -doc
+dev-lang/ruby -berkdb -gdbm ssl jemalloc socks5 jit rdoc -doc
 dev-ruby/rubygems server
 
 dev-ruby/did_you_mean ruby_targets_ruby26

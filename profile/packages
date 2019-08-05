@@ -17,3 +17,11 @@
 # remove GNU toolchains from the @system group
 -*sys-devel/gcc
 -*sys-devel/binutils
+
+
+# workaround: remove man-pages from @system group
+# as it depends on sys-libs/db, which is incompatible
+# with LLVM/libc++
+-*virtual/man
+-*sys-apps/man-pages
+-*sys-libs/db
