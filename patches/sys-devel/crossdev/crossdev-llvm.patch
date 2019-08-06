@@ -1,0 +1,188 @@
+diff --git a/crossdev b/crossdev
+index ef20ee0..ebef777 100755
+--- a/crossdev
++++ b/crossdev
+@@ -48,8 +48,8 @@ cat << EOF
+ Usage: ${HILITE}crossdev${NORMAL} ${GOOD}[options]${NORMAL} ${BRACKET}--target TARGET${NORMAL}
+ 
+ Options:
+-    ${GOOD}--b, --binutils${NORMAL} ver      Specify version of binutils to use
+-    ${GOOD}--g, --gcc${NORMAL} ver           Specify version of gcc to use
++    ${GOOD}--b, --llvm${NORMAL} ver          Specify version of llvm to use
++    ${GOOD}--g, --clang${NORMAL} ver         Specify version of clang to use
+     ${GOOD}--k, --kernel${NORMAL} ver        Specify version of kernel headers to use
+     ${GOOD}--l, --libc${NORMAL} ver          Specify version of libc to use
+                                 Note: versions support depend atom syntaxes:
+@@ -57,7 +57,7 @@ Options:
+     ${GOOD}-A, --abis${NORMAL} abis          Specify ABIs to build, first one is the default
+     ${GOOD}--host-abi abi${NORMAL}           Specify the ABI of the compiler itself
+     ${GOOD}--env${NORMAL} env                Specify env settings for all packages (see below)
+-    ${GOOD}--[bdgkl]env${NORMAL} env         Specify env settings for binutils/gdb/gcc/kernel/libc
++    ${GOOD}--[bdgkl]env${NORMAL} env         Specify env settings for llvm/lldb/clang/kernel/libc
+                                 Note: make sure to quote: 'VAR="some value"\nFOO="cow"'
+     ${GOOD}-f, --force${NORMAL}              I don't need a seat belt!
+     ${GOOD}-S, --stable${NORMAL}             Use latest stable versions as default
+@@ -73,21 +73,21 @@ Overlay Options:
+                                 [default: uses repo with name 'crossdev', or
+                                  'cross-\${CTARGET}', or falls back to first
+                                  from --overlays list]
+-    ${GOOD}-ob, --ov-binutils${NORMAL} path  Overlay for binutils ebuilds [default: search]
+-    ${GOOD}-od, --ov-gdb${NORMAL} path       Overlay for gdb ebuilds [default: search]
+-    ${GOOD}-og, --ov-gcc${NORMAL} path       Overlay for gcc ebuilds [default: search]
++    ${GOOD}-ob, --ov-llvm${NORMAL} path      Overlay for llvm ebuilds [default: search]
++    ${GOOD}-od, --ov-lldb${NORMAL} path      Overlay for lldb ebuilds [default: search]
++    ${GOOD}-og, --ov-clang${NORMAL} path     Overlay for clang ebuilds [default: search]
+     ${GOOD}-ok, --ov-kernel${NORMAL} path    Overlay for kernel ebuilds [default: search]
+     ${GOOD}-ol, --ov-libc${NORMAL} path      Overlay for C library ebuilds [default: search]
+     ${GOOD}-ox, --ov-extra${NORMAL} path     Overlay for extra packages [default: search]
+ 
+ Stage Options:
+-    ${GOOD}-s0, --stage0${NORMAL}            Build just binutils
++    ${GOOD}-s0, --stage0${NORMAL}            Build just llvm
+     ${GOOD}-s1, --stage1${NORMAL}            Also build a bare C compiler (no C library/
+-                                C++/shared GCC libs/C++ exceptions/etc...)
++                                C++/shared clang libs/C++ exceptions/etc...)
+     ${GOOD}-s2, --stage2${NORMAL}            Also build kernel headers
+     ${GOOD}-s3, --stage3${NORMAL}            Also build the C library
+     ${GOOD}-s4, --stage4${NORMAL}            Also build a full compiler [default]
+-                                (shared libs GCC/various lang frontends/etc...)
++                                (shared libs clang/various lang frontends/etc...)
+ 
+ External Tooling Options:
+     ${GOOD}--show-target-cfg${NORMAL}        Display target settings that crossdev will use
+@@ -95,8 +95,8 @@ External Tooling Options:
+ 
+ Extra Fun (must be run after above stages):
+     ${GOOD}--ex-only${NORMAL}                Skip the stage steps above
+-    ${GOOD}--ex-gcc${NORMAL}                 Build extra gcc targets (gcj/ada/etc...)
+-    ${GOOD}--ex-gdb${NORMAL}                 Build a cross gdb
++    ${GOOD}--ex-clang${NORMAL}               Build extra clang targets
++    ${GOOD}--ex-lldb${NORMAL}                Build a cross lldb
+     ${GOOD}--ex-pkg${NORMAL} pkg             Build extra packages (may be used multiple times)
+ 
+ ${BRACKET}Target (-t)${NORMAL} takes a tuple ${BRACKET}ARCH-VENDOR-OS-LIBC${NORMAL}; see 'crossdev -t help'
+@@ -110,7 +110,7 @@ STAGE_C_KERNEL=2
+ STAGE_LIBC=3
+ STAGE_C_CPP=4
+ STAGE_DEFAULT=${STAGE_C_CPP}
+-STAGE_DISP=( "binutils" "C compiler only" "kernel headers" "C compiler & libc" "C/C++ compiler" )
++STAGE_DISP=( "llvm" "C compiler only" "kernel headers" "C compiler & libc" "C/C++ compiler" )
+ 
+ parse_target() {
+ 	CTARGET=${1#cross-}
+@@ -409,10 +409,6 @@ parse_target() {
+ 			pie_support=no
+ 			;;
+ 	esac
+-	if [[ $pie_support = "no" ]]; then
+-		# pie is >=gcc-6, nopie is <gcc-6
+-		GUSE+=" -pie nopie"
+-	fi
+ 
+ 	local ssp_support=yes
+ 	# Blacklist rare targets that:
+@@ -423,10 +419,6 @@ parse_target() {
+ 		#       check as '$CC -fstack-protector -c -x c - </dev/null'
+ 		alpha*|avr*|hppa*|ia64*|mmix*|nios2*) ssp_support=no;;
+ 	esac
+-	if [[ $ssp_support = "no" ]]; then
+-		# ssp is >=gcc-6, nossp is <gcc-6
+-		GUSE+=" -ssp nossp"
+-	fi
+ }
+ 
+ parse_repo_config() {
+@@ -693,11 +685,11 @@ MULTILIB_USE=""
+ HOST_ABI="default"
+ STAGE=""
+ AENV=""
+-BCAT="sys-devel"  ; BPKG="binutils"      ; BVER="" BUSE="" BENV="" BOVL=""
+-GCAT="sys-devel"  ; GPKG="gcc"           ; GVER="" GUSE="" GENV="" GOVL=""
++BCAT="sys-devel"  ; BPKG="llvm"          ; BVER="" BUSE="" BENV="" BOVL=""
++GCAT="sys-devel"  ; GPKG="clang"         ; GVER="" GUSE="" GENV="" GOVL=""
+ KCAT="sys-kernel" ; KPKG="linux-headers" ; KVER="" KUSE="" KENV="" KOVL=""
+ LCAT="sys-libs"   ; LPKG="[none]"        ; LVER="" LUSE="" LENV="" LOVL=""
+-DCAT="sys-devel"  ; DPKG="gdb"           ; DVER="" DUSE="" DENV="" DOVL=""
++DCAT="sys-devel"  ; DPKG="lldb"          ; DVER="" DUSE="" DENV="" DOVL=""
+ XPKGS=() XVERS=() XUSES=() XENVS=() XOVLS=()
+ DEFAULT_VER="[latest]"
+ SEARCH_OVERLAYS=""
+@@ -723,15 +715,15 @@ while [[ $# -gt 0 ]] ; do
+ 	case $1 in
+ 	-V|--version)      echo "crossdev-${CROSSDEV_VER}"; exit 0;;
+ 	-t|--target)       shift; parse_target $1;;
+-	--b|--binutils)    shift; BVER=$1;;
++	--b|--llvm)        shift; BVER=$1;;
+ 	--benv)            shift; BENV=$1;;
+-	-ob|--ov-binutils) shift; BOVL=$1;;
+-	--d|--gdb)         shift; DVER=$1;;
++	-ob|--ov-llvm)     shift; BOVL=$1;;
++	--d|--lldb)        shift; DVER=$1;;
+ 	--denv)            shift; DENV=$1;;
+-	-od|--ov-gdb)      shift; DOVL=$1;;
+-	--g|--gcc)         shift; GVER=$1;;
++	-od|--ov-lldb)     shift; DOVL=$1;;
++	--g|--clang)       shift; GVER=$1;;
+ 	--genv)            shift; GENV=$1;;
+-	-og|--ov-gcc)      shift; GOVL=$1;;
++	-og|--ov-clang)    shift; GOVL=$1;;
+ 	--k|--kernel)      shift; KVER=$1;;
+ 	--kenv)            shift; KENV=$1;;
+ 	-ok|--ov-kernel)   shift; KOVL=$1;;
+@@ -748,8 +740,8 @@ while [[ $# -gt 0 ]] ; do
+ 	-oS|--overlays)    shift; SEARCH_OVERLAYS=$1;;
+ 	-oO|--ov-output)   shift; CROSSDEV_OVERLAY=$1;;
+ 	--ex-only)         EX_FAST="yes";;
+-	--ex-gcc)          EX_GCC="yes";;
+-	--ex-gdb)          EX_GDB="yes";;
++	--ex-clang)        EX_GCC="yes";;
++	--ex-lldb)         EX_GDB="yes";;
+ 	--ex-pkg)          shift; XPKGS+=( "$1" );;
+ 	--with-*)          eval $(set_withval $1);;
+ 	--without-*)       eval $(set_withval $1);;
+@@ -786,8 +778,8 @@ show_target_cfg() {
+ 	local pkgs crosspkgs=()
+ 
+ 	pkgs=(
+-		binutils B
+-		gcc G
++		llvm B
++		clang G
+ 		kernel K
+ 		libc L
+ 	)
+@@ -942,10 +934,10 @@ einfo "ABIs:                  ${MULTILIB_ABIS}${def_out}"
+ echo
+ ex_fast || {
+ is_s0 && {
+-einfo "binutils:              `pretty_atom ${BPKG}- ${BVER}`"
++einfo "llvm:                  `pretty_atom ${BPKG}- ${BVER}`"
+ }
+ is_s1 && {
+-einfo "gcc:                   `pretty_atom ${GPKG}- ${GVER}`"
++einfo "clang:                 `pretty_atom ${GPKG}- ${GVER}`"
+ }
+ is_s2 && {
+ [[ ${KPKG} != "[none]" ]] && \
+@@ -956,10 +948,10 @@ einfo "libc:                  `pretty_atom ${LPKG}- ${LVER}`"
+ }
+ }
+ ex_gcc && {
+-einfo "Extra: gcc pass:       DO IT"
++einfo "Extra: clang pass:     DO IT"
+ }
+ ex_gdb && {
+-einfo "Extra: gdb:            DO IT"
++einfo "Extra: lldb:           DO IT"
+ }
+ ex_pkgs && {
+ einfo "Extra:                 ${XPKGS[*]}"
+@@ -1365,7 +1357,7 @@ USE="${USE} -selinux"
+ 
+ if ! ex_fast ; then
+ 
+-	# stage 0: binutils
++	# stage 0: llvm
+ 	USE="${BUSE}" doemerge ${BPKG}
+ 
+ 	# stage1: bare C compiler

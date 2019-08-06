@@ -1,0 +1,13 @@
+diff --git a/include/clang/Driver/Options.td b/include/clang/Driver/Options.td
+index d02d9744..251942ce 100644
+--- a/include/clang/Driver/Options.td
++++ b/include/clang/Driver/Options.td
+@@ -2982,7 +2982,7 @@ defm : BooleanFFlag<"keep-inline-functions">, Group<clang_ignored_gcc_optimizati
+ 
+ def fprofile_dir : Joined<["-"], "fprofile-dir=">, Group<f_Group>;
+ 
+-def fuse_ld_EQ : Joined<["-"], "fuse-ld=">, Group<f_Group>, Flags<[CoreOption]>;
++def fuse_ld_EQ : Joined<["-"], "fuse-ld=">, Group<f_Group>, Flags<[CoreOption,NoArgumentUnused]>;
+ 
+ defm align_labels : BooleanFFlag<"align-labels">, Group<clang_ignored_gcc_optimization_f_Group>;
+ def falign_labels_EQ : Joined<["-"], "falign-labels=">, Group<clang_ignored_gcc_optimization_f_Group>;
