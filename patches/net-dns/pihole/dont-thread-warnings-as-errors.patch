@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index 009e18f..7126848 100644
+--- a/Makefile
++++ b/Makefile
+@@ -88,7 +88,7 @@ ifeq "$(GCCVERSION8)" "1"
+ else
+   EXTRAWARNGCC8=
+ endif
+-EXTRAWARN=-Werror -Waddress -Wlogical-op -Wmissing-field-initializers -Woverlength-strings -Wformat -Wformat-nonliteral -Wuninitialized -Wswitch-enum -Wshadow \
++EXTRAWARN=-Waddress -Wlogical-op -Wmissing-field-initializers -Woverlength-strings -Wformat -Wformat-nonliteral -Wuninitialized -Wswitch-enum -Wshadow \
+ -Wfloat-equal -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wbad-function-cast -Wwrite-strings -Wparentheses -Wlogical-op -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Winline $(EXTRAWARNGCC8)
+ 
+ # -FILE_OFFSET_BITS=64: used by stat(). Avoids problems with files > 2 GB on 32bit machines

@@ -20,7 +20,7 @@ dev-qt/qtwebchannel qml
 dev-qt/qtwebengine widgets jumbo-build -bindist -debug -system-ffmpeg -system-icu
 dev-qt/qtwebkit gstreamer jit multimedia opengl webp -printsupport -hyphen -gstreamer
 
-dev-qt/qt-creator -autotools clang cmake cppcheck doc git glsl help android ios lsp python scxml valgrind webengine -designer
+dev-qt/qt-creator -autotools clang cmake cppcheck doc git glsl help android ios lsp python scxml valgrind webengine -designer -qmldesigner
 dev-qt/qt-docs 3d bluetooth charts datavis declarative graphicaleffects html location multimedia networkauth qch script sensors virtualkeyboard webengine
 
 dev-python/PyQt5 bluetooth ssl dbus declarative gui multimedia network networkauth opengl sensors serialport sql svg webchannel websockets widgets x11extras xmlpatterns

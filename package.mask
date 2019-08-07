@@ -20,6 +20,7 @@ media-libs/phonon-vlc
 dev-java/icedtea-bin
 dev-java/icedtea-sound
 dev-java/icedtea-web
+sys-devel/gdb
 
 # official bumblebee packages are broken and don't support CUDA (nvidia-uvm.ko)
 x11-misc/bumblebee::gentoo
