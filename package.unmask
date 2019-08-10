@@ -9,7 +9,7 @@ x11-misc/bumblebee::seden
 x11-misc/primus::localrepo
 
 # telemetry free build of VS Code
-app-editors/vscodium::jorgicio
+app-editors/vscodium-bin::jorgicio
 
 # netflix'n'chill
 dev-qt/qtwebengine-widevine::jorgicio
