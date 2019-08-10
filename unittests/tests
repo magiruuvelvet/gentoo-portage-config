@@ -1,0 +1,10 @@
+Compile those programs and see if they are working correctly.
+When the toolchain is broken or buggy, it miscompiles the source code
+and produces faulty machine code which makes the program crash or act weird.
+
+
+net-libs/nodejs
+   compile a C++ native extension and test it
+   if you get "Error: Module did not self-register." the
+   compiler produces faulty machine code
+   test works best with the sass package
