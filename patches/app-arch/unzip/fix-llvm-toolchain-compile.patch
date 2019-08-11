@@ -1,0 +1,39 @@
+diff --git a/fileio.c b/fileio.c
+index ba0a1d0..573155d 100644
+--- a/fileio.c
++++ b/fileio.c
+@@ -72,6 +72,8 @@
+ #include "crypt.h"
+ #include "ttyio.h"
+ 
++#define DECLARE_TIMEZONE
++
+ /* setup of codepage conversion for decryption passwords */
+ #if CRYPT
+ #  if (defined(CRYP_USES_ISO2OEM) && !defined(IZ_ISO2OEM_ARRAY))
+diff --git a/ttyio.c b/ttyio.c
+index a1a13b1..480fdd2 100644
+--- a/ttyio.c
++++ b/ttyio.c
+@@ -26,6 +26,8 @@
+ 
+ #define __TTYIO_C       /* identifies this source module */
+ 
++#define HAVE_TERMIO_H
++
+ #include "zip.h"
+ #include "crypt.h"
+ 
+diff --git a/unzpriv.h b/unzpriv.h
+index dc9eff5..d4d22b6 100644
+--- a/unzpriv.h
++++ b/unzpriv.h
+@@ -22,6 +22,8 @@
+ #ifndef __unzpriv_h   /* prevent multiple inclusions */
+ #define __unzpriv_h
+ 
++#define SYMLINKS
++
+ /* First thing: Signal all following code that we compile UnZip utilities! */
+ #ifndef UNZIP
+ #  define UNZIP
