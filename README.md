@@ -148,3 +148,11 @@ to name a few programs:
  - RAR Linux
  - xflux
  - "closed source" electron apps (Skype, Discord, ...)
+
+
+
+## Gentoo Overlay
+
+This private overlay is part of the migration process and contains patched ebuilds.
+
+[https://github.com/magiruuvelvet/gentoo-overlay](https://github.com/magiruuvelvet/gentoo-overlay)
