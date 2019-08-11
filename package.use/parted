@@ -1,1 +1,1 @@
-sys-block/parted device-mapper
+sys-block/parted -device-mapper
