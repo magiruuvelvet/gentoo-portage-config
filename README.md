@@ -8,8 +8,12 @@ Gentoo (no GNU toolchains and runtime libraries allowed).
 I'm doing this for fun to prove that a Linux Desktop is possible
 without using GNU tools.
 
+see [NEWS.md](./NEWS.md) for progress reports
+
+
 ## Done and working on my machine™
 
+ - [x] LLVM 9.0.0 as default toolchain without GCC installed
  - [x] LLVM/clang as default system compiler (can compile 95% of my system) [GNU equivalent: gcc/g++]
  - [x] LLVM/lld as default ELF linker (can link 98% of my system) [GNU equivalent: ld.bfd or ld.gold]
  - [x] LLVM/libc++ and libc++abi as default C++ runtime library (works for 99% of packages) [GNU equivalent: libstdc++]
@@ -36,18 +40,6 @@ side note: I plan to keep GPL licensed packages and keep GNU/bash as my default 
  - `media-libs/id3lib` (naming conflicts with libc++, adds non-standard extensions to the std:: namespace)\
     (the dev tried to "polyfill" C++ features xD)
  - `dev-qt/qtwebengine` (compiles and links, but constantly crashes; only very basic stuff works)
-
-
-#### Packages which can't be linked with LLVM/lld
-
- - `media-video/mpv`
- - `media-sound/sonic-visualiser`
- - `dev-util/cutter`
- - `media-libs/rubberband`
- - `dev-python/matplotlib`
- - `app-emulation/libvirt` (requires explicit linkage to libunwind, works without issues then)
-
-can be fully compiled with my LLVM toolchain, but the last step requires GNU/gold to produce working ELF files
 
 
 #### Packages with can't be compiled with clang
