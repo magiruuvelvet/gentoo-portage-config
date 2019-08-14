@@ -1,5 +1,4 @@
 sys-devel/clang default-compiler-rt default-libcxx
-# crt
 sys-devel/clang-runtime libcxx compiler-rt openmp sanitize
 sys-libs/compiler-rt clang
 sys-libs/compiler-rt-sanitizers clang

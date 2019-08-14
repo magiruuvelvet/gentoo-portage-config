@@ -11,13 +11,12 @@
 *sys-libs/libcxxabi
 *sys-libs/libomp
 
-# crt implementation
-#*sys-libs/netbsd-csu
-
 # remove GNU toolchains from the @system group
 -*sys-devel/gcc
+-*sys-devel/gcc-config
 -*sys-devel/binutils
-
+-*sys-devel/binutils-config
+-*sys-libs/binutils-libs
 
 # workaround: remove man-pages from @system group
 # as it depends on sys-libs/db, which is incompatible

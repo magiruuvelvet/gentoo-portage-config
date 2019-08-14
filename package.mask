@@ -33,3 +33,10 @@ x11-misc/primus::gentoo
 
 # install version 14 because of license (money$$$)
 >=app-emulation/vmware-workstation-15.1
+
+# mask GNU toolchain to avoid install
+sys-devel/gcc::gentoo
+sys-devel/binutils::gentoo
+sys-devel/gcc-config::gentoo
+sys-devel/binutils-config::gentoo
+sys-libs/binutils-libs::gentoo

@@ -1,0 +1,14 @@
+diff --git a/include/lldb/Host/MainLoop.h b/include/lldb/Host/MainLoop.h
+index d59aa28ccb0..f5264954f15 100644
+--- a/include/lldb/Host/MainLoop.h
++++ b/include/lldb/Host/MainLoop.h
+@@ -91,9 +91,7 @@ private:
+ 
+   struct SignalInfo {
+     Callback callback;
+-#if HAVE_SIGACTION
+     struct sigaction old_action;
+-#endif
+     bool was_blocked : 1;
+   };
+   class RunImpl;

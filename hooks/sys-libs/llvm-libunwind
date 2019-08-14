@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. /etc/portage/hooks/functions/delete-vcs.sh
+
+prepare() {
+    remove_vcs git
+}
+
+case "$1" in
+    prepare) prepare ;;
+    *) : ;;
+esac

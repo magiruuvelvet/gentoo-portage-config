@@ -18,6 +18,9 @@
 #       binutils-config --linker ld.lld
 #     don't forget to update when upgrading binutils
 #
+#   - LLVM 9.0: the toolchain doesn't depend on GCC anymore and is now
+#               fully self contained thanks to compiler-rt containing crt files
+#
 #
 
 # make backups with: quickpkg sys-libs/llvm-libunwind sys-libs/compiler-rt sys-libs/compiler-rt-sanitizers sys-libs/libcxx sys-libs/libcxxabi sys-devel/llvm sys-devel/clang-common sys-devel/clang-runtime sys-devel/clang dev-util/lldb sys-libs/libomp sys-devel/lld
@@ -25,6 +28,7 @@
 # mask: sys-libs/libunwind (this is the wrong library)
 
 sys-libs/llvm-libunwind abi_x86_32 static-libs test
+
 sys-libs/compiler-rt clang test
 sys-libs/compiler-rt-sanitizers clang test
 
@@ -33,16 +37,19 @@ sys-devel/lld
 sys-libs/libcxx abi_x86_32 libcxxabi libunwind static-libs test
 sys-libs/libcxxabi abi_x86_32 libunwind static-libs test
 
-sys-devel/llvm -abi_x86_32 xml libffi -gold LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
+sys-devel/llvm -abi_x86_32 xml libffi -gold
+=sys-devel/llvm-8.0.1 abi_x86_32 LLVM_TARGETS: -* ARM AArch64 WebAssembly AMDGPU BPF NVPTX PowerPC
+=sys-devel/llvm-9.0.0.9999 LLVM_TARGETS: -* X86 WebAssembly
 
 sys-devel/clang-common
 sys-devel/clang-runtime -abi_x86_32 libcxx compiler-rt openmp sanitize
-sys-devel/clang -abi_x86_32 xml default-compiler-rt default-libcxx LLVM_TARGETS: WebAssembly ARM AArch64 PowerPC
+sys-devel/clang -abi_x86_32 xml default-compiler-rt default-libcxx
+=sys-devel/clang-8.0.1 LLVM_TARGETS: -* ARM AArch64 WebAssembly AMDGPU BPF NVPTX PowerPC
+=sys-devel/clang-9.0.0.9999 LLVM_TARGETS: -* X86 WebAssembly
+=sys-devel/clang-8.0.1 PYTHON_TARGETS: -* python2_7 PYTHON_SINGLE_TARGET: -* python2_7
+=sys-devel/clang-9.0.0.9999 PYTHON_TARGETS: -* python3_7 PYTHON_SINGLE_TARGET: -* python3_7
 
-dev-util/lldb python PYTHON_TARGETS: python2_7
+dev-util/lldb python PYTHON_TARGETS: -* python3_7
 
 # OpenMP runtime library for LLVM/clang compiler
 sys-libs/libomp abi_x86_32
-
-# crt implementation (incompatible with glibc dynamic loading)
-sys-libs/netbsd-csu abi_x86_32
