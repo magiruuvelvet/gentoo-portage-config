@@ -1,0 +1,3 @@
+gnustep-base/libobjc2 cxx
+gnustep-base/gnustep-make libobjc2 native-exceptions
+gnustep-base/gnustep-base native-exceptions icu libffi

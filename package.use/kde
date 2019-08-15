@@ -46,7 +46,8 @@ media-libs/phonon-gstreamer network alsa
 kde-plasma/ksysguard lm_sensors
 kde-plasma/libksysguard X webengine
 
-media-sound/kid3 taglib kde flac mp3 mp4 vorbis -mpris
+# mp3 support requires id3lib, which is incompatible with my GNU-free Linux
+media-sound/kid3 taglib kde flac -mp3 mp4 vorbis -mpris
 
 sys-apps/accountsservice
 x11-misc/sddm pam
