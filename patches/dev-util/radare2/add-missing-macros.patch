@@ -1,0 +1,59 @@
+diff --git a/shlr/sdb/src/Makefile b/shlr/sdb/src/Makefile
+index d3e2908..fd27b63 100644
+--- a/shlr/sdb/src/Makefile
++++ b/shlr/sdb/src/Makefile
+@@ -1,6 +1,6 @@
+ include ../config.mk
+ 
+-CFLAGS+=-g
++CFLAGS+=-g -D_GNU_SOURCE -D_POSIX_C_SOURCE -D__USE_XOPEN_EXTENDED -D__USE_XOPEN2K -D__USE_XOPEN -D_XOPEN_SOURCE
+ OBJ=cdb.o buffer.o cdb_make.o ls.o sdbht.o ht_uu.o sdb.o num.o base64.o match.o
+ OBJ+=json.o ns.o lock.o util.o disk.o query.o array.o fmt.o journal.o
+ OBJ+=dict.o ht_pp.o ht_up.o
+diff --git a/shlr/sdb/src/ht_pp.c b/shlr/sdb/src/ht_pp.c
+index 09bbeb8..7e0ee5e 100644
+--- a/shlr/sdb/src/ht_pp.c
++++ b/shlr/sdb/src/ht_pp.c
+@@ -1,3 +1,10 @@
++#define _GNU_SOURCE
++#define _POSIX_C_SOURCE
++#define __USE_XOPEN_EXTENDED
++#define __USE_XOPEN2K
++#define __USE_XOPEN
++#define _XOPEN_SOURCE
++
+ #include "sdb.h"
+ #include "ht_pp.h"
+ #include "ht_inc.c"
+diff --git a/shlr/sdb/src/sdb.c b/shlr/sdb/src/sdb.c
+index ea9736a..6783c6b 100644
+--- a/shlr/sdb/src/sdb.c
++++ b/shlr/sdb/src/sdb.c
+@@ -1,5 +1,12 @@
+ /* sdb - MIT - Copyright 2011-2018 - pancake */
+ 
++#define _GNU_SOURCE
++#define _POSIX_C_SOURCE
++#define __USE_XOPEN_EXTENDED
++#define __USE_XOPEN2K
++#define __USE_XOPEN
++#define _XOPEN_SOURCE
++
+ #include <stdio.h>
+ #include <fcntl.h>
+ #include <errno.h>
+diff --git a/shlr/sdb/src/sdbht.c b/shlr/sdb/src/sdbht.c
+index 32430e2..7e3cb25 100644
+--- a/shlr/sdb/src/sdbht.c
++++ b/shlr/sdb/src/sdbht.c
+@@ -1,3 +1,10 @@
++#define _GNU_SOURCE
++#define _POSIX_C_SOURCE
++#define __USE_XOPEN_EXTENDED
++#define __USE_XOPEN2K
++#define __USE_XOPEN
++#define _XOPEN_SOURCE
++
+ #include "sdbht.h"
+ 
+ void sdbkv_fini(SdbKv *kv) {
