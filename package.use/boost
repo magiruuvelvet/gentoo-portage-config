@@ -1,1 +1,2 @@
 dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
+dev-libs/boost abi_x86_32
