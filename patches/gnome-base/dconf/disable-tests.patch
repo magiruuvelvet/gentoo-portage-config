@@ -1,0 +1,11 @@
+diff --git a/meson.build b/meson.build
+index 04b6d47..c327fbf 100644
+--- a/meson.build
++++ b/meson.build
+@@ -82,6 +82,5 @@ subdir('gsettings')
+ subdir('client')
+ subdir('bin')
+ subdir('docs')
+-subdir('tests')
+ 
+ meson.add_install_script('meson_post_install.py', gio_module_dir)
