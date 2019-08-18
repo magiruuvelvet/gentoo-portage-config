@@ -30,6 +30,20 @@ D-Bus was the broken part here.
 
 ## Chromium
 
+**WHAT THE FUCK, KIND OF RESOLVED, BUT ACTUALLY NOT!!**
+
+I figured out why this piece of an overengineered shit engine is crashing when compiled
+against LLVM runtime libraries. Thanks to the `--single-process` option using the Qt Web Engine
+I found out that the v8 backtrace handler is silently loading `libgcc_s` for no apparent
+reason, even though the engine was compiled against `libunwind` and than fucking fails
+because "reasons". When moving the gcc_s library out of sight by renaming it the engine has
+no fucking way to load this piece of shit library and than everything fucking works like
+what the fuck dude. Netflix works, fucking everything just works. What the fuck Google are
+you doing? Why are you loading shit you aren't supposed to load when not compiled and linked
+against this library???????!!!! Now I need a way to figure out how to keep software which
+depends on libgcc_s running, but at the same time hide it from you, for fucks sake.
+
+
 The entire chromium web engine by itself is completely borked when not built against GNU
 runtime libraries. Compiling with clang itself works, but only when using GNU/libstdc++.
 (`clang -stdlib=libstdc++`, *note that libc++ is the default stdlib for my clang build*)
