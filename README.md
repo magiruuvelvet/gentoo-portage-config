@@ -39,38 +39,6 @@ side note: I plan to keep GPL licensed packages and keep GNU/bash as my default 
  - `sys-apps/gsmartcontrol` (naming conflicts with libc++)
  - `media-libs/id3lib` (naming conflicts with libc++, adds non-standard extensions to the std:: namespace)\
     (the dev tried to "polyfill" C++ features xD)
- - `dev-qt/qtwebengine` (compiles and links, but constantly crashes; only very basic stuff works)
-
-
-#### Packages with can't be compiled with clang
-
-Some C++ programs and libraries use narrowing, which throws an error with clang.
-gcc silently allows this. Workaround: add `-Wno-c++11-narrowing` to the compiler flags
-for that package.
-
-X11 drivers act faulty when compiled with clang on my machine. X11 crashes with no backtrace.
-
-
-
----
-
-Qt Web Engine
-
-This heavy abomination can be built with my LLVM-based toolchain, but doesn't work
-at runtime correctly. Basic stuff works, like the Qt Help Browser in Qt Creator, or
-the memory viewer in KSysGuard. Some simple websites can be visited too, but as soon as JavaScript
-or HTML5 media kicks in I get an instant crash with no backtrace. I assume backtrace
-generation is only supported with `libgcc_s`, but not with `libunwind` :thinking:
-Literally undebuggable right now, need to investigate this at some point.
-
-Output (no backtrace as you can see):
-
-```plain
-Received signal: 6
-Received signal: 11
-```
-
-Crashes in libunwind somewhere.
 
 
 ---
@@ -106,6 +74,7 @@ Fully working without issues:
  - alsa userland tools
  - systemd
  - LibreOffice (requires libc++ compatibility patch)
+ - Chromium Web Engine (well yes, but see rant in [BROKEN.md](./BROKEN.md) for details)
  - *and many more...* (can't maintain a full list here)
 
 
@@ -124,7 +93,6 @@ is wasteful to load 2 standard libraries into memory at the same time.
  - Polkit
  - `media-libs/vulkan-loader` (assembler errors)
  - Wine (compiles and links, but undefined behavior during runtime, can't launch anything)
- - Chromium
 
 see also [BROKEN.md](./BROKEN.md) with more detailed descriptions
 
