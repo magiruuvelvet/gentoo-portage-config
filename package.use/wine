@@ -33,6 +33,7 @@ sys-libs/talloc abi_x86_32
 sys-libs/tdb abi_x86_32
 sys-libs/tevent abi_x86_32
 app-crypt/mit-krb5 abi_x86_32
+app-crypt/heimdal abi_x86_32
 net-libs/libtirpc abi_x86_32
 sys-libs/e2fsprogs-libs abi_x86_32
 sys-apps/keyutils abi_x86_32

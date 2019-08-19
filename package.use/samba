@@ -1,0 +1,5 @@
+# samba + app-crypt/mit-krb5 is broken with my LLVM toolchain
+# and is unable to pass configure tests, even with patching
+# it can't be compiled nor linked; falling back to app-crypt/heimdal
+net-fs/samba -system-mitkrb5
+app-crypt/heimdal caps

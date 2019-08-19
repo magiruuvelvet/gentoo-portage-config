@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index 2906c52..a3a372c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -663,7 +663,7 @@ CFLAGS	= -O -DFACILITY=$(FACILITY) $(ACCESS) $(PARANOID) $(NETGROUP) \
+ 	$(BUGS) $(SYSTYPE) $(AUTH) $(UMASK) \
+ 	-DREAL_DAEMON_DIR=\"$(REAL_DAEMON_DIR)\" $(STYLE) $(KILL_OPT) \
+ 	-DSEVERITY=$(SEVERITY) -DRFC931_TIMEOUT=$(RFC931_TIMEOUT) \
+-	$(UCHAR) $(TABLES) $(STRINGS) $(TLI) $(EXTRA_CFLAGS) $(DOT) \
++	$(UCHAR) $(TABLES) $(TLI) $(EXTRA_CFLAGS) $(DOT) \
+ 	$(VSYSLOG) $(HOSTNAME)
+ 
+ LIB_OBJ= hosts_access.o options.o shell_cmd.o rfc931.o eval.o \

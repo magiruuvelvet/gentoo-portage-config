@@ -1,0 +1,168 @@
+diff --git a/Makefile.tool.am b/Makefile.tool.am
+index 677571f..58c869d 100644
+--- a/Makefile.tool.am
++++ b/Makefile.tool.am
+@@ -17,7 +17,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_SEC_CAPS@ = \
+ endif
+ 
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ if VGCONF_HAVE_PLATFORM_SEC
+diff --git a/cachegrind/Makefile.in b/cachegrind/Makefile.in
+index fc07c69..16ce389 100644
+--- a/cachegrind/Makefile.in
++++ b/cachegrind/Makefile.in
+@@ -658,7 +658,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/callgrind/Makefile.in b/callgrind/Makefile.in
+index 59c4aca..6d6b9f3 100644
+--- a/callgrind/Makefile.in
++++ b/callgrind/Makefile.in
+@@ -670,7 +670,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/dhat/Makefile.in b/dhat/Makefile.in
+index 49227cf..fa3da94 100644
+--- a/dhat/Makefile.in
++++ b/dhat/Makefile.in
+@@ -663,7 +663,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/drd/Makefile.in b/drd/Makefile.in
+index c60ca8f..63dcd73 100644
+--- a/drd/Makefile.in
++++ b/drd/Makefile.in
+@@ -719,7 +719,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/exp-bbv/Makefile.in b/exp-bbv/Makefile.in
+index 08a47f4..99ff7c1 100644
+--- a/exp-bbv/Makefile.in
++++ b/exp-bbv/Makefile.in
+@@ -609,7 +609,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/exp-sgcheck/Makefile.in b/exp-sgcheck/Makefile.in
+index bc57558..399eef8 100644
+--- a/exp-sgcheck/Makefile.in
++++ b/exp-sgcheck/Makefile.in
+@@ -652,7 +652,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/helgrind/Makefile.in b/helgrind/Makefile.in
+index 66d7a8b..1312f83 100644
+--- a/helgrind/Makefile.in
++++ b/helgrind/Makefile.in
+@@ -684,7 +684,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/lackey/Makefile.in b/lackey/Makefile.in
+index 0331ac3..4e5b7ab 100644
+--- a/lackey/Makefile.in
++++ b/lackey/Makefile.in
+@@ -609,7 +609,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/massif/Makefile.in b/massif/Makefile.in
+index 2012f7f..0687e4e 100644
+--- a/massif/Makefile.in
++++ b/massif/Makefile.in
+@@ -664,7 +664,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/memcheck/Makefile.in b/memcheck/Makefile.in
+index 4b84a0d..51bbd83 100644
+--- a/memcheck/Makefile.in
++++ b/memcheck/Makefile.in
+@@ -684,7 +684,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/none/Makefile.in b/none/Makefile.in
+index 3c75c7c..0334a51 100644
+--- a/none/Makefile.in
++++ b/none/Makefile.in
+@@ -607,7 +607,7 @@ TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/coregrind/libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a \
+ @VGCONF_HAVE_PLATFORM_SEC_TRUE@	$(top_builddir)/VEX/libvex-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+ 
+-TOOL_LDADD_COMMON = -lgcc
++TOOL_LDADD_COMMON = 
+ TOOL_LDADD_@VGCONF_PLATFORM_PRI_CAPS@ = \
+ 	$(TOOL_DEPENDENCIES_@VGCONF_PLATFORM_PRI_CAPS@) $(TOOL_LDADD_COMMON)
+ 
+diff --git a/valgrind.pc.in b/valgrind.pc.in
+index 8a923cd..755cf99 100644
+--- a/valgrind.pc.in
++++ b/valgrind.pc.in
+@@ -11,6 +11,6 @@ Name: Valgrind
+ Description: A dynamic binary instrumentation framework
+ Version: @VERSION@
+ Requires:
+-Libs: -L${libdir}/valgrind -lcoregrind-@VGCONF_ARCH_PRI@-@VGCONF_OS@ -lvex-@VGCONF_ARCH_PRI@-@VGCONF_OS@ -lgcc
++Libs: -L${libdir}/valgrind -lcoregrind-@VGCONF_ARCH_PRI@-@VGCONF_OS@ -lvex-@VGCONF_ARCH_PRI@-@VGCONF_OS@
+ Cflags: -I${includedir}
+ 
