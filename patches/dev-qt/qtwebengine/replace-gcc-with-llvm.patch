@@ -1,0 +1,103 @@
+diff --git a/src/3rdparty/chromium/build/config/posix/BUILD.gn b/src/3rdparty/chromium/build/config/posix/BUILD.gn
+index 91405fd7e..0c266efb6 100644
+--- a/src/3rdparty/chromium/build/config/posix/BUILD.gn
++++ b/src/3rdparty/chromium/build/config/posix/BUILD.gn
+@@ -75,7 +75,7 @@ config("runtime_library") {
+       # removes all of the default libraries, so add back the ones that we need.
+       libs += [
+         "c",
+-        "gcc_s",
++        "unwind",
+         "m",
+         "rt",
+       ]
+diff --git a/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.am b/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.am
+index eac914cf7..cbdcee687 100644
+--- a/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.am
++++ b/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.am
+@@ -1409,7 +1409,6 @@ EXTRA_DIST = \
+ 	src/processor/testdata/symbols/kernel32.pdb/BCE8785C57B44245A669896B6A19B9542/kernel32.sym \
+ 	src/processor/testdata/symbols/ld-2.13.so/C32AD7E235EA6112E02A5B9D6219C4850/ld-2.13.so.sym \
+ 	src/processor/testdata/symbols/libc-2.13.so/F4F8DFCD5A5FB5A7CE64717E9E6AE3890/libc-2.13.so.sym \
+-	src/processor/testdata/symbols/libgcc_s.so.1/18B180F90887D8F8B5C35D185444AF4C0/libgcc_s.so.1.sym \
+ 	src/processor/testdata/symbols/microdump/breakpad_unittests/D6D1FEC9A15DE7F38A236898871A2E770/breakpad_unittests.sym \
+ 	src/processor/testdata/symbols/microdump/breakpad_unittests/DA7778FB66018A4E9B4110ED06E730D00/breakpad_unittests.sym \
+ 	src/processor/testdata/symbols/microdump/crash_example/6E72E2F1A5F59AB3D51356FDFE394D490/crash_example.sym \
+diff --git a/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.in b/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.in
+index 2bb6b406e..3440fe8b8 100644
+--- a/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.in
++++ b/src/3rdparty/chromium/third_party/breakpad/breakpad/Makefile.in
+@@ -3291,7 +3291,6 @@ EXTRA_DIST = \
+ 	src/processor/testdata/symbols/kernel32.pdb/BCE8785C57B44245A669896B6A19B9542/kernel32.sym \
+ 	src/processor/testdata/symbols/ld-2.13.so/C32AD7E235EA6112E02A5B9D6219C4850/ld-2.13.so.sym \
+ 	src/processor/testdata/symbols/libc-2.13.so/F4F8DFCD5A5FB5A7CE64717E9E6AE3890/libc-2.13.so.sym \
+-	src/processor/testdata/symbols/libgcc_s.so.1/18B180F90887D8F8B5C35D185444AF4C0/libgcc_s.so.1.sym \
+ 	src/processor/testdata/symbols/microdump/breakpad_unittests/D6D1FEC9A15DE7F38A236898871A2E770/breakpad_unittests.sym \
+ 	src/processor/testdata/symbols/microdump/breakpad_unittests/DA7778FB66018A4E9B4110ED06E730D00/breakpad_unittests.sym \
+ 	src/processor/testdata/symbols/microdump/crash_example/6E72E2F1A5F59AB3D51356FDFE394D490/crash_example.sym \
+diff --git a/src/3rdparty/chromium/third_party/sqlite/src/autoconf/tea/tclconfig/tcl.m4 b/src/3rdparty/chromium/third_party/sqlite/src/autoconf/tea/tclconfig/tcl.m4
+index 4b4bd1e88..daa45035b 100644
+--- a/src/3rdparty/chromium/third_party/sqlite/src/autoconf/tea/tclconfig/tcl.m4
++++ b/src/3rdparty/chromium/third_party/sqlite/src/autoconf/tea/tclconfig/tcl.m4
+@@ -1932,7 +1932,7 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
+ 			# add the path to the sparv9 libgcc.
+ 			# JH: static-libgcc is necessary for core Tcl, but may
+ 			# not be necessary for extensions.
+-			SHLIB_LD="$SHLIB_LD -m64 -mcpu=v9 -static-libgcc"
++			SHLIB_LD="$SHLIB_LD -m64 -mcpu=v9"
+ 			# for finding sparcv9 libgcc, get the regular libgcc
+ 			# path, remove so name and append 'sparcv9'
+ 			#v9gcclibdir="`gcc -print-file-name=libgcc_s.so` | ..."
+@@ -1940,7 +1940,7 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
+ 		    ], [AS_IF([test "$arch" = "amd64 i386"], [
+ 			# JH: static-libgcc is necessary for core Tcl, but may
+ 			# not be necessary for extensions.
+-			SHLIB_LD="$SHLIB_LD -m64 -static-libgcc"
++			SHLIB_LD="$SHLIB_LD -m64"
+ 		    ])])
+ 		])
+ 	    ], [
+diff --git a/src/3rdparty/chromium/tools/check_ecs_deps/check_ecs_deps.py b/src/3rdparty/chromium/tools/check_ecs_deps/check_ecs_deps.py
+index 4ac06bb29..7c88e217d 100755
+--- a/src/3rdparty/chromium/tools/check_ecs_deps/check_ecs_deps.py
++++ b/src/3rdparty/chromium/tools/check_ecs_deps/check_ecs_deps.py
+@@ -49,12 +49,12 @@ kAllowedLibraryList = [
+   'ld-linux',
+   'libc',
+   'libdl',
+-  'libgcc_s',
++  'libunwind',
+   'libm',
+   'libpthread',
+   'libresolv',
+   'librt',
+-  'libstdc++',
++  'libc++',
+   'linux-vdso',
+ 
+   # Needed for default ozone platforms
+diff --git a/src/buildtools/configure_host.pro b/src/buildtools/configure_host.pro
+index dd0d3e327..4996d96b2 100644
+--- a/src/buildtools/configure_host.pro
++++ b/src/buildtools/configure_host.pro
+@@ -10,9 +10,9 @@ else: GN_TARGET_CPU = $$GN_HOST_CPU
+ GN_OS = $$gnOS()
+ 
+ clang: GN_CLANG = true
+-else: GN_CLANG = false
++else: GN_CLANG = true
+ 
+-use_gold_linker: GN_USE_GOLD=true
++use_gold_linker: GN_USE_GOLD=false
+ else: GN_USE_GOLD=false
+ 
+ GN_V8_HOST_CPU = $$GN_HOST_CPU
+@@ -25,8 +25,6 @@ contains(GN_TARGET_CPU, "arm")|contains(GN_TARGET_CPU, "mipsel")|contains(GN_TAR
+ 
+ GN_HOST_EXTRA_CPPFLAGS = $$(GN_HOST_TOOLCHAIN_EXTRA_CPPFLAGS)
+ 
+-# We always use the gcc_toolchain, because clang_toolchain is just
+-# a broken wrapper around it for Google's custom clang binaries.
+ GN_CONTENTS = \
+ "import(\"//build/config/sysroot.gni\")" \
+ "import(\"//build/toolchain/gcc_toolchain.gni\")" \

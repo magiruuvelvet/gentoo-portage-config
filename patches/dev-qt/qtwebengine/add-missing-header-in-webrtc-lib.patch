@@ -1,0 +1,21 @@
+diff --git a/src/3rdparty/chromium/third_party/webrtc/rtc_base/physicalsocketserver.cc b/src/3rdparty/chromium/third_party/webrtc/rtc_base/physicalsocketserver.cc
+index ca78499..b08d63d 100644
+--- a/src/3rdparty/chromium/third_party/webrtc/rtc_base/physicalsocketserver.cc
++++ b/src/3rdparty/chromium/third_party/webrtc/rtc_base/physicalsocketserver.cc
+@@ -9,6 +9,8 @@
+  */
+ #include "rtc_base/physicalsocketserver.h"
+ 
++#include <linux/sockios.h>
++
+ #if defined(_MSC_VER) && _MSC_VER < 1300
+ #pragma warning(disable : 4786)
+ #endif
+@@ -28,6 +30,7 @@
+ #include <sys/ioctl.h>
+ #include <sys/select.h>
+ #include <sys/time.h>
++#include <sys/socket.h>
+ #include <unistd.h>
+ #endif
+ 
