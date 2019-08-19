@@ -29,4 +29,4 @@ dev-libs/re2 icu
 
 x11-libs/libxcb xkb
 x11-libs/libxkbcommon X
-dev-libs/libpcre2 pcre16
+dev-libs/libpcre2 pcre16 pcre32 unicode

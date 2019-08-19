@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# wrapper around -latomic to use the absolute path to it
+# otherwise the library isn't found during linking
+
+CLANG="$(basename "$0")"
+args=()
+
+BITS=64
+for i in "$@"; do
+    if [[ "$i" == "-m32" ]]; then
+        BITS=
+    fi
+done
+
+if [[ "$CLANG" == *"++" ]]; then
+    REAL_CLANG=clang++
+else
+    REAL_CLANG=clang
+fi
+
+for x in "$@"; do
+    if [[ "$x" == *"-latomic"* ]]; then
+        args+=("/usr/lib$BITS/libatomic.so.1")
+    else
+        args+=("$x")
+    fi
+done
+
+exec "$REAL_CLANG" "${args[@]}"

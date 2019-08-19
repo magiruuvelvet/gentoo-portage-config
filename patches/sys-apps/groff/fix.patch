@@ -1,0 +1,13 @@
+diff --git a/lib/math.in.h b/lib/math.in.h
+index c30fc20..92dc5a7 100644
+--- a/lib/math.in.h
++++ b/lib/math.in.h
+@@ -17,6 +17,8 @@
+ 
+ #ifndef _@GUARD_PREFIX@_MATH_H
+ 
++#include "config.h"
++
+ #if __GNUC__ >= 3
+ @PRAGMA_SYSTEM_HEADER@
+ #endif

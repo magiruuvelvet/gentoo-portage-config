@@ -32,3 +32,6 @@ media-libs/libsoundtouch -openmp
 
 app-text/tesseract openmp jpeg math png tiff webp L10N: *
 app-text/tessdata_fast osd L10N: *
+
+# linker errors to ncurses with LLD
+media-libs/libcaca -ncurses
