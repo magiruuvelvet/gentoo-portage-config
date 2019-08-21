@@ -111,3 +111,12 @@ bridges/source/cpp_uno/gcc3_linux_x86-64/share.hxx:116:10: error: no type named 
 
 ~~A temporary workaround would be to compile LO with the `-stdlib=libstdc++` flag and call it a day,~~
 ~~but on a GNU-free system this is not an option and needs a patch upstream in LibreOffice.~~
+
+
+## Grub
+
+Fonts and high resolutions don't work, otherwise no noticeable issues.
+Restored from a previous backup, because low res boot is annoying and disturbing.
+
+ebuild requires patching when building with an "out of sight" toolchain.
+Didn't bothered to look into it yet, but it fails at the configure step.

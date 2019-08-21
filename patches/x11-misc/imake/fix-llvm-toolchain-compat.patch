@@ -1,0 +1,93 @@
+diff --git a/configure b/configure
+index c58d5a3..7ed792e 100755
+--- a/configure
++++ b/configure
+@@ -11040,7 +11040,7 @@ fi
+ 
+ 
+ 
+-DEFAULT_PREPROCESSCMD_MKDEPEND="gcc -E"
++DEFAULT_PREPROCESSCMD_MKDEPEND="clang -E"
+ 
+ # Check whether --with-script-preproc-cmd was given.
+ if test "${with_script_preproc_cmd+set}" = set; then :
+diff --git a/configure.ac b/configure.ac
+index 180da34..1ad827c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -55,9 +55,9 @@ AC_ARG_WITH(config-dir,
+ 	[XCONFDIR="$DEFAULT_XCONFDIR"])
+ AC_SUBST(XCONFDIR)
+ 
+-DEFAULT_PREPROCESSCMD_MKDEPEND="gcc -E"
++DEFAULT_PREPROCESSCMD_MKDEPEND="clang -E"
+ AC_ARG_WITH(script-preproc-cmd,
+-	AS_HELP_STRING([--with-script-preproc-cmd=CMD], [Preprocessor command to run on scripts (default: "gcc -E")]),
++	AS_HELP_STRING([--with-script-preproc-cmd=CMD], [Preprocessor command to run on scripts (default: "clang -E")]),
+ 	[PREPROCESSCMD_MKDEPEND="$withval"],
+ 	[PREPROCESSCMD_MKDEPEND="$DEFAULT_PREPROCESSCMD_MKDEPEND"])
+ AC_SUBST(PREPROCESSCMD_MKDEPEND)
+diff --git a/depcomp b/depcomp
+index fc98710..65c3cea 100755
+--- a/depcomp
++++ b/depcomp
+@@ -138,7 +138,7 @@ gccflag= dashmflag=
+ if test "$depmode" = hp; then
+   # HP compiler uses -M and no extra arg.
+   gccflag=-M
+-  depmode=gcc
++  depmode=clang
+ fi
+ 
+ if test "$depmode" = dashXmstdout; then
+@@ -166,8 +166,8 @@ fi
+ 
+ if test "$depmode" = xlc; then
+   # IBM C/C++ Compilers xlc/xlC can output gcc-like dependency information.
+-  gccflag=-qmakedep=gcc,-MF
+-  depmode=gcc
++  gccflag=-qmakedep=clang,-MF
++  depmode=clang
+ fi
+ 
+ case "$depmode" in
+@@ -197,7 +197,7 @@ gcc3)
+   mv "$tmpdepfile" "$depfile"
+   ;;
+ 
+-gcc)
++clang)
+ ## Note that this doesn't just cater to obsosete pre-3.x GCC compilers.
+ ## but also to in-use compilers like IMB xlc/xlC and the HP C compiler.
+ ## (see the conditional assignment to $gccflag above).
+diff --git a/imake.c b/imake.c
+index f23f2f1..6ee08c4 100644
+--- a/imake.c
++++ b/imake.c
+@@ -986,7 +986,7 @@ get_libc_version(FILE *inFile)
+   }
+   cc = getenv ("CC");
+   if (cc == NULL)
+-    cc = "gcc";
++    cc = "clang";
+   len = strlen (aout) + strlen (format) + strlen (cc);
+   if (len < 128) len = 128;
+   if((command = alloca (len)) == NULL)
+@@ -1351,15 +1351,13 @@ get_gcc(char *cmd)
+      defined(__GLIBC__)
+ 	"/usr/bin/cc",	/* for Linux PostIncDir */
+ #endif
+-	"/usr/local/bin/gcc",
+-	"/opt/gnu/bin/gcc",
+-	"/usr/pkg/bin/gcc"
++	"/usr/local/bin/clang"
+     };
+ 
+ #ifdef CROSSCOMPILE
+     static const char* cross_cc_name[] = {
+ 	"cc",
+-	"gcc"
++	"clang"
+     };
+ 
+     if (CrossCompiling) {

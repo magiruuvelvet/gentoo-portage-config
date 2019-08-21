@@ -1,0 +1,11 @@
+#!/bin/sh
+
+compile() {
+    cd "$S"
+    patch Imakefile < /etc/portage/patches/net-misc/x11-ssh-askpass/use-correct-compiler.patch
+}
+
+case "$1" in
+    compile) compile ;;
+    *) : ;;
+esac

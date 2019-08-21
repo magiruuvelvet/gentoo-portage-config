@@ -40,3 +40,8 @@ sys-devel/binutils::gentoo
 sys-devel/gcc-config::gentoo
 sys-devel/binutils-config::gentoo
 sys-libs/binutils-libs::gentoo
+
+
+=dev-lang/rust-1.37.0
+=app-emulation/wine-vanilla-4.13
+=app-emulation/wine-staging-4.13

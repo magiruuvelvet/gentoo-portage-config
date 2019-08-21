@@ -55,6 +55,7 @@ Fully working without issues:
  - mesa
  - Wayland
  - Vulkan (with one exception, see below)
+ - X11 Input Drivers
  - fcitx (including all plugins; mozc, pinyin, ...)
  - GNU/binutils (compiled with LLVM toolchain)
  - GNU/coreutils (compiled with LLVM toolchain)
@@ -85,8 +86,9 @@ is wasteful to load 2 standard libraries into memory at the same time.
 
  - Linux kernel obviously, same for kernel modules
  - NVIDIA drivers (because kernel module)
- - X11 (works on FreeBSD though which also uses LLVM by default)
- - X11 drivers
+ - X11?? (needs more testing)
+ - X11 Video Drivers (segfault on start)
+ - XTerm (can't start shell??)
  - some X11 libs
  - MariaDB
  - Oracle DB Library (some packages depend on it, some with USE flags, some with a hard dependency)

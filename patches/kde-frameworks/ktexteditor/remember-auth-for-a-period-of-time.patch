@@ -1,0 +1,12 @@
+diff --git a/src/buffer/org.kde.ktexteditor.katetextbuffer.actions b/src/buffer/org.kde.ktexteditor.katetextbuffer.actions
+index e099a4d..7f76d3f 100644
+--- a/src/buffer/org.kde.ktexteditor.katetextbuffer.actions
++++ b/src/buffer/org.kde.ktexteditor.katetextbuffer.actions
+@@ -113,6 +113,6 @@ Description[uk]=Для збереження документа потрібні
+ Description[x-test]=xxRoot privileges are needed to save this documentxx
+ Description[zh_CN]=保存文档需要超级用户权限
+ Description[zh_TW]=需要 root 權限以儲存此文件
+-Policy=auth_admin
++Policy=auth_admin_keep
+ # No persistence
+ #Persistence=

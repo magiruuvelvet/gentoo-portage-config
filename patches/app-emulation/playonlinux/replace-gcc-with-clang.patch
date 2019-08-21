@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index a8d81b8..e11d7f2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -21,7 +21,7 @@
+ #
+ 
+ CFLAGS ?= -O2
+-CC = gcc $(CFLAGS)
++CC = clang $(CFLAGS)
+ PYTHON = python2 -m py_compile
+ GZIP = gzip
+ SHELL := /bin/bash

@@ -1,0 +1,117 @@
+diff --git a/Makefile b/Makefile
+index af57c52..3a4dfeb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -211,10 +211,10 @@ AUTOCONF = ${SHELL} /sources/LIB/MNG/libmng-2.0.3/missing autoconf
+ AUTOHEADER = ${SHELL} /sources/LIB/MNG/libmng-2.0.3/missing autoheader
+ AUTOMAKE = ${SHELL} /sources/LIB/MNG/libmng-2.0.3/missing automake-1.13
+ AWK = gawk
+-CC = gcc
++CC = clang
+ CCDEPMODE = depmode=none
+ CFLAGS = -g -O2
+-CPP = gcc -E
++CPP = clang -E
+ CPPFLAGS = 
+ CYGPATH_W = echo
+ DEFS = -DHAVE_CONFIG_H
+@@ -273,7 +273,7 @@ abs_srcdir = /sources/LIB/MNG/libmng-2.0.3
+ abs_top_builddir = /sources/LIB/MNG/libmng-2.0.3
+ abs_top_srcdir = /sources/LIB/MNG/libmng-2.0.3
+ ac_ct_AR = ar
+-ac_ct_CC = gcc
++ac_ct_CC = clang
+ ac_ct_DUMPBIN = 
+ am__include = include
+ am__leading_dot = .
+diff --git a/configure b/configure
+index 44f2c02..88168bc 100755
+--- a/configure
++++ b/configure
+@@ -2834,7 +2834,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
+ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ if test -n "$ac_tool_prefix"; then
+   # Extract the first word of "${ac_tool_prefix}gcc", so it can be a program name with args.
+-set dummy ${ac_tool_prefix}gcc; ac_word=$2
++set dummy ${ac_tool_prefix}clang; ac_word=$2
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+ $as_echo_n "checking for $ac_word... " >&6; }
+ if ${ac_cv_prog_CC+:} false; then :
+@@ -2850,7 +2850,7 @@ do
+   test -z "$as_dir" && as_dir=.
+     for ac_exec_ext in '' $ac_executable_extensions; do
+   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+-    ac_cv_prog_CC="${ac_tool_prefix}gcc"
++    ac_cv_prog_CC="${ac_tool_prefix}clang"
+     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+     break 2
+   fi
+@@ -2874,7 +2874,7 @@ fi
+ if test -z "$ac_cv_prog_CC"; then
+   ac_ct_CC=$CC
+   # Extract the first word of "gcc", so it can be a program name with args.
+-set dummy gcc; ac_word=$2
++set dummy clang; ac_word=$2
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+ $as_echo_n "checking for $ac_word... " >&6; }
+ if ${ac_cv_prog_ac_ct_CC+:} false; then :
+@@ -2890,7 +2890,7 @@ do
+   test -z "$as_dir" && as_dir=.
+     for ac_exec_ext in '' $ac_executable_extensions; do
+   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+-    ac_cv_prog_ac_ct_CC="gcc"
++    ac_cv_prog_ac_ct_CC="clang"
+     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+     break 2
+   fi
+diff --git a/contrib/gcc/fbmngplay/Makefile b/contrib/gcc/fbmngplay/Makefile
+index 27ad8db..ec341b7 100644
+--- a/contrib/gcc/fbmngplay/Makefile
++++ b/contrib/gcc/fbmngplay/Makefile
+@@ -9,7 +9,7 @@
+ # PARTICULAR PURPOSE.
+ 
+ SHELL = /bin/sh
+-CC = gcc
++CC = clang
+ 
+ SOURCES = fbmngplay.c
+ PROGRAMS =  fbmngplay fbmngplay.static
+diff --git a/contrib/gcc/gtk-mng-view/Makefile b/contrib/gcc/gtk-mng-view/Makefile
+index 6e0783e..bb90ced 100644
+--- a/contrib/gcc/gtk-mng-view/Makefile
++++ b/contrib/gcc/gtk-mng-view/Makefile
+@@ -1,6 +1,6 @@
+ LIBMNG_PREFIX = /usr/local
+ 
+-CC = gcc
++CC = clang
+ 
+ CFLAGS = -g -O2 -Wall \
+ 	`pkg-config --cflags gtk+-2.0` \
+diff --git a/contrib/gcc/xmngview/Makefile b/contrib/gcc/xmngview/Makefile
+index a5f6e5e..f677663 100644
+--- a/contrib/gcc/xmngview/Makefile
++++ b/contrib/gcc/xmngview/Makefile
+@@ -4,7 +4,7 @@ MOTIFINC=/usr/include
+ MNGLIB=-lmng
+ LIBS=-L/usr/lib -L$(MOTIFLIB) -lXm -lXt -lX11 $(MNGLIB) -lm
+ INC=-I/usr/include -I$(MOTIFINC)
+-CC=gcc
++CC=clang
+ LDFLAGS=
+ 
+ all: clean compile
+diff --git a/contrib/msvc/makemng/Makefile b/contrib/msvc/makemng/Makefile
+index b5c31b5..e70ba3e 100644
+--- a/contrib/msvc/makemng/Makefile
++++ b/contrib/msvc/makemng/Makefile
+@@ -13,7 +13,7 @@ MNGFLAGS = -I. -DMNG_SKIP_LCMS -DMNG_SKIP_IJG6B \
+            -DMNG_SUPPORT_READ -DMNG_SUPPORT_WRITE -DMNG_SUPPORT_DISPLAY \
+            -DMNG_ACCESS_CHUNKS
+ 
+-CC = gcc
++CC = clang
+ CFLAGS = -W -Wall -O0 # -g
+ LIBS = -L/usr/local/lib -lmng -lm -lz -ljpeg -llcms
+ LDFLAGS=

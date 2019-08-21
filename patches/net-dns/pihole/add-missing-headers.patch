@@ -1,0 +1,13 @@
+diff --git a/dnsmasq/dhcp.c b/dnsmasq/dhcp.c
+index 02b9b13..d51fe35 100644
+--- a/dnsmasq/dhcp.c
++++ b/dnsmasq/dhcp.c
+@@ -18,6 +18,8 @@
+ 
+ #ifdef HAVE_DHCP
+ 
++#include <linux/sockios.h>
++
+ struct iface_param {
+   struct dhcp_context *current;
+   struct dhcp_relay *relay;

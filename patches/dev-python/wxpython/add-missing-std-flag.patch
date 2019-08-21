@@ -1,0 +1,13 @@
+diff --git a/wxPython/setup.py b/wxPython/setup.py
+index 8d3381e..df53697 100755
+--- a/wxPython/setup.py
++++ b/wxPython/setup.py
+@@ -179,6 +179,8 @@ if os.name == 'nt':
+ else:
+     rc_file = []
+ 
++# my compiler defaults to C++17 and dies on the register storage type
++cflags.append("-std=c++0x")
+ 
+ ext = Extension('_core_', ['src/helpers.cpp',
+                            ] + rc_file + swig_sources,
