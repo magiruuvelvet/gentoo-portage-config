@@ -1,0 +1,20 @@
+#!/bin/sh
+
+CLANG="$(basename "$0")"
+args=()
+
+if [[ "$CLANG" == *"++" ]]; then
+    REAL_CLANG=clang++
+else
+    REAL_CLANG=clang
+fi
+
+for x in "$@"; do
+    if [[ "$x" == *"-Wl,--default-symver"* ]]; then
+        :
+    else
+        args+=("$x")
+    fi
+done
+
+exec "$REAL_CLANG" "${args[@]}"

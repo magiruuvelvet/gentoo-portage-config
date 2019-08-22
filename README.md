@@ -34,11 +34,7 @@ side note: I plan to keep GPL licensed packages and keep GNU/bash as my default 
 #### Packages which refuse to work with a non-GNU setup
 
  - `dev-db/mariadb` (compiles and links, but segfaults at startup instantly due to libunwind)
- - `sys-libs/db` (Oracle DB library), USE flagged - get rid of this library entirely\
-    (you can't expect from Oracle to add libc++ support, naming conflicts and std:: poisoning)
  - `sys-apps/gsmartcontrol` (naming conflicts with libc++)
- - `media-libs/id3lib` (naming conflicts with libc++, adds non-standard extensions to the std:: namespace)\
-    (the dev tried to "polyfill" C++ features xD)
 
 
 ---
