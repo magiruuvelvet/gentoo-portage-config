@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# fix for Gentoo's eselect opengl
+# this patch makes the "primusrun" command actually work :)
+
+instprep() {
+    cd "$ED/usr/bin"
+    patch primusrun < /etc/portage/hooks/patches/x11-misc/primus/primusrun-gentoo-nvidia-fix.patch
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

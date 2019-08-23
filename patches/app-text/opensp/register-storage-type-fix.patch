@@ -1,0 +1,607 @@
+diff --git a/Makefile.in b/Makefile.in
+index 55c7be5..c6cb5cb 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -124,7 +124,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/configure b/configure
+index caa2d31..52e0834 100755
+--- a/configure
++++ b/configure
+@@ -3444,8 +3444,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ 
+ ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ if test -n "$ac_tool_prefix"; then
+   for ac_prog in $CCC g++ c++ gpp aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC
+@@ -3616,7 +3616,7 @@ echo "${ECHO_T}$ac_cv_cxx_compiler_gnu" >&6
+ GXX=`test $ac_compiler_gnu = yes && echo yes`
+ ac_test_CXXFLAGS=${CXXFLAGS+set}
+ ac_save_CXXFLAGS=$CXXFLAGS
+-CXXFLAGS="-g"
++CXXFLAGS="-g -std=c++0x"
+ echo "$as_me:$LINENO: checking whether $CXX accepts -g" >&5
+ echo $ECHO_N "checking whether $CXX accepts -g... $ECHO_C" >&6
+ if test "${ac_cv_prog_cxx_g+set}" = set; then
+@@ -3674,15 +3674,15 @@ if test "$ac_test_CXXFLAGS" = set; then
+   CXXFLAGS=$ac_save_CXXFLAGS
+ elif test $ac_cv_prog_cxx_g = yes; then
+   if test "$GXX" = yes; then
+-    CXXFLAGS="-g -O2"
++    CXXFLAGS="-g -O2 -std=c++0x"
+   else
+-    CXXFLAGS="-g"
++    CXXFLAGS="-g -std=c++0x"
+   fi
+ else
+   if test "$GXX" = yes; then
+-    CXXFLAGS="-O2"
++    CXXFLAGS="-O2 -std=c++0x"
+   else
+-    CXXFLAGS=
++    CXXFLAGS="-std=c++0x"
+   fi
+ fi
+ for ac_declaration in \
+@@ -3908,8 +3908,8 @@ fi
+ 
+ ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ echo "$as_me:$LINENO: checking how to run the C++ preprocessor" >&5
+ echo $ECHO_N "checking how to run the C++ preprocessor... $ECHO_C" >&6
+@@ -5453,8 +5453,8 @@ if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
+     (test "X$CXX" != "Xg++"))) ; then
+   ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ echo "$as_me:$LINENO: checking how to run the C++ preprocessor" >&5
+ echo $ECHO_N "checking how to run the C++ preprocessor... $ECHO_C" >&6
+@@ -5677,8 +5677,8 @@ fi
+ 
+ ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ fi
+@@ -10250,8 +10250,8 @@ echo "$as_me: error: tag name \"$tagname\" already exists" >&2;}
+ 	    (test "X$CXX" != "Xg++"))) ; then
+ 	  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -27643,8 +27643,8 @@ done
+ 
+ ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30021,8 +30021,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30076,8 +30076,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30517,8 +30517,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30573,8 +30573,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30598,8 +30598,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30649,8 +30649,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30674,8 +30674,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30731,8 +30731,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30756,8 +30756,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30812,8 +30812,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30837,8 +30837,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30891,8 +30891,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30916,8 +30916,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -30967,8 +30967,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -30992,8 +30992,8 @@ else
+ 
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+  cat >conftest.$ac_ext <<_ACEOF
+@@ -31043,8 +31043,8 @@ fi
+ rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+  ac_ext=cc
+ ac_cpp='$CXXCPP $CPPFLAGS'
+-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compile='$CXX -c $CXXFLAGS -std=c++0x $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS -std=c++0x $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ 
+ 
+@@ -31244,7 +31244,7 @@ cat >>confdefs.h <<\_ACEOF
+ #define SP_MANUAL_INST 1
+ _ACEOF
+ 
+-    CXXFLAGS="$CXXFLAGS -fno-implicit-templates"
++    CXXFLAGS="$CXXFLAGS -fno-implicit-templates -std=c++0x"
+   fi
+   echo "$as_me:$LINENO: checking whether GNU C++ links with libg++ if we include new.h" >&5
+ echo $ECHO_N "checking whether GNU C++ links with libg++ if we include new.h... $ECHO_C" >&6
+diff --git a/configure.in b/configure.in
+index 22b5fde..f608ad9 100644
+--- a/configure.in
++++ b/configure.in
+@@ -357,7 +357,7 @@ dnl FIXME these need tests for non-GNU compilers
+   else
+     AC_DEFINE(SP_MANUAL_INST,1,
+               [define this to compile explicit template instantiations])
+-    CXXFLAGS="$CXXFLAGS -fno-implicit-templates"
++    CXXFLAGS="$CXXFLAGS -fno-implicit-templates -std=c++0x"
+   fi
+   AC_CACHE_CHECK(whether GNU C++ links with libg++ if we include new.h,
+ 	         ac_cv_cxx_gnu_avoid_new_h,
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index 8320877..c864178 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -92,7 +92,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/docsrc/Makefile.in b/docsrc/Makefile.in
+index 03ebd0c..1948fdd 100644
+--- a/docsrc/Makefile.in
++++ b/docsrc/Makefile.in
+@@ -95,7 +95,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/generic/Makefile.in b/generic/Makefile.in
+index 670c4ad..a98229b 100644
+--- a/generic/Makefile.in
++++ b/generic/Makefile.in
+@@ -95,7 +95,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/include/Makefile.in b/include/Makefile.in
+index 6f4ea96..d1e0e1c 100644
+--- a/include/Makefile.in
++++ b/include/Makefile.in
+@@ -95,7 +95,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/lib/Makefile.in b/lib/Makefile.in
+index 55d1783..7ed3ce3 100644
+--- a/lib/Makefile.in
++++ b/lib/Makefile.in
+@@ -116,13 +116,13 @@ CCLD = $(CC)
+ LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+ 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ SOURCES = $(libosp_la_SOURCES)
+ DIST_SOURCES = $(libosp_la_SOURCES)
+ ETAGS = etags
+@@ -148,7 +148,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/nsgmls/Makefile.in b/nsgmls/Makefile.in
+index 962772f..30396f8 100644
+--- a/nsgmls/Makefile.in
++++ b/nsgmls/Makefile.in
+@@ -75,13 +75,13 @@ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+ 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+@@ -115,7 +115,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/pubtext/Makefile.in b/pubtext/Makefile.in
+index ec6ee6d..992ade6 100644
+--- a/pubtext/Makefile.in
++++ b/pubtext/Makefile.in
+@@ -92,7 +92,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/sgmlnorm/Makefile.in b/sgmlnorm/Makefile.in
+index 3abf5ec..b9abda7 100644
+--- a/sgmlnorm/Makefile.in
++++ b/sgmlnorm/Makefile.in
+@@ -73,13 +73,13 @@ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+ 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+@@ -113,7 +113,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/spam/Makefile.in b/spam/Makefile.in
+index 273fea1..a5f5939 100644
+--- a/spam/Makefile.in
++++ b/spam/Makefile.in
+@@ -74,13 +74,13 @@ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+ 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+@@ -114,7 +114,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/spcat/Makefile.in b/spcat/Makefile.in
+index aba16e6..3b0eb9d 100644
+--- a/spcat/Makefile.in
++++ b/spcat/Makefile.in
+@@ -73,13 +73,13 @@ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+ 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+@@ -113,7 +113,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/spent/Makefile.in b/spent/Makefile.in
+index 58788d5..c715817 100644
+--- a/spent/Makefile.in
++++ b/spent/Makefile.in
+@@ -76,10 +76,10 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+ 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+ 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+@@ -113,7 +113,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/sx/Makefile.in b/sx/Makefile.in
+index dee443b..0d7ba74 100644
+--- a/sx/Makefile.in
++++ b/sx/Makefile.in
+@@ -73,13 +73,13 @@ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
+ 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+-	$(AM_CXXFLAGS) $(CXXFLAGS)
++	$(AM_CXXFLAGS) $(CXXFLAGS) -std=c++0x
+ CXXLD = $(CXX)
+ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
++	$(CXXFLAGS) -std=c++0x $(AM_LDFLAGS) $(LDFLAGS) -o $@
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+ 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
+@@ -113,7 +113,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@
+diff --git a/tests/Makefile.in b/tests/Makefile.in
+index 19b6648..1e53937 100644
+--- a/tests/Makefile.in
++++ b/tests/Makefile.in
+@@ -90,7 +90,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+diff --git a/unicode/Makefile.in b/unicode/Makefile.in
+index bda6184..8c3be03 100644
+--- a/unicode/Makefile.in
++++ b/unicode/Makefile.in
+@@ -92,7 +92,7 @@ CPPFLAGS = @CPPFLAGS@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -std=c++0x
+ CYGPATH_W = @CYGPATH_W@
+ DATADIRNAME = @DATADIRNAME@
+ DEFS = @DEFS@

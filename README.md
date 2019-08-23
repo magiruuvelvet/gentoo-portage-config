@@ -42,15 +42,17 @@ side note: I plan to keep GPL licensed packages and keep GNU/bash as my default 
 
 Fully working without issues:
 
- - Qt Framework (except Web Engine)
+ - Qt Framework
  - KDE Frameworks
  - KDE Plasma Desktop
  - KDE Apps
  - many Qt applications
  - i3
- - mesa
+ - Mesa
  - Wayland
  - Vulkan (with one exception, see below)
+ - X11
+ - X11 apps and libraries (with exceptions listed below)
  - X11 Input Drivers
  - fcitx (including all plugins; mozc, pinyin, ...)
  - GNU/binutils (compiled with LLVM toolchain)
@@ -66,12 +68,12 @@ Fully working without issues:
  - NodeJS
  - NetworkManager
  - ModemManager
- - dbus-daemon (requires workaround)
- - pulseaudio
- - alsa userland tools
+ - dbus-daemon (requires post install workaround)
+ - PulseAudio
+ - ALSA userland tools and libraries
  - systemd
  - LibreOffice (requires libc++ compatibility patch)
- - Chromium Web Engine (well yes, but see rant in [BROKEN.md](./BROKEN.md) for details)
+ - Chromium Web Engine (requires a patch to disable stack tracing)
  - *and many more...* (can't maintain a full list here)
 
 
@@ -82,10 +84,8 @@ is wasteful to load 2 standard libraries into memory at the same time.
 
  - Linux kernel obviously, same for kernel modules
  - NVIDIA drivers (because kernel module)
- - X11?? (needs more testing)
  - X11 Video Drivers (segfault on start)
- - XTerm (can't start shell??)
- - some X11 libs
+ - XTerm (can't start shell and window is frozen)
  - MariaDB
  - Oracle DB Library (some packages depend on it, some with USE flags, some with a hard dependency)
  - Polkit

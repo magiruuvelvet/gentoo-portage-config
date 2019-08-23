@@ -1,0 +1,10 @@
+diff --git a/Makefile.lnx b/Makefile.lnx
+index 96e8ba3..22fff50 100644
+--- a/Makefile.lnx
++++ b/Makefile.lnx
+@@ -1,4 +1,4 @@
+-CC := gcc
++CC := clang
+ CFLAGS += -Wall -I$(PWD)/include -DDEBUG_BUILD=0 -D_FILE_OFFSET_BITS=64 -D LINUX=1 -D BSD=1
+ SUBDIRS := newfs_hfs.tproj fsck_hfs.tproj
+ 

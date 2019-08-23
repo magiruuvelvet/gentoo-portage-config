@@ -1,0 +1,12 @@
+--- /usr/bin/primusrun	2019-08-23 08:55:54.179919000 +0200
++++ /etc/portage/patches/x11-misc/primus/primusrun	2019-08-23 08:56:15.053251872 +0200
+@@ -38,6 +38,9 @@
+ # Mesa drivers need a few symbols to be visible
+ # export PRIMUS_LOAD_GLOBAL=${PRIMUS_LOAD_GLOBAL:-'libglapi.so.0'}
+ 
++# NVIDIA OpenGL drivers must be in LD_LIBRARY_PATH
++export LD_LIBRARY_PATH="/usr/lib64/opengl/nvidia/lib:/usr/lib/opengl/nvidia/lib:$LD_LIBRARY_PATH"
++
+ # Need functions from primus libGL to take precedence
+ export LD_LIBRARY_PATH=${PRIMUS_libGL}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+ 
