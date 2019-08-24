@@ -47,3 +47,6 @@ sys-libs/binutils-libs::gentoo
 
 # update this later (forgot to write down my ebuild patches)
 =dev-lang/rust-1.37.0
+
+# needs patching (new gcc hardcoding introduced)
+=sys-fs/xfsprogs-5.2.1
