@@ -1,0 +1,16 @@
+#!/bin/bash
+
+ld="$(basename "$0")"
+args=()
+
+for x in "$@"; do
+    if [[ "$x" == *"-lstdc++"* ]]; then
+        args+=("-lc++")
+    elif [[ "$x" == *"-lgcc_s"* ]]; then
+        args+=("-lunwind")
+    else
+        args+=("$x")
+    fi
+done
+
+exec "clang" -D_GNU_SOURCE -D_POSIX_C_SOURCE -D__USE_XOPEN_EXTENDED -D__USE_XOPEN2K -D__USE_XOPEN -D_XOPEN_SOURCE "${args[@]}"

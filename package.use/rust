@@ -1,1 +1,1 @@
-dev-lang/rust rustfmt system-llvm
+dev-lang/rust rustfmt -system-llvm

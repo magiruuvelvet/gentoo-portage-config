@@ -13,6 +13,7 @@
 
 # toolchain prerelease
 =sys-devel/llvm-9.0.0.9999 **
+=sys-devel/llvm-common-9.0.0.9999 **
 =sys-devel/clang-9.0.0.9999 **
 =sys-devel/clang-runtime-9.0.0.9999 **
 =sys-devel/clang-common-9.0.0.9999 **
