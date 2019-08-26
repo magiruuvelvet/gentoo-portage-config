@@ -1,0 +1,12 @@
+diff --git a/python/mainwindow.py b/python/mainwindow.py
+index 28fbc06..f80b32b 100755
+--- a/python/mainwindow.py
++++ b/python/mainwindow.py
+@@ -1319,7 +1319,6 @@ class PlayOnLinuxApp(wx.App):
+         self.singleCheck("gettext.sh", package="gettext")  # gettext-base on Debian
+         self.singleCheck("icotool", package="icoutils")
+         self.singleCheck("wrestool", package="icoutils")
+-        self.singleCheck("wine", package="Wine")
+         self.singleCheck("unzip", package="InfoZIP")
+         self.singleCheck("jq", package="jq")
+         self.singleCheck("7z", package="P7ZIP full")  # p7zip-full on Debian

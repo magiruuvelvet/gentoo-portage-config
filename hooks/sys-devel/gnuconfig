@@ -1,0 +1,12 @@
+#!/bin/sh
+
+instprep() {
+    cd "$S"
+    cp -p /etc/portage/patches/sys-devel/gnuconfig/config.guess "${ED}/usr/share/gnuconfig/"
+    cp -p /etc/portage/patches/sys-devel/gnuconfig/config.sub "${ED}/usr/share/gnuconfig/"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

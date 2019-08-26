@@ -1,0 +1,15 @@
+diff --git a/lib/_emerge/actions.py b/lib/_emerge/actions.py
+index 6ca3235..9a83ed8 100644
+--- a/lib/_emerge/actions.py
++++ b/lib/_emerge/actions.py
+@@ -2489,8 +2489,8 @@ def getgccversion(chost=None):
+ 	return:  the current in-use gcc version
+ 	"""
+ 
+-	gcc_ver_command = ['gcc', '-dumpversion']
+-	gcc_ver_prefix = 'gcc-'
++	gcc_ver_command = ['clang', '-dumpversion']
++	gcc_ver_prefix = 'clang-'
+ 
+ 	gcc_not_found_error = red(
+ 	"!!! No gcc found. You probably need to 'source /etc/profile'\n" +
