@@ -1,0 +1,10 @@
+#!/bin/sh
+
+instprep() {
+    rm -r "${ED}/usr/share/doc"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

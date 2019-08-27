@@ -1,0 +1,117 @@
+diff --git a/configure b/configure
+index 655cfad..1781e51 100755
+--- a/configure
++++ b/configure
+@@ -9639,7 +9639,7 @@ CXXFLAGS="$CXXFLAGS $ADDITIONAL_FLAGS"
+ # Add global configuration file. Note: It must be searched in top_builddir
+ # first (that's why -I is the first flag), for precompiled headers to work.
+ 
+-ADDITIONAL_INCLUDES="-I\$(top_builddir) -I\$(top_srcdir)/src"
++ADDITIONAL_INCLUDES="-iquote\$(top_builddir) -iquote\$(top_srcdir)/src"
+ 
+ # -include works with gcc, intel, pathscale and sunstudio since 12u1, but doesn't work
+ # with pgi and older sunstudio (the one in solaris10, for example).
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 9f7f7f6..17cf04e 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -133,7 +133,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+diff --git a/src/applib/Makefile.in b/src/applib/Makefile.in
+index 3d771ef..aea48b2 100644
+--- a/src/applib/Makefile.in
++++ b/src/applib/Makefile.in
+@@ -166,7 +166,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+diff --git a/src/global_macros.h b/src/global_macros.h
+index ae6d93b..daaf017 100644
+--- a/src/global_macros.h
++++ b/src/global_macros.h
+@@ -20,7 +20,7 @@ Additionally, it may be included through compiler's "-include" option
+ 
+ // Include autoconf's config.h.
+ #ifdef HAVE_CONFIG_H
+-	#include <config.h>
++	#include "config.h"
+ #endif
+ 
+ 
+diff --git a/src/hz/Makefile.in b/src/hz/Makefile.in
+index fec8049..f72aa70 100644
+--- a/src/hz/Makefile.in
++++ b/src/hz/Makefile.in
+@@ -178,7 +178,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+diff --git a/src/libdebug/Makefile.in b/src/libdebug/Makefile.in
+index 94a37b0..c42a736 100644
+--- a/src/libdebug/Makefile.in
++++ b/src/libdebug/Makefile.in
+@@ -137,7 +137,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+diff --git a/src/rconfig/Makefile.in b/src/rconfig/Makefile.in
+index 41ca0b5..a96cc07 100644
+--- a/src/rconfig/Makefile.in
++++ b/src/rconfig/Makefile.in
+@@ -124,7 +124,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+diff --git a/src/res/Makefile.in b/src/res/Makefile.in
+index 8cc2476..f3d2f51 100644
+--- a/src/res/Makefile.in
++++ b/src/res/Makefile.in
+@@ -126,7 +126,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+diff --git a/src/rmn/Makefile.in b/src/rmn/Makefile.in
+index 2efafec..6454b01 100644
+--- a/src/rmn/Makefile.in
++++ b/src/rmn/Makefile.in
+@@ -124,7 +124,7 @@ AM_V_at = $(am__v_at_@AM_V@)
+ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+ am__v_at_0 = @
+ am__v_at_1 = 
+-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
++DEFAULT_INCLUDES = -iquote.@am__isrc@ -iquote$(top_builddir)
+ depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f

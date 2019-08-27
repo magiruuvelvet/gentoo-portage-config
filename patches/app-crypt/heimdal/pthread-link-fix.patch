@@ -1,0 +1,13 @@
+diff --git a/cf/pthreads.m4 b/cf/pthreads.m4
+index 4d84395..d112243 100644
+--- a/cf/pthreads.m4
++++ b/cf/pthreads.m4
+@@ -41,7 +41,7 @@ case "$host" in
+ 	PTHREAD_CFLAGS=-pthread
+ 	PTHREAD_LIBADD=-pthread
+ 	;;
+-*-*-gnu*)
++*-*-gnu* | *-*-linux)
+ 	native_pthread_support=yes
+ 	PTHREADS_CFLAGS=-pthread
+ 	PTHREAD_LIBADD="-pthread -lpthread"
