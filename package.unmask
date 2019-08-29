@@ -20,7 +20,7 @@ www-servers/caddy::chaoslab
 
 # need this for work
 <app-emulation/vmware-workstation-15::stefantalpalaru
-app-emulation/vmware-modules::stefantalpalaru
+=app-emulation/vmware-modules-331.1.7::stefantalpalaru
 
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo

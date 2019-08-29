@@ -1,0 +1,26 @@
+diff --git a/configure b/configure
+index ed6a2f3..8972103 100755
+--- a/configure
++++ b/configure
+@@ -37293,7 +37293,7 @@ else
+        mint*)           os='MiNT';;
+        mingw*)          os='MinGW';;
+        lynxos*)         os='LynxOS';;
+-       linux*)          os='GNU/Linux';;
++       linux*)          os='LLVM/Linux';;
+        hpux*)           os='HP-UX';;
+        hiux*)           os='HI-UX';;
+        gnu*)            os='GNU';;
+diff --git a/m4/host-os.m4 b/m4/host-os.m4
+index 0fa9038..8263b4a 100644
+--- a/m4/host-os.m4
++++ b/m4/host-os.m4
+@@ -48,7 +48,7 @@ AC_DEFUN([gl_HOST_OS],
+        mint*)           os='MiNT';;
+        mingw*)          os='MinGW';;
+        lynxos*)         os='LynxOS';;
+-       linux*)          os='GNU/Linux';;
++       linux*)          os='LLVM/Linux';;
+        hpux*)           os='HP-UX';;
+        hiux*)           os='HI-UX';;
+        gnu*)            os='GNU';;

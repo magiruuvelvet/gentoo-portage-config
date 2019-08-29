@@ -1,0 +1,11 @@
+#!/bin/sh
+
+configure() {
+    cd "$S"
+    patch -p1 < /etc/portage/patches/sys-fs/xfsprogs/disable-lto.patch
+}
+
+case "$1" in
+    configure) configure ;;
+    *) : ;;
+esac

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# fix the compiler in config.toml to replace libgcc_s with libunwind and enable POSIX extensions
+compile() {
+    cd "$S/../rustc-$PV-src"
+    patch -p1 < /etc/portage/hooks/patches/dev-lang/rust/fix-config-toml.patch
+}
+
+case "$1" in
+    compile) compile ;;
+    *) : ;;
+esac
