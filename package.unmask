@@ -22,6 +22,10 @@ www-servers/caddy::chaoslab
 <app-emulation/vmware-workstation-15::stefantalpalaru
 =app-emulation/vmware-modules-331.1.7::stefantalpalaru
 
+# installed kernels
+=sys-kernel/gentoo-sources-5.0.18
+=sys-kernel/vanilla-sources-5.2.10
+
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo
 sys-devel/binutils::localrepo
