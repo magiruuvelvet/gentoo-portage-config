@@ -18,7 +18,7 @@ media-libs/harfbuzz icu
 
 dev-cpp/cairomm X
 
-x11-drivers/nvidia-drivers X driver kms acpi uvm multilib -compat -tools -gtk3
+x11-drivers/nvidia-drivers X driver kms acpi uvm multilib libglvnd -compat -tools -gtk3
 x11-misc/bumblebee bbswitch abi_x86_32
 x11-misc/primus abi_x86_32
 

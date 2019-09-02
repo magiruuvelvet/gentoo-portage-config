@@ -14,6 +14,7 @@ kde-plasma/kscreenlocker pam seccomp
 kde-plasma/plasma-vault networkmanager
 kde-plasma/powerdevil brightness-control wireless
 kde-plasma/plasma-nm modemmanager
+kde-plasma/drkonqi -X
 
 kde-frameworks/kio acl kwallet
 kde-frameworks/kinit caps

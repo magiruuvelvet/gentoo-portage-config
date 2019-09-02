@@ -1,0 +1,142 @@
+diff --git a/src/drkonqibackends.cpp b/src/drkonqibackends.cpp
+index 46289bb..5fa7ab7 100644
+--- a/src/drkonqibackends.cpp
++++ b/src/drkonqibackends.cpp
+@@ -72,39 +72,6 @@ bool KCrashBackend::init()
+         return false;
+     }
+ 
+-#if !defined(Q_OS_WIN32)
+-    if (::kill(crashedApplication()->pid(), 0) < 0) {
+-        switch (errno) {
+-        case EPERM:
+-            qCWarning(DRKONQI_LOG) << "DrKonqi doesn't have permissions to inspect the specified process";
+-            break;
+-        case ESRCH:
+-            qCWarning(DRKONQI_LOG) << "The specified process does not exist.";
+-            break;
+-        default:
+-            break;
+-        }
+-        return false;
+-    }
+-
+-    //--keeprunning means: generate backtrace instantly and let the process continue execution
+-    if(DrKonqi::isKeepRunning()) {
+-        stopAttachedProcess();
+-        debuggerManager()->backtraceGenerator()->start();
+-        connect(debuggerManager(), &DebuggerManager::debuggerFinished, this, &KCrashBackend::continueAttachedProcess);
+-    } else {
+-        connect(debuggerManager(), &DebuggerManager::debuggerStarting, this, &KCrashBackend::onDebuggerStarting);
+-        connect(debuggerManager(), &DebuggerManager::debuggerFinished, this, &KCrashBackend::onDebuggerFinished);
+-
+-        //stop the process to avoid high cpu usage by other threads (bug 175362).
+-        //if the process was started by kdeinit, we need to wait a bit for KCrash
+-        //to reach the alarm(0); call in kdeui/util/kcrash.cpp line 406 or else
+-        //if we stop it before this call, pending alarm signals will kill the
+-        //process when we try to continue it.
+-        QTimer::singleShot(2000, this, &KCrashBackend::stopAttachedProcess);
+-    }
+-#endif
+-
+     //Handle drkonqi crashes
+     s_pid = crashedApplication()->pid(); //copy pid for use by the crash handler, so that it is safer
+     KCrash::setEmergencySaveFunction(emergencySaveFunction);
+@@ -184,14 +151,6 @@ DebuggerManager *KCrashBackend::constructDebuggerManager()
+         }
+     }
+ 
+-    if (!preferredDebugger.isInstalled()) {
+-        if (firstKnownGoodDebugger.isValid()) {
+-            preferredDebugger = firstKnownGoodDebugger;
+-        } else {
+-            qCWarning(DRKONQI_LOG) << "Unable to find an internal debugger that can work with the KCrash backend";
+-        }
+-    }
+-
+     return new DebuggerManager(preferredDebugger, Debugger::availableExternalDebuggers(QStringLiteral("KCrash")), this);
+ }
+ 
+diff --git a/src/main.cpp b/src/main.cpp
+index 153c8dd..2e311a7 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -29,6 +29,10 @@
+ #include <unistd.h>
+ 
+ #include <QIcon>
++#include <QString>
++#include <QDir>
++#include <QFile>
++#include <QDateTime>
+ 
+ #include <KAboutData>
+ #include <KLocalizedString>
+@@ -153,48 +157,33 @@ int main(int argc, char* argv[])
+     DrKonqi::setRestarted(parser.isSet(restartedOption));
+     DrKonqi::setKeepRunning(parser.isSet(keepRunningOption));
+     DrKonqi::setThread(parser.value(threadOption).toInt());
+-    auto forceDialog = parser.isSet(dialogOption);
+-
+-#if HAVE_X11
+-    const QString startupId = parser.value(startupIdOption);
+-    if (!startupId.isEmpty()) {
+-        QX11Info::setNextStartupId(startupId.toUtf8());
+-    }
+-#endif
+ 
+     if (!DrKonqi::init()) {
+         return 1;
+     }
+ 
+-    qa.setQuitOnLastWindowClosed(false);
++    qa.setQuitOnLastWindowClosed(true);
+ 
+-    auto openDrKonqiDialog = [&qa]{
+-        DrKonqiDialog *w = new DrKonqiDialog();
+-        QObject::connect(w, &DrKonqiDialog::rejected, &qa, &QApplication::quit);
+-        w->show();
+-#ifdef Q_OS_MACOS
+-        KWindowSystem::forceActiveWindow(w->winId());
+-#endif
+-    };
+-
+-    bool restarted = parser.isSet(restartedOption);
+-
+-    // if no notification service is running (eg. shell crashed, or other desktop environment)
+-    // and we didn't auto-restart the app, open DrKonqi dialog instead of showing an SNI
+-    // and emitting a desktop notification
+-    if (forceDialog || (!restarted && !StatusNotifier::notificationServiceRegistered())) {
+-        openDrKonqiDialog();
+-    } else {
+-        StatusNotifier *statusNotifier = new StatusNotifier();
+-        if (!restarted) {
+-            statusNotifier->notify();
++    // disable default crash handling and instead write crash logs
++
++    const QString path = QString::fromUtf8("/tmp/crashes");
++    const QDir dir = QDir::root();
++
++    if (dir.mkpath(path))
++    {
++        QFile file(path + QString::fromUtf8("/") + parser.value(appNameOption) + QString::fromUtf8(".log"));
++        if (file.open(QIODevice::Append | QIODevice::Text))
++        {
++            QTextStream out(&file);
++            out << "[" << QDateTime::currentDateTime().toString(Qt::ISODate) << "] "
++                << parser.value(appNameOption) << " (" << parser.value(appPathOption) << "): "
++                << "thread(" << parser.value(threadOption).toInt() << "), "
++                << "signal(" << parser.value(signalOption).toInt() << ")\n";
++            out.flush();
+         }
+-        QObject::connect(statusNotifier, &StatusNotifier::expired, &qa, &QApplication::quit);
+-        QObject::connect(statusNotifier, &StatusNotifier::activated, openDrKonqiDialog);
++        file.close();
+     }
+ 
+-    int ret = qa.exec();
+-
+     DrKonqi::cleanup();
+-    return ret;
++    return 0;
+ }
