@@ -1,0 +1,36 @@
+diff --git a/lib/Driver/ToolChains/Linux.cpp b/lib/Driver/ToolChains/Linux.cpp
+index d900508ad93..8244b96eccc 100644
+--- a/lib/Driver/ToolChains/Linux.cpp
++++ b/lib/Driver/ToolChains/Linux.cpp
+@@ -455,9 +455,15 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
+ }
+ 
+ ToolChain::CXXStdlibType Linux::GetDefaultCXXStdlibType() const {
+-  if (getTriple().isAndroid())
+-    return ToolChain::CST_Libcxx;
+-  return ToolChain::CST_Libstdcxx;
++  return ToolChain::CST_Libcxx;
++}
++
++ToolChain::RuntimeLibType Linux::GetDefaultRuntimeLibType() const {
++  return ToolChain::RLT_CompilerRT;
++}
++
++ToolChain::UnwindLibType Linux::GetDefaultUnwindLibType() const {
++  return ToolChain::UNW_CompilerRT;
+ }
+ 
+ bool Linux::HasNativeLLVMSupport() const { return true; }
+diff --git a/lib/Driver/ToolChains/Linux.h b/lib/Driver/ToolChains/Linux.h
+index 4c61994691c..31464279ee7 100644
+--- a/lib/Driver/ToolChains/Linux.h
++++ b/lib/Driver/ToolChains/Linux.h
+@@ -37,6 +37,8 @@ public:
+   void AddIAMCUIncludeArgs(const llvm::opt::ArgList &DriverArgs,
+                            llvm::opt::ArgStringList &CC1Args) const override;
+   CXXStdlibType GetDefaultCXXStdlibType() const override;
++  RuntimeLibType GetDefaultRuntimeLibType() const override;
++  UnwindLibType GetDefaultUnwindLibType() const override;
+   bool isPIEDefault() const override;
+   bool isNoExecStackDefault() const override;
+   bool IsMathErrnoDefault() const override;
