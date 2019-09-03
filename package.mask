@@ -30,6 +30,9 @@ x11-misc/primus::gentoo
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
 
+# only install the vapoursynth version
+media-video/mpv::gentoo
+
 # install version 14 because of license (money$$$)
 >=app-emulation/vmware-workstation-15.1
 =app-emulation/vmware-workstation-15.1.0.13591040-r4

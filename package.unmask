@@ -26,6 +26,8 @@ www-servers/caddy::chaoslab
 =sys-kernel/gentoo-sources-5.0.18
 =sys-kernel/vanilla-sources-5.2.10
 
+media-video/mpv::vapoursynth
+
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo
 sys-devel/binutils::localrepo
