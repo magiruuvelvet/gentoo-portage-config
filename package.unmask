@@ -25,6 +25,7 @@ www-servers/caddy::chaoslab
 # installed kernels
 =sys-kernel/gentoo-sources-5.0.18
 =sys-kernel/vanilla-sources-5.2.10
+=sys-kernel/vanilla-sources-5.2.13
 
 media-video/mpv::vapoursynth
 

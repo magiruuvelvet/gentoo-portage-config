@@ -38,13 +38,11 @@ media-video/mpv::gentoo
 =app-emulation/vmware-workstation-15.1.0.13591040-r4
 =app-emulation/vmware-modules-361.1.0
 
-# bricked version, segfaults when opening files from Dolphin
-# or from the command line, the old version works
-=kde-apps/okular-19.08.0
-
 # mask GNU toolchain to avoid install
 sys-devel/gcc::gentoo
 sys-devel/binutils::gentoo
 sys-devel/gcc-config::gentoo
 sys-devel/binutils-config::gentoo
 sys-libs/binutils-libs::gentoo
+
+=sys-libs/glibc-2.29-r5
