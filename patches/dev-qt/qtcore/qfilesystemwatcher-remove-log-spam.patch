@@ -1,0 +1,36 @@
+diff --git a/src/corelib/io/qfilesystemwatcher.cpp b/src/corelib/io/qfilesystemwatcher.cpp
+index f40e166d..399ca4c3 100644
+--- a/src/corelib/io/qfilesystemwatcher.cpp
++++ b/src/corelib/io/qfilesystemwatcher.cpp
+@@ -303,7 +303,6 @@ QFileSystemWatcher::~QFileSystemWatcher()
+ bool QFileSystemWatcher::addPath(const QString &path)
+ {
+     if (path.isEmpty()) {
+-        qWarning("QFileSystemWatcher::addPath: path is empty");
+         return true;
+     }
+ 
+@@ -348,7 +347,6 @@ QStringList QFileSystemWatcher::addPaths(const QStringList &paths)
+     }
+ 
+     if (p.isEmpty()) {
+-        qWarning("QFileSystemWatcher::addPaths: list is empty");
+         return QStringList();
+     }
+ 
+@@ -397,7 +395,6 @@ QStringList QFileSystemWatcher::addPaths(const QStringList &paths)
+ bool QFileSystemWatcher::removePath(const QString &path)
+ {
+     if (path.isEmpty()) {
+-        qWarning("QFileSystemWatcher::removePath: path is empty");
+         return true;
+     }
+ 
+@@ -430,7 +427,6 @@ QStringList QFileSystemWatcher::removePaths(const QStringList &paths)
+     }
+ 
+     if (p.isEmpty()) {
+-        qWarning("QFileSystemWatcher::removePaths: list is empty");
+         return QStringList();
+     }
+ 
