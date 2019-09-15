@@ -45,4 +45,16 @@ sys-devel/gcc-config::gentoo
 sys-devel/binutils-config::gentoo
 sys-libs/binutils-libs::gentoo
 
+# need to fix my mess with 2 libc's installed in parallel
+# move this to /opt and not tracked by Portage
 =sys-libs/glibc-2.29-r5
+
+
+=dev-util/electron-bin-5.0.3
+=dev-util/electron-bin-5.0.2
+
+# :( - breaking API changes reee [package.unmask for installed version]
+net-libs/nodejs
+
+# still bricked, though there was supposed to be a bug fix
+=kde-apps/okular-19.08.1

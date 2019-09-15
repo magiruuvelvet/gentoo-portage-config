@@ -28,6 +28,8 @@ www-servers/caddy::chaoslab
 
 media-video/mpv::vapoursynth
 
+=net-libs/nodejs-11.14.0
+
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo
 sys-devel/binutils::localrepo
