@@ -1,1 +1,1 @@
-www-client/w3m X -gdk-pixbuf imlib -fbcon
+www-client/w3m X -gdk-pixbuf imlib fbcon

@@ -27,6 +27,8 @@ media-libs/gd png fontconfig jpeg truetype
 media-libs/libsdl X alsa joystick pulseaudio sound video aalib opengl xinerama xv
 media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads udev video vulkan xinerama
 media-libs/sdl2-image gif jpeg png tiff webp
+media-libs/sdl2-ttf X
+media-libs/sdl2-mixer wav flac mad mod modplug mp3 opus vorbis
 media-libs/openal sdl
 media-libs/libsoundtouch -openmp
 

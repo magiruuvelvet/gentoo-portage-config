@@ -58,3 +58,7 @@ net-libs/nodejs
 
 # still bricked, though there was supposed to be a bug fix
 =kde-apps/okular-19.08.1
+
+
+=dev-util/boost-build-1.71.0
+=dev-libs/boost-1.71.0

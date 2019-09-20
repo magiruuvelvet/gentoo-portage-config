@@ -44,7 +44,7 @@ net-libs/libvncserver zlib lzo jpeg png threads
 media-libs/phonon pulseaudio gstreamer -vlc
 media-libs/phonon-gstreamer network alsa
 
-kde-plasma/ksysguard lm_sensors
+kde-plasma/ksysguard lm-sensors
 kde-plasma/libksysguard X webengine
 
 # mp3 support requires id3lib, which is incompatible with my GNU-free Linux
