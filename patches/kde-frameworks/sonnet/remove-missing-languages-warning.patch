@@ -1,0 +1,14 @@
+diff --git a/src/core/guesslanguage.cpp b/src/core/guesslanguage.cpp
+index 020643f..2887b4f 100644
+--- a/src/core/guesslanguage.cpp
++++ b/src/core/guesslanguage.cpp
+@@ -665,9 +665,6 @@ void GuessLanguagePrivate::loadModels()
+     }
+     QSet<QString> knownLanguages(s_scriptLanguages.values().toSet());
+     knownLanguages.subtract(availableLanguages);
+-    if (!knownLanguages.isEmpty()) {
+-        qCWarning(SONNET_LOG_CORE) << "Missing trigrams for languages:" << knownLanguages;
+-    }
+ }
+ 
+ QList<QChar::Script> GuessLanguagePrivate::findRuns(const QString &text)
