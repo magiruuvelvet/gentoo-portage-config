@@ -13,9 +13,12 @@ kernel upgrade
 https://wiki.gentoo.org/wiki/Kernel/Configuration
 cd /usr/src/linux
 
-make
-make modules_install
-make install
+# only need to set the compiler, the rest of the system uses symlinks/aliases to their LLVM counterparts
+# gcc/binutils is not even installed :)
+make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin/clang HOSTCXX=/opt/compat/bin/clang++ menuconfig
+make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin/clang HOSTCXX=/opt/compat/bin/clang++ -j4
+make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin/clang HOSTCXX=/opt/compat/bin/clang++ modules_install
+make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin/clang HOSTCXX=/opt/compat/bin/clang++ install
 cd /lib/modules/$version; depmod -a
 emerge x11-drivers/nvidia-drivers sys-power/bbswitch
 update-initramfs $version

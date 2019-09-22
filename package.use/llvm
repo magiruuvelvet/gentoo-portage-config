@@ -1,27 +1,4 @@
 # default system toolchain
-# almost GNU-free
-
-#
-# notes:
-#
-#   - libcxx requires LLVM/lld to link against compiler-rt and libunwind
-#     to remove the libgcc_s dependency; GNU/ld and GNU/gold fail to find
-#     the builtin symbols, even though they are there (symbol incompatibility?)
-#
-#   - toolchain is almost GNU-free, the last remaining bit is GNU/glibc
-#     as the C language runtime library; looking forward to musl in the future
-#
-#   - the toolchain is 32-bit compatible
-#
-#   - the default linker is set to LLVM/lld using a symlink hack !!
-#       ln -s /usr/bin/lld /usr/x86_64-pc-linux-gnu/binutils-bin/2.32/ld.lld
-#       binutils-config --linker ld.lld
-#     don't forget to update when upgrading binutils
-#
-#   - LLVM 9.0: the toolchain doesn't depend on GCC anymore and is now
-#               fully self contained thanks to compiler-rt containing crt files
-#
-#
 
 # make backups with: quickpkg sys-libs/llvm-libunwind sys-libs/compiler-rt sys-libs/compiler-rt-sanitizers sys-libs/libcxx sys-libs/libcxxabi sys-devel/llvm sys-devel/clang-common sys-devel/llvm-common sys-devel/clang-runtime sys-devel/clang dev-util/lldb sys-libs/libomp sys-devel/lld
 

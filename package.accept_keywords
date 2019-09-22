@@ -12,7 +12,7 @@
 =x11-misc/nvidia-xrun-9999 **
 =kde-misc/krohnkite-9999 **
 
-# toolchain prerelease
+# toolchain
 =sys-devel/llvm-9.0.0.9999 **
 =sys-devel/llvm-common-9.0.0.9999 **
 =sys-devel/clang-9.0.0.9999 **
