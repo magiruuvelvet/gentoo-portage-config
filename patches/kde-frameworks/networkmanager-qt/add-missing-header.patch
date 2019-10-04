@@ -1,0 +1,13 @@
+diff --git a/src/utils.cpp b/src/utils.cpp
+index 90f3f41..5431740 100644
+--- a/src/utils.cpp
++++ b/src/utils.cpp
+@@ -22,6 +22,8 @@
+ #include "utils.h"
+ #include "time.h"
+ 
++#include <cerrno>
++
+ QHostAddress NetworkManager::ipv6AddressAsHostAddress(const QByteArray &address)
+ {
+ //     Q_ASSERT(address.size() == 16);

@@ -50,9 +50,6 @@ sys-libs/binutils-libs::gentoo
 =sys-libs/glibc-2.29-r5
 
 
-=dev-util/electron-bin-5.0.3
-=dev-util/electron-bin-5.0.2
-
 # :( - breaking API changes reee [package.unmask for installed version]
 net-libs/nodejs
 
