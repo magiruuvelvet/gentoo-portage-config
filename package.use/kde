@@ -30,6 +30,13 @@ kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 kde-apps/kdenlive semantic-desktop
 
+# KMail stuff
+kde-apps/akonadi sqlite -mysql
+dev-libs/xapian -glass -remote -inmemory
+net-nds/openldap minimal -syslog -tcpd
+dev-libs/cyrus-sasl
+app-accessibility/speech-dispatcher -espeak -alsa -pulseaudio
+
 # fancyviewer pulls in a lot of speech and accessibility stuff (not needed and increases compile times)
 kde-apps/libkleo -fancyviewer
 
@@ -57,3 +64,5 @@ app-misc/ddcutil X drm usb-monitor user-permissions VIDEO_CARDS: -*
 sci-libs/libqalculate icu
 
 app-text/xmlto text
+
+dev-libs/libdbusmenu gtk gtk3 introspection PYTHON_TARGETS: python2_7
