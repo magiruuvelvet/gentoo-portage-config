@@ -29,9 +29,10 @@ kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 kde-apps/kdenlive semantic-desktop
+kde-apps/gwenview activities mpris raw semantic-desktop share
 
 # KMail stuff
-kde-apps/akonadi sqlite -mysql
+kde-apps/akonadi -sqlite -mysql postgres
 dev-libs/xapian -glass -remote -inmemory
 net-nds/openldap minimal -syslog -tcpd
 dev-libs/cyrus-sasl

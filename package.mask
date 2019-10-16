@@ -49,6 +49,9 @@ sys-libs/binutils-libs::gentoo
 # move this to /opt and not tracked by Portage
 =sys-libs/glibc-2.29-r5
 
+# use custom version
+sys-libs/musl::gentoo
+
 
 # :( - breaking API changes reee [package.unmask for installed version]
 net-libs/nodejs
@@ -57,5 +60,7 @@ net-libs/nodejs
 =kde-apps/okular-19.08.1
 
 
-=dev-util/boost-build-1.71.0
-=dev-libs/boost-1.71.0
+
+=dev-util/radare2-3.9.0
+=dev-lang/rust-1.38.0
+=media-sound/pulseaudio-13.0

@@ -1,0 +1,44 @@
+diff --git a/backends/dbcheck.cc b/backends/dbcheck.cc
+index 108e129..9632dc2 100644
+--- a/backends/dbcheck.cc
++++ b/backends/dbcheck.cc
+@@ -448,7 +448,7 @@ Database::check_(const string * path_ptr, int fd, int opts, std::ostream *out)
+ 	    if (endswith(path, ".DB")) {
+ 		// It could also be flint or brass, but we check for those below.
+ 		backend = BACKEND_CHERT;
+-	    } else if (endswith(path, "." GLASS_TABLE_EXTENSION)) {
++        } else if (endswith(path, ".glass")) {
+ 		backend = BACKEND_GLASS;
+ 	    } else {
+ 		return check_stub(path, opts, out);
+@@ -473,7 +473,7 @@ Database::check_(const string * path_ptr, int fd, int opts, std::ostream *out)
+     if (stat((filename + ".DB").c_str(), &sb) == 0) {
+ 	// It could also be flint or brass, but we check for those below.
+ 	backend = BACKEND_CHERT;
+-    } else if (stat((filename + "." GLASS_TABLE_EXTENSION).c_str(), &sb) == 0) {
++    } else if (stat((filename + ".glass").c_str(), &sb) == 0) {
+ 	backend = BACKEND_GLASS;
+     } else {
+ 	auto msg = "Couldn't find Xapian database or table to check";
+diff --git a/bin/xapian-inspect.cc b/bin/xapian-inspect.cc
+index 124baf6..eca442a 100644
+--- a/bin/xapian-inspect.cc
++++ b/bin/xapian-inspect.cc
+@@ -265,7 +265,7 @@ main(int argc, char **argv)
+ 	// db_path should be a path to a table, possibly without the extension
+ 	// or with just a trailing '.' (supported mostly for historical
+ 	// reasons).  First normalise away any extension or trailing '.'.
+-	if (endswith(db_path, "." GLASS_TABLE_EXTENSION)) {
++	if (endswith(db_path, ".glass")) {
+ 	    db_path.resize(db_path.size() -
+ 			   CONST_STRLEN(GLASS_TABLE_EXTENSION) - 1);
+ 	} else if (endswith(db_path, '.')) {
+@@ -407,7 +407,7 @@ wait_for_input:
+ 	    } else if (startswith(input, "o ") || startswith(input, "open ")) {
+ 		size_t trim = (input[1] == ' ' ? 2 : 5);
+ 		table_name.assign(input, trim, string::npos);
+-		if (endswith(table_name, "." GLASS_TABLE_EXTENSION))
++        if (endswith(table_name, ".glass"))
+ 		    table_name.resize(table_name.size() -
+ 				      CONST_STRLEN(GLASS_TABLE_EXTENSION) - 1);
+ 		else if (endswith(table_name, '.'))
