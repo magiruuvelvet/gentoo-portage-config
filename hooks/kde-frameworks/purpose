@@ -1,0 +1,16 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Remove unneeded plugins from DNS blocked services..."
+
+        rm "${D}/usr/lib64/qt5/plugins/kf5/purpose/imgurplugin.so"
+        rm "${D}/usr/lib64/qt5/plugins/kf5/purpose/pastebinplugin.so"
+        rm "${D}/usr/lib64/qt5/plugins/kf5/purpose/telegramplugin.so"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

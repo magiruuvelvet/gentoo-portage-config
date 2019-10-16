@@ -1,0 +1,56 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Remove unneeded plugins from DNS blocked services..."
+
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_dropbox.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_facebook.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_flickr.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_googleservices.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_kmlexport.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_imageshack.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_imgur.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_jalbum.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_piwigo.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_rajce.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_sendimages.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_smug.so"
+        rm "${D}/usr/lib64/qt5/plugins/kipiplugin_yandexfotki.so"
+
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_dropboxui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_facebookui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_flickrui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_googleservicesui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_kmlexportui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_imageshackui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_imgurui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_jalbumui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_piwigoui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_printimagesui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_rajceui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_sendimagesui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_smugui.rc"
+        rm "${D}/usr/share/kxmlgui5/kipi/kipiplugin_yandexfotkiui.rc"
+
+        rm "${D}/usr/share/kservices5/kipiplugin_dropbox.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_facebook.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_flickr.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_googleservices.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_kmlexport.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_imageshack.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_imgur.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_jalbum.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_piwigo.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_printimages.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_rajce.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_sendimages.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_smug.desktop"
+        rm "${D}/usr/share/kservices5/kipiplugin_yandexfotki.desktop"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
