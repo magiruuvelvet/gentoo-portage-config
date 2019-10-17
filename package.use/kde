@@ -33,7 +33,7 @@ kde-apps/gwenview activities mpris raw semantic-desktop share kipi
 kde-apps/spectacle kipi share
 
 # KMail stuff
-kde-apps/akonadi -sqlite -mysql postgres
+kde-apps/akonadi -sqlite -mysql postgres tools xml
 dev-libs/xapian -glass -remote -inmemory
 net-nds/openldap minimal -syslog -tcpd
 dev-libs/cyrus-sasl
