@@ -1,0 +1,18 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Remove Reminder Daemon..."
+
+        rm "${D}/usr/bin/korgac"
+        echo -e '#!'"/bin/sh\nexit 0\n" > "${D}/usr/bin/korgac"
+        chmod +x "${D}/usr/bin/korgac"
+
+        rm -r "${D}/etc/xdg/autostart"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
