@@ -47,7 +47,7 @@ sys-libs/binutils-libs::gentoo
 
 # need to fix my mess with 2 libc's installed in parallel
 # move this to /opt and not tracked by Portage
-=sys-libs/glibc-2.29-r5
+sys-libs/glibc
 
 # use custom version
 sys-libs/musl::gentoo

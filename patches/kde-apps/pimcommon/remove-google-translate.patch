@@ -1,0 +1,71 @@
+diff --git a/src/pimcommon/translator/googletranslator.cpp b/src/pimcommon/translator/googletranslator.cpp
+index c7b21ab..730e5cf 100644
+--- a/src/pimcommon/translator/googletranslator.cpp
++++ b/src/pimcommon/translator/googletranslator.cpp
+@@ -151,29 +151,6 @@ QMap<QString, QMap<QString, QString> > GoogleTranslator::initListLanguage(QCombo
+ 
+ void GoogleTranslator::translate()
+ {
+-    if (mFrom == mTo) {
+-        Q_EMIT translateFailed(false, i18n("You used same language for from and to language."));
+-        return;
+-    }
+-
+-    mResult.clear();
+-
+-    QUrlQuery urlQuery;
+-    urlQuery.addQueryItem(QStringLiteral("client"), QStringLiteral("gtx"));
+-    urlQuery.addQueryItem(QStringLiteral("sl"), mFrom);
+-    urlQuery.addQueryItem(QStringLiteral("tl"), mTo);
+-    urlQuery.addQueryItem(QStringLiteral("dt"), QStringLiteral("t"));
+-    urlQuery.addQueryItem(QStringLiteral("q"), mInputText);
+-
+-    QUrl url;
+-    url.setQuery(urlQuery);
+-    url.setScheme(QStringLiteral("https"));
+-    url.setHost(QStringLiteral("translate.googleapis.com"));
+-    url.setPath(QStringLiteral("/translate_a/single"));
+-    const QNetworkRequest request(url);
+-
+-    QNetworkReply *reply = mNetworkAccessManager->get(request);
+-    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this, &GoogleTranslator::slotError);
+ }
+ 
+ void GoogleTranslator::slotError(QNetworkReply::NetworkError /*error*/)
+@@ -184,36 +161,7 @@ void GoogleTranslator::slotError(QNetworkReply::NetworkError /*error*/)
+ void GoogleTranslator::slotTranslateFinished(QNetworkReply *reply)
+ {
+     mResult.clear();
+-    mJsonData = QString::fromUtf8(reply->readAll());
+     reply->deleteLater();
+-    //  jsonData contains arrays like this: ["foo",,"bar"]
+-    //  but this is not valid JSON for QJSON, it expects empty strings: ["foo","","bar"]
+-    mJsonData = mJsonData.replace(QRegExp(QLatin1String(",{3,3}")), QStringLiteral(",\"\",\"\","));
+-    mJsonData = mJsonData.replace(QRegExp(QLatin1String(",{2,2}")), QStringLiteral(",\"\","));
+-    //qCDebug(PIMCOMMON_LOG) << mJsonData;
+-
+-    QJsonParseError parsingError;
+-    const QJsonDocument jsonDoc = QJsonDocument::fromJson(mJsonData.toUtf8(), &parsingError);
+-    if (parsingError.error != QJsonParseError::NoError || jsonDoc.isNull()) {
+-        Q_EMIT translateFailed(false);
+-        return;
+-    }
+-    const QVariantList json = jsonDoc.toVariant().toList();
+-    if (mDebug) {
+-        mJsonDebug = QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented));
+-    }
+-    for (const QVariant &level0 : json) {
+-        const QVariantList listLevel0 = level0.toList();
+-        if (listLevel0.isEmpty()) {
+-            continue;
+-        }
+-        for (const QVariant &level1 : listLevel0) {
+-            if (level1.toList().size() <= 2) {
+-                continue;
+-            }
+-            mResult += level1.toList().at(0).toString();
+-        }
+-    }
+     Q_EMIT translateDone();
+ }
+ 

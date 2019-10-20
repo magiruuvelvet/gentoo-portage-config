@@ -1,0 +1,35 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2f47b59..821d6ba 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -199,7 +199,7 @@ include(CTest)  # Calls enable_testing().
+ include(CTestConfig.cmake)
+ 
+ if(NOT DEFINED DATABASE_BACKEND)
+-    set(DATABASE_BACKEND "MYSQL" CACHE STRING "The default database backend to use for Akonadi. Can be either MYSQL, POSTGRES or SQLITE")
++    set(DATABASE_BACKEND "POSTGRES" CACHE STRING "The default database backend to use for Akonadi. Can be either MYSQL, POSTGRES or SQLITE")
+ endif()
+ 
+ ############### CTest options ###############
+@@ -215,18 +215,18 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake ${CMAKE_CURRENT_BIN
+ macro(SET_DEFAULT_DB_BACKEND)
+     set(_backend ${ARGV0})
+     if("${_backend}" STREQUAL "SQLITE")
+-        set(AKONADI_DATABASE_BACKEND QSQLITE3)
++        set(AKONADI_DATABASE_BACKEND QPSQL)
+         set(AKONADI_BUILD_QSQLITE TRUE)
+     else()
+         if("${_backend}" STREQUAL "POSTGRES")
+           set(AKONADI_DATABASE_BACKEND QPSQL)
+         else()
+-          set(AKONADI_DATABASE_BACKEND QMYSQL)
++          set(AKONADI_DATABASE_BACKEND QPSQL)
+         endif()
+     endif()
+ 
+     message(STATUS "Using default db backend ${AKONADI_DATABASE_BACKEND}")
+-    add_definitions(-DAKONADI_DATABASE_BACKEND="${AKONADI_DATABASE_BACKEND}")
++    add_definitions(-DAKONADI_DATABASE_BACKEND="QPSQL")
+ endmacro()
+ 
+ #### DB BACKEND DEFAULT ####

@@ -40,3 +40,5 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
+
+=sys-libs/glibc-2.29-r4

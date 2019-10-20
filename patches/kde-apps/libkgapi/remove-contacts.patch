@@ -1,0 +1,231 @@
+diff --git a/src/contacts/contactsservice.cpp b/src/contacts/contactsservice.cpp
+index c091e7a..e20ef16 100644
+--- a/src/contacts/contactsservice.cpp
++++ b/src/contacts/contactsservice.cpp
+@@ -49,208 +49,81 @@ namespace Private
+     ObjectPtr JSONToContactsGroup(const QVariantMap &map);
+     ObjectPtr JSONToContact(const QVariantMap& map);
+ 
+-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.google.com"));
+-    static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
+-    static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
+-    static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
++    static const QUrl GoogleApisUrl(QStringLiteral("http://0.0.0.0"));
++    static const QString ContactsBasePath(QStringLiteral("/"));
++    static const QString ContactsGroupBasePath(QStringLiteral("/"));
++    static const QString PhotoBasePath(QStringLiteral("/"));
+ 
+     QByteArray addRelSchema(const QByteArray &rel)
+     {
+-        if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
+-            return "http://schemas.google.com/g/2005#" + rel;
+-        } else {
+-            return rel;
+-        }
++        return {};
+     }
+ }
+ 
+ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ {
+-    ObjectsList output;
+-    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+-    const QVariantMap head = document.toVariant().toMap();
+-    const QVariantMap feed = head.value(QStringLiteral("feed")).toMap();
+-    const QVariantList categories = feed.value(QStringLiteral("category")).toList();
+-    for (const QVariant &c : categories) {
+-        const QVariantMap category = c.toMap();
+-        bool groups = false;
+-
+-        if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#group")) {
+-            groups = true;
+-        }
+-
+-        const QVariantList entries = feed.value(QStringLiteral("entry")).toList();
+-        for (const QVariant &e : entries) {
+-            if (groups) {
+-                output << Private::JSONToContactsGroup(e.toMap());
+-            } else {
+-                output << Private::JSONToContact(e.toMap());
+-            }
+-        }
+-    }
+-
+-    const QVariantList links = feed.value(QStringLiteral("link")).toList();
+-    for (const QVariant &l : links) {
+-        const QVariantMap link = l.toMap();
+-        if (link.value(QStringLiteral("rel")).toString() == QLatin1String("next")) {
+-            feedData.nextPageUrl = QUrl(link.value(QStringLiteral("href")).toString());
+-            break;
+-        }
+-    }
+-
+-    feedData.totalResults = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$totalResults")).toInt();
+-    feedData.startIndex = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$startIndex")).toInt();
+-    feedData.itemsPerPage = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$itemsPerPage")).toInt();
+-
+-    return output;
++    return {};
+ }
+ 
+ QUrl fetchAllContactsUrl(const QString& user, bool showDeleted)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    if (showDeleted) {
+-        query.addQueryItem(QStringLiteral("showdeleted"), QStringLiteral("true"));
+-    }
+-    url.setQuery(query);
+-
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchContactUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createContactUrl(const QString& user)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateContactUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeContactUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchAllGroupsUrl(const QString &user)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchGroupUrl(const QString &user, const QString &groupId)
+ {
+-    QString id;
+-    if (groupId.contains(QLatin1Char('/'))) {
+-        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = groupId;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/base/") % id);
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createGroupUrl(const QString &user)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateGroupUrl(const QString &user, const QString &groupId)
+ {
+-    QString id;
+-    if (groupId.contains(QLatin1Char('/'))) {
+-        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = groupId;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeGroupUrl(const QString &user, const QString &groupId)
+ {
+-    QString id;
+-    if (groupId.contains(QLatin1Char('/'))) {
+-        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = groupId;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl photoUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PhotoBasePath % QLatin1Char('/') % user % QLatin1Char('/') % id);
+-    return url;
++    return {};
+ }
+ 
+ 
+ QString APIVersion()
+ {
+-    return QStringLiteral("3.0");
++    return {};
+ }
+ 
+ 

@@ -1,0 +1,108 @@
+diff --git a/resources/google/common/googleresource.cpp b/resources/google/common/googleresource.cpp
+index d99752a..c221ace 100644
+--- a/resources/google/common/googleresource.cpp
++++ b/resources/google/common/googleresource.cpp
+@@ -110,7 +110,6 @@ void GoogleResource::configure(WId windowId)
+ 
+         m_account = accountManager()->findAccount(settings()->account());
+         if (m_account.isNull()) {
+-            Q_EMIT status(NotConfigured, i18n("Configured account does not exist"));
+             m_isConfiguring = false;
+             return;
+         }
+@@ -140,7 +139,6 @@ void GoogleResource::reloadConfig()
+ 
+     if (!accountName.isEmpty()) {
+         if (!configureKGAPIAccount(m_accountMgr->findAccount(accountName))) {
+-            Q_EMIT status(NotConfigured, i18n("Configured account does not exist"));
+             return;
+         }
+     } else {
+@@ -178,7 +176,6 @@ void GoogleResource::slotAccountManagerReady(bool ready)
+ 
+     m_account = m_accountMgr->findAccount(accountName);
+     if (m_account.isNull()) {
+-        Q_EMIT status(NotConfigured, i18n("Configured account does not exist"));
+         return;
+     }
+ 
+diff --git a/resources/google/common/googlesettings.cpp b/resources/google/common/googlesettings.cpp
+index e8339f7..79e5eee 100644
+--- a/resources/google/common/googlesettings.cpp
++++ b/resources/google/common/googlesettings.cpp
+@@ -25,12 +25,12 @@ GoogleSettings::GoogleSettings()
+ 
+ QString GoogleSettings::clientId() const
+ {
+-    return QStringLiteral("554041944266.apps.googleusercontent.com");
++    return {};
+ }
+ 
+ QString GoogleSettings::clientSecret() const
+ {
+-    return QStringLiteral("mdT1DjzohxN3npUUzkENT0gO");
++    return {};
+ }
+ 
+ void GoogleSettings::setWindowId(WId id)
+@@ -45,7 +45,7 @@ void GoogleSettings::setResourceId(const QString &resourceIdentificator)
+ 
+ QString GoogleSettings::account() const
+ {
+-    return SettingsBase::account();
++    return {};
+ }
+ 
+ void GoogleSettings::setAccount(const QString &account)
+diff --git a/resources/google/contacts/contactsresource.cpp b/resources/google/contacts/contactsresource.cpp
+index a602c52..125e62b 100644
+--- a/resources/google/contacts/contactsresource.cpp
++++ b/resources/google/contacts/contactsresource.cpp
+@@ -155,7 +155,7 @@ void ContactsResource::itemAdded(const Item &item, const Collection &collection)
+ 
+     /* If the contact has been moved into My Contacts group then modify the membership */
+     if (collection.remoteId() == MYCONTACTS_REMOTEID) {
+-        contact->addGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
++        contact->addGroup(QStringLiteral(""));
+     }
+ 
+     /* If the contact has been moved to Other Contacts then remove all groups */
+@@ -181,7 +181,7 @@ void ContactsResource::itemChanged(const Item &item, const QSet< QByteArray > &p
+     ContactPtr contact(new Contact(addressee));
+ 
+     if (item.parentCollection().remoteId() == MYCONTACTS_REMOTEID) {
+-        contact->addGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
++        contact->addGroup(QStringLiteral(""));
+     }
+ 
+     ContactModifyJob *modifyJob = new ContactModifyJob(contact, account(), this);
+@@ -202,12 +202,12 @@ void ContactsResource::itemMoved(const Item &item, const Collection &collectionS
+     // MyContacts -> OtherContacts
+     if (collectionSource.remoteId() == MYCONTACTS_REMOTEID
+         && collectionDestination.remoteId() == OTHERCONTACTS_REMOTEID) {
+-        contact->removeGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
++        contact->removeGroup(QStringLiteral(""));
+ 
+         // OtherContacts -> MyContacts
+     } else if (collectionSource.remoteId() == OTHERCONTACTS_REMOTEID
+                && collectionDestination.remoteId() == MYCONTACTS_REMOTEID) {
+-        contact->addGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
++        contact->addGroup(QStringLiteral(""));
+     } else {
+         cancelTask(i18n("Invalid source or destination collection"));
+         return;
+diff --git a/resources/imap/gmailpasswordrequester.cpp b/resources/imap/gmailpasswordrequester.cpp
+index dd7baed..7761f57 100644
+--- a/resources/imap/gmailpasswordrequester.cpp
++++ b/resources/imap/gmailpasswordrequester.cpp
+@@ -26,8 +26,8 @@
+ #include <KGAPI/AuthJob>
+ #include <KGAPI/AccountManager>
+ 
+-#define GOOGLE_API_KEY QStringLiteral("554041944266.apps.googleusercontent.com")
+-#define GOOGLE_API_SECRET QStringLiteral("mdT1DjzohxN3npUUzkENT0gO")
++#define GOOGLE_API_KEY QStringLiteral("")
++#define GOOGLE_API_SECRET QStringLiteral("")
+ 
+ GmailPasswordRequester::GmailPasswordRequester(ImapResourceBase *resource, QObject *parent)
+     : PasswordRequesterInterface(parent)
