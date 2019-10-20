@@ -10,10 +10,10 @@ index c091e7a..e20ef16 100644
 -    static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
 -    static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
 -    static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
-+    static const QUrl GoogleApisUrl(QStringLiteral("http://0.0.0.0"));
-+    static const QString ContactsBasePath(QStringLiteral("/"));
-+    static const QString ContactsGroupBasePath(QStringLiteral("/"));
-+    static const QString PhotoBasePath(QStringLiteral("/"));
++    static const QUrl GoogleApisUrl;
++    static const QString ContactsBasePath;
++    static const QString ContactsGroupBasePath;
++    static const QString PhotoBasePath;
  
      QByteArray addRelSchema(const QByteArray &rel)
      {

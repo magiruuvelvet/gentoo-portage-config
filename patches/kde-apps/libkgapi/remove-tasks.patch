@@ -9,9 +9,9 @@ index 78954bd..0fa990d 100644
 -    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 -    static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
 -    static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
-+    static const QUrl GoogleApisUrl(QStringLiteral("http://0.0.0.0"));
-+    static const QString TasksBasePath(QStringLiteral("/"));
-+    static const QString TasksListsBasePath(QStringLiteral("/"));
++    static const QUrl GoogleApisUrl;
++    static const QString TasksBasePath;
++    static const QString TasksListsBasePath;
  }
  
  ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)

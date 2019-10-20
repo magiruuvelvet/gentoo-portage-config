@@ -12,12 +12,12 @@ index 59b5638..326086b 100644
 -    static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
 -    static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
 -    static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
-+    static const QUrl GoogleApisUrl(QStringLiteral("http://0.0.0.0"));
-+    static const QString AppsBasePath(QStringLiteral("/"));
-+    static const QString FilesBasePath(QStringLiteral("/"));
-+    static const QString ChangeBasePath(QStringLiteral("/"));
-+    static const QString DrivesBasePath(QStringLiteral("/"));
-+    static const QString TeamdriveBasePath(QStringLiteral("/"));
++    static const QUrl GoogleApisUrl;
++    static const QString AppsBasePath;
++    static const QString FilesBasePath;
++    static const QString ChangeBasePath;
++    static const QString DrivesBasePath;
++    static const QString TeamdriveBasePath;
  }
  
  namespace DriveService

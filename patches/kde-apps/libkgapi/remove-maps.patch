@@ -9,9 +9,9 @@ index c9905f9..3731a50 100644
 -    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 -    static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
 -    static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
-+    static const QUrl GoogleApisUrl(QStringLiteral("http://0.0.0.0"));
-+    static const QString LocationBasePath(QStringLiteral("/"));
-+    static const QString CurrentLocationBasePath(QStringLiteral("/"));
++    static const QUrl GoogleApisUrl;
++    static const QString LocationBasePath;
++    static const QString CurrentLocationBasePath;
  }
  
  LocationPtr JSONToLocation(const QByteArray & jsonData)

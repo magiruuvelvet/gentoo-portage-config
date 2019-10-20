@@ -120,9 +120,9 @@ index 132154c..8ee62f8 100644
 -static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 -static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
 -static const QString CalendarBasePath(QStringLiteral("/calendar/v3/calendars"));
-+static const QUrl GoogleApisUrl(QStringLiteral("http://0.0.0.0"));
-+static const QString CalendarListBasePath(QStringLiteral("/"));
-+static const QString CalendarBasePath(QStringLiteral("/"));
++static const QUrl GoogleApisUrl;
++static const QString CalendarListBasePath;
++static const QString CalendarBasePath;
  }
  
  /************* URLS **************/

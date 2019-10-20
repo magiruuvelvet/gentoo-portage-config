@@ -1,0 +1,39 @@
+diff --git a/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp b/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
+index 53f042b..d952d38 100644
+--- a/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
++++ b/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
+@@ -151,7 +151,7 @@ void CheckPhishingUrlJob::start()
+     } else if (canStart()) {
+         QUrlQuery query;
+         query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
+-        QUrl safeUrl = QUrl(QStringLiteral("https://safebrowsing.googleapis.com/v4/threatMatches:find"));
++        QUrl safeUrl;
+         safeUrl.setQuery(query);
+         QNetworkRequest request(safeUrl);
+         request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
+diff --git a/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp b/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
+index 679117c..b3c8b01 100644
+--- a/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
++++ b/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
+@@ -79,7 +79,7 @@ void CreatePhishingUrlDataBaseJob::start()
+     } else {
+         QUrlQuery query;
+         query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
+-        QUrl safeUrl = QUrl(QStringLiteral("https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch"));
++        QUrl safeUrl;
+         safeUrl.setQuery(query);
+         //qCDebug(WEBENGINEVIEWER_LOG) << " safeUrl" << safeUrl;
+         QNetworkRequest request(safeUrl);
+diff --git a/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp b/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
+index fca6b60..037ab0a 100644
+--- a/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
++++ b/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
+@@ -250,7 +250,7 @@ void SearchFullHashJob::start()
+     } else if (canStart()) {
+         QUrlQuery query;
+         query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
+-        QUrl safeUrl = QUrl(QStringLiteral("https://safebrowsing.googleapis.com/v4/fullHashes:find"));
++        QUrl safeUrl;
+         safeUrl.setQuery(query);
+         QNetworkRequest request(safeUrl);
+         request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
