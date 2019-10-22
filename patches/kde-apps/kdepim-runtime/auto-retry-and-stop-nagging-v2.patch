@@ -1,0 +1,47 @@
+diff --git a/resources/imap/settingspasswordrequester.cpp b/resources/imap/settingspasswordrequester.cpp
+index c725321..fc98c91 100644
+--- a/resources/imap/settingspasswordrequester.cpp
++++ b/resources/imap/settingspasswordrequester.cpp
+@@ -59,37 +59,11 @@ void SettingsPasswordRequester::requestPassword(RequestType request, const QStri
+ 
+ void SettingsPasswordRequester::askUserInput(const QString &serverError)
+ {
+-    // the credentials were not ok, allow to retry or change password
+-    if (m_requestDialog) {
+-        qCDebug(IMAPRESOURCE_LOG) << "Password request dialog is already open";
+-        return;
+-    }
+-    QWidget *parent = QWidget::find(m_resource->winIdForDialogs());
+-    QString text = i18n("The server for account \"%2\" refused the supplied username and password. "
+-                        "Do you want to go to the settings, have another attempt "
+-                        "at logging in, or do nothing?\n\n"
+-                        "%1", serverError, m_resource->name());
+-    QDialog *dialog = new QDialog(parent, Qt::Dialog);
+-    dialog->setWindowTitle(i18n("Could Not Authenticate"));
+-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::No | QDialogButtonBox::Yes, dialog);
+-    buttonBox->button(QDialogButtonBox::Yes)->setDefault(true);
+-
+-    buttonBox->button(QDialogButtonBox::Yes)->setText(i18n("Account Settings"));
+-    buttonBox->button(QDialogButtonBox::No)->setText(i18nc("Input username/password manually and not store them", "Try Again"));
+-    dialog->setAttribute(Qt::WA_DeleteOnClose);
+-    connect(buttonBox->button(QDialogButtonBox::Yes), &QPushButton::clicked, this, &SettingsPasswordRequester::slotYesClicked);
+-    connect(buttonBox->button(QDialogButtonBox::No), &QPushButton::clicked, this, &SettingsPasswordRequester::slotNoClicked);
+-    connect(buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &SettingsPasswordRequester::slotCancelClicked);
+-
+-    connect(dialog, &QDialog::destroyed, this, &SettingsPasswordRequester::onDialogDestroyed);
+-    m_requestDialog = dialog;
+-    KWindowSystem::setMainWindow(dialog, m_resource->winIdForDialogs());
+-    bool checkboxResult = false;
+-    KMessageBox::createKMessageBox(dialog, buttonBox, QMessageBox::Information,
+-                                   text, QStringList(),
+-                                   QString(),
+-                                   &checkboxResult, KMessageBox::NoExec);
+-    dialog->show();
++    // just silently try again with the current password
++    // because the password can't suddenly change for no reason
++    // either the request was rate limited or timed out, which
++    // than hits this function because it thinks the password is wrong
++    Q_EMIT done(PasswordRetrieved, m_resource->settings()->password());
+ }
+ 
+ void SettingsPasswordRequester::onDialogDestroyed()

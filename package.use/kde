@@ -32,12 +32,14 @@ kde-apps/kdenlive semantic-desktop
 kde-apps/gwenview activities mpris raw semantic-desktop share kipi
 kde-apps/spectacle kipi share
 
-# KMail stuff
+# Akonadi stuff
 kde-apps/akonadi -sqlite -mysql postgres tools xml debug
 dev-libs/xapian -glass -remote -inmemory
 net-nds/openldap minimal -syslog -tcpd
 dev-libs/cyrus-sasl
 app-accessibility/speech-dispatcher -espeak -alsa -pulseaudio
+kde-apps/kdepim-addons markdown
+kde-apps/kitinerary -barcode pdf
 
 # fancyviewer pulls in a lot of speech and accessibility stuff (not needed and increases compile times)
 kde-apps/libkleo -fancyviewer

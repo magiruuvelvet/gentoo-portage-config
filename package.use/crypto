@@ -1,1 +1,2 @@
-app-crypt/gcr gtk
+app-crypt/gcr gtk vala introspection
+app-crypt/libsecret vala introspection

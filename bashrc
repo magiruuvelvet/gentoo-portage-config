@@ -7,13 +7,26 @@ if [[ ! -z "$EBUILD_PHASE" && "$EBUILD_PHASE" != "depend" ]]; then
     /etc/portage/hooks/portage-hook-ctrl --pkg "${CATEGORY}/${PN}" --phase "$EBUILD_PHASE" --run
 fi
 
+notify-send() {
+    su - magiruuvelvet -c "DISPLAY=:0 notify-send --app-name=Portage --icon=sandbox Portage \"$@\""
+}
+
 # show use flags and features during the setup phase
 if [[ "$EBUILD_PHASE" == "setup" ]]; then
+
+    # notify when package starts merging
+    notify-send "Emerging ${CATEGORY}/${PN}..."
+
     echo -e "\e[1mUSE:     \e[0m ${USE}"
     echo -e "\e[1mFEATURES:\e[0m ${FEATURES}"
     echo -e "\e[1mCFLAGS:  \e[0m $( [ "$CC" ] && echo "${CC} " )${CFLAGS}"
     echo -e "\e[1mCXXFLAGS:\e[0m $( [ "$CXX" ] && echo "${CXX} " )${CXXFLAGS}"
     echo -e "\e[1mLDFLAGS: \e[0m $( [ "$LD" ] && echo "${LD} " )${LDFLAGS}"
+fi
+
+# notify when package was successfully installed
+if [[ "$EBUILD_PHASE" == "postinst" ]]; then
+    notify-send "Installed ${CATEGORY}/${PN}"
 fi
 
 # glibc configure script bad

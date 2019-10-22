@@ -13,6 +13,6 @@ instprep() {
 }
 
 case "$1" in
-    instprep) instprep ;;
+    instprep) : ;;
     *) : ;;
 esac

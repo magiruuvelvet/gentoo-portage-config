@@ -23,3 +23,5 @@ x11-misc/bumblebee bbswitch abi_x86_32
 x11-misc/primus abi_x86_32
 
 x11-terms/xterm unicode truetype xinerama
+
+x11-drivers/xf86-video-intel sna dri uxa
