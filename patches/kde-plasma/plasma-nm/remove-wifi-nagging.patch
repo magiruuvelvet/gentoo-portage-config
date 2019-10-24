@@ -1,0 +1,29 @@
+diff --git a/libs/handler.cpp b/libs/handler.cpp
+index 5edf988..17971fb 100644
+--- a/libs/handler.cpp
++++ b/libs/handler.cpp
+@@ -84,7 +84,7 @@ Handler::Handler(QObject *parent)
+                                             this, SLOT(secretAgentError(QString, QString)));
+ 
+     // Interval (in ms) between attempts to scan for wifi networks
+-    m_wirelessScanRetryTimer.setInterval(2000);
++    m_wirelessScanRetryTimer.setInterval(600000);
+     m_wirelessScanRetryTimer.setSingleShot(true);
+ }
+ 
+@@ -512,7 +512,6 @@ void Handler::scanRequestFailed(const QString &interface)
+     if (m_wirelessScanRetryTimer.isActive()) {
+         return;
+     }
+-    qCDebug(PLASMA_NM) << "Trying soon a new scan on" << interface;
+ 
+     emit wirelessScanTimerEnabled(false);
+ 
+@@ -575,7 +574,6 @@ void Handler::replyFinished(QDBusPendingCallWatcher * watcher)
+             case Handler::RequestScan:
+             {
+                 const QString interface = watcher->property("interface").toString();
+-                qCWarning(PLASMA_NM) << "Wireless scan on" << interface << "failed:" << error;
+                 scanRequestFailed(interface);
+                 break;
+             }

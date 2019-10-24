@@ -1,1 +1,3 @@
 www-client/w3m X -gdk-pixbuf imlib fbcon
+
+www-plugins/lightspark ffmpeg

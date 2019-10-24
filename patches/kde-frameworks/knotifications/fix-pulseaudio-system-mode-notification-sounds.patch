@@ -1,0 +1,13 @@
+diff --git a/src/notifybyaudio_phonon.cpp b/src/notifybyaudio_phonon.cpp
+index c130bbd..2db9a21 100644
+--- a/src/notifybyaudio_phonon.cpp
++++ b/src/notifybyaudio_phonon.cpp
+@@ -48,7 +48,7 @@ NotifyByAudio::~NotifyByAudio()
+ void NotifyByAudio::notify(KNotification *notification, KNotifyConfig *config)
+ {
+     if (!m_audioOutput) {
+-        m_audioOutput = new Phonon::AudioOutput(Phonon::NotificationCategory, this);
++        m_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+     }
+     const QString soundFilename = config->readEntry(QStringLiteral("Sound"));
+     if (soundFilename.isEmpty()) {

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+instprep() {
+    local electron_version=5.0
+
+    if [ ! -z "${D}" ]; then
+        echo "Copying Electron as Riot..."
+
+        cp -rp "/opt/electron-${electron_version}" "${D}/usr/libexec/riot/electron"
+        mv "${D}/usr/libexec/riot/electron/electron" "${D}/usr/libexec/riot/electron/Riot"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

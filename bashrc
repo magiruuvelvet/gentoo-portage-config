@@ -8,14 +8,14 @@ if [[ ! -z "$EBUILD_PHASE" && "$EBUILD_PHASE" != "depend" ]]; then
 fi
 
 notify-send() {
-    su - magiruuvelvet -c "DISPLAY=:0 notify-send --app-name=Portage --icon=sandbox Portage \"$@\""
+    su - magiruuvelvet -c "DISPLAY=:0 notify-send -t 6000 --app-name=Portage --icon=sandbox Portage \"$@\""
 }
 
 # show use flags and features during the setup phase
 if [[ "$EBUILD_PHASE" == "setup" ]]; then
 
     # notify when package starts merging
-    notify-send "Emerging ${CATEGORY}/${PN}..."
+    notify-send "Emerging <b>${CATEGORY}/${PN}</b>..."
 
     echo -e "\e[1mUSE:     \e[0m ${USE}"
     echo -e "\e[1mFEATURES:\e[0m ${FEATURES}"
@@ -26,7 +26,7 @@ fi
 
 # notify when package was successfully installed
 if [[ "$EBUILD_PHASE" == "postinst" ]]; then
-    notify-send "Installed ${CATEGORY}/${PN}"
+    notify-send "Installed <b>${CATEGORY}/${PN}</b>"
 fi
 
 # glibc configure script bad

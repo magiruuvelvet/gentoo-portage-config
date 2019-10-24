@@ -1,8 +1,8 @@
 # disable X11 support for system-wide instance
 # pulls in polkit to drop privileges to the "pulse" user
 
-media-sound/pulseaudio alsa alsa-plugin asyncns caps glib ssl tcpd udev -bluetooth dbus realtime webrtc-aec orc -libsamplerate -gdbm -X
-media-sound/pulseaudio-modules-bt alsa alsa-plugin asyncns caps glib ssl tcpd udev bluetooth dbus realtime webrtc-aec orc -libsamplerate -gdbm -X
+media-sound/pulseaudio alsa alsa-plugin asyncns caps glib ssl tcpd udev -bluetooth dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
+media-sound/pulseaudio-modules-bt alsa alsa-plugin asyncns caps glib ssl tcpd udev bluetooth dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
 
 media-plugins/alsa-plugins mix pulseaudio usb_stream
 media-libs/libsamplerate sndfile

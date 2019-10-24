@@ -15,8 +15,6 @@ sys-libs/libunwind
 # use seden bumblebee for better compatibility with CUDA
 
 # package blacklist, avoid to install
-media-video/vlc
-media-libs/phonon-vlc
 dev-java/icedtea-bin
 dev-java/icedtea-sound
 dev-java/icedtea-web
@@ -60,7 +58,14 @@ net-libs/nodejs
 =kde-apps/okular-19.08.2
 
 
+# pulseaudio 13 is bricked with LLVM toolchain, demands GNU userland and GCC
+# hope upstream fixes this shit because I don't use GNU+Linux *rage*
+=media-sound/pulseaudio-13.0
+>=media-sound/pulseaudio-13
 
+
+
+# temporary masks until I updated my patches or stopped being lazy
 =dev-util/radare2-3.9.0
 =dev-lang/rust-1.38.0
-=media-sound/pulseaudio-13.0
+=x11-drivers/nvidia-drivers-440.26
