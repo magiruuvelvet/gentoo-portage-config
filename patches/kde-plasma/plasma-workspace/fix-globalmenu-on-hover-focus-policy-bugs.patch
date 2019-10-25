@@ -1,0 +1,17 @@
+diff --git a/gmenu-dbusmenu-proxy/menuproxy.cpp b/gmenu-dbusmenu-proxy/menuproxy.cpp
+index 8c2d2bd..aa1ad37 100644
+--- a/gmenu-dbusmenu-proxy/menuproxy.cpp
++++ b/gmenu-dbusmenu-proxy/menuproxy.cpp
+@@ -286,12 +286,6 @@ void MenuProxy::onWindowAdded(WId id)
+                                             NET::OverrideMask | NET::TopMenuMask |
+                                             NET::UtilityMask | NET::SplashMask);
+ 
+-    // Only top level windows typically have a menu bar, dialogs, such as settings don't
+-    if (wType != NET::Normal) {
+-        qCInfo(DBUSMENUPROXY) << "Ignoring window" << id << "of type" << wType;
+-        return;
+-    }
+-
+     const QString serviceName = QString::fromUtf8(getWindowPropertyString(id, s_gtkUniqueBusName));
+ 
+     if (serviceName.isEmpty()) {
