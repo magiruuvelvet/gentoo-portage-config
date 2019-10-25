@@ -1,0 +1,14 @@
+diff --git a/src/dolphincontextmenu.cpp b/src/dolphincontextmenu.cpp
+index 1dfbe05..193afcd 100644
+--- a/src/dolphincontextmenu.cpp
++++ b/src/dolphincontextmenu.cpp
+@@ -430,8 +430,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
+     // Insert 'Move to Trash' and/or 'Delete'
+     const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
+                                     !properties.isLocal());
+-    const bool showMoveToTrashAction = (properties.isLocal() &&
+-                                        properties.supportsMoving());
++    const bool showMoveToTrashAction = false;
+ 
+     if (showDeleteAction && showMoveToTrashAction) {
+         delete m_removeAction;

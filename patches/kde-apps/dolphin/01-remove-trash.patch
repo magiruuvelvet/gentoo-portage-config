@@ -1,0 +1,138 @@
+diff --git a/src/panels/folders/treeviewcontextmenu.cpp b/src/panels/folders/treeviewcontextmenu.cpp
+index df9b9d6..e5c7493 100644
+--- a/src/panels/folders/treeviewcontextmenu.cpp
++++ b/src/panels/folders/treeviewcontextmenu.cpp
+@@ -94,24 +94,10 @@ void TreeViewContextMenu::open(const QPoint& pos)
+         KConfigGroup configGroup(globalConfig, "KDE");
+         bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
+ 
+-        const QUrl url = m_fileItem.url();
+-        if (url.isLocalFile()) {
+-            QAction* moveToTrashAction = new QAction(QIcon::fromTheme(QStringLiteral("user-trash")),
+-                                                    i18nc("@action:inmenu", "Move to Trash"), this);
+-            const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
+-            moveToTrashAction->setEnabled(enableMoveToTrash);
+-            connect(moveToTrashAction, &QAction::triggered, this, &TreeViewContextMenu::moveToTrash);
+-            popup->addAction(moveToTrashAction);
+-        } else {
+-            showDeleteCommand = true;
+-        }
+-
+-        if (showDeleteCommand) {
+-            QAction* deleteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:inmenu", "Delete"), this);
+-            deleteAction->setEnabled(capabilities.supportsDeleting());
+-            connect(deleteAction, &QAction::triggered, this, &TreeViewContextMenu::deleteItem);
+-            popup->addAction(deleteAction);
+-        }
++        QAction* deleteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:inmenu", "Delete"), this);
++        deleteAction->setEnabled(capabilities.supportsDeleting());
++        connect(deleteAction, &QAction::triggered, this, &TreeViewContextMenu::deleteItem);
++        popup->addAction(deleteAction);
+ 
+         popup->addSeparator();
+     }
+@@ -205,15 +191,6 @@ void TreeViewContextMenu::rename()
+ 
+ void TreeViewContextMenu::moveToTrash()
+ {
+-    const QList<QUrl> list{m_fileItem.url()};
+-    KIO::JobUiDelegate uiDelegate;
+-    uiDelegate.setWindow(m_parent);
+-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
+-        KIO::Job* job = KIO::trash(list);
+-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
+-        KJobWidgets::setWindow(job, m_parent);
+-        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
+-    }
+ }
+ 
+ void TreeViewContextMenu::deleteItem()
+diff --git a/src/settings/dolphinsettingsdialog.cpp b/src/settings/dolphinsettingsdialog.cpp
+index f4da53c..5988395 100644
+--- a/src/settings/dolphinsettingsdialog.cpp
++++ b/src/settings/dolphinsettingsdialog.cpp
+@@ -92,23 +92,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
+     servicesSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("flag")));
+     connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+ 
+-    // Trash
+-    auto* trashSettingsPage = createTrashSettingsPage(this);
+-    if (trashSettingsPage) {
+-        KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
+-                                                     i18nc("@title:group", "Trash"));
+-        trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
+-        connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+-    }
+-
+     m_pages.append(generalSettingsPage);
+     m_pages.append(startupSettingsPage);
+     m_pages.append(viewSettingsPage);
+     m_pages.append(navigationSettingsPage);
+     m_pages.append(servicesSettingsPage);
+-    if (trashSettingsPage) {
+-        m_pages.append(trashSettingsPage);
+-    }
+ 
+     const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
+     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
+@@ -183,9 +171,5 @@ void DolphinSettingsDialog::closeEvent(QCloseEvent* event)
+ 
+ SettingsPageBase *DolphinSettingsDialog::createTrashSettingsPage(QWidget *parent)
+ {
+-    if (!KAuthorized::authorizeControlModule(QStringLiteral("kcmtrash.desktop"))) {
+-        return nullptr;
+-    }
+-
+-    return new TrashSettingsPage(parent);
++    return nullptr;
+ }
+diff --git a/src/settings/trash/trashsettingspage.cpp b/src/settings/trash/trashsettingspage.cpp
+index dd6038f..08ac6eb 100644
+--- a/src/settings/trash/trashsettingspage.cpp
++++ b/src/settings/trash/trashsettingspage.cpp
+@@ -26,14 +26,6 @@
+ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
+         SettingsPageBase(parent)
+ {
+-    QFormLayout* topLayout = new QFormLayout(this);
+-
+-    m_proxy = new KCModuleProxy(QStringLiteral("kcmtrash"));
+-    topLayout->addRow(m_proxy);
+-
+-    loadSettings();
+-
+-    connect(m_proxy, QOverload<bool>::of(&KCModuleProxy::changed), this, &TrashSettingsPage::changed);
+ }
+ 
+ TrashSettingsPage::~TrashSettingsPage()
+@@ -42,16 +34,13 @@ TrashSettingsPage::~TrashSettingsPage()
+ 
+ void TrashSettingsPage::applySettings()
+ {
+-    m_proxy->save();
+ }
+ 
+ void TrashSettingsPage::restoreDefaults()
+ {
+-    m_proxy->defaults();
+ }
+ 
+ void TrashSettingsPage::loadSettings()
+ {
+-    m_proxy->load();
+ }
+ 
+diff --git a/src/views/viewproperties.cpp b/src/views/viewproperties.cpp
+index eddc722..84c162c 100644
+--- a/src/views/viewproperties.cpp
++++ b/src/views/viewproperties.cpp
+@@ -60,9 +60,6 @@ ViewProperties::ViewProperties(const QUrl& url) :
+     } else if (url.scheme().contains(QStringLiteral("search"))) {
+         m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
+         useDetailsViewWithPath = true;
+-    } else if (url.scheme() == QLatin1String("trash")) {
+-        m_filePath = destinationDir(QStringLiteral("trash"));
+-        useDetailsViewWithPath = true;
+     } else if (url.scheme() == QLatin1String("recentdocuments")) {
+         m_filePath = destinationDir(QStringLiteral("recentdocuments"));
+         useRecentDocumentsView = true;
