@@ -1,0 +1,14 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Remove autostart files..."
+
+        rm -r "${D}/etc/xdg/autostart"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

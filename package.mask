@@ -66,6 +66,5 @@ net-libs/nodejs
 
 
 # temporary masks until I updated my patches or stopped being lazy
-=dev-util/radare2-3.9.0
 =dev-lang/rust-1.38.0
 =x11-drivers/nvidia-drivers-440.26

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Remove Solid actions..."
+
+        rm -r "${D}/usr/share/solid"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

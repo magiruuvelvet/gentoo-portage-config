@@ -32,6 +32,8 @@ kde-apps/kdenlive semantic-desktop
 kde-apps/gwenview activities mpris raw semantic-desktop share kipi
 kde-apps/spectacle kipi share
 
+kde-misc/kdeconnect app bluetooth mousepad
+
 # Akonadi stuff
 kde-apps/akonadi -sqlite -mysql postgres tools xml debug
 dev-libs/xapian -glass -remote -inmemory
