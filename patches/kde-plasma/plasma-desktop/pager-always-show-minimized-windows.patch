@@ -1,0 +1,13 @@
+diff --git a/applets/pager/package/contents/ui/main.qml b/applets/pager/package/contents/ui/main.qml
+index 7ca51a4..4e01a74 100644
+--- a/applets/pager/package/contents/ui/main.qml
++++ b/applets/pager/package/contents/ui/main.qml
+@@ -444,7 +444,7 @@ MouseArea {
+                             y: (geometry.y * pagerItemGrid.heightScaleFactor) - Math.round(units.devicePixelRatio)
+                             width: geometry.width * pagerItemGrid.widthScaleFactor
+                             height: geometry.height * pagerItemGrid.heightScaleFactor
+-                            visible: model.IsMinimized !== true
++                            visible: true
+                             color: {
+                                 if (desktop.active) {
+                                     if (model.IsActive === true)
