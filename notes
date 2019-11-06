@@ -20,7 +20,7 @@ make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin
 make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin/clang HOSTCXX=/opt/compat/bin/clang++ modules_install
 make CC=/opt/compat/bin/clang CXX=/opt/compat/bin/clang++ HOSTCC=/opt/compat/bin/clang HOSTCXX=/opt/compat/bin/clang++ install
 cd /lib/modules/$version; depmod -a
-emerge x11-drivers/nvidia-drivers sys-power/bbswitch
+emerge $(cat kernel-modules)
 update-initramfs $version
 
 
