@@ -1,0 +1,12 @@
+diff --git a/src/kcm/package/contents/ui/main.qml b/src/kcm/package/contents/ui/main.qml
+index d58d513..980d1a8 100644
+--- a/src/kcm/package/contents/ui/main.qml
++++ b/src/kcm/package/contents/ui/main.qml
+@@ -42,6 +42,7 @@ Kirigami.Page {
+ 
+         TabBar {
+             id: tabView
++            currentIndex: 1
+ 
+             // Tab styles generally assume that they're touching the inner layout,
+             // not the frame, so we need to move the tab bar down a pixel and make

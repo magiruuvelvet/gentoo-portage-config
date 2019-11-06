@@ -1,13 +1,17 @@
 #!/bin/sh
 
 instprep() {
-    local electron_version=5.0
+    local electron_slot=5.0
 
     if [ ! -z "${D}" ]; then
         echo "Copying Electron as Riot..."
 
-        cp -rp "/opt/electron-${electron_version}" "${D}/usr/libexec/riot/electron"
+        cp -rp "/opt/electron-${electron_slot}" "${D}/usr/libexec/riot/electron"
         mv "${D}/usr/libexec/riot/electron/electron" "${D}/usr/libexec/riot/electron/Riot"
+
+        echo -e "#"'!'"/bin/sh\n\nexec /usr/libexec/riot/electron/Riot /usr/libexec/riot/ \"\$@\"" > \
+            "${D}/usr/bin/riot-desktop"
+        chmod +x "${D}/usr/bin/riot-desktop"
     fi
 }
 

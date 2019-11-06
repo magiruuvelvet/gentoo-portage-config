@@ -96,6 +96,10 @@ Overview of custom patches I've made for myself.
    patch increases the interval to 10 minutes and removes error messages about the interface not
    being managed by NetworkManager.
 
+## `kde-plasma/plasma-pa`
+
+ - make the applications tab the default
+
 ## `kde-plasma/plasma-workspace`
 
  - disable the notification history entirely for everything rendering all settings about history invalid.

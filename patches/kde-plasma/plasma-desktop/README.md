@@ -15,7 +15,7 @@ this commit so revert it.
 ~~long.~~
 
 ~~NOTE: I like screen real estate and don't want to fucking~~
-~~close a Mac with this shitty bottom icon bar. There is~~
+~~clone a Mac with this shitty bottom icon bar. There is~~
 ~~enough free available space on the top panel to force~~
 ~~everything into.~~
 

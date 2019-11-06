@@ -26,9 +26,7 @@ www-servers/caddy::chaoslab
 =app-emulation/vmware-modules-331.1.7::stefantalpalaru
 
 # installed kernels
-=sys-kernel/gentoo-sources-5.0.18
 =sys-kernel/vanilla-sources-5.2.13
-=sys-kernel/vanilla-sources-5.3.0
 
 media-video/mpv::vapoursynth
 

@@ -1,0 +1,13 @@
+diff --git a/applets/taskmanager/package/contents/ui/ContextMenu.qml b/applets/taskmanager/package/contents/ui/ContextMenu.qml
+index 322f447..c2ddf09 100644
+--- a/applets/taskmanager/package/contents/ui/ContextMenu.qml
++++ b/applets/taskmanager/package/contents/ui/ContextMenu.qml
+@@ -98,7 +98,7 @@ PlasmaComponents.ContextMenu {
+             {
+                 title:   i18n("Places"),
+                 group:   "places",
+-                actions: backend.placesActions(launcherUrl, showAllPlaces, menu)
++                actions: backend.placesActions(launcherUrl, true, menu)
+             },
+             {
+                 title:   i18n("Recent Documents"),
