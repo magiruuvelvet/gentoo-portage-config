@@ -1,2 +1,2 @@
 # don't build and install UEFI support, I use legacy BIOS :)
-sys-boot/grub device-mapper mount fonts themes GRUB_PLATFORMS: -*
+sys-boot/grub device-mapper mount fonts truetype themes GRUB_PLATFORMS: -* pc

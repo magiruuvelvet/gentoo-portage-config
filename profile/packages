@@ -6,7 +6,7 @@
 *sys-devel/clang-runtime
 *sys-libs/llvm-libunwind
 *sys-libs/compiler-rt
-*sys-libs/compiler-rt-sanitizers
+#*sys-libs/compiler-rt-sanitizers
 *sys-libs/libcxx
 *sys-libs/libcxxabi
 *sys-libs/libomp

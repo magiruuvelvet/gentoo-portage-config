@@ -55,7 +55,7 @@ sys-libs/musl::gentoo
 net-libs/nodejs
 
 # still bricked, though there was supposed to be a bug fix
-=kde-apps/okular-19.08.2
+=kde-apps/okular-19.08.3
 
 
 # pulseaudio 13 is bricked with LLVM toolchain, demands GNU userland and GCC
