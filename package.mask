@@ -64,7 +64,5 @@ net-libs/nodejs
 >=media-sound/pulseaudio-13
 
 
-
-# temporary masks until I updated my patches or stopped being lazy
-=dev-lang/rust-1.38.0
-=x11-drivers/nvidia-drivers-440.26
+# I have 3 python versions installed already (no more python nonsense please)
+=dev-lang/python-3.8.0

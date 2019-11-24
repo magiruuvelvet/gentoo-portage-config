@@ -1,8 +1,8 @@
 diff --git a/src/3rdparty/chromium/base/debug/stack_trace_posix.cc b/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
-index 54a22c0cc..13341a962 100644
+index 1f015eeff..04de91864 100644
 --- a/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
 +++ b/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
-@@ -478,7 +478,6 @@ void WarmUpBacktrace() {
+@@ -484,7 +484,6 @@ void WarmUpBacktrace() {
    //             base::(anonymous namespace)::StackDumpSignalHandler
    //             at base/process_util_posix.cc:172
    // #22 <signal handler called>
@@ -10,7 +10,7 @@ index 54a22c0cc..13341a962 100644
  }
  
  #if defined(USE_SYMBOLIZE)
-@@ -762,39 +761,7 @@ class SandboxSymbolizeHelper {
+@@ -768,39 +767,7 @@ class SandboxSymbolizeHelper {
  }  // namespace
  
  bool EnableInProcessStackDumping() {
@@ -51,28 +51,25 @@ index 54a22c0cc..13341a962 100644
  }
  
  void SetStackDumpFirstChanceCallback(bool (*handler)(int, void*, void*)) {
-@@ -803,18 +770,7 @@ void SetStackDumpFirstChanceCallback(bool (*handler)(int, void*, void*)) {
+@@ -809,16 +776,7 @@ void SetStackDumpFirstChanceCallback(bool (*handler)(int, void*, void*)) {
  }
  
- StackTrace::StackTrace(size_t count) {
--// NOTE: This code MUST be async-signal safe (it's used by in-process
--// stack dumping signal handler). NO malloc or stdio is allowed here.
+ size_t CollectStackTrace(void** trace, size_t count) {
+-  // NOTE: This code MUST be async-signal safe (it's used by in-process
+-  // stack dumping signal handler). NO malloc or stdio is allowed here.
 -
 -#if !defined(__UCLIBC__) && !defined(_AIX)
--  count = std::min(arraysize(trace_), count);
--
 -  // Though the backtrace API man page does not list any possible negative
 -  // return values, we take no chance.
--  count_ = base::saturated_cast<size_t>(backtrace(trace_, count));
+-  return base::saturated_cast<size_t>(backtrace(trace, count));
 -#else
--  count_ = 0;
+   return 0;
 -#endif
-+    count_ = 0;
  }
  
- void StackTrace::Print() const {
+ void StackTrace::PrintWithPrefix(const char* prefix_string) const {
 diff --git a/src/3rdparty/chromium/v8/src/base/debug/stack_trace_posix.cc b/src/3rdparty/chromium/v8/src/base/debug/stack_trace_posix.cc
-index 51b821bdd..ade546422 100644
+index ed602af54..830665b3a 100644
 --- a/src/3rdparty/chromium/v8/src/base/debug/stack_trace_posix.cc
 +++ b/src/3rdparty/chromium/v8/src/base/debug/stack_trace_posix.cc
 @@ -320,40 +320,12 @@ void WarmUpBacktrace() {

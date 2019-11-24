@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# only need the client for debugging
+# remove server
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        rm -r "${D}/lib/systemd"
+        rm -r "${D}/etc"
+        rm -r "${D}/usr/lib/tmpfiles.d"
+        rm -r "${D}/usr/local/etc"
+        rm -r "${D}/usr/local/share"
+        rm -r "${D}/usr/local/var"
+        rm -r "${D}/usr/share/doc"
+        rm "${D}/usr/local/bin/turnadmin"
+        rm "${D}/usr/local/bin/turnserver"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

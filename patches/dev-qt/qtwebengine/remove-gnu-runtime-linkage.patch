@@ -1,0 +1,32 @@
+diff --git a/src/3rdparty/chromium/build/config/chromecast/BUILD.gn b/src/3rdparty/chromium/build/config/chromecast/BUILD.gn
+index c8b2989c4..f88f71112 100644
+--- a/src/3rdparty/chromium/build/config/chromecast/BUILD.gn
++++ b/src/3rdparty/chromium/build/config/chromecast/BUILD.gn
+@@ -14,15 +14,6 @@ config("static_config") {
+       # http://b/26390825
+       "-Wl,--exclude-libs=libffmpeg.a",
+     ]
+-
+-    if (!is_android) {
+-      ldflags += [
+-        # We want to statically link libstdc++/libgcc on Linux.
+-        # (On Android, libstdc++ and libgcc aren't used.)
+-        "-static-libstdc++",
+-        "-static-libgcc",
+-      ]
+-    }
+   }
+ }
+ 
+diff --git a/src/3rdparty/gn/build/gen.py b/src/3rdparty/gn/build/gen.py
+index cdb440760..7ceb96bd3 100755
+--- a/src/3rdparty/gn/build/gen.py
++++ b/src/3rdparty/gn/build/gen.py
+@@ -350,7 +350,6 @@ def WriteGNNinja(path, platform, host, options):
+ 
+     if platform.is_linux():
+       ldflags.extend([
+-          '-static-libstdc++',
+           '-Wl,--as-needed',
+       ])
+       # This is needed by libc++.
