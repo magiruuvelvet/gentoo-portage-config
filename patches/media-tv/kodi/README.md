@@ -25,6 +25,17 @@ This is unfortunately hardcoded and can't be toggled with a
 setting in Kodi. Using a source-based distro like Gentoo
 really helps in such situations.
 
+### Changelog
+
+##### v1
+
+ - initial attempt
+
+##### v2
+
+ - fix media controls not going away
+ - fix mouse cursor not hiding during video playback
+
 
 ## `hide-kodi-cursor.patch`
 
