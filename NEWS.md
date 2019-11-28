@@ -1,5 +1,22 @@
 # News
 
+## 2019-11-28 12:56 CEST
+
+Building the Rust toolchain without having GNU shit
+is cancerous as fuck. The Rust build system can't
+handle a compiler defaulting to strict ISO compliance
+with all the GNU extensions disabled by default
+and spits out random compiler errors when building
+native C code (curl, libgit2, ...).
+I really hope the Rust people are going to fix this,
+because as developer you can't rely with what compiler
+the toolchain is built.
+
+There are workarounds and Rust works just fine after that.
+If you want to know more how I'm building Rust drop
+me a message.
+
+
 ## 2019-08-23 21:03 CEST
 
 I completely recompiled X11 and its entire set of libraries

@@ -1,6 +1,8 @@
 media-libs/alsa-lib abi_x86_32
 media-libs/opencore-amr abi_x86_32
 media-libs/libbluray abi_x86_32
+media-libs/libaacs abi_x86_32
+media-libs/libbdplus abi_x86_32
 media-libs/vo-amrwbenc abi_x86_32
 media-sound/lame abi_x86_32
 media-sound/wavpack abi_x86_32

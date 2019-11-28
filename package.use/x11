@@ -26,6 +26,8 @@ x11-terms/xterm unicode truetype xinerama
 
 x11-drivers/xf86-video-intel sna dri uxa
 
+x11-libs/libva-vdpau-driver opengl
+
 x11-wm/xpra dbus enc_ffmpeg enc_x264 enc_x265 dec_avcodec2 jpeg lz4 lzo opengl sound vpx webcam webp pillow PYTHON_TARGETS: python2_7
 dev-python/pygtkglext PYTHON_TARGETS: python2_7
 dev-python/netifaces PYTHON_TARGETS: python2_7

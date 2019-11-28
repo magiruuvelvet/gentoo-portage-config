@@ -1,0 +1,47 @@
+diff --git a/addons/skin.estuary/xml/Pointer.xml b/addons/skin.estuary/xml/Pointer.xml
+index a6e6ca7..b461437 100644
+--- a/addons/skin.estuary/xml/Pointer.xml
++++ b/addons/skin.estuary/xml/Pointer.xml
+@@ -4,30 +4,30 @@
+ 		<control type="image" id="1">
+ 			<description>Pointer</description>
+ 			<left>-10</left>
+-			<width>44</width>
+-			<height>50</height>
+-			<texture>pointer_arrow.png</texture>
++			<width>1</width>
++			<height>1</height>
++            <texture>pointer_1x1.png</texture>
+ 		</control>
+ 		<control type="image" id="2">
+ 			<description>Pointer Focus</description>
+ 			<left>-10</left>
+-			<width>44</width>
+-			<height>50</height>
+-			<texture>pointer_arrow.png</texture>
++			<width>1</width>
++			<height>1</height>
++            <texture>pointer_1x1.png</texture>
+ 		</control>
+ 		<control type="image" id="3">
+ 			<description>Pointer Drag</description>
+ 			<left>-10</left>
+-			<width>44</width>
+-			<height>50</height>
+-			<texture>pointer_arrow.png</texture>
++			<width>1</width>
++			<height>1</height>
++            <texture>pointer_1x1.png</texture>
+ 		</control>
+ 		<control type="image" id="4">
+ 			<description>pointer_click</description>
+ 			<left>-10</left>
+-			<width>44</width>
+-			<height>50</height>
+-			<texture>pointer_click.png</texture>
++			<width>1</width>
++			<height>1</height>
++            <texture>pointer_1x1.png</texture>
+ 		</control>
+ 	</controls>
+ </window>

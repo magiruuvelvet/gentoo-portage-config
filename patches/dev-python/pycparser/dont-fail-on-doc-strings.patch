@@ -1,0 +1,25 @@
+From a5a7961c2c26c5b2667855de53245b2133db1b91 Mon Sep 17 00:00:00 2001
+From: David Sanders <dsanders11@ucsbalum.com>
+Date: Fri, 7 Jul 2017 07:15:59 -0700
+Subject: [PATCH] Don't fail if docstrings are disabled
+
+---
+ pycparser/plyparser.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/pycparser/plyparser.py b/pycparser/plyparser.py
+index af91922..5af204b 100644
+--- a/pycparser/plyparser.py
++++ b/pycparser/plyparser.py
+@@ -109,7 +109,10 @@ def param_rule(self, p):
+             func(self, p)
+ 
+         # Substitute in the params for the grammar rule and function name
+-        param_rule.__doc__ = func.__doc__.replace('xxx', xxx).replace('yyy', yyy)
++        try:
++            param_rule.__doc__ = func.__doc__.replace('xxx', xxx).replace('yyy', yyy)
++        except AttributeError:
++            pass  # Docstring may not exist
+         param_rule.__name__ = func.__name__.replace('xxx', xxx)
+ 
+         # Attach the new method to the class

@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# remove compiled bytecode, because there are no docstrings
+# anymore which makes yacc unhappy and dies with:
+# "ERROR: start symbol translation_unit_or_empty undefined"
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Removing bytecode to prevent problems with Yacc..."
+
+        # python 2.7
+        rm -f "${D}/usr/lib64/python2.7/site-packages/pycparser/"*".pyc"
+        rm -f "${D}/usr/lib64/python2.7/site-packages/pycparser/"*".pyo"
+        rm -f "${D}/usr/lib64/python2.7/site-packages/pycparser/ply/"*".pyo"
+        rm -f "${D}/usr/lib64/python2.7/site-packages/pycparser/ply/"*".pyo"
+
+        # python 3.6
+        rm -rf "${D}/usr/lib64/python3.6/site-packages/pycparser/__pycache__/"
+        rm -rf "${D}/usr/lib64/python3.6/site-packages/pycparser/ply/__pycache__/"
+
+        # python 3.7
+        rm -rf "${D}/usr/lib/python3.7/site-packages/pycparser/__pycache__/"
+        rm -rf "${D}/usr/lib/python3.7/site-packages/pycparser/ply/__pycache__/"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
