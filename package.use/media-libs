@@ -39,4 +39,4 @@ app-text/tessdata_fast osd L10N: *
 # linker errors to ncurses with LLD
 media-libs/libcaca -ncurses
 
-media-libs/libbluray bdplus -java
+media-libs/libbluray aacs bdplus java
