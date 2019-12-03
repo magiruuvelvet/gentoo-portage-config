@@ -1,3 +1,4 @@
 sys-apps/util-linux caps unicode udev suid
 sys-apps/pciutils dns
 sys-apps/pcsc-lite udev
+sys-apps/shadow bcrypt

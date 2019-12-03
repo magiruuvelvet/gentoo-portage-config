@@ -18,6 +18,7 @@ Overview of custom patches I've made for myself.
 ## `dev-qt/qtwebengine`
 
  - disable stack tracing (crashes on pure LLVM based runtime without GNU)
+ - disable crash reporting (broken on non-GNU systems)
  - force LLVM tools at random places
 
 ## `dev-util/cmake`
