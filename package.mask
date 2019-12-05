@@ -58,11 +58,9 @@ net-libs/nodejs
 =kde-apps/okular-19.08.3
 
 
-# pulseaudio 13 is bricked with LLVM toolchain, demands GNU userland and GCC
-# hope upstream fixes this shit because I don't use GNU+Linux *rage*
-=media-sound/pulseaudio-13.0
->=media-sound/pulseaudio-13
-
-
 # I have 3 python versions installed already (no more python nonsense please)
 =dev-lang/python-3.8.0
+
+
+# mask php7.4 for now util all pecl ebuilds are updated
+=dev-lang/php-7.4.0
