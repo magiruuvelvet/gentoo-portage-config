@@ -1,0 +1,14 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        mv "${D}/usr/bin/steam" "${D}/usr/bin/steam.real"
+        echo -e '#!/bin/bash'"\nexec vpn-run /usr/bin/steam.real "'"$@"' > "${D}/usr/bin/steam"
+        chmod +x "${D}/usr/bin/steam"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

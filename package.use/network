@@ -8,3 +8,5 @@ net-misc/modemmanager qmi udev mbim -policykit -vala
 net-misc/networkmanager dhclient modemmanager ncurses nss ppp wext wifi bluetooth connection-sharing json -teamd -policykit -vala
 
 net-firewall/iptables conntrack netlink nftables pcap
+
+net-proxy/privoxy -image-blocking -stats

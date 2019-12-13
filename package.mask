@@ -43,6 +43,18 @@ sys-devel/gcc-config::gentoo
 sys-devel/binutils-config::gentoo
 sys-libs/binutils-libs::gentoo
 
+# mask Gentoo version of LLVM
+sys-devel/llvm::gentoo
+sys-devel/llvm-common::gentoo
+sys-devel/clang::gentoo
+sys-devel/clang-common::gentoo
+sys-libs/libcxx::gentoo
+sys-libs/libcxxabi::gentoo
+sys-libs/llvm-libunwind::gentoo
+dev-util/lldb::gentoo
+sys-devel/lld::gentoo
+sys-libs/libomp::gentoo
+
 # need to fix my mess with 2 libc's installed in parallel
 # move this to /opt and not tracked by Portage
 sys-libs/glibc

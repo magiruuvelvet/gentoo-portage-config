@@ -22,7 +22,7 @@ kde-frameworks/kwallet gpg
 kde-frameworks/kauth policykit
 kde-frameworks/knotifications dbus phonon
 kde-frameworks/kconfig dbus
-kde-frameworks/purpose -kaccounts
+kde-frameworks/purpose -kaccounts -dolphin
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw
@@ -31,11 +31,12 @@ kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript t
 kde-apps/kdenlive semantic-desktop
 kde-apps/gwenview activities -mpris raw semantic-desktop share kipi
 kde-apps/spectacle kipi share
+kde-apps/kate -filebrowser -projects -snippets -plasma
 
 kde-misc/kdeconnect app bluetooth mousepad
 
 # Akonadi stuff
-kde-apps/akonadi -sqlite -mysql postgres tools xml debug
+kde-apps/akonadi -sqlite -mysql postgres tools xml debug -kaccounts
 dev-libs/xapian -glass -remote -inmemory
 net-nds/openldap minimal -syslog -tcpd
 dev-libs/cyrus-sasl

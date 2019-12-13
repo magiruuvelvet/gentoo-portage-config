@@ -1,0 +1,35 @@
+diff --git a/src/daemon/main.c b/src/daemon/main.c
+index e96c86d..319dfa2 100644
+--- a/src/daemon/main.c
++++ b/src/daemon/main.c
+@@ -719,19 +719,11 @@ int main(int argc, char *argv[]) {
+         pa_xfree(configured_address);
+     }
+ 
+-    if (conf->system_instance && !conf->disallow_exit)
+-        pa_log_warn(_("Running in system mode, but --disallow-exit not set."));
+-
+-    if (conf->system_instance && !conf->disallow_module_loading)
+-        pa_log_warn(_("Running in system mode, but --disallow-module-loading not set."));
+-
+     if (conf->system_instance && !conf->disable_shm) {
+-        pa_log_notice(_("Running in system mode, forcibly disabling SHM mode."));
+         conf->disable_shm = true;
+     }
+ 
+     if (conf->system_instance && conf->exit_idle_time >= 0) {
+-        pa_log_notice(_("Running in system mode, forcibly disabling exit idle time."));
+         conf->exit_idle_time = -1;
+     }
+ 
+@@ -987,10 +979,6 @@ int main(int argc, char *argv[]) {
+ 
+     pa_log_info("Running in system mode: %s", pa_yes_no(pa_in_system_mode()));
+ 
+-    if (pa_in_system_mode())
+-        pa_log_warn(_("OK, so you are running PA in system mode. Please make sure that you actually do want to do that.\n"
+-                      "Please read http://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/WhatIsWrongWithSystemWide/ for an explanation why system mode is usually a bad idea."));
+-
+     if (conf->use_pid_file) {
+         int z;
+ 

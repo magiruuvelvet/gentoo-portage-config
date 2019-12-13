@@ -10,5 +10,5 @@ x11-libs/libnotify introspection
 
 
 # use this instead of get binary wine releases with bundled dependencies
-app-emulation/playonlinux PYTHON_TARGETS: python2_7
+app-emulation/playonlinux PYTHON_TARGETS: python2_7 PYTHON_SINGLE_TARGET: python2_7
 dev-python/wxpython cairo libnotify PYTHON_TARGETS: python2_7

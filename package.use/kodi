@@ -1,5 +1,5 @@
 media-tv/kodi X alsa bluetooth bluray dbus dvd css opengl pulseaudio udev vaapi vdpau
-media-tv/kodi python_targets_python2_7
+media-tv/kodi python_targets_python2_7 PYTHON_SINGLE_TARGET: python2_7
 
 
 dev-python/pycryptodome python_targets_python2_7
