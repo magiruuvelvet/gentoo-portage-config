@@ -1,3 +1,17 @@
+diff --git a/src/dolphincontextmenu.cpp b/src/dolphincontextmenu.cpp
+index c8e9629..1c5029a 100644
+--- a/src/dolphincontextmenu.cpp
++++ b/src/dolphincontextmenu.cpp
+@@ -391,8 +391,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
+     // Insert 'Move to Trash' and/or 'Delete'
+     const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
+                                     !properties.isLocal());
+-    const bool showMoveToTrashAction = (properties.isLocal() &&
+-                                        properties.supportsMoving());
++    const bool showMoveToTrashAction = false;
+ 
+     if (showDeleteAction && showMoveToTrashAction) {
+         delete m_removeAction;
 diff --git a/src/panels/folders/treeviewcontextmenu.cpp b/src/panels/folders/treeviewcontextmenu.cpp
 index df9b9d6..e5c7493 100644
 --- a/src/panels/folders/treeviewcontextmenu.cpp
@@ -48,11 +62,11 @@ index df9b9d6..e5c7493 100644
  
  void TreeViewContextMenu::deleteItem()
 diff --git a/src/settings/dolphinsettingsdialog.cpp b/src/settings/dolphinsettingsdialog.cpp
-index f4da53c..5988395 100644
+index 87bc95a..8ab8c97 100644
 --- a/src/settings/dolphinsettingsdialog.cpp
 +++ b/src/settings/dolphinsettingsdialog.cpp
-@@ -92,23 +92,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
-     servicesSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("flag")));
+@@ -93,23 +93,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
+     servicesSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system-services")));
      connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
  
 -    // Trash
@@ -60,7 +74,7 @@ index f4da53c..5988395 100644
 -    if (trashSettingsPage) {
 -        KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
 -                                                     i18nc("@title:group", "Trash"));
--        trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
+-        trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("user-trash")));
 -        connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 -    }
 -
@@ -75,7 +89,7 @@ index f4da53c..5988395 100644
  
      const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
      KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
-@@ -183,9 +171,5 @@ void DolphinSettingsDialog::closeEvent(QCloseEvent* event)
+@@ -184,9 +172,5 @@ void DolphinSettingsDialog::closeEvent(QCloseEvent* event)
  
  SettingsPageBase *DolphinSettingsDialog::createTrashSettingsPage(QWidget *parent)
  {
@@ -123,11 +137,11 @@ index dd6038f..08ac6eb 100644
  }
  
 diff --git a/src/views/viewproperties.cpp b/src/views/viewproperties.cpp
-index eddc722..84c162c 100644
+index e5f3a82..93ae7bd 100644
 --- a/src/views/viewproperties.cpp
 +++ b/src/views/viewproperties.cpp
-@@ -60,9 +60,6 @@ ViewProperties::ViewProperties(const QUrl& url) :
-     } else if (url.scheme().contains(QStringLiteral("search"))) {
+@@ -62,9 +62,6 @@ ViewProperties::ViewProperties(const QUrl& url) :
+     } else if (url.scheme().contains(QLatin1String("search"))) {
          m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
          useDetailsViewWithPath = true;
 -    } else if (url.scheme() == QLatin1String("trash")) {

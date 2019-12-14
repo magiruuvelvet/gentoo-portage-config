@@ -1,5 +1,5 @@
 diff --git a/src/pimcommon/translator/googletranslator.cpp b/src/pimcommon/translator/googletranslator.cpp
-index c7b21ab..730e5cf 100644
+index 1875d05..730e5cf 100644
 --- a/src/pimcommon/translator/googletranslator.cpp
 +++ b/src/pimcommon/translator/googletranslator.cpp
 @@ -151,29 +151,6 @@ QMap<QString, QMap<QString, QString> > GoogleTranslator::initListLanguage(QCombo
@@ -40,8 +40,8 @@ index c7b21ab..730e5cf 100644
      reply->deleteLater();
 -    //  jsonData contains arrays like this: ["foo",,"bar"]
 -    //  but this is not valid JSON for QJSON, it expects empty strings: ["foo","","bar"]
--    mJsonData = mJsonData.replace(QRegExp(QLatin1String(",{3,3}")), QStringLiteral(",\"\",\"\","));
--    mJsonData = mJsonData.replace(QRegExp(QLatin1String(",{2,2}")), QStringLiteral(",\"\","));
+-    mJsonData.replace(QRegExp(QLatin1String(",{3,3}")), QStringLiteral(",\"\",\"\","));
+-    mJsonData.replace(QRegExp(QLatin1String(",{2,2}")), QStringLiteral(",\"\","));
 -    //qCDebug(PIMCOMMON_LOG) << mJsonData;
 -
 -    QJsonParseError parsingError;

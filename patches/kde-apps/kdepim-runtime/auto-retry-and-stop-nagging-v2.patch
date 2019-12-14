@@ -1,8 +1,8 @@
 diff --git a/resources/imap/settingspasswordrequester.cpp b/resources/imap/settingspasswordrequester.cpp
-index c725321..fc98c91 100644
+index e0cffc4..fc98c91 100644
 --- a/resources/imap/settingspasswordrequester.cpp
 +++ b/resources/imap/settingspasswordrequester.cpp
-@@ -59,37 +59,11 @@ void SettingsPasswordRequester::requestPassword(RequestType request, const QStri
+@@ -59,38 +59,11 @@ void SettingsPasswordRequester::requestPassword(RequestType request, const QStri
  
  void SettingsPasswordRequester::askUserInput(const QString &serverError)
  {
@@ -30,7 +30,8 @@ index c725321..fc98c91 100644
 -
 -    connect(dialog, &QDialog::destroyed, this, &SettingsPasswordRequester::onDialogDestroyed);
 -    m_requestDialog = dialog;
--    KWindowSystem::setMainWindow(dialog, m_resource->winIdForDialogs());
+-    dialog->setAttribute(Qt::WA_NativeWindow, true);
+-    KWindowSystem::setMainWindow(dialog->windowHandle(), m_resource->winIdForDialogs());
 -    bool checkboxResult = false;
 -    KMessageBox::createKMessageBox(dialog, buttonBox, QMessageBox::Information,
 -                                   text, QStringList(),

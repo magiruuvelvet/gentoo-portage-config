@@ -68,6 +68,7 @@ net-libs/nodejs
 
 # still bricked, though there was supposed to be a bug fix
 =kde-apps/okular-19.08.3
+=kde-apps/okular-19.12.0
 
 
 # I have 3 python versions installed already (no more python nonsense please)

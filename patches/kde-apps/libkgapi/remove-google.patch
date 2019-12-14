@@ -1,0 +1,802 @@
+diff --git a/src/blogger/bloggerservice.cpp b/src/blogger/bloggerservice.cpp
+index d33184f..a76729f 100644
+--- a/src/blogger/bloggerservice.cpp
++++ b/src/blogger/bloggerservice.cpp
+@@ -33,7 +33,7 @@ namespace BloggerService
+ {
+ namespace Private
+ {
+-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
++    static const QUrl GoogleApisUrl;
+ 
+     auto commentBasePath(const QString &blogId,
+                          const QString &postId = QString(),
+diff --git a/src/calendar/calendarservice.cpp b/src/calendar/calendarservice.cpp
+index cfb9423..1dffb5a 100644
+--- a/src/calendar/calendarservice.cpp
++++ b/src/calendar/calendarservice.cpp
+@@ -74,9 +74,9 @@ ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString
+  */
+ QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
+ 
+-static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
+-static const QString CalendarBasePath(QStringLiteral("/calendar/v3/calendars"));
++static const QUrl GoogleApisUrl;
++static const QString CalendarListBasePath;
++static const QString CalendarBasePath;
+ }
+ 
+ QNetworkRequest prepareRequest(const QUrl &url)
+@@ -91,51 +91,37 @@ QNetworkRequest prepareRequest(const QUrl &url)
+ 
+ QUrl fetchCalendarsUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarListBasePath);
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchCalendarUrl(const QString& calendarID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarListBasePath % QLatin1Char('/') % calendarID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateCalendarUrl(const QString &calendarID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createCalendarUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeCalendarUrl(const QString& calendarID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchEventsUrl(const QString& calendarID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchEventUrl(const QString& calendarID, const QString& eventID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
+-    return url;
++    return {};
+ }
+ 
+ namespace {
+@@ -393,7 +379,6 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
+     QJsonParseError error;
+     QJsonDocument document = QJsonDocument::fromJson(jsonData, &error);
+     if (error.error != QJsonParseError::NoError) {
+-        qCWarning(KGAPIDebug) << "Error parsing event JSON: " << error.errorString();
+     }
+     QVariantMap data = document.toVariant().toMap();
+     if (data.value(kindParam).toString() != eventKind) {
+diff --git a/src/calendar/event.cpp b/src/calendar/event.cpp
+index 49f3e59..9fcb1cd 100644
+--- a/src/calendar/event.cpp
++++ b/src/calendar/event.cpp
+@@ -69,11 +69,9 @@ bool Event::operator==(const Event &other) const
+         return false;
+     }
+     if (d->deleted != other.d->deleted) {
+-        qCDebug(KGAPIDebug) << "Deleted does not match";
+         return false;
+     }
+     if (d->useDefaultReminders != other.d->useDefaultReminders) {
+-        qCDebug(KGAPIDebug) << "UseDefaultReminders does not match";
+         return false;
+     }
+ 
+diff --git a/src/contacts/contactsservice.cpp b/src/contacts/contactsservice.cpp
+index 4122a0e..04fcb25 100644
+--- a/src/contacts/contactsservice.cpp
++++ b/src/contacts/contactsservice.cpp
+@@ -49,208 +49,81 @@ namespace Private
+     ObjectPtr JSONToContactsGroup(const QVariantMap &map);
+     ObjectPtr JSONToContact(const QVariantMap& map);
+ 
+-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.google.com"));
+-    static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
+-    static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
+-    static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
++    static const QUrl GoogleApisUrl;
++    static const QString ContactsBasePath;
++    static const QString ContactsGroupBasePath;
++    static const QString PhotoBasePath;
+ 
+     QByteArray addRelSchema(const QByteArray &rel)
+     {
+-        if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
+-            return "http://schemas.google.com/g/2005#" + rel;
+-        } else {
+-            return rel;
+-        }
++        return {};
+     }
+ }
+ 
+ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ {
+-    ObjectsList output;
+-    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+-    const QVariantMap head = document.toVariant().toMap();
+-    const QVariantMap feed = head.value(QStringLiteral("feed")).toMap();
+-    const QVariantList categories = feed.value(QStringLiteral("category")).toList();
+-    for (const QVariant &c : categories) {
+-        const QVariantMap category = c.toMap();
+-        bool groups = false;
+-
+-        if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#group")) {
+-            groups = true;
+-        }
+-
+-        const QVariantList entries = feed.value(QStringLiteral("entry")).toList();
+-        for (const QVariant &e : entries) {
+-            if (groups) {
+-                output << Private::JSONToContactsGroup(e.toMap());
+-            } else {
+-                output << Private::JSONToContact(e.toMap());
+-            }
+-        }
+-    }
+-
+-    const QVariantList links = feed.value(QStringLiteral("link")).toList();
+-    for (const QVariant &l : links) {
+-        const QVariantMap link = l.toMap();
+-        if (link.value(QStringLiteral("rel")).toString() == QLatin1String("next")) {
+-            feedData.nextPageUrl = QUrl(link.value(QStringLiteral("href")).toString());
+-            break;
+-        }
+-    }
+-
+-    feedData.totalResults = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$totalResults")).toInt();
+-    feedData.startIndex = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$startIndex")).toInt();
+-    feedData.itemsPerPage = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$itemsPerPage")).toInt();
+-
+-    return output;
++    return {};
+ }
+ 
+ QUrl fetchAllContactsUrl(const QString& user, bool showDeleted)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    if (showDeleted) {
+-        query.addQueryItem(QStringLiteral("showdeleted"), QStringLiteral("true"));
+-    }
+-    url.setQuery(query);
+-
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchContactUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createContactUrl(const QString& user)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateContactUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeContactUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchAllGroupsUrl(const QString &user)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchGroupUrl(const QString &user, const QString &groupId)
+ {
+-    QString id;
+-    if (groupId.contains(QLatin1Char('/'))) {
+-        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = groupId;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/base/") % id);
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createGroupUrl(const QString &user)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateGroupUrl(const QString &user, const QString &groupId)
+ {
+-    QString id;
+-    if (groupId.contains(QLatin1Char('/'))) {
+-        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = groupId;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeGroupUrl(const QString &user, const QString &groupId)
+ {
+-    QString id;
+-    if (groupId.contains(QLatin1Char('/'))) {
+-        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = groupId;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
+-    return url;
++    return {};
+ }
+ 
+ QUrl photoUrl(const QString& user, const QString& contactID)
+ {
+-    QString id;
+-    if (contactID.contains(QLatin1Char('/'))) {
+-        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
+-    } else {
+-        id = contactID;
+-    }
+-
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PhotoBasePath % QLatin1Char('/') % user % QLatin1Char('/') % id);
+-    return url;
++    return {};
+ }
+ 
+ 
+ QString APIVersion()
+ {
+-    return QStringLiteral("3.0");
++    return {};
+ }
+ 
+ 
+diff --git a/src/core/accountinfo/accountinfofetchjob.cpp b/src/core/accountinfo/accountinfofetchjob.cpp
+index b88ecd1..e5093d8 100644
+--- a/src/core/accountinfo/accountinfofetchjob.cpp
++++ b/src/core/accountinfo/accountinfofetchjob.cpp
+@@ -49,34 +49,11 @@ AccountInfoFetchJob::~AccountInfoFetchJob()
+ 
+ void AccountInfoFetchJob::start()
+ {
+-    const QUrl url = QUrl(QStringLiteral("https://www.googleapis.com/oauth2/v1/userinfo"));
+-    QNetworkRequest request(url);
+-
+-    QStringList headers;
+-    const auto rawHeaderList = request.rawHeaderList();
+-    headers.reserve(rawHeaderList.size());
+-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
+-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
+-    }
+-
+-    enqueueRequest(request);
+ }
+ 
+ ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ {
+-    ObjectsList items;
+-
+-    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+-    ContentType ct = Utils::stringToContentType(contentType);
+-    if (ct == KGAPI2::JSON) {
+-        items << AccountInfo::fromJSON(rawData);
+-    } else {
+-        setError(KGAPI2::InvalidResponse);
+-        setErrorString(tr("Invalid response content type"));
+-        emitFinished();
+-    }
+-
+-    return items;
++    return {};
+ }
+ 
+ #include "moc_accountinfofetchjob.cpp"
+diff --git a/src/core/authjob.cpp b/src/core/authjob.cpp
+index 7c2e7e7..aff42f1 100644
+--- a/src/core/authjob.cpp
++++ b/src/core/authjob.cpp
+@@ -91,22 +91,6 @@ QWidget* AuthJob::Private::fullAuthentication()
+ 
+ void AuthJob::Private::refreshTokens()
+ {
+-    static_cast<Job*>(q)->d->accessManager->setCookieJar(new QNetworkCookieJar);
+-
+-    QNetworkRequest request;
+-
+-    request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
+-    request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+-
+-    QUrlQuery params;
+-    params.addQueryItem(QStringLiteral("client_id"), apiKey);
+-    params.addQueryItem(QStringLiteral("client_secret"), secretKey);
+-    params.addQueryItem(QStringLiteral("refresh_token"), account->refreshToken());
+-    params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
+-
+-    qCDebug(KGAPIDebug) << "Requesting token refresh.";
+-
+-    q->enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
+ }
+ 
+ void AuthJob::Private::_k_fullAuthenticationFailed(Error errorCode, const QString &errorMessage)
+@@ -174,28 +158,6 @@ void AuthJob::setPassword(const QString& password)
+ 
+ void AuthJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
+ {
+-    Q_UNUSED(reply);
+-
+-    QJsonDocument document = QJsonDocument::fromJson(rawData);
+-    if (document.isNull()) {
+-        setError(KGAPI2::InvalidResponse);
+-        setErrorString(tr("Failed to parse newly fetched tokens"));
+-        emitFinished();
+-        return;
+-    }
+-
+-    QVariantMap map = document.toVariant().toMap();
+-
+-    /* Expected structure:
+-     * {
+-     *  "access_token": "the_access_token",
+-     *  "token_type":"Bearer",
+-     *  "expires_in":3600
+-     * }
+-     */
+-    const qlonglong expiresIn = map.value(QStringLiteral("expires_in")).toLongLong();
+-    d->account->setExpireDateTime(QDateTime::currentDateTime().addSecs(expiresIn));
+-    d->account->setAccessToken(map.value(QStringLiteral("access_token")).toString());
+     emitFinished();
+ }
+ 
+diff --git a/src/core/job.cpp b/src/core/job.cpp
+index 82c4722..4e60e14 100644
+--- a/src/core/job.cpp
++++ b/src/core/job.cpp
+@@ -66,34 +66,10 @@ FileLogger *FileLogger::self()
+ 
+ void FileLogger::logRequest(const QNetworkRequest &request, const QByteArray &rawData)
+ {
+-    if (!mFile) {
+-        return;
+-    }
+-
+-    QTextStream stream(mFile.data());
+-    stream << "C: " << request.url().toDisplayString() << "\n";
+-    const auto headers = request.rawHeaderList();
+-    for (const auto &header : headers) {
+-        stream << "   " << header << ": " << request.rawHeader(header) << "\n";
+-    }
+-    stream << "   " << rawData << "\n\n";
+-    mFile->flush();
+ }
+ 
+ void FileLogger::logReply(const QNetworkReply *reply, const QByteArray &rawData)
+ {
+-    if (!mFile) {
+-        return;
+-    }
+-
+-    QTextStream stream(mFile.data());
+-    stream << "S: " << reply->url().toDisplayString() << "\n";
+-    const auto headers = reply->rawHeaderList();
+-    for (const auto &header : headers) {
+-        stream << "   " << header << ": " << reply->rawHeader(header) << "\n";
+-    }
+-    stream << "   " << rawData << "\n\n";
+-    mFile->flush();
+ }
+ 
+ 
+diff --git a/src/core/private/newtokensfetchjob.cpp b/src/core/private/newtokensfetchjob.cpp
+index 1e752d1..6add5b2 100644
+--- a/src/core/private/newtokensfetchjob.cpp
++++ b/src/core/private/newtokensfetchjob.cpp
+@@ -97,19 +97,6 @@ qulonglong NewTokensFetchJob::expiresIn() const
+ 
+ void NewTokensFetchJob::start()
+ {
+-    QNetworkRequest request;
+-
+-    request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
+-    request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
+-
+-    QUrlQuery params;
+-    params.addQueryItem(QStringLiteral("client_id"), d->apiKey);
+-    params.addQueryItem(QStringLiteral("client_secret"), d->secretKey);
+-    params.addQueryItem(QStringLiteral("code"), d->tmpToken);
+-    params.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->localPort)); // we need to use the same URL as in AuthWidget
+-    params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
+-
+-    enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
+ }
+ 
+ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType)
+@@ -121,23 +108,6 @@ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, co
+ 
+ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
+ {
+-    Q_UNUSED(reply);
+-
+-    QJsonDocument document = QJsonDocument::fromJson(rawData);
+-    if (document.isNull()) {
+-        qCWarning(KGAPIDebug) << "Failed to parse server response.";
+-        qCDebug(KGAPIDebug) << rawData;
+-        setError(KGAPI2::AuthCancelled);
+-        setErrorString(tr("Failed to parse server response."));
+-        return;
+-    }
+-    QVariantMap parsed_data = document.toVariant().toMap();
+-
+-    qCDebug(KGAPIDebug) << "Retrieved new tokens pair.";
+-
+-    d->accessToken = parsed_data.value(QStringLiteral("access_token")).toString();
+-    d->refreshToken = parsed_data.value(QStringLiteral("refresh_token")).toString();
+-    d->expiresIn = parsed_data.value(QStringLiteral("expires_in")).toULongLong();
+ }
+ 
+ 
+diff --git a/src/drive/driveservice.cpp b/src/drive/driveservice.cpp
+index 59a95ff..2247aab 100644
+--- a/src/drive/driveservice.cpp
++++ b/src/drive/driveservice.cpp
+@@ -30,12 +30,12 @@ namespace KGAPI2
+ 
+ namespace Private
+ {
+-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-    static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
+-    static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
+-    static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
+-    static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
+-    static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
++    static const QUrl GoogleApisUrl;
++    static const QString AppsBasePath;
++    static const QString FilesBasePath;
++    static const QString ChangeBasePath;
++    static const QString DrivesBasePath;
++    static const QString TeamdriveBasePath;
+ }
+ 
+ namespace DriveService
+diff --git a/src/latitude/latitudeservice.cpp b/src/latitude/latitudeservice.cpp
+index c1323e3..cc064b3 100644
+--- a/src/latitude/latitudeservice.cpp
++++ b/src/latitude/latitudeservice.cpp
+@@ -35,9 +35,9 @@ namespace Private
+ {
+     LocationPtr parseLocation(const QVariantMap &map);
+ 
+-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-    static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
+-    static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
++    static const QUrl GoogleApisUrl;
++    static const QString LocationBasePath;
++    static const QString CurrentLocationBasePath;
+ }
+ 
+ LocationPtr JSONToLocation(const QByteArray & jsonData)
+diff --git a/src/latitude/locationcreatejob.cpp b/src/latitude/locationcreatejob.cpp
+index 88c217f..a9849ef 100644
+--- a/src/latitude/locationcreatejob.cpp
++++ b/src/latitude/locationcreatejob.cpp
+@@ -62,26 +62,6 @@ LocationCreateJob::~LocationCreateJob()
+ 
+ void LocationCreateJob::start()
+ {
+-    QUrl url;
+-    if (d->isCurrent) {
+-        url = LatitudeService::insertCurrentLocationUrl();
+-    } else {
+-        url = LatitudeService::insertLocationUrl();
+-    }
+-
+-    QNetworkRequest request(url);
+-    request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
+-
+-    const QByteArray rawData = LatitudeService::locationToJSON(d->location);
+-
+-    QStringList headers;
+-    const auto rawHeaderList = request.rawHeaderList();
+-    headers.reserve(rawHeaderList.size());
+-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
+-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
+-    }
+-
+-    enqueueRequest(request, rawData, QStringLiteral("application/json"));
+ }
+ 
+ ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+diff --git a/src/latitude/locationdeletejob.cpp b/src/latitude/locationdeletejob.cpp
+index 7872245..8705d88 100644
+--- a/src/latitude/locationdeletejob.cpp
++++ b/src/latitude/locationdeletejob.cpp
+@@ -76,30 +76,6 @@ LocationDeleteJob::~LocationDeleteJob()
+ 
+ void LocationDeleteJob::start()
+ {
+-    if (d->finished) {
+-        emitFinished();
+-        return;
+-    }
+-
+-    QUrl url;
+-    if (d->locationId > 0) {
+-        url = LatitudeService::deleteLocationUrl(d->locationId);
+-    } else {
+-        url = LatitudeService::deleteCurrentLocationUrl();
+-    }
+-
+-    QNetworkRequest request(url);
+-    request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
+-
+-    QStringList headers;
+-    const auto rawHeaderList = request.rawHeaderList();
+-    headers.reserve(rawHeaderList.size());
+-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
+-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
+-    }
+-
+-    enqueueRequest(request);
+-    d->finished = true;
+ }
+ 
+ 
+diff --git a/src/latitude/locationfetchhistoryjob.cpp b/src/latitude/locationfetchhistoryjob.cpp
+index 0dacab4..d2d70aa 100644
+--- a/src/latitude/locationfetchhistoryjob.cpp
++++ b/src/latitude/locationfetchhistoryjob.cpp
+@@ -59,10 +59,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
+ 
+ QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl& url)
+ {
+-    QNetworkRequest request(url);
+-    request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
+-
+-    return request;
++    return QNetworkRequest(QUrl());
+ }
+ 
+ 
+@@ -131,10 +128,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
+ 
+ void LocationFetchHistoryJob::start()
+ {
+-    const QUrl url = LatitudeService::locationHistoryUrl(d->granularity, d->maxResults, d->maxTimestamp, d->minTimestamp);
+-    const QNetworkRequest request = d->createRequest(url);
+-
+-    enqueueRequest(request);
+ }
+ 
+ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+@@ -152,8 +145,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
+     }
+ 
+     if (feedData.nextPageUrl.isValid()) {
+-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+-        enqueueRequest(request);
+     }
+ 
+     return items;
+diff --git a/src/latitude/locationfetchjob.cpp b/src/latitude/locationfetchjob.cpp
+index 40539ce..a0b4abf 100644
+--- a/src/latitude/locationfetchjob.cpp
++++ b/src/latitude/locationfetchjob.cpp
+@@ -87,10 +87,6 @@ void LocationFetchJob::start()
+     } else {
+         url = LatitudeService::retrieveLocationUrl(d->timestamp, d->granularity);
+     }
+-    QNetworkRequest request(url);
+-    request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
+-
+-    enqueueRequest(request);
+ }
+ 
+ ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+diff --git a/src/tasks/tasksservice.cpp b/src/tasks/tasksservice.cpp
+index 19c76ee..0ce4217 100644
+--- a/src/tasks/tasksservice.cpp
++++ b/src/tasks/tasksservice.cpp
+@@ -42,9 +42,9 @@ namespace Private
+     ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
+     ObjectPtr JSONToTask(const QVariantMap &jsonData);
+ 
+-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-    static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
+-    static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
++    static const QUrl GoogleApisUrl;
++    static const QString TasksBasePath;
++    static const QString TasksListsBasePath;
+ }
+ 
+ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+@@ -92,78 +92,52 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ 
+ QUrl fetchAllTasksUrl(const QString& tasklistID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchTaskUrl(const QString& tasklistID, const QString& taskID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createTaskUrl(const QString& tasklistID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateTaskUrl(const QString& tasklistID, const QString& taskID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeTaskUrl(const QString& tasklistID, const QString& taskID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID % QLatin1String("/move"));
+-    if (!newParent.isEmpty()) {
+-        QUrlQuery query(url);
+-        query.addQueryItem(QStringLiteral("parent"), newParent);
+-        url.setQuery(query);
+-    }
+-
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchTaskListsUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksListsBasePath);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createTaskListUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksListsBasePath);
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateTaskListUrl(const QString& tasklistID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeTaskListUrl(const QString& tasklistID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
+-    return url;
++    return {};
+ }
+ 
+ /******************************* PRIVATE ******************************/
+@@ -171,11 +145,6 @@ QUrl removeTaskListUrl(const QString& tasklistID)
+ ObjectPtr Private::JSONToTaskList(const QVariantMap &jsonData)
+ {
+     TaskListPtr taskList(new TaskList());
+-
+-    taskList->setUid(jsonData.value(QStringLiteral("id")).toString());
+-    taskList->setEtag(jsonData.value(QStringLiteral("etag")).toString());
+-    taskList->setTitle(jsonData.value(QStringLiteral("title")).toString());
+-
+     return taskList.dynamicCast<Object>();
+ }
+ 
