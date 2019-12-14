@@ -1,0 +1,14 @@
+#!/bin/sh
+
+instprep() {
+    echo -e "Setting up VPN Namespace by default for Falkon..."
+    mkdir -p "${ED}/usr/lib64/falkon"
+    mv "${ED}/usr/bin/falkon" "${ED}/usr/lib64/falkon/falkon"
+    echo -e '#!/bin/bash'"\nexec vpn-run /usr/lib64/falkon/falkon "'"$@"' > "${ED}/usr/bin/falkon"
+    chmod +x "${D}/usr/bin/falkon"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

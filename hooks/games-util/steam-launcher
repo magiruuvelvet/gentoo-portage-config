@@ -2,8 +2,9 @@
 
 instprep() {
     if [ ! -z "${D}" ]; then
-        mv "${D}/usr/bin/steam" "${D}/usr/bin/steam.real"
-        echo -e '#!/bin/bash'"\nexec vpn-run /usr/bin/steam.real "'"$@"' > "${D}/usr/bin/steam"
+        echo -e "Setting up VPN Namespace by default for Steam..."
+        mv "${D}/usr/bin/steam" "${D}/usr/lib/steam/steam"
+        echo -e '#!/bin/bash'"\nexec vpn-run /usr/lib/steam/steam "'"$@"' > "${D}/usr/bin/steam"
         chmod +x "${D}/usr/bin/steam"
     fi
 }
