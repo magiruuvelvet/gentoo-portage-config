@@ -48,6 +48,7 @@ sys-devel/llvm::gentoo
 sys-devel/llvm-common::gentoo
 sys-devel/clang::gentoo
 sys-devel/clang-common::gentoo
+sys-devel/clang-runtime::gentoo
 sys-libs/libcxx::gentoo
 sys-libs/libcxxabi::gentoo
 sys-libs/llvm-libunwind::gentoo
