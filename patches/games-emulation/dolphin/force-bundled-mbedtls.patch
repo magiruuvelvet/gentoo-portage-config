@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5df4b2e..ef29bac 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -771,16 +771,11 @@ if(USE_UPNP)
+ endif()
+ 
+ if(NOT APPLE)
+-	include(FindMbedTLS)
+-endif()
+-if(MBEDTLS_FOUND)
+-	message("Using shared mbed TLS")
+-	include_directories(${MBEDTLS_INCLUDE_DIRS})
+-else()
+-	message("Using static mbed TLS from Externals")
+-	set(MBEDTLS_LIBRARIES mbedtls mbedcrypto mbedx509)
+-	add_subdirectory(Externals/mbedtls/)
+-	include_directories(Externals/mbedtls/include)
++    include(FindMbedTLS)
++    message("Using static mbed TLS from Externals")
++    set(MBEDTLS_LIBRARIES mbedtls mbedcrypto mbedx509)
++    add_subdirectory(Externals/mbedtls/)
++    include_directories(Externals/mbedtls/include)
+ endif()
+ 
+ include(FindCURL OPTIONAL)

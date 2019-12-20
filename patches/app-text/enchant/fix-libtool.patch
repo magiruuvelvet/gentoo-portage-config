@@ -1,0 +1,11 @@
+--- a/src/Makefile.in	2018-10-21 02:34:08.922812250 -0000
++++ b/src/Makefile.in	2018-10-21 02:34:55.372813396 -0000
+@@ -150,7 +150,7 @@
+ am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+ am__v_lt_0 = --silent
+ am__v_lt_1 = 
+-libenchant_la_LINK = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
++libenchant_la_LINK = $(LIBTOOL) --tag CXX $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
+ 	$(LIBTOOLFLAGS) --mode=link $(OBJCLD) $(AM_OBJCFLAGS) \
+ 	$(OBJCFLAGS) $(libenchant_la_LDFLAGS) $(LDFLAGS) -o $@
+ AM_V_P = $(am__v_P_@AM_V@)

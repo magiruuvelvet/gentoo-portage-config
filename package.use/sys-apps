@@ -2,3 +2,4 @@ sys-apps/util-linux caps unicode udev suid
 sys-apps/pciutils dns
 sys-apps/pcsc-lite udev
 sys-apps/shadow bcrypt
+sys-apps/file bzip2 lzma zlib
