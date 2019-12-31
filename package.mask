@@ -78,7 +78,11 @@ net-libs/nodejs
 
 # mask ruby 2.7 for now (compatibility with native extensions)
 >=dev-lang/ruby-2.7
+=dev-ruby/bundler-2.1.2
 
+# rust update again...
+>=dev-lang/rust-1.40
+=virtual/rust-1.40.0
 
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0

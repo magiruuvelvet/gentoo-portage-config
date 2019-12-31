@@ -1,5 +1,5 @@
-app-emulation/wine-vanilla X alsa pulseaudio faudio fontconfig gecko netapi samba gstreamer jpeg png mp3 ncurses realtime ssl threads truetype udev vkd3d vulkan opengl opencl openal xcomposite xinerama xml sdl udisks mono perl gsm -run-exes vaapi ffmpeg themes
-app-emulation/wine-staging X alsa pulseaudio faudio fontconfig gecko netapi samba gstreamer jpeg png mp3 ncurses realtime ssl threads truetype udev vkd3d vulkan opengl opencl openal xcomposite xinerama xml sdl udisks mono perl gsm -run-exes vaapi ffmpeg themes
+app-emulation/wine-vanilla X alsa pulseaudio faudio fontconfig gecko netapi gstreamer jpeg png mp3 ncurses realtime ssl threads truetype udev vkd3d vulkan opengl opencl openal xcomposite xinerama xml sdl udisks mono perl gsm -run-exes vaapi ffmpeg themes
+app-emulation/wine-staging X alsa pulseaudio faudio fontconfig gecko netapi gstreamer jpeg png mp3 ncurses realtime ssl threads truetype udev vkd3d vulkan opengl opencl openal xcomposite xinerama xml sdl udisks mono perl gsm -run-exes vaapi ffmpeg themes
 app-emulation/winetricks kde rar
 virtual/wine
 
@@ -9,7 +9,6 @@ media-libs/gstreamer abi_x86_32
 media-plugins/gst-plugins-meta abi_x86_32
 media-libs/lcms abi_x86_32
 media-sound/mpg123 abi_x86_32
-net-fs/samba abi_x86_32 winbind
 media-libs/libsdl2 abi_x86_32 haptic
 app-emulation/vkd3d abi_x86_32
 media-libs/vulkan-loader abi_x86_32
@@ -32,8 +31,6 @@ sys-libs/ldb abi_x86_32
 sys-libs/talloc abi_x86_32
 sys-libs/tdb abi_x86_32
 sys-libs/tevent abi_x86_32
-app-crypt/mit-krb5 abi_x86_32
-app-crypt/heimdal abi_x86_32
 net-libs/libtirpc abi_x86_32
 sys-libs/e2fsprogs-libs abi_x86_32
 sys-apps/keyutils abi_x86_32
