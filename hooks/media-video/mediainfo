@@ -1,0 +1,16 @@
+#!/bin/sh
+
+instprep() {
+    echo -e ">>> Installing Japanese language file for ${CATEGORY}/${PN}..."
+
+    local i18n_dir="${ED}/usr/share/mediainfo/i18n"
+    mkdir -p "${i18n_dir}"
+    cd "/var/tmp/portage/${CATEGORY}/${PN}-${PV}/work/MediaInfo/Source/Resource/Plugin/Language"
+
+    cp ja.csv "${i18n_dir}/"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
