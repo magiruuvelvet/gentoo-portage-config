@@ -1,7 +1,9 @@
-# `qtwebengine-QTBUG-75265-v5.12.3.patch`
+# ~~`qtwebengine-QTBUG-75265-v5.12.3.patch`~~
 
-Fails to build in Release mode with optimizations due to a bug
-in the build system. This patch enables release builds.
+~~Fails to build in Release mode with optimizations due to a bug~~
+~~in the build system. This patch enables release builds.~~
+
+Fixed in Qt 5.14
 
 # ~~`add-missing-header-in-webrtc-lib.patch`~~
 
@@ -10,11 +12,6 @@ in the build system. This patch enables release builds.
 ~~files to allow compilation.~~
 
 Patch no longer required as of 5.13.2
-
-# `replace-gcc-with-llvm.patch`
-
-Remove explicit gcc runtime linkage and replace with LLVM.
-Does not actually work, but keep this patch anyway.
 
 # `disable-stack-tracing.patch`
 

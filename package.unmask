@@ -18,10 +18,13 @@ kde-misc/plasma-applet-places-widget::jorgicio
 kde-misc/plasma-applet-window-appmenu::jorgicio
 
 media-sound/mellowplayer::jorgicio
+x11-misc/ulauncher::jorgicio
 
 # full caddy build with many plugins I need
 # official repos are lacking some USE flags here
 www-servers/caddy::chaoslab
+
+www-client/ungoogled-chromium-bin::chaoslab
 
 # need this for work
 <app-emulation/vmware-workstation-15::stefantalpalaru

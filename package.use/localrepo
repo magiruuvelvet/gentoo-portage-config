@@ -1,1 +1,1 @@
-sys-apps/flatpak seccomp policykit -gnome -gtk
+sys-apps/flatpak seccomp policykit -gnome -gtk kde

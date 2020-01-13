@@ -1,3 +1,4 @@
 app-office/libreoffice cups branding dbus pdfimport kde mariadb -gtk -accessibility -bluetooth -gtk2 -java
 app-office/libreoffice LIBREOFFICE_EXTENSIONS: -nlpsolver
 app-office/libreoffice-l10n L10N: en ja de
+app-office/libreoffice-bin kde python_targets_python3_6 python_single_target_python3_6

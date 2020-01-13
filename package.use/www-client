@@ -1,3 +1,5 @@
 www-client/w3m X -gdk-pixbuf imlib fbcon
 
 www-plugins/lightspark ffmpeg
+
+www-client/ungoogled-chromium-bin widevine

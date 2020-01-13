@@ -87,5 +87,9 @@ net-libs/nodejs
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0
 
+# OpenMP bricked in this exact version
+# (Assertion failure at kmp_lock.cpp(1397): head != 0.; OMP: Error #13: Assertion failure at kmp_lock.cpp(1397).)
+=media-gfx/imagemagick-7.0.9.14
+
 
 =x11-libs/libva-intel-driver-2.4.0_pre1
