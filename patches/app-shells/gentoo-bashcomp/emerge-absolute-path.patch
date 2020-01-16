@@ -1,0 +1,13 @@
+diff --git a/completions/emerge b/completions/emerge
+index 03cc503..2f562e4 100644
+--- a/completions/emerge
++++ b/completions/emerge
+@@ -27,7 +27,7 @@ _emerge()
+     fi
+ 
+     if [[ ${cur} =~ ^@ ]] ; then
+-        local SET_LIST=($(emerge --list-sets))
++        local SET_LIST=($(/usr/bin/emerge --list-sets))
+         COMPREPLY=($(compgen -W '${SET_LIST[@]/#/@}' ${cur}))
+         return 0
+     fi

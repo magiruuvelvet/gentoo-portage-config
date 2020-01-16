@@ -1,0 +1,13 @@
+diff --git a/share/completions/emerge.fish b/share/completions/emerge.fish
+index 851df35..66a8d2a 100644
+--- a/share/completions/emerge.fish
++++ b/share/completions/emerge.fish
+@@ -13,7 +13,7 @@
+ #end
+ 
+ function __fish_emerge_print_sets
+-	for s in '@'(emerge --list-sets)
++	for s in '@'(/usr/bin/emerge --list-sets)
+ 		switch $s
+ 		case @profile
+ 			printf '%s\t%s\n' $s 'set of packages deemed necessary for your system to run properly'
