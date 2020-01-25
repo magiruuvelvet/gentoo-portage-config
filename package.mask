@@ -93,3 +93,6 @@ net-libs/nodejs
 
 
 =x11-libs/libva-intel-driver-2.4.0_pre1
+
+# keep 1.20.7+ installed please
+=x11-base/xorg-server-1.20.6
