@@ -1,0 +1,13 @@
+diff --git a/common/flatpak-run.c b/common/flatpak-run.c
+index 7a19af1..e49d6c4 100644
+--- a/common/flatpak-run.c
++++ b/common/flatpak-run.c
+@@ -2384,7 +2384,7 @@ add_monitor_path_args (gboolean      use_session_helper,
+           g_autofree char *sandbox_pkcs11_socket_path = g_strdup_printf ("/run/user/%d/p11-kit/pkcs11", getuid ());
+           const char *trusted_module_contents =
+             "# This overrides the runtime p11-kit-trusted module with a client one talking to the trust module on the host\n"
+-            "module: p11-kit-client.so\n";
++            "module: p11-kit-trust.so\n";
+ 
+           if (flatpak_bwrap_add_args_data (bwrap, "p11-kit-trust.module",
+                                            trusted_module_contents, -1,
