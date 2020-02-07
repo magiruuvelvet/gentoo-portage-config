@@ -7,6 +7,7 @@
 */*::jorgicio
 */*::chaoslab
 */*::stefantalpalaru
+*/*::pentoo
 
 # make sure the correct unwind library from LLVM is installed
 # this one is the wrong one and causes serious problems with stack frames
@@ -83,6 +84,8 @@ net-libs/nodejs
 # rust update again...
 >=dev-lang/rust-1.40
 =virtual/rust-1.40.0
+
+dev-lang/rust-bin
 
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0

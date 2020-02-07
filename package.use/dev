@@ -13,6 +13,7 @@ dev-libs/glib dbus
 dev-libs/newt PYTHON_TARGETS: python3_6
 dev-libs/nss nss-pem cacert utils
 dev-libs/xmlsec nss openssl
+dev-libs/libzip lzma
 
 dev-cpp/eigen c++11
 

@@ -8,6 +8,8 @@ x11-misc/bumblebee::seden
 # GLVND is required for Vulkan support in "nvidia-xrun"
 x11-misc/primus::localrepo
 
+dev-util/unicorn::pentoo
+
 # telemetry free build of VS Code
 app-editors/vscodium-bin::jorgicio
 
@@ -33,6 +35,7 @@ www-client/ungoogled-chromium-bin::chaoslab
 # installed kernels
 =sys-kernel/vanilla-sources-5.2.13
 
+# media
 media-video/mpv::vapoursynth
 
 =net-libs/nodejs-11.14.0
