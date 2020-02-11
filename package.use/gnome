@@ -1,2 +1,6 @@
 gnome-base/gconf -policykit PYTHON_TARGETS: python2_7
-app-text/gnome-doc-utils PYTHON_TARGETS: python2_7
+gnome-base/gnome-desktop introspection
+gnome-base/gsettings-desktop-schemas introspection
+net-libs/webkit-gtk -* X opengl introspection
+net-libs/libsoup introspection
+x11-libs/libnotify introspection

@@ -6,13 +6,6 @@ dev-python/ipython matplotlib
 dev-python/cryptography idna
 dev-python/requests socks5
 
-dev-python/pygtk PYTHON_TARGETS: python2_7
-dev-python/pycairo PYTHON_TARGETS: python2_7
-dev-python/pygobject PYTHON_TARGETS: python2_7
-dev-python/numpy PYTHON_TARGETS: python2_7
-dev-python/numpy-python2 PYTHON_TARGETS: python2_7
-
-dev-python/nototools PYTHON_TARGETS: python2_7
 dev-python/fonttools PYTHON_TARGETS: python3_6
 
 dev-python/pillow zlib jpeg jpeg2k lcms tiff truetype webp
@@ -85,33 +78,5 @@ dev-python/zipp python_targets_python3_6
 dev-python/more-itertools python_targets_python3_6
 dev-python/toml python_targets_python3_6
 
-dev-python/m2crypto python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
 dev-python/certifi python_targets_python2_7
-virtual/python-typing python_targets_python2_7
-dev-python/typing python_targets_python2_7
-dev-python/backports-os python_targets_python2_7
-dev-python/booleanOperations python_targets_python2_7
-dev-python/defcon python_targets_python2_7
-dev-python/fonttools python_targets_python2_7
-dev-python/ufoLib python_targets_python2_7
-dev-python/fs python_targets_python2_7
-dev-python/dexml python_targets_python2_7
-dev-python/six python_targets_python2_7
-dev-python/pyclipper python_targets_python2_7
-dev-python/cython python_targets_python2_7
-dev-python/setuptools-git python_targets_python2_7
-dev-python/setuptools_scm python_targets_python2_7
-dev-python/setuptools_scm_git_archive python_targets_python2_7
-dev-python/backports python_targets_python2_7
-dev-python/future python_targets_python2_7
-dev-python/beautifulsoup python_targets_python2_7
-dev-python/beautifulsoup python_targets_python2_7
-dev-python/html5lib python_targets_python2_7
-dev-python/simplejson python_targets_python2_7
-dev-python/webencodings python_targets_python2_7
-dev-python/lxml python_targets_python2_7
-dev-python/backports-shutil_which python_targets_python2_7
-dev-python/pillow python_targets_python2_7
-dev-python/olefile python_targets_python2_7
-dev-python/lit python_targets_python2_7

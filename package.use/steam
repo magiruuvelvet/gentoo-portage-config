@@ -1,12 +1,6 @@
 games-util/steam-meta steamruntime
 games-util/steam-launcher steamruntime
 
-dev-util/itstool PYTHON_TARGETS: python2_7
-dev-libs/libxml2 python PYTHON_TARGETS: python3_7 python2_7
-
-sys-apps/sc-controller PYTHON_TARGETS: python2_7
-dev-python/pylibacl PYTHON_TARGETS: python2_7 python3_7
-
 app-arch/bzip2 abi_x86_32
 dev-db/sqlite abi_x86_32
 dev-libs/atk abi_x86_32

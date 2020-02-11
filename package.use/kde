@@ -76,4 +76,4 @@ sci-libs/libqalculate icu
 
 app-text/xmlto text
 
-dev-libs/libdbusmenu gtk gtk3 introspection PYTHON_TARGETS: python2_7
+dev-libs/libdbusmenu gtk gtk3 introspection
