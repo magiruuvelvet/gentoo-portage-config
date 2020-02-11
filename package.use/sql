@@ -1,5 +1,3 @@
 dev-db/mariadb server pam innodb-lz4 innodb-lzo jemalloc bindist
 dev-db/sqlite readline icu secure-delete tools
 dev-db/postgresql llvm icu threads
-
-dev-util/scons PYTHON_TARGETS: python3_6

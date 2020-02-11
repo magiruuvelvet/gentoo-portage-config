@@ -1,3 +1,1 @@
 dev-util/scanmem gui PYTHON_TARGETS: python3_7 PYTHON_SINGLE_TARGET: python3_7
-dev-python/pycairo PYTHON_TARGETS: python3_6
-dev-python/pygobject PYTHON_TARGETS: python3_6

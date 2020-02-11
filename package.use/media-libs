@@ -13,7 +13,7 @@ media-libs/aalib X
 media-libs/gegl cairo ffmpeg jpeg2k -openexr pdf raw svg tiff webp zlib
 media-libs/opencolorio opengl
 media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
-media-libs/mlt ffmpeg frei0r kdenlive melt qt5 sdl xml opengl fftw PYTHON_TARGETS: python3_7 python3_6
+media-libs/mlt ffmpeg frei0r kdenlive melt qt5 sdl xml opengl fftw PYTHON_TARGETS: python3_7
 media-libs/tiff cxx jbig jpeg lzma webp zlib zstd
 media-libs/libmypaint gegl
 media-libs/dav1d abi_x86_32

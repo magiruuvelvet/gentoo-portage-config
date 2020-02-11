@@ -5,5 +5,3 @@ net-libs/glib-networking -gnome
 net-libs/mbedtls threads
 
 net-libs/zeromq drafts
-
-#net-proxy/mitmproxy PYTHON_TARGETS: python3_6
