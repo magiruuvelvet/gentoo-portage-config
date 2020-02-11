@@ -6,3 +6,6 @@ games-emulation/dolphin alsa pulseaudio evdev ffmpeg openal pch -qt5 sdl wxwidge
 
 # for yuzu emulator to avoid constant recompiles
 dev-util/unicorn unicorn_targets_aarch64 unicorn_targets_arm unicorn_targets_x86
+
+# faudio
+app-emulation/faudio ffmpeg

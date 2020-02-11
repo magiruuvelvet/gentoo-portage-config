@@ -6,7 +6,6 @@ sys-libs/libosinfo introspection
 app-emulation/virt-manager gtk
 
 net-libs/gtk-vnc introspection
-net-misc/spice-gtk introspection pulseaudio usbredir dbus lz4 mjpeg gstvideo
 x11-libs/vte introspection
 sys-auth/polkit introspection
 

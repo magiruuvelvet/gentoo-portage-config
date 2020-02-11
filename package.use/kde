@@ -62,11 +62,9 @@ media-libs/phonon-gstreamer network alsa
 # minimal vlc build without user interface, only libraries and command line program
 media-video/vlc -X -dvbpsi -encode -ncurses -ssl -qt5 run-as-root xml flac alsa pulseaudio opus ogg mpeg mp3 matroska libnotify dbus vorbis
 
-kde-plasma/ksysguard lm-sensors
+kde-plasma/ksysguard lm-sensors pcap caps
 kde-plasma/libksysguard X webengine
 
-# mp3 support requires id3lib, which is incompatible with my GNU-free Linux
-media-sound/kid3 taglib kde flac -mp3 mp4 vorbis -mpris
 
 sys-apps/accountsservice
 x11-misc/sddm pam

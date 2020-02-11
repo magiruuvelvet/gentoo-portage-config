@@ -1,0 +1,8 @@
+dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
+dev-libs/elfutils bzip2 nls utils lzma
+dev-libs/glib dbus
+dev-libs/libusb udev
+dev-libs/libxml2 python PYTHON_TARGETS: python3_7
+dev-libs/libzip lzma
+dev-libs/nss nss-pem cacert utils
+dev-libs/xmlsec nss openssl

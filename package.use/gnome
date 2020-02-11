@@ -4,3 +4,4 @@ gnome-base/gsettings-desktop-schemas introspection
 net-libs/webkit-gtk -* X opengl introspection
 net-libs/libsoup introspection
 x11-libs/libnotify introspection
+gnome-base/librsvg -vala introspection -tools

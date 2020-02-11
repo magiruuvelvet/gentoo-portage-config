@@ -1,5 +1,4 @@
-media-sound/alsa-tools ALSA_CARDS: *
+dev-python/pyalsa PYTHON_TARGETS: python3_6
 media-libs/alsa-lib alisp
 media-plugins/alsa-plugins pulseaudio speex
 sys-firmware/alsa-firmware ALSA_CARDS: *
-dev-python/pyalsa PYTHON_TARGETS: python3_6

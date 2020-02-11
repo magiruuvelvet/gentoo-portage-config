@@ -1,11 +1,7 @@
 net-dialup/ppp pam activefilter atm dhcp eap eap-tls radius ipv6
-net-wireless/wpa_supplicant dbus fils readline ap p2p eap-sim uncommon-eap-types -qt5
-net-wireless/crda gcrypt
+
 net-libs/libpcap bluetooth dbus netlink usb
 net-libs/libmbim udev
-
-net-misc/modemmanager qmi udev mbim -policykit -vala
-net-misc/networkmanager dhclient modemmanager ncurses nss ppp wext wifi bluetooth connection-sharing json -teamd -policykit -vala
 
 net-firewall/iptables conntrack netlink nftables pcap
 
