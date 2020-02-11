@@ -12,7 +12,7 @@
 =media-video/mpv-9999-r9::vapoursynth **
 =media-video/mpv-9999::vapoursynth **
 
-=www-plugins/lightspark-9999 **
+=dev-util/unicorn-9999 **
 
 # localrepo
 =x11-misc/nvidia-xrun-9999 **

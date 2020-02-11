@@ -8,8 +8,6 @@ x11-misc/bumblebee::seden
 # GLVND is required for Vulkan support in "nvidia-xrun"
 x11-misc/primus::localrepo
 
-dev-util/unicorn::pentoo
-
 # telemetry free build of VS Code
 app-editors/vscodium-bin::jorgicio
 
