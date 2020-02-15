@@ -1,0 +1,6 @@
+app-editors/vscodium qt5
+app-editors/okteta -handbook
+app-editors/kile -handbook
+
+# for xxd command
+app-editors/vim-core minimal

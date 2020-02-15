@@ -1,8 +1,0 @@
-media-video/mpv X alsa archive bluray cdda cli cplugins drm -dvd egl iconv javascript libass libcaca libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda -vulkan
-app-shells/mpv-bash-completion luajit
-
-# from the [vapoursynth] overlay, overwrites mpv from above with this feature enabled
-# required for SVP (Smooth Video Project)
-media-libs/vapoursynth VAPOURSYNTH_PLUGINS: *
-
-dev-lang/luajit lua52compat

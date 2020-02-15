@@ -1,0 +1,4 @@
+gnome-base/gconf -policykit PYTHON_TARGETS: python2_7
+gnome-base/gnome-desktop introspection
+gnome-base/gsettings-desktop-schemas introspection
+gnome-base/librsvg -vala introspection -tools

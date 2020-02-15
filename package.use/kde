@@ -44,34 +44,8 @@ app-accessibility/speech-dispatcher -espeak -alsa -pulseaudio
 kde-apps/kdepim-addons markdown
 kde-apps/kitinerary -barcode pdf
 
-
-# fancyviewer pulls in a lot of speech and accessibility stuff (not needed and increases compile times)
 kde-apps/libkleo -fancyviewer
-
-app-editors/okteta -handbook
-app-editors/kile -handbook
-www-client/falkon X dbus kde
-net-p2p/ktorrent -handbook -mediaplayer -scanfolder -search -shutdown
-
-net-fs/samba client
 kde-apps/krdc vnc rdp
-net-libs/libvncserver zlib lzo jpeg png threads
-
-media-libs/phonon pulseaudio gstreamer -vlc
-media-libs/phonon-gstreamer network alsa
-# minimal vlc build without user interface, only libraries and command line program
-media-video/vlc -X -dvbpsi -encode -ncurses -ssl -qt5 run-as-root xml flac alsa pulseaudio opus ogg mpeg mp3 matroska libnotify dbus vorbis
 
 kde-plasma/ksysguard lm-sensors pcap caps
 kde-plasma/libksysguard X webengine
-
-
-sys-apps/accountsservice
-x11-misc/sddm pam
-
-app-misc/ddcutil X drm usb-monitor user-permissions VIDEO_CARDS: -*
-sci-libs/libqalculate icu
-
-app-text/xmlto text
-
-dev-libs/libdbusmenu gtk gtk3 introspection

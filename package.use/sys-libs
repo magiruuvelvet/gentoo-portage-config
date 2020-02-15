@@ -1,6 +1,6 @@
 sys-libs/libunwind static-libs libatomic lzma
 sys-libs/slang pcre readline zlib cjk png
 sys-libs/libblockdev cryptsetup tools bcache -device-mapper
-
-# don't build incompatible C++ version
 sys-libs/db -cxx
+sys-libs/libosinfo introspection
+sys-libs/zlib minizip

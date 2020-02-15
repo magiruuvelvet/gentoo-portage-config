@@ -1,0 +1,3 @@
+net-firewall/ufw ipv6 PYTHON_TARGETS: python3_6
+net-firewall/xtables-addons -* xtables_addons_geoip
+net-firewall/iptables conntrack netlink nftables pcap

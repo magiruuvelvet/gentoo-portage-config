@@ -1,0 +1,2 @@
+app-pda/libplist PYTHON_TARGETS: python3_6
+app-pda/libimobiledevice PYTHON_TARGETS: python3_6

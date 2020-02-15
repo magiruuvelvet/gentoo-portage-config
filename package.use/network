@@ -1,8 +1,0 @@
-net-dialup/ppp pam activefilter atm dhcp eap eap-tls radius ipv6
-
-net-libs/libpcap bluetooth dbus netlink usb
-net-libs/libmbim udev
-
-net-firewall/iptables conntrack netlink nftables pcap
-
-net-proxy/privoxy -image-blocking -stats

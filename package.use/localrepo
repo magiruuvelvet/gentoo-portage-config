@@ -1,2 +1,0 @@
-sys-apps/flatpak seccomp policykit -gnome -gtk kde
-sys-fs/libostree openssl curl

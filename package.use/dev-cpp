@@ -1,1 +1,3 @@
 dev-cpp/eigen c++11
+dev-cpp/gtkmm X
+dev-cpp/cairomm X

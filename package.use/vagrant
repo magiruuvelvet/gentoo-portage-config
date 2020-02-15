@@ -1,2 +1,0 @@
-# only use libvirt/qemu, disable virtualbox support
-app-emulation/vagrant -virtualbox

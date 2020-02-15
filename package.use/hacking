@@ -1,1 +1,0 @@
-dev-util/scanmem gui PYTHON_TARGETS: python3_7 PYTHON_SINGLE_TARGET: python3_7

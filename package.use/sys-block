@@ -1,0 +1,2 @@
+sys-block/parted -device-mapper
+sys-block/gparted btrfs f2fs fat hfs jfs kde ntfs policykit reiser4 reiserfs udf xfs

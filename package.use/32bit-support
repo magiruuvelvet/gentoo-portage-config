@@ -7,7 +7,6 @@ app-arch/snappy abi_x86_32
 app-arch/xz-utils abi_x86_32
 app-arch/zstd abi_x86_32
 app-emulation/vkd3d abi_x86_32
-app-emulation/wine-gecko abi_x86_32
 dev-db/lmdb abi_x86_32
 dev-db/sqlite abi_x86_32
 dev-lang/orc abi_x86_32
@@ -122,6 +121,7 @@ media-libs/x265 abi_x86_32
 media-libs/xvid abi_x86_32
 media-libs/zimg abi_x86_32
 media-libs/zvbi abi_x86_32
+media-libs/libglvnd abi_x86_32
 media-plugins/alsa-plugins abi_x86_32
 media-plugins/gst-plugins-a52dec abi_x86_32
 media-plugins/gst-plugins-assrender abi_x86_32
@@ -250,6 +250,8 @@ x11-libs/xcb-util-keysyms abi_x86_32
 x11-libs/xcb-util-renderutil abi_x86_32
 x11-libs/xcb-util-wm abi_x86_32
 x11-misc/colord abi_x86_32
+x11-misc/bumblebee abi_x86_32
+x11-misc/primus abi_x86_32
 x11-proto/damageproto abi_x86_32
 x11-proto/dri2proto abi_x86_32
 x11-proto/dri3proto abi_x86_32
@@ -264,3 +266,4 @@ x11-proto/xf86bigfontproto abi_x86_32
 x11-proto/xf86driproto abi_x86_32
 x11-proto/xf86vidmodeproto abi_x86_32
 x11-proto/xproto abi_x86_32
+virtual/libcrypt abi_x86_32

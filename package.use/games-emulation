@@ -1,0 +1,1 @@
+games-emulation/dolphin alsa pulseaudio evdev ffmpeg openal pch -qt5 sdl wxwidgets

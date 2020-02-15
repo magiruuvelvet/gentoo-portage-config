@@ -1,4 +1,0 @@
-net-dns/dnsmasq inotify dbus dhcp dnssec nls idn script
-net-dns/bind-tools idn
-
-net-dns/avahi dbus mdnsresponder-compat qt5

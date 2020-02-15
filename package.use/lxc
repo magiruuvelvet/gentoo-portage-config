@@ -1,3 +1,0 @@
-sys-process/criu setproctitle
-sys-fs/squashfs-tools xattr xz lz4 lzma lzo zstd
-app-emulation/lxd daemon nls tools -dnsmasq

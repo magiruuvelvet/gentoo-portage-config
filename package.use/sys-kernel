@@ -1,0 +1,2 @@
+sys-kernel/gentoo-sources symlink -firmware
+sys-kernel/linux-firmware -redistributable savedconfig unknown-license

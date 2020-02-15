@@ -1,2 +1,7 @@
 app-text/tesseract openmp jpeg math png tiff webp L10N: *
 app-text/tessdata_fast osd L10N: *
+app-text/hunspell L10N: en de
+app-text/texlive-core cjk luajittex xetex
+app-text/ghostscript-gpl unicode dbus tiff cups L10N: ja
+app-text/poppler cxx jpeg jpeg2k lcms utils cairo cjk curl tiff qt5
+app-text/xmlto text

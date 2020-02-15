@@ -1,3 +1,4 @@
+dev-libs/atk introspection
 dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
 dev-libs/elfutils bzip2 nls utils lzma
 dev-libs/glib dbus
@@ -6,3 +7,8 @@ dev-libs/libxml2 python PYTHON_TARGETS: python3_7
 dev-libs/libzip lzma
 dev-libs/nss nss-pem cacert utils
 dev-libs/xmlsec nss openssl
+dev-libs/re2 icu
+dev-libs/libpcre2 pcre16 pcre32 unicode
+dev-libs/libinput INPUT_DEVICES: wacom
+dev-libs/libxml2 icu
+dev-libs/libdbusmenu gtk gtk3 introspection

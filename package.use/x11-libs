@@ -1,0 +1,14 @@
+x11-libs/libnotify introspection
+x11-libs/* X
+x11-libs/libva X opengl utils vdpau
+x11-libs/cairo opengl xcb
+x11-libs/libXfont2 truetype
+x11-libs/libva-vdpau-driver opengl
+x11-libs/libxcb xkb
+x11-libs/libxkbcommon X
+x11-libs/vte introspection
+x11-libs/gtk+ xinerama introspection -broadway -cloudprint -colord -cups -wayland
+x11-libs/pango introspection
+x11-libs/gdk-pixbuf introspection
+x11-libs/gtksourceview introspection
+x11-libs/wxGTK X opengl gstreamer libnotify sdl tiff

@@ -1,0 +1,3 @@
+sys-firmware/* bluetooth
+sys-firmware/alsa-firmware ALSA_CARDS: *
+sys-firmware/intel-microcode initramfs

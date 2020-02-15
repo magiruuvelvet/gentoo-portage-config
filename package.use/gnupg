@@ -1,2 +1,0 @@
-app-crypt/gnupg bzip2 user-socket tools -smartcard -usb
-app-crypt/pinentry qt5 ncurses gnome-keyring

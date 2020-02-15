@@ -1,7 +1,16 @@
 sys-apps/busybox -static
+sys-apps/dbus X user-session
 sys-apps/file bzip2 lzma zlib
 sys-apps/pciutils dns
 sys-apps/pcsc-lite udev
 sys-apps/shadow bcrypt
 sys-apps/systemd acl idn kmod lz4 lzma nat pam pcre policykit seccomp sysv-utils cgroup-hybrid -elfutils -gcrypt -audit
 sys-apps/util-linux caps unicode udev suid
+sys-apps/kmod lzma zlib
+sys-apps/util-linux static-libs
+sys-apps/smartmontools -daemon
+sys-apps/gsmartcontrol
+sys-apps/firejail contrib x11
+sys-apps/man-db -gdbm berkdb
+sys-apps/flatpak seccomp policykit -gnome -gtk kde
+sys-apps/debianutils -installkernel

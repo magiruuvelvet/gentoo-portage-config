@@ -1,3 +1,4 @@
+media-libs/alsa-lib alisp
 media-libs/aalib X
 media-libs/freeimage jpeg jpeg2k mng -openexr png raw tiff webp
 media-libs/gd fontconfig jpeg png truetype zlib tiff webp xpm
@@ -28,3 +29,16 @@ media-libs/sdl2-image gif jpeg png tiff webp
 media-libs/sdl2-mixer wav flac mad mod modplug mp3 opus vorbis
 media-libs/sdl2-ttf X
 media-libs/tiff cxx jbig jpeg lzma webp zlib zstd
+media-libs/gstreamer caps nls introspection -unwind
+media-libs/gst-plugins-base X alsa egl nls ogg opengl orc pango theora vorbis introspection
+media-libs/vapoursynth VAPOURSYNTH_PLUGINS: *
+media-libs/libwmf expat
+media-libs/libsamplerate sndfile
+media-libs/phonon pulseaudio gstreamer -vlc
+media-libs/phonon-gstreamer network alsa
+media-libs/mesa pic vaapi vdpau vulkan vulkan-overlay wayland lm-sensors xa -llvm
+media-libs/freetype -infinality png utils
+media-libs/harfbuzz icu
+media-libs/libglvnd X
+media-libs/vulkan-loader X wayland layers
+media-libs/vulkan-layers X wayland

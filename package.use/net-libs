@@ -1,7 +1,12 @@
-net-libs/zeromq -unwind
-net-libs/libpsl idn icu
-net-libs/libproxy -gnome -kde -mono -networkmanager -perl -python -spidermonkey -webkit
 net-libs/glib-networking -gnome
+net-libs/libproxy -gnome -kde -mono -networkmanager -perl -python -spidermonkey -webkit
+net-libs/libpsl idn icu
+net-libs/libsoup introspection
 net-libs/mbedtls threads
-
-net-libs/zeromq drafts
+net-libs/webkit-gtk -* X opengl introspection
+net-libs/zeromq -unwind drafts
+net-libs/gtk-vnc introspection
+net-libs/nodejs npm ssl icu inspector PYTHON_TARGETS: python2_7
+net-libs/libvncserver zlib lzo jpeg png threads
+net-libs/libpcap bluetooth dbus netlink usb
+net-libs/libmbim udev

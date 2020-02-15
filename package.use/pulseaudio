@@ -1,2 +1,0 @@
-media-plugins/alsa-plugins mix pulseaudio usb_stream
-media-libs/libsamplerate sndfile

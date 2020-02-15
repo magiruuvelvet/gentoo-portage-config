@@ -1,0 +1,3 @@
+app-i18n/fcitx enchant -gtk3 -gtk2 -introspection autostart
+app-i18n/mozc gui handwriting-tomoe fcitx4 -handwriting-tegaki
+app-i18n/fbterm filecaps

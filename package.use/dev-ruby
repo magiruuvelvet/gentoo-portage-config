@@ -1,0 +1,11 @@
+dev-ruby/rubygems server
+dev-ruby/did_you_mean ruby_targets_ruby26
+dev-ruby/minitest ruby_targets_ruby26
+dev-ruby/net-telnet ruby_targets_ruby26
+dev-ruby/power_assert ruby_targets_ruby26
+dev-ruby/rake ruby_targets_ruby26
+dev-ruby/test-unit ruby_targets_ruby26
+dev-ruby/xmlrpc ruby_targets_ruby26
+dev-ruby/bundler ruby_targets_ruby26
+dev-ruby/json ruby_targets_ruby26
+dev-ruby/rubygems ruby_targets_ruby26

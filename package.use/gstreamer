@@ -1,3 +1,0 @@
-media-libs/gstreamer caps nls introspection -unwind
-media-plugins/gst-plugins-meta X a52 aac alsa dts dvd ffmpeg flac lame http libass pulseaudio theora taglib vaapi wavpack x264 mp3 mpeg ogg opus vpx vcd vorbis modplug cdda
-media-libs/gst-plugins-base X alsa egl nls ogg opengl orc pango theora vorbis

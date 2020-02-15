@@ -1,1 +1,4 @@
 sys-fs/cryptsetup -argon2 -luks1_default openssl udev -gcrypt -nettle
+sys-fs/squashfs-tools xattr xz lz4 lzma lzo zstd
+sys-fs/libostree openssl curl
+sys-fs/udisks acl nls

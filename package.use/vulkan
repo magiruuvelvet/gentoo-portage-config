@@ -1,3 +1,0 @@
-dev-util/vulkan-tools X wayland vulkaninfo -cube
-media-libs/vulkan-loader X wayland layers
-media-libs/vulkan-layers X wayland
