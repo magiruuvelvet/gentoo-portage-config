@@ -1,8 +1,8 @@
 diff --git a/src/screen.cpp b/src/screen.cpp
-index ebc085a..1203627 100644
+index 0a4cac0..0365a65 100644
 --- a/src/screen.cpp
 +++ b/src/screen.cpp
-@@ -861,28 +861,6 @@ static screen_layout_t compute_layout(screen_t *s, size_t screen_width,
+@@ -867,28 +867,6 @@ static screen_layout_t compute_layout(screen_t *s, size_t screen_width,
      size_t left_prompt_width = left_prompt_layout.last_line_width;
      size_t right_prompt_width = right_prompt_layout.last_line_width;
  
@@ -28,6 +28,6 @@ index ebc085a..1203627 100644
 -    // Now we should definitely fit.
 -    assert(left_prompt_width + right_prompt_width < screen_width);
 -
-     // Convert commandline to a list of lines and their widths.
-     wcstring_list_t command_lines(1);
-     std::vector<size_t> line_widths(1);
+     // Get the width of the first line, and if there is more than one line.
+     bool multiline = false;
+     size_t first_line_width = 0;
