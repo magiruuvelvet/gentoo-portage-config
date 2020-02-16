@@ -1,41 +1,24 @@
-# mask 3rd party repos with other software available
-# other than the one I'm looking for to avoid breakage
-# with main repositories
-# unmask individual packages in package.unmask to install them
-
+# mask 3rd party repos by default, use package.unmask to unmask individual packages
 */*::seden
 */*::jorgicio
 */*::chaoslab
 */*::stefantalpalaru
 */*::pentoo
 
-# make sure the correct unwind library from LLVM is installed
-# this one is the wrong one and causes serious problems with stack frames
-sys-libs/libunwind
-
-# use seden bumblebee for better compatibility with CUDA
-
 # package blacklist, avoid to install
+# see package.unmask for eventual overwrites
 dev-java/icedtea-bin
 dev-java/icedtea-sound
 dev-java/icedtea-web
 sys-devel/gdb
-
-# official bumblebee packages are broken and don't support CUDA (nvidia-uvm.ko)
+sys-libs/libunwind
 x11-misc/bumblebee::gentoo
 x11-misc/primus::gentoo
-
-# locked packages (see package.unmask for installed kernel versions)
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
-
-# only install the vapoursynth version
 media-video/mpv::gentoo
-
-# install version 14 because of license (money$$$)
->=app-emulation/vmware-workstation-15.1
-=app-emulation/vmware-workstation-15.1.0.13591040-r4
-=app-emulation/vmware-modules-361.1.0
+net-libs/nodejs
+dev-lang/rust-bin
 
 # mask GNU toolchain to avoid install
 sys-devel/gcc::gentoo
@@ -65,27 +48,15 @@ sys-libs/glibc
 # use custom version
 sys-libs/musl::gentoo
 
-
-# :( - breaking API changes reee [package.unmask for installed version]
-net-libs/nodejs
-
-# still bricked, though there was supposed to be a bug fix
-=kde-apps/okular-19.08.3
-=kde-apps/okular-19.12.0
-
-
 # I have 3 python versions installed already (no more python nonsense please)
 >=dev-lang/python-3.8.0
 
 # mask ruby 2.7 for now (compatibility with native extensions)
 >=dev-lang/ruby-2.7
-=dev-ruby/bundler-2.1.2
 
 # rust update again...
 >=dev-lang/rust-1.40
 =virtual/rust-1.40.0
-
-dev-lang/rust-bin
 
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0
@@ -93,7 +64,6 @@ dev-lang/rust-bin
 # OpenMP bricked in this exact version
 # (Assertion failure at kmp_lock.cpp(1397): head != 0.; OMP: Error #13: Assertion failure at kmp_lock.cpp(1397).)
 =media-gfx/imagemagick-7.0.9.14
-
 
 =x11-libs/libva-intel-driver-2.4.0_pre1
 

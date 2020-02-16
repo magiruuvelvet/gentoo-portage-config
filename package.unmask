@@ -1,7 +1,6 @@
 # unmasked 3rd party packages
 
 x11-misc/bumblebee::seden
-#x11-misc/primus::seden
 
 # patched ebuild to allow NVIDIA GLVND to be installed
 # no problems with it being installed, just use "optirun -b primus" instead of "primusrun"
@@ -10,9 +9,6 @@ x11-misc/primus::localrepo
 
 # telemetry free build of VS Code
 app-editors/vscodium-bin::jorgicio
-
-# netflix'n'chill
-dev-qt/qtwebengine-widevine::jorgicio
 
 kde-misc/plasma-applet-places-widget::jorgicio
 kde-misc/plasma-applet-window-appmenu::jorgicio
@@ -26,10 +22,6 @@ www-servers/caddy::chaoslab
 
 www-client/ungoogled-chromium-bin::chaoslab
 
-# need this for work
-<app-emulation/vmware-workstation-15::stefantalpalaru
-=app-emulation/vmware-modules-331.1.7::stefantalpalaru
-
 # installed kernels
 =sys-kernel/vanilla-sources-5.2.13
 
@@ -37,6 +29,7 @@ www-client/ungoogled-chromium-bin::chaoslab
 media-video/mpv::vapoursynth
 
 =net-libs/nodejs-11.14.0
+=sys-libs/glibc-2.29-r4
 
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo
@@ -44,5 +37,3 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
-
-=sys-libs/glibc-2.29-r4
