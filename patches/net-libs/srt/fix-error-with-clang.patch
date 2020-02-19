@@ -1,11 +1,11 @@
 diff --git a/srtcore/srt.h b/srtcore/srt.h
-index 0a1e8fe..22210f6 100644
+index 0e566e8..d39a3b0 100644
 --- a/srtcore/srt.h
 +++ b/srtcore/srt.h
-@@ -74,15 +74,15 @@ written by
- // (out of these, only [[deprecated]] is supported in C++14, so
- // for all lesser standard use compiler-specific attributes).
- #if defined(__cplusplus) && __cplusplus > 201406
+@@ -80,15 +80,15 @@ written by
+ 
+ #elif defined(__cplusplus) && __cplusplus > 201406
+ 
 -#define SRT_ATR_UNUSED [[maybe_unused]]
 -#define SRT_ATR_DEPRECATED [[deprecated]]
 -#define SRT_ATR_NODISCARD [[nodiscard]]
@@ -13,8 +13,8 @@ index 0a1e8fe..22210f6 100644
 +#define SRT_ATR_DEPRECATED
 +#define SRT_ATR_NODISCARD
  
- // GNUG is GNU C++; this syntax is also supported by Clang
- #elif defined( __GNUG__)
+ // GNUG is GNU C/C++; this syntax is also supported by Clang
+ #elif defined( __GNUC__)
 -#define SRT_ATR_UNUSED __attribute__((unused))
 -#define SRT_ATR_DEPRECATED __attribute__((deprecated))
 -#define SRT_ATR_NODISCARD __attribute__((warn_unused_result))

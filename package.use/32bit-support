@@ -6,6 +6,7 @@ app-arch/lz4 abi_x86_32
 app-arch/snappy abi_x86_32
 app-arch/xz-utils abi_x86_32
 app-arch/zstd abi_x86_32
+app-crypt/libb2 abi_x86_32
 app-emulation/vkd3d abi_x86_32
 dev-db/lmdb abi_x86_32
 dev-db/sqlite abi_x86_32

@@ -1,1 +1,2 @@
 app-arch/p7zip pch rar
+app-arch/libarchive acl xattr bzip2 expat iconv lz4 lzma lzo zlib zstd blake2
