@@ -1,4 +1,4 @@
-dev-qt/* X qml icu udev dbus -debug -designer
+dev-qt/* X qml icu udev dbus vulkan -debug -designer
 dev-qt/qtcore icu
 dev-qt/qtgui gif libinput png jpeg udev xcb dbus egl evdev
 dev-qt/qtwidgets png xcb

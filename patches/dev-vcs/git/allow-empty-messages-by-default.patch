@@ -1,0 +1,22 @@
+diff --git a/builtin/commit.c b/builtin/commit.c
+index 646e845..6253c21 100644
+--- a/builtin/commit.c
++++ b/builtin/commit.c
+@@ -1643,17 +1643,6 @@ int cmd_commit(int argc, const char **argv, const char *prefix)
+ 
+ 	cleanup_message(&sb, cleanup_mode, verbose);
+ 
+-	if (message_is_empty(&sb, cleanup_mode) && !allow_empty_message) {
+-		rollback_index_files();
+-		fprintf(stderr, _("Aborting commit due to empty commit message.\n"));
+-		exit(1);
+-	}
+-	if (template_untouched(&sb, template_file, cleanup_mode) && !allow_empty_message) {
+-		rollback_index_files();
+-		fprintf(stderr, _("Aborting commit; you did not edit the message.\n"));
+-		exit(1);
+-	}
+-
+ 	if (amend) {
+ 		const char *exclude_gpgsig[2] = { "gpgsig", NULL };
+ 		extra = read_commit_extra_headers(current_head, exclude_gpgsig);
