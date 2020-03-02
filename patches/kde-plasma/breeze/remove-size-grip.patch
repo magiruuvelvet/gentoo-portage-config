@@ -1,0 +1,150 @@
+diff --git a/kdecoration/breezedecoration.cpp b/kdecoration/breezedecoration.cpp
+index 525f772..1f0c459 100644
+--- a/kdecoration/breezedecoration.cpp
++++ b/kdecoration/breezedecoration.cpp
+@@ -28,7 +28,6 @@
+ #include "config/breezeconfigwidget.h"
+ 
+ #include "breezebutton.h"
+-#include "breezesizegrip.h"
+ 
+ #include "breezeboxshadowrenderer.h"
+ 
+@@ -173,9 +172,6 @@ namespace Breeze
+             // last deco destroyed, clean up shadow
+             g_sShadow.clear();
+         }
+-
+-        deleteSizeGrip();
+-
+     }
+ 
+     //________________________________________________________________
+@@ -184,8 +180,6 @@ namespace Breeze
+         if( m_opacity == value ) return;
+         m_opacity = value;
+         update();
+-
+-        if( m_sizeGrip ) m_sizeGrip->update();
+     }
+ 
+     //________________________________________________________________
+@@ -326,9 +320,6 @@ namespace Breeze
+     //________________________________________________________________
+     void Decoration::updateSizeGripVisibility()
+     {
+-        auto c = client().data();
+-        if( m_sizeGrip )
+-        { m_sizeGrip->setVisible( c->isResizeable() && !isMaximized() && !c->isShaded() ); }
+     }
+ 
+     //________________________________________________________________
+@@ -383,11 +374,6 @@ namespace Breeze
+ 
+         // shadow
+         createShadow();
+-
+-        // size grip
+-        if( hasNoBorders() && m_internalSettings->drawSizeGrip() ) createSizeGrip();
+-        else deleteSizeGrip();
+-
+     }
+ 
+     //________________________________________________________________
+@@ -421,21 +407,7 @@ namespace Breeze
+         setBorders(QMargins(left, top, right, bottom));
+ 
+         // extended sizes
+-        const int extSize = s->largeSpacing();
+-        int extSides = 0;
+-        int extBottom = 0;
+-        if( hasNoBorders() )
+-        {
+-            if( !isMaximizedHorizontally() ) extSides = extSize;
+-            if( !isMaximizedVertically() ) extBottom = extSize;
+-
+-        } else if( hasNoSideBorders() && !isMaximizedHorizontally() ) {
+-
+-            extSides = extSize;
+-
+-        }
+-
+-        setResizeOnlyBorders(QMargins(extSides, 0, extSides, extBottom));
++        setResizeOnlyBorders(QMargins(0, 0, 0, 0));
+     }
+ 
+     //________________________________________________________________
+@@ -796,36 +768,13 @@ namespace Breeze
+     //_________________________________________________________________
+     void Decoration::createSizeGrip()
+     {
+-
+-        // do nothing if size grip already exist
+-        if( m_sizeGrip ) return;
+-
+-        #if BREEZE_HAVE_X11
+-        if( !QX11Info::isPlatformX11() ) return;
+-
+-        // access client
+-        auto c = client().data();
+-        if( !c ) return;
+-
+-        if( c->windowId() != 0 )
+-        {
+-            m_sizeGrip = new SizeGrip( this );
+-            connect( c, &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
+-            connect( c, &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
+-            connect( c, &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
+-        }
+-        #endif
+-
++        // resizing with mouse is ancient computer usage
++        // use alt+right mouse button or get the fuck out
+     }
+ 
+     //_________________________________________________________________
+     void Decoration::deleteSizeGrip()
+     {
+-        if( m_sizeGrip )
+-        {
+-            m_sizeGrip->deleteLater();
+-            m_sizeGrip = nullptr;
+-        }
+     }
+ 
+ } // namespace
+diff --git a/kdecoration/breezedecoration.h b/kdecoration/breezedecoration.h
+index 0518bf2..f2bae99 100644
+--- a/kdecoration/breezedecoration.h
++++ b/kdecoration/breezedecoration.h
+@@ -132,16 +132,13 @@ namespace Breeze
+         void createSizeGrip();
+         void deleteSizeGrip();
+         SizeGrip* sizeGrip() const
+-        { return m_sizeGrip; }
++        { return nullptr; }
+         //@}
+ 
+         InternalSettingsPtr m_internalSettings;
+         KDecoration2::DecorationButtonGroup *m_leftButtons = nullptr;
+         KDecoration2::DecorationButtonGroup *m_rightButtons = nullptr;
+ 
+-        //* size grip widget
+-        SizeGrip *m_sizeGrip = nullptr;
+-
+         //* active state change animation
+         QVariantAnimation *m_animation;
+ 
+diff --git a/kdecoration/breezesizegrip.h b/kdecoration/breezesizegrip.h
+index b240d90..2200146 100644
+--- a/kdecoration/breezesizegrip.h
++++ b/kdecoration/breezesizegrip.h
+@@ -81,7 +81,7 @@ namespace Breeze
+         //* grip size
+         enum {
+             Offset = 0,
+-            GripSize = 14
++            GripSize = 0
+         };
+ 
+         //* decoration
