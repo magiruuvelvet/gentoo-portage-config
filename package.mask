@@ -66,6 +66,8 @@ sys-libs/musl::gentoo
 =media-gfx/imagemagick-7.0.9.14
 
 =x11-libs/libva-intel-driver-2.4.0_pre1
+=sys-boot/grub-2.05_alpha20200110
+=sys-boot/grub-2.05_alpha20200228
 
 # keep 1.20.7+ installed please
 =x11-base/xorg-server-1.20.6
