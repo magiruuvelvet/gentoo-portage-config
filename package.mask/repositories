@@ -1,0 +1,6 @@
+# mask 3rd party repos by default, use package.unmask to unmask individual packages
+*/*::seden
+*/*::jorgicio
+*/*::chaoslab
+*/*::stefantalpalaru
+*/*::pentoo

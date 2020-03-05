@@ -1,0 +1,3 @@
+# OpenMP bricked in this exact version
+# (Assertion failure at kmp_lock.cpp(1397): head != 0.; OMP: Error #13: Assertion failure at kmp_lock.cpp(1397).)
+=media-gfx/imagemagick-7.0.9.14

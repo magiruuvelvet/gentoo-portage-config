@@ -2,11 +2,6 @@
 
 Overview of custom patches I've made for myself.
 
-## `app-emulation/playonlinux`
-
- - remove system wine check
- - force clang compiler
-
 ## `dev-qt/qtcore`
 
  - remove QFileSystemWatcher log spam
@@ -109,6 +104,21 @@ Overview of custom patches I've made for myself.
  - disable the notification history for jobs, when job done -> delet notification from history
  - force the notification urgency to "Normal" for all notifications
  - fixes a global menu bar bug caused by KWin hover focus policy
+
+## `kde-plasma/breeze`
+
+ - remove window resize grip from decoration\
+   this disables resizing with the mouse cursor when moving it to the border of the window,
+   windows can only be resized with `Alt+Right Mouse Button`\
+   this improves the UX with tiling KWin scripts
+
+## `kde-plasma/kwin`
+
+ - aurorae decoration: remove window resize grip from decoration\
+   this disables resizing with the mouse cursor when moving it to the border of the window,
+   windows can only be resized with `Alt+Right Mouse Button`\
+   this improves the UX with tiling KWin scripts
+ - fix an oversight from KDE devs which broke LLVM toolchain builds
 
 ## `media-sound/pulseaudio`
 

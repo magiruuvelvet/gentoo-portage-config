@@ -9,6 +9,7 @@ dev-python/requests socks5
 dev-python/setuptools python_targets_python3_6
 dev-python/setuptools_scm python_targets_python3_6
 dev-python/certifi python_targets_python3_6
+dev-python/docker-py python_targets_python3_6
 dev-python/pyyaml python_targets_python3_6
 dev-python/six python_targets_python3_6
 dev-python/websocket-client python_targets_python3_6
@@ -36,6 +37,7 @@ dev-python/pyopenssl python_targets_python3_6
 dev-python/ply python_targets_python3_6
 dev-python/pycparser python_targets_python3_6
 dev-python/cffi python_targets_python3_6
+dev-python/regex python_targets_python3_6
 virtual/python-enum34 python_targets_python3_6
 virtual/python-cffi python_targets_python3_6
 

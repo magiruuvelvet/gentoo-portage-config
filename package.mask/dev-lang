@@ -1,0 +1,16 @@
+# go1.14 complains about memlock limits and compiled programs are breaking too with it
+# docker fails to start because of memory issues when compiled with this version of go
+=dev-lang/go-1.14
+
+# mask php7.4 for now util all pecl ebuilds are updated
+>=dev-lang/php-7.4.0
+
+# rust update again...
+>=dev-lang/rust-1.40
+=virtual/rust-1.40.0
+
+# mask ruby 2.7 for now (compatibility with native extensions)
+>=dev-lang/ruby-2.7
+
+# I have 3 python versions installed already (no more python nonsense please)
+>=dev-lang/python-3.8.0

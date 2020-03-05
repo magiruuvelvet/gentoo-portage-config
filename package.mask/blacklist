@@ -1,0 +1,42 @@
+# package blacklist, avoid to install
+# see package.unmask for eventual overwrites
+dev-java/icedtea-bin
+dev-java/icedtea-sound
+dev-java/icedtea-web
+sys-devel/gdb
+sys-libs/libunwind
+x11-misc/bumblebee::gentoo
+x11-misc/primus::gentoo
+sys-kernel/gentoo-sources
+sys-kernel/vanilla-sources
+media-video/mpv::gentoo
+net-libs/nodejs
+dev-lang/rust-bin
+
+# mask GNU toolchain to avoid install
+sys-devel/gcc::gentoo
+sys-devel/binutils::gentoo
+sys-devel/gcc-config::gentoo
+sys-devel/binutils-config::gentoo
+sys-libs/binutils-libs::gentoo
+
+# mask Gentoo version of LLVM
+sys-devel/llvm::gentoo
+sys-devel/llvm-common::gentoo
+sys-devel/clang::gentoo
+sys-devel/clang-common::gentoo
+sys-devel/clang-runtime::gentoo
+sys-libs/libcxx::gentoo
+sys-libs/libcxxabi::gentoo
+sys-libs/llvm-libunwind::gentoo
+dev-util/lldb::gentoo
+sys-devel/lld::gentoo
+sys-libs/libomp::gentoo
+sys-libs/compiler-rt::gentoo
+
+# use custom version
+sys-libs/musl::gentoo
+
+# need to fix my mess with 2 libc's installed in parallel
+# move this to /opt and not tracked by Portage
+sys-libs/glibc

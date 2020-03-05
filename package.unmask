@@ -1,5 +1,7 @@
 # unmasked 3rd party packages
 
+# TODO: convert to directory
+
 x11-misc/bumblebee::seden
 
 # patched ebuild to allow NVIDIA GLVND to be installed

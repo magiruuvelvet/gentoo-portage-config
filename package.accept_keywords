@@ -1,3 +1,5 @@
+# TODO: convert to directory
+
 # allow unstable masked main repo packages
 =media-sound/pulseaudio-modules-bt-9999 **
 =net-misc/streamlink-9999 **
