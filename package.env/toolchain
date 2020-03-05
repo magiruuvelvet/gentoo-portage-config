@@ -1,0 +1,20 @@
+# default system toolchain: LLVM 9.0.1
+
+# TODO: [future] get rid of glibc and replace with something non-GNU (preferred: musl)
+# TODO: [future] transparent glibc compatibility without explicit wrapper command or similar
+
+# compiler and runtimes
+sys-devel/gcc gnu-gcc.conf
+sys-libs/glibc gnu-gcc.conf
+
+sys-devel/clang clang.conf
+sys-devel/llvm clang.conf
+sys-libs/compiler-rt clang.conf
+sys-libs/compiler-rt-sanitizers clang.conf
+sys-libs/llvm-libunwind clang.conf
+sys-libs/libcxx clang.conf
+sys-libs/libcxxabi clang.conf
+dev-util/lldb clang.conf
+
+# TODO: find a LLVM-based Fortran compiler
+sci-libs/fftw gfortran.conf

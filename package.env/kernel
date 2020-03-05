@@ -1,0 +1,5 @@
+# low-level stuff and kernel modules
+sys-kernel/* gnu-gcc.conf
+sys-kernel/dracut clang.conf
+sys-apps/kmod gnu-gcc.conf
+sys-power/bbswitch gnu-gcc.conf

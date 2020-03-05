@@ -1,212 +1,3 @@
-# default system toolchain: LLVM 9.0.1
-
-# TODO: can be a directory, clean up this flat file mess
-
-# TODO: [future] get rid of glibc and replace with something non-GNU (preferred: musl)
-# TODO: [future] transparent glibc compatibility without explicit wrapper command or similar
-
-# enable debugging symbols for everything
-# splitdebug is broken when using LLD as default linker
-*/* nostrip.conf
-
-# package manager config
-sys-apps/portage portage.conf
-
-# compiler and runtimes
-sys-devel/gcc gnu-gcc.conf
-sys-libs/glibc gnu-gcc.conf
-
-sys-devel/clang clang.conf
-sys-devel/llvm clang.conf
-sys-libs/compiler-rt clang.conf
-sys-libs/compiler-rt-sanitizers clang.conf
-sys-libs/llvm-libunwind clang.conf
-sys-libs/libcxx clang.conf
-sys-libs/libcxxabi clang.conf
-dev-util/lldb clang.conf
-
-# requires at least POSIX extensions to build on Linux
-dev-lang/go go-posix.conf
-
-# force libunwind instead of libgcc_s to remove gcc dependency
-# needs config.toml patches to use the correct compiler wrapper
-dev-lang/rust rust-clang.conf
-
-# requires temporary patching of the ebuild to allow custom CFLAGS
-# the build system thinks extensions are available by default without additional compiler flags
-app-emulation/docker go-posix.conf
-app-emulation/runc go-posix.conf
-app-emulation/nvidia-container-runtime go-posix.conf
-
-app-emulation/lxd std-gnu11.conf go-posix.conf
-app-emulation/docker-proxy go-posix.conf
-app-emulation/containerd go-posix.conf
-app-misc/mkcert go-posix.conf
-www-servers/caddy go-posix.conf
-
-# low-level stuff and kernel modules
-sys-kernel/* gnu-gcc.conf
-sys-kernel/dracut clang.conf
-sys-apps/kmod gnu-gcc.conf
-sys-power/bbswitch gnu-gcc.conf
-
-x11-drivers/nvidia-drivers gnu-gcc.conf
-x11-drivers/xf86-video-intel gnu-gcc.conf
-x11-misc/bumblebee gnu-source.conf
-# primus violates the standard, not even clang in GNU mode can handle this bullshit
-x11-misc/primus gnu-gcc.conf
-
-# only the 32-bit version depends on GNU/libatomic, the 64-bit version is GNU free and works with LLVM runtimes only
-media-libs/mesa libatomic-clang.conf
-
-x11-misc/imake gnu-source.conf undef-cpp.conf
-x11-misc/makedepend gnu-source.conf
-x11-misc/xsel gnu-source.conf
-x11-misc/xdg-user-dirs gnu-source.conf
-x11-misc/shared-mime-info gnu-source.conf
-x11-apps/xrandr std-gnu99.conf
-x11-apps/xwud gnu-source.conf
-x11-apps/xprop gnu-source.conf
-x11-apps/xkill gnu-source.conf
-x11-apps/xkbutils gnu-source.conf
-x11-apps/xkbcomp std-gnu99.conf
-x11-apps/xkbevd gnu-source.conf
-x11-apps/xinit gnu-source.conf
-x11-apps/xbacklight gnu-source.conf
-x11-apps/bitmap gnu-source.conf
-x11-apps/x11perf gnu-source.conf
-x11-apps/iceauth gnu-source.conf
-x11-apps/smproxy gnu-source.conf
-x11-apps/setxkbmap gnu-source.conf
-x11-libs/libdrm std-gnu99.conf
-x11-libs/libva std-gnu99.conf
-x11-libs/libva-intel-driver gnu-gcc.conf
-x11-libs/libva-vdpau-driver std-gnu99.conf
-x11-libs/libvdpau std-gnu99.conf
-x11-libs/libnotify gnu-source.conf
-x11-libs/libXpm gnu-source.conf
-x11-libs/libpciaccess gnu-source.conf
-x11-libs/libXt gnu-source.conf
-x11-libs/libXaw gnu-source.conf
-x11-libs/libXvMC gnu-source.conf
-x11-libs/libxkbfile gnu-source.conf
-x11-libs/libfontenc gnu-source.conf
-x11-libs/libXfont2 std-gnu99.conf gnu-source.conf
-x11-libs/startup-notification gnu-source.conf
-x11-terms/xterm gnu-gcc.conf
-x11-drivers/* std-gnu99.conf
-
-x11-wm/xpra Wno-error.conf
-
-# requires patching, build system is too opinionated
-# imake seems very fragile
-net-misc/x11-ssh-askpass gnu-gcc.conf
-
-# compiles and links with my llvm toolchain, but see problem below
-dev-lang/spidermonkey gnu-gcc.conf
-
-# compiles with my llvm toolchain, but doesn't find existing symbols in mozjs for some reason
-# the symbol in question:
-#   void js::UnsafeTraceManuallyBarrieredEdge<JS::Value>(JSTracer*, JS::Value*, char const*)
-# i tried several combinations with spidermonkey and polkit, but couldn't manage to solve it
-# continue using gcc and gnu/gold for now
-sys-auth/polkit gnu-gcc.conf
-
-# error when building with optimizations
-dev-libs/libgcrypt no-optimizations.conf std-gnu99.conf
-
-media-video/ffmpeg ffmpeg.conf
-
-media-libs/x265 fpic.conf lld-text-relocations.conf std-gnu17.conf
-media-libs/x264 fpic.conf lld-text-relocations.conf
-media-libs/xvid fpic.conf lld-text-relocations.conf
-media-libs/libass fpic.conf lld-text-relocations.conf
-net-libs/gnutls fpic.conf lld-text-relocations.conf
-
-# several weird compiler errors, address them at some point
-media-libs/vulkan-loader gnu-gcc.conf
-
-# C++11 section, mostly register storage type errors
-app-i18n/zinnia c++11.conf
-app-text/djvu c++11.conf
-app-text/opensp c++11.conf
-dev-libs/boehm-gc c++11.conf
-dev-libs/xapian c++11.conf
-dev-libs/libplatform c++11.conf
-dev-python/kiwisolver c++11.conf
-dev-python/wxpython c++11.conf
-dev-python/matplotlib c++11.conf ld-force-lib64.conf
-dev-util/gperf c++11.conf
-media-gfx/graphicsmagick ld-no-gnu.conf
-media-libs/glu c++11.conf
-media-libs/libfpx c++11.conf ld-no-gnu.conf
-media-libs/libmodplug c++11.conf
-media-libs/libraw c++11.conf
-media-libs/libsfml c++11.conf
-media-libs/gexiv2 c++11.conf
-net-libs/libproxy c++11.conf
-x11-misc/virtualgl c++11.conf
-games-util/xboxdrv c++11.conf
-
-=x11-libs/wxGTK-3.0.4-r2 c++11.conf
-
-# TODO: explicitly requires GNU extensions like nested functions *reeee*
-#       why can't the devs not stick to the ISO C Standard????
-#       what's the point of GNU-hardcoding??
-# the linux kernel and kernel modules depend on this for building, so this
-# essential utility must be fixed !!
-dev-libs/elfutils gnu-gcc.conf
-
-# error: cannot specify -o when generating multiple output files
-# this package is hardcoded to assume everyone uses gcc
-# clang doesn't support the command line arguments given here
-net-wireless/crda gnu-gcc.conf
-
-app-i18n/kcm-fcitx no-c++11-narrowing-error.conf
-dev-cpp/clucene no-c++11-narrowing-error.conf
-sys-fs/inotify-tools Wno-error.conf
-
-net-im/riot-desktop online-sandbox.conf
-net-im/riot-web online-sandbox.conf
-app-misc/mkcert online-sandbox.conf
-
-sys-libs/db clang-filter-opts.conf
-
-# TODO: address linker errors with llvm/lld
-# as workaround the GNU/gold linker can be used for now
-# symbols are compatible with lld linked libraries :)
-dev-util/valgrind std-gnu17.conf fpic.conf gnu-ldS.conf
-media-libs/openal gnu-gcc.conf
-
-app-backup/borgbackup ld-force-lib64.conf
-dev-util/cutter ld-force-lib64.conf
-media-sound/sonic-visualiser ld-force-lib64.conf
-media-libs/rubberband ld-force-lib64.conf
-kde-apps/kio-extras ld-force-lib64.conf
-media-sound/cantata ld-force-lib64.conf
-dev-libs/boost ld-force-lib64.conf
-media-video/subtitlecomposer ld-force-lib64.conf
-
-# TODO: weird or faulty runtime behavior in those packages without the applied fixes
-dev-lang/luajit libunwind.conf gnu-source.conf
-app-emulation/libvirt libunwind.conf std-gnu99.conf
-
-# TODO: mariadb straight out doesn't work at all without GNU *rage*
-# backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
-dev-db/mariadb gnu-gcc.conf
-
-# allow usage of extensions for more modules
-dev-lang/python gnu-source.conf define-linux.conf
-dev-lang/php gnu-source.conf define-linux.conf
-
-dev-java/openjdk openjdk.conf
-
-media-sound/pulseaudio
-media-sound/pulseaudio-modules-bt std-gnu99.conf
-
-# TODO: find a LLVM-based Fortran compiler
-sci-libs/fftw gfortran.conf
-
 # explicit usage of GNU extensions (incompatible with strict ISO C/C++ compliance)
 # my clang compiler defaults to strict ISO compliance rather than GNU mode using a custom patch
 # when not specifying the -std= flag, c17 and c++17 is used by default, rather than gnu99 and gnu++17
@@ -367,6 +158,7 @@ media-libs/libshout gnu-source.conf
 media-libs/freeglut gnu-source.conf
 media-libs/libvpx gnu-source.conf
 media-libs/virglrenderer gnu-source.conf
+media-libs/openal gnu-gcc.conf
 media-plugins/alsa-plugins std-gnu99.conf
 media-plugins/frei0r-plugins gnu-source.conf c++11.conf
 media-sound/alsa-tools std-gnu99.conf gnu-source.conf
@@ -379,6 +171,7 @@ media-sound/sox std-gnu99.conf
 media-sound/wavpack std-gnu99.conf
 media-sound/audacity gnu-source.conf
 media-sound/playerctl gnu-source.conf
+media-sound/pulseaudio-modules-bt std-gnu99.conf
 media-video/libva-utils gnu-source.conf
 media-video/mjpegtools std-gnu11.conf
 media-video/vlc std-gnu11.conf
@@ -531,14 +324,31 @@ app-accessibility/speech-dispatcher gnu-source.conf
 net-im/coturn gnu-source.conf
 media-tv/kodi gnu-source.conf
 
+# error: cannot specify -o when generating multiple output files
+# this package is hardcoded to assume everyone uses gcc
+# clang doesn't support the command line arguments given here
+net-wireless/crda gnu-gcc.conf
 
-# feature flags
-dev-vcs/git enable-man.conf
-net-misc/openssh enable-man.conf
-sys-apps/portage enable-man.conf
-app-portage/* enable-man.conf
-app-admin/doas enable-man.conf
+# TODO: explicitly requires GNU extensions like nested functions *reeee*
+#       why can't the devs not stick to the ISO C Standard????
+#       what's the point of GNU-hardcoding??
+# the linux kernel and kernel modules depend on this for building, so this
+# essential utility must be fixed !!
+dev-libs/elfutils gnu-gcc.conf
 
-sys-apps/man-pages enable-man.conf
-sys-apps/man-pages-posix enable-man.conf
-app-i18n/man-pages-ja enable-man.conf
+# TODO: mariadb straight out doesn't work at all without GNU *rage*
+# backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
+dev-db/mariadb gnu-gcc.conf
+
+# several weird compiler errors, address them at some point
+media-libs/vulkan-loader gnu-gcc.conf
+
+# compiles and links with my llvm toolchain, but causes polkit linker problems
+dev-lang/spidermonkey gnu-gcc.conf
+
+# compiles with my llvm toolchain, but doesn't find existing symbols in mozjs for some reason
+# the symbol in question:
+#   void js::UnsafeTraceManuallyBarrieredEdge<JS::Value>(JSTracer*, JS::Value*, char const*)
+# i tried several combinations with spidermonkey and polkit, but couldn't manage to solve it
+# continue using gcc and gnu/gold for now
+sys-auth/polkit gnu-gcc.conf

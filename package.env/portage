@@ -1,0 +1,3 @@
+# package manager config
+sys-apps/portage portage.conf enable-man.conf
+app-portage/* enable-man.conf

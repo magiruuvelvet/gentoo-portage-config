@@ -1,0 +1,64 @@
+
+# only the 32-bit version depends on GNU/libatomic, the 64-bit version is GNU free and works with LLVM runtimes only
+media-libs/mesa libatomic-clang.conf
+
+# error when building with optimizations
+dev-libs/libgcrypt no-optimizations.conf std-gnu99.conf
+
+media-video/ffmpeg ffmpeg.conf
+
+media-libs/x265 fpic.conf lld-text-relocations.conf std-gnu17.conf
+media-libs/x264 fpic.conf lld-text-relocations.conf
+media-libs/xvid fpic.conf lld-text-relocations.conf
+media-libs/libass fpic.conf lld-text-relocations.conf
+net-libs/gnutls fpic.conf lld-text-relocations.conf
+
+
+# C++11 section, mostly register storage type errors
+app-i18n/zinnia c++11.conf
+app-text/djvu c++11.conf
+app-text/opensp c++11.conf
+dev-libs/boehm-gc c++11.conf
+dev-libs/xapian c++11.conf
+dev-libs/libplatform c++11.conf
+dev-python/kiwisolver c++11.conf
+dev-python/wxpython c++11.conf
+dev-python/matplotlib c++11.conf ld-force-lib64.conf
+dev-util/gperf c++11.conf
+media-gfx/graphicsmagick ld-no-gnu.conf
+media-libs/glu c++11.conf
+media-libs/libfpx c++11.conf ld-no-gnu.conf
+media-libs/libmodplug c++11.conf
+media-libs/libraw c++11.conf
+media-libs/libsfml c++11.conf
+media-libs/gexiv2 c++11.conf
+net-libs/libproxy c++11.conf
+x11-misc/virtualgl c++11.conf
+games-util/xboxdrv c++11.conf
+
+=x11-libs/wxGTK-3.0.4-r2 c++11.conf
+
+app-i18n/kcm-fcitx no-c++11-narrowing-error.conf
+dev-cpp/clucene no-c++11-narrowing-error.conf
+sys-fs/inotify-tools Wno-error.conf
+
+
+sys-libs/db clang-filter-opts.conf
+
+# TODO: address linker errors with llvm/lld
+# as workaround the GNU/gold linker can be used for now
+# symbols are compatible with lld linked libraries :)
+dev-util/valgrind std-gnu17.conf fpic.conf gnu-ldS.conf
+
+app-backup/borgbackup ld-force-lib64.conf
+dev-util/cutter ld-force-lib64.conf
+media-sound/sonic-visualiser ld-force-lib64.conf
+media-libs/rubberband ld-force-lib64.conf
+kde-apps/kio-extras ld-force-lib64.conf
+media-sound/cantata ld-force-lib64.conf
+dev-libs/boost ld-force-lib64.conf
+media-video/subtitlecomposer ld-force-lib64.conf
+
+# TODO: weird or faulty runtime behavior in those packages without the applied fixes
+dev-lang/luajit libunwind.conf gnu-source.conf
+app-emulation/libvirt libunwind.conf std-gnu99.conf

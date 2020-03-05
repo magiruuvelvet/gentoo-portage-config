@@ -1,0 +1,7 @@
+# feature flags
+dev-vcs/git enable-man.conf
+net-misc/openssh enable-man.conf
+app-admin/doas enable-man.conf
+sys-apps/man-pages enable-man.conf
+sys-apps/man-pages-posix enable-man.conf
+app-i18n/man-pages-ja enable-man.conf
