@@ -179,6 +179,7 @@ net-analyzer/openbsd-netcat gnu-source.conf
 net-analyzer/fping gnu-source.conf
 net-analyzer/zabbix gnu-source.conf ld-force-lib64.conf
 net-analyzer/tcpdump gnu-source.conf ld-force-lib64.conf
+net-analyzer/macchanger gnu-source.conf
 net-dialup/linux-atm gnu-source.conf
 net-dns/pihole gnu-source.conf
 net-dns/c-ares std-gnu99.conf

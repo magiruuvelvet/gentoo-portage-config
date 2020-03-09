@@ -6,8 +6,8 @@
 >=dev-lang/php-7.4.0
 
 # rust update again...
->=dev-lang/rust-1.40
-=virtual/rust-1.40.0
+dev-lang/rust
+virtual/rust
 
 # mask ruby 2.7 for now (compatibility with native extensions)
 >=dev-lang/ruby-2.7

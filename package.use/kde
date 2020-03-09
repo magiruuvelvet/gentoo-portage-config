@@ -33,7 +33,11 @@ kde-apps/gwenview activities -mpris raw semantic-desktop share kipi
 kde-apps/spectacle kipi share
 kde-apps/kate -filebrowser -projects -snippets -plasma
 
-kde-misc/kdeconnect app bluetooth mousepad
+# random finding: the bluetooth feature of kdeconnect is constantly putting the adapter
+# into scan mode and adds random shit to the kde bluetooth applet which doesn't even belong to me
+# cluttering up the menu with useless shit, in just one day I suddenly had 20 new devices from
+# random people
+kde-misc/kdeconnect app mousepad -bluetooth -pulseaudio
 
 # Akonadi stuff
 kde-apps/akonadi -sqlite -mysql postgres tools xml debug -kaccounts

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        # remove mac address randomization config
+        # what the fuck networkmanager, don't touch my mac addresses
+        # for extra safety a overwrite exists in /etc/NetworkManager/conf.d/100-disable-mac-randomization.conf
+        # to make sure networkmanager never tries to randomize the mac address
+        rm -r "${D}/usr/lib/NetworkManager/conf.d/31-mac-addr-change.conf"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
