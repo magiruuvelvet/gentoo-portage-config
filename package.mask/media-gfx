@@ -1,3 +1,11 @@
 # OpenMP bricked in this exact version
 # (Assertion failure at kmp_lock.cpp(1397): head != 0.; OMP: Error #13: Assertion failure at kmp_lock.cpp(1397).)
 =media-gfx/imagemagick-7.0.9.14
+
+# OpenMP bricked again in this version, do the developers even test LLVM/omp??? I don't think so...
+# (Assertion failure at kmp_tasking.cpp(3545): task_team == this_thr->th.th_task_team.)
+=media-gfx/imagemagick-7.0.10.0
+
+# note: in case anyone actually reading this, GNU/omp works, but LLVM/omp doesn't in those versions,
+# because the developers don't give a shit about clang and LLVM runtimes apparently
+# I fucking hate GNU violating standards every day and making platform agnostic development harder as necessary
