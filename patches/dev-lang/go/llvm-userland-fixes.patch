@@ -1,0 +1,88 @@
+diff --git a/src/net/cgo_linux.go b/src/net/cgo_linux.go
+index 86d8f4d..a451429 100644
+--- a/src/net/cgo_linux.go
++++ b/src/net/cgo_linux.go
+@@ -7,6 +7,7 @@
+ package net
+ 
+ /*
++#cgo linux CFLAGS: -D_GNU_SOURCE
+ #include <netdb.h>
+ */
+ import "C"
+diff --git a/src/os/user/getgrouplist_unix.go b/src/os/user/getgrouplist_unix.go
+index 9685414..bd79069 100644
+--- a/src/os/user/getgrouplist_unix.go
++++ b/src/os/user/getgrouplist_unix.go
+@@ -8,6 +8,7 @@
+ package user
+ 
+ /*
++#cgo CFLAGS: -D_GNU_SOURCE
+ #include <unistd.h>
+ #include <sys/types.h>
+ #include <grp.h>
+diff --git a/src/plugin/plugin_dlopen.go b/src/plugin/plugin_dlopen.go
+index 03d3f08..95a9540 100644
+--- a/src/plugin/plugin_dlopen.go
++++ b/src/plugin/plugin_dlopen.go
+@@ -7,6 +7,7 @@
+ package plugin
+ 
+ /*
++#cgo linux CFLAGS: -D_GNU_SOURCE
+ #cgo linux LDFLAGS: -ldl
+ #include <dlfcn.h>
+ #include <limits.h>
+diff --git a/src/runtime/cgo/cgo.go b/src/runtime/cgo/cgo.go
+index 5a2b5e4..b741e38 100644
+--- a/src/runtime/cgo/cgo.go
++++ b/src/runtime/cgo/cgo.go
+@@ -23,7 +23,7 @@ package cgo
+ #cgo aix LDFLAGS: -Wl,-berok
+ #cgo solaris LDFLAGS: -lxnet
+ 
+-#cgo CFLAGS: -Wall -Werror
++#cgo CFLAGS: -Wall
+ 
+ #cgo solaris CPPFLAGS: -D_POSIX_PTHREAD_SEMANTICS
+ 
+diff --git a/src/runtime/cgo/gcc_setenv.c b/src/runtime/cgo/gcc_setenv.c
+index 88e92bf..df9abc1 100644
+--- a/src/runtime/cgo/gcc_setenv.c
++++ b/src/runtime/cgo/gcc_setenv.c
+@@ -5,6 +5,8 @@
+ // +build cgo
+ // +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
+ 
++#define _GNU_SOURCE
++
+ #include "libcgo.h"
+ 
+ #include <stdlib.h>
+diff --git a/src/runtime/cgo/gcc_sigaction.c b/src/runtime/cgo/gcc_sigaction.c
+index e510e35..0950ac3 100644
+--- a/src/runtime/cgo/gcc_sigaction.c
++++ b/src/runtime/cgo/gcc_sigaction.c
+@@ -4,6 +4,8 @@
+ 
+ // +build linux,amd64 linux,arm64
+ 
++#define _GNU_SOURCE
++
+ #include <errno.h>
+ #include <stddef.h>
+ #include <stdint.h>
+diff --git a/src/runtime/cgo/libcgo.h b/src/runtime/cgo/libcgo.h
+index aba500a..2dac895 100644
+--- a/src/runtime/cgo/libcgo.h
++++ b/src/runtime/cgo/libcgo.h
+@@ -2,6 +2,8 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
++#define _GNU_SOURCE
++
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <stdio.h>

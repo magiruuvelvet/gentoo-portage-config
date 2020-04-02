@@ -1,12 +1,17 @@
 diff --git a/src/util.cc b/src/util.cc
-index 47a5de2..33eed4e 100644
+index 4df2bb2..4fd820c 100644
 --- a/src/util.cc
 +++ b/src/util.cc
-@@ -584,16 +584,8 @@ double GetLoadAverage() {
- }
+@@ -596,21 +596,7 @@ double GetLoadAverage() {
  #endif // _WIN32
  
--string ElideMiddle(const string& str, size_t width) {
+ string ElideMiddle(const string& str, size_t width) {
+-  switch (width) {
+-      case 0: return "";
+-      case 1: return ".";
+-      case 2: return "..";
+-      case 3: return "...";
+-  }
 -  const int kMargin = 3;  // Space for "...".
 -  string result = str;
 -  if (result.size() > width) {
@@ -16,7 +21,6 @@ index 47a5de2..33eed4e 100644
 -      + result.substr(result.size() - elide_size, elide_size);
 -  }
 -  return result;
-+string ElideMiddle(const string& str, size_t) {
 +  return str;
  }
  

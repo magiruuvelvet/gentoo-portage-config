@@ -11,3 +11,4 @@ media-video/mkvtoolnix qt5 pch
 media-video/subtitlecomposer unicode mpv
 media-video/mpv X alsa archive bluray cdda cli cplugins drm -dvd egl iconv javascript libass libcaca
 media-video/mpv libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda -vulkan
+media-video/obs-studio alsa pulseaudio fdk luajit speex truetype ssl v4l

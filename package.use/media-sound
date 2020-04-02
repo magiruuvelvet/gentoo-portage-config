@@ -6,7 +6,7 @@ media-sound/kid3 taglib kde flac -mp3 mp4 vorbis -mpris
 media-sound/mpd alsa audiofile bzip2 cue curl dbus faad ffmpeg flac icu pulseaudio sqlite unicode wavpack zip zlib
 media-sound/pulseaudio -bluetooth dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/pulseaudio alsa alsa-plugin asyncns caps glib ssl tcpd udev
-media-sound/pulseaudio-modules-bt alsa alsa-plugin asyncns caps glib ssl tcpd udev bluetooth dbus realtime
+media-sound/pulseaudio-modules-bt alsa alsa-plugin asyncns caps glib ssl tcpd udev bluetooth dbus realtime fdk
 media-sound/pulseaudio-modules-bt webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame
 media-sound/spotify libnotify

@@ -1,0 +1,6 @@
+# OpenMP with LLVM implementation bricked in those packages because developers don't care
+# imagemagick
+# graphicsmagick
+# pngquant
+
+# instead of having a very specific version installed I just disabled support for OpenMP in those packages

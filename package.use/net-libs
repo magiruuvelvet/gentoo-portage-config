@@ -10,3 +10,4 @@ net-libs/nodejs npm ssl icu inspector PYTHON_TARGETS: python2_7
 net-libs/libvncserver zlib lzo jpeg png threads
 net-libs/libpcap bluetooth dbus netlink usb
 net-libs/libmbim udev
+net-libs/nghttp2 cxx

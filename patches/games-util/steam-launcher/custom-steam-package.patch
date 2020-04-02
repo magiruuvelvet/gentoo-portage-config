@@ -1,12 +1,17 @@
-diff --git a/steam b/steam
-index a47bd07..8e0e815 100755
---- a/steam
-+++ b/steam
-@@ -51,7 +51,7 @@ function detect_platform()
+diff --git a/bin_steam.sh b/bin_steam.sh
+index 19db38f..6524ecf 100755
+--- a/bin_steam.sh
++++ b/bin_steam.sh
+@@ -53,12 +53,7 @@ function detect_platform()
  
  function setup_variables()
  {
 -	STEAMPACKAGE="${0##*/}"
+-
+-	if [ "$STEAMPACKAGE" = bin_steam.sh ]; then
+-		STEAMPACKAGE=steam
+-	fi
+-
 +	STEAMPACKAGE="steam"
  	STEAMCONFIG=~/.steam
  	STEAMDATALINK="$STEAMCONFIG/$STEAMPACKAGE"

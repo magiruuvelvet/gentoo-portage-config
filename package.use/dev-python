@@ -38,6 +38,7 @@ dev-python/ply python_targets_python3_6
 dev-python/pycparser python_targets_python3_6
 dev-python/cffi python_targets_python3_6
 dev-python/regex python_targets_python3_6
+dev-python/cython python_targets_python3_6
 virtual/python-enum34 python_targets_python3_6
 virtual/python-cffi python_targets_python3_6
 

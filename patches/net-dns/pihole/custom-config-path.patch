@@ -1,0 +1,13 @@
+diff --git a/memory.c b/memory.c
+index 503e84d..a3b7f93 100644
+--- a/memory.c
++++ b/memory.c
+@@ -13,7 +13,7 @@
+ 
+ FTLFileNamesStruct FTLfiles = {
+ 	// Default path for config file (regular installations)
+-	"/etc/pihole/pihole-FTL.conf",
++	"/etc/pihole-FTL.conf",
+ 	// Alternative path for config file (snap installations)
+ 	"/var/snap/pihole/common/etc/pihole/pihole-FTL.conf",
+ 	NULL,

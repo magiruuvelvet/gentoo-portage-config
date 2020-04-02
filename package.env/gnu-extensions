@@ -159,6 +159,7 @@ media-libs/freeglut gnu-source.conf
 media-libs/libvpx gnu-source.conf
 media-libs/virglrenderer gnu-source.conf
 media-libs/openal gnu-gcc.conf
+media-libs/libv4l std-gnu99.conf
 media-plugins/alsa-plugins std-gnu99.conf
 media-plugins/frei0r-plugins gnu-source.conf c++11.conf
 media-sound/alsa-tools std-gnu99.conf gnu-source.conf

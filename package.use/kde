@@ -51,5 +51,5 @@ kde-apps/kitinerary -barcode pdf
 kde-apps/libkleo -fancyviewer
 kde-apps/krdc vnc rdp
 
-kde-plasma/ksysguard lm-sensors pcap caps
+kde-plasma/ksysguard lm-sensors -pcap caps
 kde-plasma/libksysguard X webengine

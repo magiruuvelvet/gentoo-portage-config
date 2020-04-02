@@ -97,7 +97,6 @@ media-libs/libpng abi_x86_32
 media-libs/libsdl2 abi_x86_32 haptic
 media-libs/libsndfile abi_x86_32
 media-libs/libtheora abi_x86_32
-media-libs/libv4l abi_x86_32
 media-libs/libvorbis abi_x86_32
 media-libs/libvpx abi_x86_32
 media-libs/libwebp abi_x86_32

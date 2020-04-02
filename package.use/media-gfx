@@ -3,8 +3,9 @@ media-gfx/xloadimage jpeg png tiff
 media-gfx/gimp aalib heif jpeg2k mng -openexr postscript python vector-icons webp wmf xpm udev PYTHON_SINGLE_TARGET: python2_7
 media-gfx/krita -color-management fftw gif gsl heif jpeg -openexr pdf qtmedia raw tiff vc
 media-gfx/inkscape dbus exif imagemagick jpeg lcms
-media-gfx/imagemagick -X bzip2 corefonts cxx djvu fontconfig fpx graphviz jbig jpeg jpeg2k lcms lzma openmp png
+media-gfx/imagemagick -X bzip2 corefonts cxx djvu fontconfig fpx graphviz jbig jpeg jpeg2k lcms lzma -openmp png
 media-gfx/imagemagick postscript raw svg tiff truetype webp xml zlib pango wmf hdri
-media-gfx/graphicsmagick -X bzip2 cxx fpx jbig jpeg jpeg2k lcms lzma openmp png postscript svg threads tiff truetype
+media-gfx/graphicsmagick -X bzip2 cxx fpx jbig jpeg jpeg2k lcms lzma -openmp png postscript svg threads tiff truetype
 media-gfx/graphicsmagick webp wmf zlib -imagemagick
 media-gfx/fontforge readline unicode cairo jpeg png tiff svg -X -gtk -python
+media-gfx/pngquant -openmp

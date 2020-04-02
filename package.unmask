@@ -12,6 +12,8 @@ x11-misc/primus::localrepo
 # telemetry free build of VS Code
 app-editors/vscodium-bin::jorgicio
 
+#net-im/zoom::jorgicio
+
 kde-misc/plasma-applet-places-widget::jorgicio
 kde-misc/plasma-applet-window-appmenu::jorgicio
 

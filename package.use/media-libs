@@ -12,7 +12,7 @@ media-libs/libao alsa pulseaudio
 media-libs/libaom -tests
 media-libs/libbdplus aacs
 media-libs/libbluray aacs bdplus java
-media-libs/libcaca -ncurses
+media-libs/libcaca -ncurses cxx
 media-libs/libcanberra sound udev alsa gstreamer pulseaudio -gtk -gtk3 -gnome
 media-libs/libmypaint gegl
 media-libs/libpng apng
@@ -42,3 +42,4 @@ media-libs/harfbuzz icu
 media-libs/libglvnd X
 media-libs/vulkan-loader X wayland layers
 media-libs/vulkan-layers X wayland
+media-libs/libv4l jpeg
