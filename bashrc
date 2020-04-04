@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# prepend latest LLVM version to PATH to avoid problems with env.d and multiple LLVM versions
+export PATH="/usr/lib/llvm/10/bin:$PATH"
+
 # invoke emerge hook trigger for each package and ebuild phase (except depend)
 # hooks are stored in /etc/portage/hooks
 if [[ ! -z "$EBUILD_PHASE" && "$EBUILD_PHASE" != "depend" ]]; then

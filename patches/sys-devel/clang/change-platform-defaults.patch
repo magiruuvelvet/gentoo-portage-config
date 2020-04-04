@@ -1,5 +1,5 @@
 diff --git a/lib/Driver/ToolChains/Linux.cpp b/lib/Driver/ToolChains/Linux.cpp
-index d900508ad93..8244b96eccc 100644
+index bff1ab1009b..4a9f8e713b0 100644
 --- a/lib/Driver/ToolChains/Linux.cpp
 +++ b/lib/Driver/ToolChains/Linux.cpp
 @@ -455,9 +455,15 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
@@ -22,10 +22,10 @@ index d900508ad93..8244b96eccc 100644
  
  bool Linux::HasNativeLLVMSupport() const { return true; }
 diff --git a/lib/Driver/ToolChains/Linux.h b/lib/Driver/ToolChains/Linux.h
-index 4c61994691c..31464279ee7 100644
+index f5518eac218..8079c940920 100644
 --- a/lib/Driver/ToolChains/Linux.h
 +++ b/lib/Driver/ToolChains/Linux.h
-@@ -37,6 +37,8 @@ public:
+@@ -34,6 +34,8 @@ public:
    void AddIAMCUIncludeArgs(const llvm::opt::ArgList &DriverArgs,
                             llvm::opt::ArgStringList &CC1Args) const override;
    CXXStdlibType GetDefaultCXXStdlibType() const override;

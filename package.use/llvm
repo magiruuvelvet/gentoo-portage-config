@@ -16,15 +16,15 @@ sys-libs/libcxxabi abi_x86_32 libunwind static-libs test
 
 sys-devel/llvm-common
 sys-devel/llvm -abi_x86_32 xml libffi -gold
-sys-devel/llvm LLVM_TARGETS: X86 WebAssembly AArch64 ARM AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX PowerPC RISCV -Sparc -SystemZ -XCore -BPF
+sys-devel/llvm LLVM_TARGETS: X86 WebAssembly -AArch64 -ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips -NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 
 sys-devel/clang-common
 sys-devel/clang-runtime -abi_x86_32 libcxx compiler-rt openmp -sanitize
 sys-devel/clang -abi_x86_32 xml default-compiler-rt default-libcxx
-sys-devel/clang LLVM_TARGETS: X86 WebAssembly AArch64 ARM AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX PowerPC RISCV -Sparc -SystemZ -XCore -BPF
+sys-devel/clang LLVM_TARGETS: X86 WebAssembly -AArch64 -ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips -NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 sys-devel/clang PYTHON_TARGETS: -* python3_7 PYTHON_SINGLE_TARGET: -* python3_7
 
-dev-util/lldb python PYTHON_TARGETS: -* python3_7
+dev-util/lldb python lzma PYTHON_TARGETS: -* python3_7
 
 # OpenMP runtime library for LLVM/clang compiler
 sys-libs/libomp abi_x86_32

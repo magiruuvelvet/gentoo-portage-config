@@ -36,3 +36,17 @@
 =sys-libs/libomp-9.0.0.9999 **
 =dev-util/lldb-9.0.0.9999 **
 =sys-devel/lld-9.0.0.9999 **
+
+=sys-devel/llvm-10.0.0.9999 **
+=sys-devel/llvm-common-10.0.0.9999 **
+=sys-devel/clang-10.0.0.9999 **
+=sys-devel/clang-runtime-10.0.0.9999 **
+=sys-devel/clang-common-10.0.0.9999 **
+=sys-libs/compiler-rt-10.0.0.9999 **
+=sys-libs/compiler-rt-sanitizers-10.0.0.9999 **
+=sys-libs/llvm-libunwind-10.0.0.9999 **
+=sys-libs/libcxx-10.0.0.9999 **
+=sys-libs/libcxxabi-10.0.0.9999 **
+=sys-libs/libomp-10.0.0.9999 **
+=dev-util/lldb-10.0.0.9999 **
+=sys-devel/lld-10.0.0.9999 **
