@@ -50,7 +50,7 @@ Fully working without issues:
  - i3
  - Mesa
  - Wayland
- - Vulkan (with one exception, see below)
+ - Vulkan
  - X11
  - X11 apps and libraries (with exceptions listed below)
  - X11 Input Drivers

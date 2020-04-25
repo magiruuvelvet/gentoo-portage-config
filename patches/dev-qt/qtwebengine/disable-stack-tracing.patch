@@ -1,8 +1,8 @@
 diff --git a/src/3rdparty/chromium/base/debug/stack_trace_posix.cc b/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
-index 1f015eeff..04de91864 100644
+index f4ddf9c1e..aca5a6856 100644
 --- a/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
 +++ b/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
-@@ -484,7 +484,6 @@ void WarmUpBacktrace() {
+@@ -488,7 +488,6 @@ void WarmUpBacktrace() {
    //             base::(anonymous namespace)::StackDumpSignalHandler
    //             at base/process_util_posix.cc:172
    // #22 <signal handler called>
@@ -10,7 +10,7 @@ index 1f015eeff..04de91864 100644
  }
  
  #if defined(USE_SYMBOLIZE)
-@@ -768,39 +767,7 @@ class SandboxSymbolizeHelper {
+@@ -772,39 +771,7 @@ class SandboxSymbolizeHelper {
  }  // namespace
  
  bool EnableInProcessStackDumping() {
@@ -50,9 +50,9 @@ index 1f015eeff..04de91864 100644
 +    return true;
  }
  
- void SetStackDumpFirstChanceCallback(bool (*handler)(int, void*, void*)) {
-@@ -809,16 +776,7 @@ void SetStackDumpFirstChanceCallback(bool (*handler)(int, void*, void*)) {
- }
+ #if !defined(OS_NACL)
+@@ -831,16 +798,7 @@ bool SetStackDumpFirstChanceCallback(bool (*handler)(int, siginfo_t*, void*)) {
+ #endif
  
  size_t CollectStackTrace(void** trace, size_t count) {
 -  // NOTE: This code MUST be async-signal safe (it's used by in-process

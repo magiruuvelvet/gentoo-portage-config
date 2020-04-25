@@ -1,5 +1,5 @@
 diff --git a/resources/imap/settingspasswordrequester.cpp b/resources/imap/settingspasswordrequester.cpp
-index e0cffc4..fc98c91 100644
+index 6dfc2df..fc98c91 100644
 --- a/resources/imap/settingspasswordrequester.cpp
 +++ b/resources/imap/settingspasswordrequester.cpp
 @@ -59,38 +59,11 @@ void SettingsPasswordRequester::requestPassword(RequestType request, const QStri
@@ -12,12 +12,12 @@ index e0cffc4..fc98c91 100644
 -        return;
 -    }
 -    QWidget *parent = QWidget::find(m_resource->winIdForDialogs());
--    QString text = i18n("The server for account \"%2\" refused the supplied username and password. "
+-    QString text = i18n("The server for account \"%2\" refused the supplied username and password.\n"
 -                        "Do you want to go to the settings, have another attempt "
 -                        "at logging in, or do nothing?\n\n"
 -                        "%1", serverError, m_resource->name());
 -    QDialog *dialog = new QDialog(parent, Qt::Dialog);
--    dialog->setWindowTitle(i18n("Could Not Authenticate"));
+-    dialog->setWindowTitle(i18nc("@title:window", "Could Not Authenticate"));
 -    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::No | QDialogButtonBox::Yes, dialog);
 -    buttonBox->button(QDialogButtonBox::Yes)->setDefault(true);
 -

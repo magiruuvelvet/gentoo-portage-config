@@ -19,14 +19,16 @@ index c8b2989c4..f88f71112 100644
  }
  
 diff --git a/src/3rdparty/gn/build/gen.py b/src/3rdparty/gn/build/gen.py
-index cdb440760..7ceb96bd3 100755
+index 8acf9706d..a3f32d5cd 100755
 --- a/src/3rdparty/gn/build/gen.py
 +++ b/src/3rdparty/gn/build/gen.py
-@@ -350,7 +350,6 @@ def WriteGNNinja(path, platform, host, options):
- 
+@@ -359,9 +359,6 @@ def WriteGNNinja(path, platform, host, options):
      if platform.is_linux():
-       ldflags.extend([
--          '-static-libstdc++',
-           '-Wl,--as-needed',
-       ])
+       ldflags.append('-Wl,--as-needed')
+ 
+-      if not options.no_static_libstdcpp:
+-        ldflags.append('-static-libstdc++')
+-
        # This is needed by libc++.
+       libs.append('-ldl')
+     elif platform.is_darwin():
