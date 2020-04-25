@@ -19,3 +19,5 @@ app-emulation/lxd daemon nls tools -dnsmasq
 app-emulation/vmware-workstation systemd modules bundled-libs macos-guests vmware-tools-darwin vmware-tools-darwinPre15
 app-emulation/vmware-workstation vmware-tools-linux vmware-tools-linuxPreGlibc25 vmware-tools-netware vmware-tools-solaris
 app-emulation/vmware-workstation vmware-tools-winPre2k vmware-tools-winPreVista vmware-tools-windows
+app-emulation/wine-vanilla -run-exes -udisks gstreamer mp3 sdl xinerama
+app-emulation/wine-gecko abi_x86_32

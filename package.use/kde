@@ -53,3 +53,5 @@ kde-apps/krdc vnc rdp
 
 kde-plasma/ksysguard lm-sensors -pcap caps
 kde-plasma/libksysguard X webengine
+
+net-p2p/ktorrent -bwscheduler upnp -zeroconf

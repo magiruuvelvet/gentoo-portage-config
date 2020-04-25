@@ -15,7 +15,14 @@ instprep() {
     fi
 }
 
+compile() {
+    echo "Fix monospace fonts not working in Electron app..."
+    cd "${S}"
+    patch -p1 < /etc/portage/hooks/patches/net-im/riot-desktop/no-markdown-font-important.patch
+}
+
 case "$1" in
     instprep) instprep ;;
+    compile) compile ;;
     *) : ;;
 esac

@@ -1,5 +1,6 @@
 # feature flags
 dev-vcs/git enable-man.conf
+dev-vcs/git-lfs enable-man.conf
 net-misc/openssh enable-man.conf
 app-admin/doas enable-man.conf
 sys-apps/man-pages enable-man.conf

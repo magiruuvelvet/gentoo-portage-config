@@ -1,4 +1,4 @@
-*/* systemd pam policykit udev ipv6 idn gpm tomoyo cjk nls unicode bluetooth alsa pulseaudio
+*/* systemd pam policykit udev ipv6 idn gpm tomoyo cjk nls unicode bluetooth alsa pulseaudio fish-completion
 */* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb
 */* PYTHON_TARGETS: -* python3_7 PYTHON_SINGLE_TARGET: -* python3_7
 */* RUBY_TARGETS: -* ruby26 RUBY_SINGLE_TARGET: -* ruby26

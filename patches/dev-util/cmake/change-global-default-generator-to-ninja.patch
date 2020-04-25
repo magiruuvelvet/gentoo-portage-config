@@ -1,13 +1,13 @@
 diff --git a/Source/cmake.cxx b/Source/cmake.cxx
-index 3772f09..e09f866 100644
+index a99d9a6..86e6ad1 100644
 --- a/Source/cmake.cxx
 +++ b/Source/cmake.cxx
-@@ -1668,7 +1668,7 @@ std::unique_ptr<cmGlobalGenerator> cmake::EvaluateDefaultGlobalGenerator()
-   }
-   return std::unique_ptr<cmGlobalGenerator>(gen);
+@@ -1718,7 +1718,7 @@ std::unique_ptr<cmGlobalGenerator> cmake::EvaluateDefaultGlobalGenerator()
+   return std::unique_ptr<cmGlobalGenerator>(std::move(gen));
  #else
--  return cm::make_unique<cmGlobalUnixMakefileGenerator3>(this);
-+  return cm::make_unique<cmGlobalNinjaGenerator>(this);
+   return std::unique_ptr<cmGlobalGenerator>(
+-    cm::make_unique<cmGlobalUnixMakefileGenerator3>(this));
++    cm::make_unique<cmGlobalNinjaGenerator>(this));
  #endif
  }
  

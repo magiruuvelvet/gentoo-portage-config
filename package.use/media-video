@@ -1,5 +1,5 @@
-media-video/ffmpeg -ieee1394 -jack -kvazaar -ladspa -libilbc -libressl -libsoxr -libv4l -lv2
-media-video/ffmpeg -static-libs -test twolame -v4l VIDEO_CARDS: -nvidia
+media-video/ffmpeg -ieee1394 -jack -kvazaar -ladspa -libilbc -libressl -libsoxr libv4l -lv2
+media-video/ffmpeg -static-libs -test twolame v4l VIDEO_CARDS: -nvidia
 media-video/ffmpeg X dav1d alsa amr amrenc bluray bzip2 cpudetection encode fontconfig
 media-video/ffmpeg fdk -flite -frei0r -fribidi gme -gmp -gnutls gsm -hardcoded-tables -iec61883
 media-video/ffmpeg gcrypt gpl iconv jpeg2k libass libcaca libdrm librtmp libxml2 lzma modplug
@@ -10,5 +10,5 @@ media-video/ffmpeg zeromq zimg zlib zvbi -bs2b cdio -chromaprint -chromium codec
 media-video/mkvtoolnix qt5 pch
 media-video/subtitlecomposer unicode mpv
 media-video/mpv X alsa archive bluray cdda cli cplugins drm -dvd egl iconv javascript libass libcaca
-media-video/mpv libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda -vulkan
+media-video/mpv libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland
 media-video/obs-studio alsa pulseaudio fdk luajit speex truetype ssl v4l

@@ -1,0 +1,13 @@
+diff --git a/node_modules/matrix-react-sdk/res/css/views/rooms/_EventTile.scss b/node_modules/matrix-react-sdk/res/css/views/rooms/_EventTile.scss
+index b26312c..957cdca 100644
+--- a/node_modules/matrix-react-sdk/res/css/views/rooms/_EventTile.scss
++++ b/node_modules/matrix-react-sdk/res/css/views/rooms/_EventTile.scss
+@@ -494,7 +494,7 @@ div.mx_EventTile_notSent.mx_EventTile_redacted .mx_UnknownBody {
+     font-size: $font-14px;
+ 
+     pre, code {
+-        font-family: $monospace-font-family !important;
++        font-family: $monospace-font-family;
+         // deliberate constants as we're behind an invert filter
+         color: #333;
+     }
