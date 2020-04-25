@@ -23,5 +23,5 @@ dev-qt/qt3d gamepad
 dev-qt/qtgamepad evdev
 dev-qt/qtsql sqlite mysql postgres
 
-dev-qt/qt-creator -autotools -autotest clang cmake cppcheck doc git glsl help android ios lsp python scxml valgrind webengine -designer -qmldesigner
+dev-qt/qt-creator -autotools -autotest clang cmake cppcheck doc git glsl help android ios lsp python scxml valgrind webengine webassembly -designer -qmldesigner
 dev-qt/qt-docs 3d bluetooth charts datavis declarative graphicaleffects html location multimedia networkauth qch script sensors virtualkeyboard webengine

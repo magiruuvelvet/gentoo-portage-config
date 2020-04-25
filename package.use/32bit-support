@@ -253,6 +253,7 @@ x11-libs/xcb-util-image abi_x86_32
 x11-libs/xcb-util-keysyms abi_x86_32
 x11-libs/xcb-util-renderutil abi_x86_32
 x11-libs/xcb-util-wm abi_x86_32
+x11-libs/libxkbcommon abi_x86_32
 x11-misc/colord abi_x86_32
 x11-misc/bumblebee abi_x86_32
 x11-misc/primus abi_x86_32
