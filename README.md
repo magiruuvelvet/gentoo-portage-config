@@ -13,28 +13,28 @@ see [NEWS.md](./NEWS.md) for progress reports
 
 ## Done and working on my machine™
 
- - [x] LLVM 9.0.0 as default toolchain without GCC installed
- - [x] LLVM/clang as default system compiler (can compile 95% of my system) [GNU equivalent: gcc/g++]
+ - [x] LLVM 10.0.0 as default toolchain without GCC installed
+ - [x] LLVM/clang as default system compiler (can compile 98% of my system) [GNU equivalent: gcc/g++]
  - [x] LLVM/lld as default ELF linker (can link 98% of my system) [GNU equivalent: ld.bfd or ld.gold]
- - [x] LLVM/libc++ and libc++abi as default C++ runtime library (works for 99% of packages) [GNU equivalent: libstdc++]
+ - [x] LLVM/libc++ and libc++abi as default C++ runtime library (works for 99.99% of packages) [GNU equivalent: libstdc++]
  - [x] LLVM/libunwind as default stack unwinding library [GNU equivalent: libgcc_s (s for stack)]
  - [x] LLVM/compiler-rt as default compiler routines library [GNU equivalent: libgcc]
  - [x] LLVM/openmp as default openmp library [GNU equivalent: gomp (g as in GNU)]
+ - [x] glibc and musl at the same time without using special wrapper scripts (glibc is still the primary libc though)
 
 ## work in progress
 
  - [ ] replace GNU/glibc with musl
  - [ ] find GNU/coreutils replacement which is compatible (command line arguments)
 
-side note: I plan to keep GPL licensed packages and keep GNU/bash as my default shell.
-(assuming it works with musl)
+side note: I plan to keep GPL licensed packages and ~~keep GNU/bash as my default shell~~ (I use fish shell now).
 
 ## Problems
 
 #### Packages which refuse to work with a non-GNU setup
 
- - `dev-db/mariadb` (compiles and links, but segfaults at startup instantly due to libunwind)
- - `sys-apps/gsmartcontrol` (naming conflicts with libc++)
+ - `dev-db/mariadb` (compiles and links, but segfaults at startup instantly due to libunwind)\
+   **2020-04-25**: problem still persists :(
 
 
 ---
@@ -89,7 +89,6 @@ is wasteful to load 2 standard libraries into memory at the same time.
  - MariaDB
  - Oracle DB Library (some packages depend on it, some with USE flags, some with a hard dependency)
  - Polkit
- - `media-libs/vulkan-loader` (assembler errors)
  - Wine (compiles and links, but undefined behavior during runtime, can't launch anything)
 
 see also [BROKEN.md](./BROKEN.md) with more detailed descriptions
