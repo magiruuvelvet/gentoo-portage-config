@@ -3,3 +3,4 @@ media-plugins/frei0r-plugins -*
 media-plugins/gst-plugins-meta X a52 aac alsa dts dvd ffmpeg flac lame http libass pulseaudio
 media-plugins/gst-plugins-meta theora taglib vaapi wavpack x264 mp3 mpeg ogg opus vpx vcd vorbis modplug cdda
 media-plugins/gimp-resynthesizer PYTHON_SINGLE_TARGET: python2_7
+media-plugins/calf lv2

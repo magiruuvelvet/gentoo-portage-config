@@ -93,6 +93,7 @@ dev-libs/kpathsea gnu-source.conf
 dev-libs/ptexenc gnu-source.conf
 dev-libs/libgit2 gnu-source.conf
 dev-libs/ell gnu-source.conf
+dev-libs/ocl-icd std-gnu11.conf
 dev-php/igbinary gnu-source.conf
 dev-php/pecl-memcached gnu-source.conf
 dev-php/xdebug gnu-source.conf
@@ -111,6 +112,7 @@ dev-util/scanmem gnu-source.conf
 dev-util/colm gnu-source.conf
 dev-util/unicorn std-gnu99.conf
 gnome-base/dconf std-gnu99.conf
+games-emulation/mupen64plus-core gnu-source.conf
 mail-mta/postfix std-gnu99.conf
 media-fonts/font-util gnu-source.conf
 media-fonts/zh-kcfonts gnu-source.conf
@@ -135,6 +137,7 @@ media-libs/imlib2 std-gnu99.conf
 media-libs/jbig2dec gnu-source.conf
 media-libs/jbigkit gnu-source.conf
 media-libs/ladspa-sdk std-gnu99.conf libdl.conf
+media-libs/lsp-plugins gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libcaca std-gnu17.conf
 media-libs/libdvdread std-gnu99.conf
 media-libs/libheif std-gnu99.conf
@@ -163,6 +166,8 @@ media-libs/openal gnu-gcc.conf
 media-libs/libv4l std-gnu99.conf
 media-plugins/alsa-plugins std-gnu99.conf
 media-plugins/frei0r-plugins gnu-source.conf c++11.conf
+media-plugins/calf std-gnu11.conf
+media-plugins/gst-plugins-v4l2 gnu-source.conf
 media-sound/alsa-tools std-gnu99.conf gnu-source.conf
 media-sound/alsa-utils std-gnu99.conf
 media-sound/bluez-alsa std-gnu99.conf
@@ -174,6 +179,8 @@ media-sound/wavpack std-gnu99.conf
 media-sound/audacity gnu-source.conf
 media-sound/playerctl gnu-source.conf
 media-sound/pulseaudio-modules-bt std-gnu99.conf
+media-sound/pasystray gnu-source.conf
+media-sound/fluidsynth gnu-source.conf
 media-video/libva-utils gnu-source.conf
 media-video/mjpegtools std-gnu11.conf
 media-video/vlc std-gnu11.conf

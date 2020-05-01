@@ -13,6 +13,13 @@ media-video/mpv::gentoo
 net-libs/nodejs
 dev-lang/rust-bin
 
+# unable to build wine with my toolchain, use docker instead
+app-emulation/wine-gecko
+app-emulation/wine-mono
+app-emulation/wine-desktop-common
+app-emulation/wine-vanilla
+app-eselect/eselect-wine
+
 # mask GNU toolchain to avoid install
 sys-devel/gcc::gentoo
 sys-devel/binutils::gentoo

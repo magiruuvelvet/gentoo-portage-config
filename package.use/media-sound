@@ -10,3 +10,5 @@ media-sound/pulseaudio-modules-bt alsa alsa-plugin asyncns caps glib ssl tcpd ud
 media-sound/pulseaudio-modules-bt webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame
 media-sound/spotify libnotify
+media-sound/pasystray libnotify
+media-sound/pulseeffects bs2b mda-lv2 rubberband
