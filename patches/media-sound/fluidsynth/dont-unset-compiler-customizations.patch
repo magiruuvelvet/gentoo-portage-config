@@ -1,0 +1,21 @@
+diff --git a/src/gentables/CMakeLists.txt b/src/gentables/CMakeLists.txt
+index 638f299..603fb54 100644
+--- a/src/gentables/CMakeLists.txt
++++ b/src/gentables/CMakeLists.txt
+@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.1)
+ 
+ # remove $CC from the current environment and by that force cmake to look for a (working) C compiler,
+ # which hopefully will be the host compiler
+-unset(ENV{CC})
++#unset(ENV{CC})
+ 
+ # also unset $CFLAGS to avoid passing any cross compilation flags to the host compiler
+-unset(ENV{CFLAGS})
++#unset(ENV{CFLAGS})
+ 
+ # linker flags as well
+-unset(ENV{LDFLAGS})
++#unset(ENV{LDFLAGS})
+ 
+ project (gentables C)
+ 

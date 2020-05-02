@@ -1,0 +1,17 @@
+diff --git a/projects/unix/Makefile b/projects/unix/Makefile
+index c18596b..38354db 100755
+--- a/projects/unix/Makefile
++++ b/projects/unix/Makefile
+@@ -389,9 +389,9 @@ ifeq ($(OSD), 1)
+ endif
+ 
+ # set base program pointers and flags
+-CC        = $(CROSS_COMPILE)gcc
+-CXX       = $(CROSS_COMPILE)g++
+-STRINGS   = $(CROSS_COMPILE)strings
++CC        = clang
++CXX       = clang++
++STRINGS   = llvm-strings
+ AS        = nasm
+ TR       ?= tr
+ RM       ?= rm -f

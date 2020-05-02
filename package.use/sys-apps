@@ -10,7 +10,7 @@ sys-apps/kmod lzma zlib
 sys-apps/util-linux static-libs
 sys-apps/smartmontools -daemon
 sys-apps/gsmartcontrol
-sys-apps/firejail contrib x11
+sys-apps/firejail -contrib -globalcfg x11
 sys-apps/man-db -gdbm berkdb
 sys-apps/flatpak seccomp policykit -gnome -gtk kde
 sys-apps/debianutils -installkernel

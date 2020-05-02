@@ -1,0 +1,20 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${ED}" ]; then
+        echo "Setting up firejail launcher..."
+
+        mkdir -p "${ED}/usr/share/applications"
+        cp "${ED}/usr/share/applications/discord.desktop" "${ED}/usr/share/applications/discord-firejail.desktop"
+
+        sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord\.local\ \/opt\/discord\/Discord/g' \
+            "${ED}/usr/share/applications/discord-firejail.desktop"
+        sed -i 's/Name\=.*/Name\=Discord\ \(Firejail\)/g' \
+            "${ED}/usr/share/applications/discord-firejail.desktop"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
