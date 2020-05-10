@@ -1,11 +1,9 @@
 #!/bin/sh
 
 instprep() {
-    echo -e ">>> Removing default profiles..."
+    echo -e ">>> Removing default config (only use my own profiles)..."
     if [ ! -z "${ED}" ]; then
-        mv "${ED}/etc/firejail/default.profile" "${ED}/etc/firejail/default.profile1"
-        rm "${ED}/etc/firejail/"*.profile
-        mv "${ED}/etc/firejail/default.profile1" "${ED}/etc/firejail/default.profile"
+        rm -r "${ED}/etc/firejail"
     fi
 }
 

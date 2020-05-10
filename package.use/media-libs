@@ -43,3 +43,4 @@ media-libs/libglvnd X
 media-libs/vulkan-loader X wayland layers
 media-libs/vulkan-layers X wayland
 media-libs/libv4l jpeg
+media-libs/opus custom-modes

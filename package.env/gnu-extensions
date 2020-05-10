@@ -94,6 +94,7 @@ dev-libs/ptexenc gnu-source.conf
 dev-libs/libgit2 gnu-source.conf
 dev-libs/ell gnu-source.conf
 dev-libs/ocl-icd std-gnu11.conf
+dev-libs/json-c gnu-source.conf
 dev-php/igbinary gnu-source.conf
 dev-php/pecl-memcached gnu-source.conf
 dev-php/xdebug gnu-source.conf
@@ -104,6 +105,7 @@ dev-python/scrypt gnu-source.conf
 dev-python/bcrypt gnu-source.conf
 dev-python/pycryptodome gnu-source.conf
 dev-python/pyzmq gnu-source.conf
+dev-python/sip gnu-source.conf
 dev-util/boost-build std-gnu17.conf
 dev-util/ctags gnu-source.conf
 dev-util/desktop-file-utils gnu-source.conf
@@ -112,7 +114,10 @@ dev-util/scanmem gnu-source.conf
 dev-util/colm gnu-source.conf
 dev-util/unicorn std-gnu99.conf
 gnome-base/dconf std-gnu99.conf
-games-emulation/mupen64plus-core gnu-source.conf
+# clang is stuck in an infinite loop when building with optimizations and eventually gets killed by the OEM killer
+games-emulation/mupen64plus-core no-optimizations.conf gnu-source.conf
+# uses gnu inline assembly
+games-emulation/mupen64plus-ui-console std-gnu99.conf
 mail-mta/postfix std-gnu99.conf
 media-fonts/font-util gnu-source.conf
 media-fonts/zh-kcfonts gnu-source.conf
@@ -181,6 +186,7 @@ media-sound/playerctl gnu-source.conf
 media-sound/pulseaudio-modules-bt std-gnu99.conf
 media-sound/pasystray gnu-source.conf
 media-sound/fluidsynth gnu-source.conf
+media-sound/jack2 std-gnu17.conf gnu-source.conf
 media-video/libva-utils gnu-source.conf
 media-video/mjpegtools std-gnu11.conf
 media-video/vlc std-gnu11.conf

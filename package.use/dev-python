@@ -39,6 +39,16 @@ dev-python/pycparser python_targets_python3_6
 dev-python/cffi python_targets_python3_6
 dev-python/regex python_targets_python3_6
 dev-python/cython python_targets_python3_6
+dev-python/PySocks python_targets_python3_6
+dev-python/cjkwrap python_targets_python3_6
+dev-python/jsonpointer python_targets_python3_6
+dev-python/rfc3987 python_targets_python3_6
+dev-python/strict-rfc3339 python_targets_python3_6
+dev-python/rfc3986-validator python_targets_python3_6
+dev-python/rfc3339-validator python_targets_python3_6
+dev-python/paramiko python_targets_python3_6
+dev-python/cached-property python_targets_python3_6
+dev-python/docopt python_targets_python3_6
 virtual/python-enum34 python_targets_python3_6
 virtual/python-cffi python_targets_python3_6
 

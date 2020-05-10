@@ -1,5 +1,7 @@
 
 dev-qt/qtwebengine j2.conf
+dev-qt/qt-creator j2.conf
+app-office/libreoffice j2.conf
 
 # only the 32-bit version depends on GNU/libatomic, the 64-bit version is GNU free and works with LLVM runtimes only
 media-libs/mesa libatomic-clang.conf
@@ -37,6 +39,7 @@ media-libs/gexiv2 c++11.conf
 net-libs/libproxy c++11.conf
 x11-misc/virtualgl c++11.conf
 games-util/xboxdrv c++11.conf
+games-emulation/mupen64plus-video-rice c++11.conf gnu-source.conf
 
 =x11-libs/wxGTK-3.0.4-r2 c++11.conf
 

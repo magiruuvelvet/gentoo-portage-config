@@ -13,6 +13,10 @@ media-video/mpv::gentoo
 net-libs/nodejs
 dev-lang/rust-bin
 
+# use local repo version instead
+app-office/libreoffice::gentoo
+app-office/libreoffice-l10n::gentoo
+
 # unable to build wine with my toolchain, use docker instead
 app-emulation/wine-gecko
 app-emulation/wine-mono

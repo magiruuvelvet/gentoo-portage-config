@@ -9,6 +9,6 @@ media-video/ffmpeg threads truetype vaapi vdpau vorbis vpx wavpack webp x264 x26
 media-video/ffmpeg zeromq zimg zlib zvbi -bs2b cdio -chromaprint -chromium codec2 -debug -doc
 media-video/mkvtoolnix qt5 pch
 media-video/subtitlecomposer unicode mpv
-media-video/mpv X alsa archive bluray cdda cli cplugins drm -dvd egl iconv javascript libass libcaca
+media-video/mpv X alsa jack archive bluray cdda cli cplugins drm -dvd egl iconv javascript libass libcaca
 media-video/mpv libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland
-media-video/obs-studio alsa pulseaudio fdk luajit speex truetype ssl v4l
+media-video/obs-studio alsa pulseaudio jack fdk luajit speex truetype ssl v4l

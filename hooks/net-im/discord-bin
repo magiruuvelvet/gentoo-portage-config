@@ -7,6 +7,9 @@ instprep() {
         mkdir -p "${ED}/usr/share/applications"
         cp "${ED}/usr/share/applications/discord.desktop" "${ED}/usr/share/applications/discord-firejail.desktop"
 
+        sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord-allow-audio\.local\ \/opt\/discord\/Discord/g' \
+            "${ED}/usr/share/applications/discord.desktop"
+
         sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord\.local\ \/opt\/discord\/Discord/g' \
             "${ED}/usr/share/applications/discord-firejail.desktop"
         sed -i 's/Name\=.*/Name\=Discord\ \(Firejail\)/g' \
