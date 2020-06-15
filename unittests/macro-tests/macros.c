@@ -27,6 +27,14 @@ int main(void)
     print_macro("__GNUG__");
 #endif
 
+#ifdef __GNUC__
+    print_macro("__GNUC__");
+#endif
+
+#ifdef __STRICT_ANSI__
+    print_macro("__STRICT_ANSI__");
+#endif
+
 // my toolchain: declared
 #ifdef __clang__
     print_macro("__clang__");

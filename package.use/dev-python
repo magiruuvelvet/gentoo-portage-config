@@ -49,6 +49,8 @@ dev-python/rfc3339-validator python_targets_python3_6
 dev-python/paramiko python_targets_python3_6
 dev-python/cached-property python_targets_python3_6
 dev-python/docopt python_targets_python3_6
+dev-python/distro python_targets_python3_6
+dev-python/python-dotenv python_targets_python3_6
 virtual/python-enum34 python_targets_python3_6
 virtual/python-cffi python_targets_python3_6
 

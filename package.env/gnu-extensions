@@ -127,6 +127,7 @@ media-gfx/icoutils std-gnu99.conf
 media-gfx/optipng std-gnu99.conf
 media-gfx/qrencode gnu-source.conf
 media-gfx/fontforge gnu-source.conf
+media-gfx/zbar gnu-source.conf
 media-libs/alsa-lib std-gnu99.conf
 media-libs/babl std-gnu99.conf
 media-libs/codec2 std-gnu99.conf
