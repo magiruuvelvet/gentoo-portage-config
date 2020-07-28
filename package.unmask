@@ -44,7 +44,3 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
-
-
-=dev-lang/rust-1.39.0
-=virtual/rust-1.39.0

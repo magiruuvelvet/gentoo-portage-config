@@ -22,7 +22,7 @@ compile() {
 }
 
 case "$1" in
-    instprep) instprep ;;
-    compile) compile ;;
+    #instprep) instprep ;;
+    #compile) compile ;;
     *) : ;;
 esac

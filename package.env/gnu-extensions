@@ -112,7 +112,7 @@ dev-util/desktop-file-utils gnu-source.conf
 dev-util/radare2 std-gnu99.conf
 dev-util/scanmem gnu-source.conf
 dev-util/colm gnu-source.conf
-dev-util/unicorn std-gnu99.conf
+dev-util/unicorn std-gnu99.conf gnu-source.conf
 gnome-base/dconf std-gnu99.conf
 # clang is stuck in an infinite loop when building with optimizations and eventually gets killed by the OEM killer
 games-emulation/mupen64plus-core no-optimizations.conf gnu-source.conf
@@ -224,6 +224,7 @@ net-libs/libmnl std-gnu99.conf
 net-libs/libnftnl std-gnu99.conf
 net-libs/libvncserver gnu-source.conf
 net-libs/enet gnu-source.conf
+net-libs/libslirp gnu-source.conf
 net-mail/dovecot std-gnu99.conf
 net-mail/mailutils std-gnu99.conf
 net-misc/freerdp gnu-source.conf
@@ -316,7 +317,7 @@ sys-libs/pam gnu-source.conf define-linux.conf
 sys-libs/slang gnu-source.conf
 sys-libs/zlib std-gnu99.conf
 sys-libs/cracklib gnu-source.conf
-sys-libs/liburing gnu-source.conf
+sys-libs/liburing std-gnu99.conf
 sys-power/acpid std-gnu99.conf
 sys-power/upower gnu-source.conf
 sys-process/criu std-gnu99.conf
@@ -326,6 +327,7 @@ sys-process/psmisc gnu-source.conf
 sys-process/tini gnu-gcc.conf
 sys-process/numactl std-gnu99.conf
 sys-auth/rtkit gnu-source.conf
+sys-auth/passwdqc gnu-source.conf
 x11-libs/gtk+ gnu-source.conf
 x11-libs/libwnck gnu-source.conf
 x11-misc/i3lock std-gnu99.conf

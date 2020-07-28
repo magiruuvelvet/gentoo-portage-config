@@ -5,10 +5,6 @@
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0
 
-# rust update again...
-dev-lang/rust
-virtual/rust
-
 # mask ruby 2.7 for now (compatibility with native extensions)
 >=dev-lang/ruby-2.7
 

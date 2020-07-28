@@ -23,6 +23,7 @@ kde-frameworks/kauth policykit
 kde-frameworks/knotifications dbus phonon
 kde-frameworks/kconfig dbus
 kde-frameworks/purpose -kaccounts -dolphin
+kde-frameworks/kitemmodels qml
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw

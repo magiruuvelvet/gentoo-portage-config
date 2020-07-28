@@ -3,6 +3,7 @@
 # allow unstable masked main repo packages
 =media-sound/pulseaudio-modules-bt-9999 **
 =net-misc/streamlink-9999 **
+=games-emulation/pcsx2-9999 **
 
 # eselect repositories
 =x11-misc/bumblebee-9999-r4 **

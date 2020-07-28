@@ -1,2 +1,3 @@
-games-emulation/dolphin alsa pulseaudio evdev ffmpeg openal pch -qt5 sdl wxwidgets
+games-emulation/dolphin alsa pulseaudio evdev ffmpeg openal pch sdl wxwidgets qt5 -systemd
 games-emulation/mupen64plus-video-glide64mk2 hires
+games-emulation/ppsspp qt5 sdl -system-ffmpeg
