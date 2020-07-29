@@ -1,0 +1,86 @@
+.mx_LeftPanel, .mx_LeftPanel_roomListContainer {
+    background-color: #f2f5f8 !important;
+    font-family: "Noto Sans", "Noto Sans CJK JP" !important;
+}
+.mx_RoomSublist_tiles .mx_AccessibleButton {
+    padding: 0 !important;
+    border-radius: 0 !important;
+    margin-bottom: 6px !important;
+}
+.mx_RoomTile_name {
+    color: #333 !important;
+}
+.mx_RoomSublist_tiles img, .mx_BaseAvatar_initial {
+    width: 26px !important;
+    height: 26px !important;
+}
+.mx_BaseAvatar_initial {
+    display: none !important;
+}
+.mx_RoomSublist, .mx_RoomSublist_tiles {
+    flex: unset !important;
+}
+.mx_RoomSublist_resizerHandles {
+    display: none !important;
+}
+.mx_RoomSublist_resizeBox {
+    height: unset !important;
+}
+.mx_RoomSublist_showNButton {
+    display: none !important;
+}
+.mx_UserMenu_contextMenu_themeButton {
+    display: none !important;
+}
+.mx_UserMenu_contextMenu_name {
+    width: 100% !important;
+}
+.mx_UserMenu_contextMenu_header {
+    padding: 10px !important;
+}
+.mx_RoomTileIcon {
+    display: block !important;
+    position: absolute !important;
+    left: 22px !important;
+}
+.mx_RoomTileIcon_offline {
+    display: none !important;
+}
+.mx_EventTile_e2eIcon {
+    display: none !important;
+}
+.mx_NotificationBadge_visible {
+    width: 19px !important;
+    height: 19px !important;
+}
+.mx_NotificationBadge_count {
+    font-size: 13px !important;
+    font-weight: bold !important;
+}
+.mx_RoomSearch {
+    border-radius: 0 !important;
+}
+.mx_RoomHeader_wrapper {
+    border-bottom: 1px solid #eee !important;
+}
+.mx_MessageComposer {
+    border-top: 1px solid #eee !important;
+}
+.mx_RightPanel {
+    margin-top: 0px !important;
+    border-radius: 0 !important;
+}
+.mx_RoomSublist {
+    border-bottom: 1px solid #ccc !important;
+}
+.mx_EventTile, .mx_MemberList_wrapper, .mx_MemberList, .mx_RightPanel,
+.mx_RoomSearch, .mx_LeftPanel_userHeader, .mx_SenderProfile_name,
+.mx_BasicMessageComposer, .mx_RoomHeader_name, .mx_SenderProfile_aux,
+.mx_ContextualMenu_Container, .mx_MessageComposer {
+    font-family: "Noto Sans", "Noto Sans CJK JP" !important;
+}
+/* remove !important from the original theme css */
+.markdown-body code, .markdown-body pre {
+    font-family: "WenQuanYi Micro Hei Mono" !important;
+    font-size: 13.5px !important;
+}

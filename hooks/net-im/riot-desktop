@@ -1,6 +1,6 @@
 #!/bin/sh
 
-instprep() {
+instprep_old() {
     local electron_slot=5.0
 
     if [ ! -z "${D}" ]; then
@@ -15,14 +15,23 @@ instprep() {
     fi
 }
 
+instprep() {
+    cd "${D}/opt/Element/resources"
+    /opt/nodejs/pkg/bin/asar e app.asar app
+    /opt/nodejs/pkg/bin/asar e webapp.asar webapp
+    rm app.asar
+    rm webapp.asar
+    cp /etc/portage/hooks/patches/net-im/riot-desktop/custom.css webapp/custom.css
+}
+
 compile() {
     echo "Fix monospace fonts not working in Electron app..."
-    cd "${S}"
+    cd "${S}/../riot-web-${PV}"
     patch -p1 < /etc/portage/hooks/patches/net-im/riot-desktop/no-markdown-font-important.patch
 }
 
 case "$1" in
-    #instprep) instprep ;;
-    #compile) compile ;;
+    instprep) instprep ;;
+    compile) compile ;;
     *) : ;;
 esac

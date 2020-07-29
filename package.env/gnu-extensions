@@ -59,6 +59,7 @@ dev-db/mariadb-connector-c std-gnu99.conf
 dev-db/mysql-connector-c std-gnu99.conf
 dev-db/sqlite std-gnu99.conf
 dev-db/unixODBC std-gnu99.conf
+dev-db/sqlcipher std-gnu99.conf
 dev-lang/tcl std-gnu99.conf
 dev-lang/tk std-gnu99.conf
 dev-lang/vala gnu-source.conf
