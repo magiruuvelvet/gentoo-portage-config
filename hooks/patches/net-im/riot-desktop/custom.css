@@ -1,6 +1,6 @@
 .mx_LeftPanel, .mx_LeftPanel_roomListContainer {
     background-color: #f2f5f8 !important;
-    font-family: "Noto Sans", "Noto Sans CJK JP" !important;
+    font-family: "Noto Sans", "Noto Sans CJK JP", "Twemoji" !important;
 }
 .mx_RoomSublist_tiles .mx_AccessibleButton {
     padding: 0 !important;
@@ -26,6 +26,7 @@
 .mx_RoomSublist_resizeBox {
     height: unset !important;
 }
+/* revert to block when channels disappear */
 .mx_RoomSublist_showNButton {
     display: none !important;
 }
@@ -77,10 +78,10 @@
 .mx_RoomSearch, .mx_LeftPanel_userHeader, .mx_SenderProfile_name,
 .mx_BasicMessageComposer, .mx_RoomHeader_name, .mx_SenderProfile_aux,
 .mx_ContextualMenu_Container, .mx_MessageComposer {
-    font-family: "Noto Sans", "Noto Sans CJK JP" !important;
+    font-family: "Noto Sans", "Noto Sans CJK JP", "Twemoji" !important;
 }
 /* remove !important from the original theme css */
 .markdown-body code, .markdown-body pre {
-    font-family: "WenQuanYi Micro Hei Mono" !important;
+    font-family: "WenQuanYi Micro Hei Mono", "Twemoji" !important;
     font-size: 13.5px !important;
 }
