@@ -22,6 +22,9 @@ instprep() {
     rm app.asar
     rm webapp.asar
     cp /etc/portage/hooks/patches/net-im/riot-desktop/custom.css webapp/custom.css
+
+    # create version file so it doesn't show "unknown"
+    echo -en "${PV}" > webapp/version
 }
 
 compile() {

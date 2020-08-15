@@ -44,3 +44,8 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
+
+
+
+# glvnd
+#=x11-base/xorg-server-1.20.8

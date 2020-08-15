@@ -1,0 +1,3 @@
+# don't install glvnd ever
+# my legacy laptop is not compatible with glvnd
+-libglvnd

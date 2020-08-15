@@ -10,3 +10,6 @@
 
 # I have 3 python versions installed already (no more python nonsense please)
 >=dev-lang/python-3.8.0
+
+virtual/rust
+dev-lang/rust

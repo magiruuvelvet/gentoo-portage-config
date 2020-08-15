@@ -13,6 +13,8 @@ media-video/mpv::gentoo
 net-libs/nodejs
 dev-lang/rust-bin
 
+www-servers/caddy::gentoo
+
 # use local repo version instead
 app-office/libreoffice::gentoo
 app-office/libreoffice-l10n::gentoo
