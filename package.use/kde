@@ -24,6 +24,7 @@ kde-frameworks/knotifications dbus phonon
 kde-frameworks/kconfig dbus
 kde-frameworks/purpose -kaccounts -dolphin
 kde-frameworks/kitemmodels qml
+kde-frameworks/ktexteditor -editorconfig
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw
@@ -47,7 +48,7 @@ net-nds/openldap minimal -syslog -tcpd
 dev-libs/cyrus-sasl
 app-accessibility/speech-dispatcher -espeak -alsa -pulseaudio
 kde-apps/kdepim-addons markdown
-kde-apps/kitinerary -barcode pdf
+kde-apps/kitinerary -barcode -pdf
 
 kde-apps/libkleo -fancyviewer
 kde-apps/krdc vnc rdp
