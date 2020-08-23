@@ -29,7 +29,7 @@ instprep() {
 
 compile() {
     echo "Fix monospace fonts not working in Electron app..."
-    cd "${S}/../riot-web-${PV}"
+    cd "${S}/../element-web-${PV}"
     patch -p1 < /etc/portage/hooks/patches/net-im/riot-desktop/no-markdown-font-important.patch
 }
 
