@@ -1,0 +1,626 @@
+diff --git a/admin/api.php b/admin/api.php
+index 34ffe65..6685e96 100644
+--- a/admin/api.php
++++ b/admin/api.php
+@@ -20,72 +20,7 @@ $data = array();
+ // Common API functions
+ if (isset($_GET['status']))
+ {
+-	$pistatus = pihole_execute('status web');
+-	if(isset($pistatus[0]))
+-    {
+-        $pistatus = $pistatus[0];
+-    }
+-    else
+-    {
+-        $pistatus = null;
+-    }
+-	if ($pistatus === "1")
+-	{
+-		$data = array_merge($data, array("status" => "enabled"));
+-	}
+-	else
+-	{
+-		$data = array_merge($data, array("status" => "disabled"));
+-	}
+-}
+-elseif (isset($_GET['enable']) && $auth)
+-{
+-	if(isset($_GET["auth"]))
+-	{
+-	if($_GET["auth"] !== $pwhash)
+-		die("Not authorized!");
+-	}
+-	else
+-	{
+-		// Skip token validation if explicit auth string is given
+-		check_csrf($_GET['token']);
+-	}
+-	pihole_execute('enable');
+-	$data = array_merge($data, array("status" => "enabled"));
+-	if (file_exists("../custom_disable_timer"))
+-	{
+-		unlink("../custom_disable_timer");
+-	}
+-}
+-elseif (isset($_GET['disable']) && $auth)
+-{
+-	if(isset($_GET["auth"]))
+-	{
+-		if($_GET["auth"] !== $pwhash)
+-			die("Not authorized!");
+-	}
+-	else
+-	{
+-		// Skip token validation if explicit auth string is given
+-		check_csrf($_GET['token']);
+-	}
+-	$disable = intval($_GET['disable']);
+-	// intval returns the integer value on success, or 0 on failure
+-	if($disable > 0)
+-	{
+-		$timestamp = time();
+-		pihole_execute("disable ".$disable."s");
+-		file_put_contents("../custom_disable_timer",($timestamp+$disable)*1000);
+-	}
+-	else
+-	{
+-		pihole_execute('disable');
+-		if (file_exists("../custom_disable_timer"))
+-		{
+-			unlink("../custom_disable_timer");
+-		}
+-	}
+-	$data = array_merge($data, array("status" => "disabled"));
++    $data = array_merge($data, array("status" => "enabled"));
+ }
+ elseif (isset($_GET['versions']))
+ {
+diff --git a/admin/db_queries.php b/admin/db_queries.php
+index c1d0b6c..662be7e 100644
+--- a/admin/db_queries.php
++++ b/admin/db_queries.php
+@@ -138,7 +138,6 @@
+                         <th>Domain</th>
+                         <th>Client</th>
+                         <th>Status</th>
+-                        <th>Action</th>
+                     </tr>
+                 </thead>
+                 <tfoot>
+@@ -148,7 +147,6 @@
+                         <th>Domain</th>
+                         <th>Client</th>
+                         <th>Status</th>
+-                        <th>Action</th>
+                     </tr>
+                 </tfoot>
+             </table>
+diff --git a/admin/img/boxed-bg.jpg b/admin/img/boxed-bg.jpg
+index 4bda80d..8ec9bda 100644
+Binary files a/admin/img/boxed-bg.jpg and b/admin/img/boxed-bg.jpg differ
+diff --git a/admin/queries.php b/admin/queries.php
+index 559e9cb..0d3a485 100644
+--- a/admin/queries.php
++++ b/admin/queries.php
+@@ -123,7 +123,6 @@ if(strlen($showing) > 0)
+                         <th>Client</th>
+                         <th>Status</th>
+                         <th>Reply</th>
+-                        <th>Action</th>
+                     </tr>
+                 </thead>
+                 <tfoot>
+@@ -134,7 +133,6 @@ if(strlen($showing) > 0)
+                         <th>Client</th>
+                         <th>Status</th>
+                         <th>Reply</th>
+-                        <th>Action</th>
+                     </tr>
+                 </tfoot>
+             </table>
+diff --git a/admin/scripts/pi-hole/js/db_queries.js b/admin/scripts/pi-hole/js/db_queries.js
+index 7707dee..8275491 100644
+--- a/admin/scripts/pi-hole/js/db_queries.js
++++ b/admin/scripts/pi-hole/js/db_queries.js
+@@ -97,9 +97,7 @@ function add(domain, list) {
+     data: {
+       domain: domain,
+       list: list,
+-      token: token,
+-      action: "add_domain",
+-      comment: "Added from Long-Term-Data Query Log"
++      token: token
+     },
+     success: function (response) {
+       if (!response.success) {
+@@ -374,8 +372,7 @@ $(function () {
+       { width: "10%" },
+       { width: "40%" },
+       { width: "20%", type: "ip-address" },
+-      { width: "10%" },
+-      { width: "5%" }
++      { width: "10%" }
+     ],
+     lengthMenu: [
+       [10, 25, 50, 100, -1],
+diff --git a/admin/scripts/pi-hole/js/queries.js b/admin/scripts/pi-hole/js/queries.js
+index 0055ea5..c29d883 100644
+--- a/admin/scripts/pi-hole/js/queries.js
++++ b/admin/scripts/pi-hole/js/queries.js
+@@ -60,9 +60,7 @@ function add(domain, list) {
+       data: {
+         domain: domain,
+         list: list,
+-        token: token,
+-        action: "add_domain",
+-        comment: "Added from Query Log"
++        token: token
+       },
+       success: function (response) {
+         alProcessing.hide();
+@@ -184,37 +182,32 @@ $(function () {
+         case "1":
+           colorClass = "text-red";
+           fieldtext = "Blocked (gravity)";
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-green"><i class="fas fa-check"></i> Whitelist</button>';
++          buttontext = "";
+           break;
+         case "2":
+           colorClass = "text-green";
+           fieldtext = "OK <br class='hidden-lg'>(forwarded)" + dnssecStatus;
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-red"><i class="fa fa-ban"></i> Blacklist</button>';
++          buttontext = "";
+           break;
+         case "3":
+           colorClass = "text-green";
+           fieldtext = "OK <br class='hidden-lg'>(cached)" + dnssecStatus;
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-red"><i class="fa fa-ban"></i> Blacklist</button>';
++          buttontext = "";
+           break;
+         case "4":
+           colorClass = "text-red";
+           fieldtext = "Blocked <br class='hidden-lg'>(regex blacklist)";
++          buttontext = "";
+ 
+           if (data.length > 9 && data[9] > 0) {
+             regexLink = true;
+           }
+ 
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-green"><i class="fas fa-check"></i> Whitelist</button>';
+           break;
+         case "5":
+           colorClass = "text-red";
+           fieldtext = "Blocked <br class='hidden-lg'>(exact blacklist)";
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-green"><i class="fas fa-check"></i> Whitelist</button>';
++          buttontext = "";
+           break;
+         case "6":
+           colorClass = "text-red";
+@@ -234,8 +227,7 @@ $(function () {
+         case "9":
+           colorClass = "text-red";
+           fieldtext = "Blocked (gravity, CNAME)";
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-green"><i class="fas fa-check"></i> Whitelist</button>';
++          buttontext = "";
+           isCNAME = true;
+           break;
+         case "10":
+@@ -246,15 +238,13 @@ $(function () {
+             regexLink = true;
+           }
+ 
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-green"><i class="fas fa-check"></i> Whitelist</button>';
++          buttontext = "";
+           isCNAME = true;
+           break;
+         case "11":
+           colorClass = "text-red";
+           fieldtext = "Blocked <br class='hidden-lg'>(exact blacklist, CNAME)";
+-          buttontext =
+-            '<button type="button" class="btn btn-default btn-sm text-green"><i class="fas fa-check"></i> Whitelist</button>';
++          buttontext = "";
+           isCNAME = true;
+           break;
+         default:
+@@ -350,7 +340,7 @@ $(function () {
+     order: [[0, "desc"]],
+     columns: [
+       {
+-        width: "15%",
++        width: "10%",
+         render: function (data, type) {
+           if (type === "display") {
+             return moment
+@@ -362,11 +352,10 @@ $(function () {
+         }
+       },
+       { width: "4%" },
+-      { width: "36%", render: $.fn.dataTable.render.text() },
++      { width: "40%", render: $.fn.dataTable.render.text() },
+       { width: "8%", type: "ip-address", render: $.fn.dataTable.render.text() },
+       { width: "14%", orderData: 4 },
+-      { width: "8%", orderData: 6 },
+-      { width: "10%", orderData: 4 }
++      { width: "8%", orderData: 6 }
+     ],
+     lengthMenu: [
+       [10, 25, 50, 100, -1],
+diff --git a/admin/scripts/pi-hole/php/footer.php b/admin/scripts/pi-hole/php/footer.php
+index 32f3aee..cf89ed0 100644
+--- a/admin/scripts/pi-hole/php/footer.php
++++ b/admin/scripts/pi-hole/php/footer.php
+@@ -60,12 +60,6 @@
+     $ftlReleasesUrl = "https://aur.archlinux.org/packages/pi-hole-ftl";
+ ?>
+     <footer class="main-footer">
+-        <div class="row row-centered text-center">
+-            <div class="col-xs-12 col-sm-6">
+-                <strong><a href="https://pi-hole.net/donate/" rel="noopener" target="_blank"><i class="fa fa-heart text-red"></i> Donate</a></strong> if you found this useful.
+-            </div>
+-        </div>
+-
+         <div class="row row-centered text-center version-info">
+             <div class="col-xs-12 col-sm-8 col-md-6">
+                 <?php if (isset($core_commit) || isset($web_commit) || isset($FTL_commit)) { ?>
+diff --git a/admin/scripts/pi-hole/php/header.php b/admin/scripts/pi-hole/php/header.php
+index 61e7c8f..70ab9d1 100644
+--- a/admin/scripts/pi-hole/php/header.php
++++ b/admin/scripts/pi-hole/php/header.php
+@@ -11,7 +11,6 @@
+     require_once "scripts/pi-hole/php/FTL.php";
+     require "scripts/pi-hole/php/theme.php";
+     $scriptname = basename($_SERVER['SCRIPT_FILENAME']);
+-    $hostname = gethostname() ? gethostname() : "";
+ 
+     check_cors();
+ 
+@@ -21,87 +20,6 @@
+     }
+     $token = $_SESSION['token'];
+ 
+-    // Try to get temperature value from different places (OS dependent)
+-    if(file_exists("/sys/class/thermal/thermal_zone0/temp"))
+-    {
+-        $output = rtrim(file_get_contents("/sys/class/thermal/thermal_zone0/temp"));
+-    }
+-    elseif (file_exists("/sys/class/hwmon/hwmon0/temp1_input"))
+-    {
+-        $output = rtrim(file_get_contents("/sys/class/hwmon/hwmon0/temp1_input"));
+-    }
+-    else
+-    {
+-        $output = "";
+-    }
+-
+-    // Test if we succeeded in getting the temperature
+-    if(is_numeric($output))
+-    {
+-        // $output could be either 4-5 digits or 2-3, and we only divide by 1000 if it's 4-5
+-        // ex. 39007 vs 39
+-        $celsius = intval($output);
+-
+-        // If celsius is greater than 1 degree and is in the 4-5 digit format
+-        if($celsius > 1000) {
+-            // Use multiplication to get around the division-by-zero error
+-            $celsius *= 1e-3;
+-        }
+-
+-        // Get user-defined temperature limit if set
+-        if(isset($setupVars['TEMPERATURE_LIMIT']))
+-        {
+-            $temperaturelimit = intval($setupVars['TEMPERATURE_LIMIT']);
+-        }
+-        else
+-        {
+-            $temperaturelimit = 60;
+-        }
+-    }
+-    else
+-    {
+-        // Nothing can be colder than -273.15 degree Celsius (= 0 Kelvin)
+-        // This is the minimum temperature possible (AKA absolute zero)
+-        $celsius = -273.16;
+-    }
+-
+-    // Get load
+-    $loaddata = sys_getloadavg();
+-    foreach ($loaddata as $key => $value) {
+-        $loaddata[$key] = round($value, 2);
+-    }
+-    // Get number of processing units available to PHP
+-    // (may be less than the number of online processors)
+-    $nproc = shell_exec('nproc');
+-    if(!is_numeric($nproc))
+-    {
+-        $cpuinfo = file_get_contents('/proc/cpuinfo');
+-        preg_match_all('/^processor/m', $cpuinfo, $matches);
+-        $nproc = count($matches[0]);
+-    }
+-
+-    // Get memory usage
+-    $data = explode("\n", file_get_contents("/proc/meminfo"));
+-    $meminfo = array();
+-    if(count($data) > 0)
+-    {
+-        foreach ($data as $line) {
+-            $expl = explode(":", trim($line));
+-            if(count($expl) == 2)
+-            {
+-                // remove " kB" from the end of the string and make it an integer
+-                $meminfo[$expl[0]] = intval(substr($expl[1],0, -3));
+-            }
+-        }
+-        $memory_used = $meminfo["MemTotal"]-$meminfo["MemFree"]-$meminfo["Buffers"]-$meminfo["Cached"];
+-        $memory_total = $meminfo["MemTotal"];
+-        $memory_usage = $memory_used/$memory_total;
+-    }
+-    else
+-    {
+-        $memory_usage = -1;
+-    }
+-
+     if($auth) {
+         // For session timer
+         $maxlifetime = ini_get("session.gc_maxlifetime");
+@@ -168,7 +86,7 @@
+     <meta http-equiv="cache-control" content="max-age=60,private">
+     <!-- Tell the browser to be responsive to screen width -->
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+-    <title>Pi-hole<?php echo $hostname ? " - " . $hostname : "" ?></title>
++    <title>Pi-hole</title>
+ 
+     <link rel="apple-touch-icon" href="img/favicons/apple-touch-icon.png" sizes="180x180">
+     <link rel="icon" href="img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+@@ -251,12 +169,6 @@ if($auth) {
+                             <span class="label label-warning" id="pihole-diagnosis-count"></span>
+                         </a>
+                     </li>
+-                    <li<?php echo !$hostname ? ' class="hidden"' : "" ?>>
+-                        <p class="navbar-text">
+-                            <span class="hidden-xs hidden-sm">hostname:</span>
+-                            <code><?php echo $hostname; ?></code>
+-                        </p>
+-                    </li>
+                     <li class="dropdown user user-menu">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                             <img src="img/logo.svg" class="user-image" alt="Pi-hole logo" style="border-radius: 0" width="25" height="25">
+@@ -267,8 +179,7 @@ if($auth) {
+                             <li class="user-header">
+                                 <img src="img/logo.svg" alt="Pi-hole Logo" style="border: 0" width="90" height="90">
+                                 <p>
+-                                    Open Source Ad Blocker
+-                                    <small>Designed For Raspberry Pi</small>
++                                    Open Source Domain Blocker
+                                 </p>
+                             </li>
+                             <!-- Menu Body -->
+@@ -288,15 +199,6 @@ if($auth) {
+                                     </div>
+                                 </div>
+                             </li>
+-                            <!-- Menu Footer -->
+-                            <li class="user-footer">
+-                                <!-- PayPal -->
+-                                <div class="text-center">
+-                                    <a href="https://pi-hole.net/donate/" rel="noopener" target="_blank">
+-                                        <img src="img/donate.gif" alt="Donate" width="147" height="47">
+-                                    </a>
+-                                </div>
+-                            </li>
+                         </ul>
+                     </li>
+                 </ul>
+@@ -312,77 +214,6 @@ if($auth) {
+                 <div class="pull-left image">
+                     <img src="img/logo.svg" alt="Pi-hole logo" width="45" height="67" style="height: 67px;">
+                 </div>
+-                <div class="pull-left info">
+-                    <p>Status</p>
+-                        <?php
+-                        $pistatus = pihole_execute('status web');
+-                        if (isset($pistatus[0])) {
+-                            $pistatus = $pistatus[0];
+-                        } else {
+-                            $pistatus = null;
+-                        }
+-                        if ($pistatus === "1") {
+-                            echo '<span id="status"><i class="fa fa-circle text-green-light"></i> Active</span>';
+-                        } elseif ($pistatus === "0") {
+-                            echo '<span id="status"><i class="fa fa-circle text-red"></i> Offline</span>';
+-                        } elseif ($pistatus === "-1") {
+-                            echo '<span id="status"><i class="fa fa-circle text-red"></i> DNS service not running</span>';
+-                        } else {
+-                            echo '<span id="status"><i class="fa fa-circle text-orange"></i> Unknown</span>';
+-                        }
+-
+-                        // CPU Temp
+-                        if($FTL)
+-                        {
+-                            if ($celsius >= -273.15) {
+-                                echo "<span id=\"temperature\"><i class=\"fa fa-fire ";
+-                                if ($celsius > $temperaturelimit) {
+-                                    echo "text-red";
+-                                }
+-                                else
+-                                {
+-                                    echo "text-vivid-blue";
+-                                }
+-                                ?>"\"></i> Temp:&nbsp;<span id="rawtemp" hidden><?php echo $celsius;?></span><span id="tempdisplay"></span><?php
+-                            }
+-                        }
+-                        else
+-                        {
+-                            echo '<span id=\"temperature\"><i class="fa fa-circle text-red"></i> FTL offline</span>';
+-                        }
+-                    ?>
+-                    <br/>
+-                    <?php
+-                    echo "<span title=\"Detected $nproc cores\"><i class=\"fa fa-circle ";
+-                        if ($loaddata[0] > $nproc) {
+-                            echo "text-red";
+-                        }
+-                        else
+-                        {
+-                            echo "text-green-light";
+-                        }
+-                        echo "\"></i> Load:&nbsp;&nbsp;" . $loaddata[0] . "&nbsp;&nbsp;" . $loaddata[1] . "&nbsp;&nbsp;". $loaddata[2] . "</span>";
+-                    ?>
+-                    <br/>
+-                    <?php
+-                    echo "<span><i class=\"fa fa-circle ";
+-                        if ($memory_usage > 0.75 || $memory_usage < 0.0) {
+-                            echo "text-red";
+-                        }
+-                        else
+-                        {
+-                            echo "text-green-light";
+-                        }
+-                        if($memory_usage > 0.0)
+-                        {
+-                            echo "\"></i> Memory usage:&nbsp;&nbsp;" . sprintf("%.1f",100.0*$memory_usage) . "&thinsp;%</span>";
+-                        }
+-                        else
+-                        {
+-                            echo "\"></i> Memory usage:&nbsp;&nbsp; N/A</span>";
+-                        }
+-                    ?>
+-                </div>
+             </div>
+             <!-- sidebar menu: : style can be found in sidebar.less -->
+             <?php
+@@ -403,10 +234,9 @@ if($auth) {
+             }
+             ?>
+             <ul class="sidebar-menu" data-widget="tree">
+-                <li class="header text-uppercase">Main navigation</li>
+                 <!-- Home Page -->
+                 <li<?php if($scriptname === "index.php"){ ?> class="active"<?php } ?>>
+-                    <a href="index.php">
++                    <a href="/">
+                         <i class="fa fa-home"></i> <span>Dashboard</span>
+                     </a>
+                 </li>
+@@ -454,12 +284,6 @@ if($auth) {
+                         <i class="fa fa-ban"></i> <span>Blacklist</span>
+                     </a>
+                 </li>
+-                <!-- Local DNS Records -->
+-                <li<?php if($scriptname === "dns_records.php"){ ?> class="active"<?php } ?>>
+-                    <a href="dns_records.php">
+-                        <i class="fa fa-address-book"></i> <span>Local DNS Records</span>
+-                    </a>
+-                </li>
+                 <!-- Group Management -->
+                 <li class="treeview<?php if (in_array($scriptname, array("groups.php", "groups-adlists.php", "groups-clients.php", "groups-domains.php"))){ ?> active<?php } ?>">
+                   <a href="#">
+@@ -491,51 +315,6 @@ if($auth) {
+                     </li>
+                   </ul>
+                 </li>
+-                <!-- Toggle -->
+-                <li id="pihole-disable" class="treeview"<?php if ($pistatus == "0") { ?> hidden<?php } ?>>
+-                  <a href="#">
+-                    <span class="pull-right-container">
+-                      <i class="fa fa-angle-left pull-right"></i>
+-                    </span>
+-                    <i class="fa fa-stop"></i> <span>Disable&nbsp;&nbsp;&nbsp;<span id="flip-status-disable"></span></span>
+-                  </a>
+-                  <ul class="treeview-menu">
+-                    <li>
+-                        <a href="#" id="pihole-disable-indefinitely">
+-                            <i class="fa fa-stop"></i> Indefinitely
+-                        </a>
+-                    </li>
+-                    <li>
+-                        <a href="#" id="pihole-disable-10s">
+-                            <i class="fa fa-clock"></i> For 10 seconds
+-                        </a>
+-                    </li>
+-                    <li>
+-                        <a href="#" id="pihole-disable-30s">
+-                            <i class="fa fa-clock"></i> For 30 seconds
+-                        </a>
+-                    </li>
+-                    <li>
+-                        <a href="#" id="pihole-disable-5m">
+-                            <i class="fa fas fa-clock"></i> For 5 minutes
+-                        </a>
+-                    </li>
+-                    <li>
+-                      <a href="#" id="pihole-disable-cst" data-toggle="modal" data-target="#customDisableModal">
+-                            <i class="fa fa-clock"></i> <span>Custom time</span>
+-                      </a>
+-                    </li>
+-                  </ul>
+-                    <!-- <a href="#" id="flip-status"><i class="fa fa-stop"></i> <span>Disable</span></a> -->
+-                </li>
+-                <li id="pihole-enable" class="treeview"<?php if ($pistatus == "1") { ?> hidden<?php } ?>>
+-                    <a href="#">
+-                      <i class="fa fa-play"></i>
+-                      <span id="enableLabel">Enable&nbsp;&nbsp;&nbsp;
+-                        <span id="flip-status-enable"></span>
+-                      </span>
+-                    </a>
+-                </li>
+                 <!-- Tools -->
+                 <li class="treeview<?php if (in_array($scriptname, array("messages.php", "gravity.php", "queryads.php", "auditlog.php", "taillog.php", "taillog-FTL.php", "debug.php", "network.php"))){ ?> active<?php } ?>">
+                   <a href="#">
+@@ -551,12 +330,6 @@ if($auth) {
+                             <i class="fa fa-stethoscope"></i> Pi-hole diagnosis
+                         </a>
+                     </li>
+-                    <!-- Run gravity.sh -->
+-                    <li<?php if($scriptname === "gravity.php"){ ?> class="active"<?php } ?>>
+-                        <a href="gravity.php">
+-                            <i class="fa fa-arrow-circle-down"></i> Update Gravity
+-                        </a>
+-                    </li>
+                     <!-- Query Lists -->
+                     <li<?php if($scriptname === "queryads.php"){ ?> class="active"<?php } ?>>
+                         <a href="queryads.php">
+@@ -569,18 +342,6 @@ if($auth) {
+                             <i class="fa fa-balance-scale"></i> Audit log
+                         </a>
+                     </li>
+-                    <!-- Tail pihole.log -->
+-                    <li<?php if($scriptname === "taillog.php"){ ?> class="active"<?php } ?>>
+-                        <a href="taillog.php">
+-                            <i class="fa fa-list-ul"></i> Tail pihole.log
+-                        </a>
+-                    </li>
+-                    <!-- Tail pihole-FTL.log -->
+-                    <li<?php if($scriptname === "taillog-FTL.php"){ ?> class="active"<?php } ?>>
+-                        <a href="taillog-FTL.php">
+-                            <i class="fa fa-list-ul"></i> Tail pihole-FTL.log
+-                        </a>
+-                    </li>
+                     <!-- Network -->
+                     <li<?php if($scriptname === "network.php"){ ?> class="active"<?php } ?>>
+                         <a href="network.php">
+@@ -616,18 +377,6 @@ if($auth) {
+                     </a>
+                 </li>
+                 <?php } ?>
+-                <!-- Donate -->
+-                <li>
+-                    <a href="https://pi-hole.net/donate/" rel="noopener" target="_blank">
+-                        <i class="fab fa-paypal"></i> <span>Donate</span>
+-                    </a>
+-                </li>
+-                 <!-- Docs -->
+-                 <li>
+-                    <a href="https://docs.pi-hole.net/" rel="noopener" target="_blank">
+-                        <i class="fa fa-question-circle"></i> <span>Documentation</span>
+-                    </a>
+-                </li>
+             </ul>
+         </section>
+         <!-- /.sidebar -->

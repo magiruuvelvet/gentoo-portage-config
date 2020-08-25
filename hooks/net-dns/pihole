@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# copy private adlists.list for pihole instead of using the default
+# one-time hook for fresh install
+# file is removed after updating pihole gravity
+
+instprep() {
+    #if [ ! -z "${ED}" ]; then
+    #    cp "/etc/pihole-private/adlists.list" "${ED}/etc/pihole/adlists.list"
+    #fi
+    :
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

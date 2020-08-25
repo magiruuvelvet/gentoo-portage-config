@@ -1,0 +1,13 @@
+diff --git a/header.php b/header.php
+index 61e7c8f..315e7a6 100644
+--- a/header.php
++++ b/header.php
+@@ -203,7 +203,7 @@
+ 
+     <script src="scripts/vendor/jquery.min.js"></script>
+     <script src="style/vendor/bootstrap/js/bootstrap.min.js"></script>
+-    <script src="scripts/vendor/adminlte.min.js"></script>
++    <script src="scripts/vendor/lte.min.js"></script>
+     <script src="scripts/vendor/bootstrap-notify.min.js"></script>
+     <script src="scripts/vendor/datatables.min.js"></script>
+     <script src="scripts/vendor/moment.min.js"></script>

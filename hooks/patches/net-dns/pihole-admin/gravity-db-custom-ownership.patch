@@ -1,0 +1,13 @@
+diff --git a/gravity.sh b/gravity.sh
+index d5f24c4..11964a3 100755
+--- a/gravity.sh
++++ b/gravity.sh
+@@ -813,7 +813,7 @@ gravity_swap_databases
+ update_gravity_timestamp
+ 
+ # Ensure proper permissions are set for the database
+-chown pihole:pihole "${gravityDBfile}"
++chown root:http "${gravityDBfile}"
+ chmod g+w "${piholeDir}" "${gravityDBfile}"
+ 
+ # Compute numbers to be displayed
