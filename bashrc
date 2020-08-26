@@ -8,6 +8,7 @@ export PATH="/usr/lib/llvm/10/bin:$PATH"
 if [[ ! -z "$EBUILD_PHASE" && "$EBUILD_PHASE" != "depend" ]]; then
     echo -e "\e[1m>>> \e[38;2;120;120;39m[${CATEGORY}/${PN}]\e[0m\e[1m Running ebuild phase \e[38;2;48;90;116m$EBUILD_PHASE\e[0m\e[1m...\e[0m"
     /etc/portage/hooks/portage-hook-ctrl --pkg "${CATEGORY}/${PN}" --phase "$EBUILD_PHASE" --run
+    # FIXME: if applying a hook fails, abort emerge
 fi
 
 notify-send() {
