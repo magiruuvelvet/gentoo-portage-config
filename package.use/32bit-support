@@ -14,6 +14,7 @@ dev-db/lmdb abi_x86_32
 dev-db/sqlite abi_x86_32
 dev-lang/orc abi_x86_32
 dev-lang/tcl abi_x86_32
+dev-lang/rust abi_x86_32
 dev-libs/atk abi_x86_32
 dev-libs/check abi_x86_32
 dev-libs/expat abi_x86_32
@@ -213,6 +214,7 @@ virtual/opencl abi_x86_32
 virtual/opengl abi_x86_32
 virtual/pam abi_x86_32
 virtual/pkgconfig abi_x86_32
+virtual/rust abi_x86_32
 x11-base/xcb-proto abi_x86_32
 x11-drivers/nvidia-drivers abi_x86_32
 x11-libs/cairo abi_x86_32

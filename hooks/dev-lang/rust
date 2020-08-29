@@ -1,14 +1,26 @@
 #!/bin/sh
 
+show_config_toml() {
+    cat config.toml || exit 1
+}
+
 # fix the compiler in config.toml to replace libgcc_s with libunwind and enable POSIX extensions
 compile() {
+
+    # cd into directory and show current config.toml
     cd "$S/../rustc-$PV-src"
-    #patch -p1 < /etc/portage/hooks/patches/dev-lang/rust/fix-config-toml.patch
-    cat config.toml || exit 1
-    echo -e "\e[1mCopying patched config.toml...\e[0m"
-    cp /etc/portage/hooks/patches/dev-lang/rust/config.toml config.toml
-    cat config.toml || exit 1
-    echo -e "\e[1m──────────\e[0m"
+    show_config_toml
+
+    # apply config.toml patch and show it again
+    echo -e "\e[1mPatching config.toml...\e[0m"
+    patch -p1 < /etc/portage/hooks/patches/dev-lang/rust/fix-config-toml-multilib.patch || exit 1
+    show_config_toml
+
+    #echo -e "\e[1mCopying patched config.toml...\e[0m"
+    #cp /etc/portage/hooks/patches/dev-lang/rust/config.toml config.toml
+    #show_config_toml
+
+    echo -e "\e[1m───────────────────────────────────────────────────────────\e[0m"
 }
 
 case "$1" in
