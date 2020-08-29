@@ -1,0 +1,2 @@
+# never attempt to determine the GPU automatically
+__GLVND_DISALLOW_PATCHING=1
