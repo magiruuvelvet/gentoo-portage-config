@@ -32,6 +32,7 @@ app-misc/ddcutil std-gnu99.conf
 app-misc/scrub std-gnu99.conf
 app-misc/cmatrix gnu-source.conf
 app-misc/srm gnu-source.conf
+app-misc/dtach gnu-source.conf
 app-pda/libimobiledevice gnu-source.conf
 app-pda/libplist std-gnu17.conf
 app-pda/libusbmuxd gnu-source.conf
