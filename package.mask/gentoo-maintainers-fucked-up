@@ -1,5 +1,0 @@
-# one does not simple remove bundled dependencies from closed-source software
-# doesn't start because of unresolved symbols guess why *cough* proprietary custom qt build *cough*
-# this one is heavily broken and also wants to pull in glvnd which doesn't work on my muxless optimus setup
-# continue to use a zoom package from another repo which just works™ and mask this one
-net-im/zoom::gentoo

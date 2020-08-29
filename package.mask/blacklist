@@ -15,6 +15,9 @@ dev-lang/rust-bin
 
 www-servers/caddy::gentoo
 
+# incompatible with my system Qt install due to LLVM being used by default
+net-im/zoom::gentoo
+
 # use local repo version instead
 app-office/libreoffice::gentoo
 app-office/libreoffice-l10n::gentoo

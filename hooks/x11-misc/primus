@@ -5,7 +5,8 @@
 
 instprep() {
     cd "$ED/usr/bin"
-    patch primusrun < /etc/portage/hooks/patches/x11-misc/primus/primusrun-gentoo-nvidia-fix.patch
+    # no longer needed on glvnd-enabled systems
+    #patch primusrun < /etc/portage/hooks/patches/x11-misc/primus/primusrun-gentoo-nvidia-fix.patch
 }
 
 case "$1" in
