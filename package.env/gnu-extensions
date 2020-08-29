@@ -365,17 +365,6 @@ dev-libs/elfutils gnu-gcc.conf
 # backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
 dev-db/mariadb gnu-gcc.conf
 
-# compiles and links with my llvm toolchain, but causes polkit linker problems
-dev-lang/spidermonkey gnu-gcc.conf
-
-# compiles with my llvm toolchain, but doesn't find existing symbols in mozjs for some reason
-# the symbol in question:
-#   void js::UnsafeTraceManuallyBarrieredEdge<JS::Value>(JSTracer*, JS::Value*, char const*)
-# i tried several combinations with spidermonkey and polkit, but couldn't manage to solve it
-# continue using gcc and gnu/gold for now
-sys-auth/polkit gnu-gcc.conf
-
-
 # undefined behavior and bugs when compiled with clang against libc++
 # https://github.com/felixdoerre/primus_vk/issues/61#issuecomment-616407778
 x11-misc/primus-vk gnu-gcc.conf static-gnu-runtime.conf
