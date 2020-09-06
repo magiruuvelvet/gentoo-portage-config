@@ -40,7 +40,7 @@ x11-drivers/nvidia-drivers gnu-gcc.conf
 x11-drivers/xf86-video-intel gnu-gcc.conf
 x11-misc/bumblebee gnu-source.conf
 # primus violates the standard, not even clang in GNU mode can handle this bullshit
-x11-misc/primus gnu-gcc.conf
+x11-misc/primus gnu-gcc.conf static-gnu-runtime.conf
 
 # requires patching, build system is too opinionated
 # imake seems very fragile
