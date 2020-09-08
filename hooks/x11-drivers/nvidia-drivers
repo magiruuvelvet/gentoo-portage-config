@@ -77,7 +77,7 @@ install_64() {
 }
 
 # install non-GLVND libraries into the old directory for bumblebee/primus compatibility
-instprep() {
+instprep_old() {
     echo -e "installing bumblebee/primus compatibility libraries..."
 
     cd "${S}"
@@ -111,6 +111,18 @@ instprep() {
     rm "${D}/usr/bin/nvidia-sleep.sh"
     rm "${D}/opt/bin/nvidia-xconfig"
     rm "${D}/opt/bin/nvidia-persistenced"
+}
+
+instprep() {
+
+    rm "${D}/usr/bin/nvidia-bug-report.sh"
+    rm "${D}/opt/bin/nvidia-xconfig"
+    rm "${D}/opt/bin/nvidia-persistenced"
+
+    rm "${D}/etc/conf.d/nvidia-persistenced"
+    rm "${D}/etc/init.d/nvidia-persistenced"
+
+    rm -r "${D}/usr/share/doc"
 }
 
 case "$1" in

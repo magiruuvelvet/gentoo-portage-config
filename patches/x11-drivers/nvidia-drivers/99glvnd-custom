@@ -3,3 +3,4 @@ __GLVND_DISALLOW_PATCHING=1
 
 # force specific vendor
 # __GLX_VENDOR_LIBRARY_NAME=nvidia/mesa
+# __EGL_VENDOR_LIBRARY_FILENAMES=/path/json

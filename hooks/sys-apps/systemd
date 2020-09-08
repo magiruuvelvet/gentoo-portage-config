@@ -1,0 +1,14 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "remove xdg autostart generator..."
+        rm "${D}/usr/lib/systemd/user-generators/systemd-xdg-autostart-generator"
+        rm -r "${D}/usr/lib/systemd/user-generators"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
