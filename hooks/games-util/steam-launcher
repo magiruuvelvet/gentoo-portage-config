@@ -2,9 +2,9 @@
 
 instprep() {
     if [ ! -z "${D}" ]; then
-        echo -e "Setting up VPN Namespace by default for Steam..."
+        echo -e "Setting up VPN Namespace and NVIDIA PRIME by default for Steam..."
         mv "${D}/usr/bin/steam" "${D}/usr/lib/steam/steam"
-        echo -e '#!/bin/bash'"\nexport DISABLE_VK_LAYER_VALVE_steam_overlay_1=1\nexport DISABLE_VK_LAYER_VALVE_steam_fossilize_1=1\nexec vpn-run /usr/lib/steam/steam "'"$@"' > "${D}/usr/bin/steam"
+        echo -e '#!/bin/bash'"\nexport DISABLE_VK_LAYER_VALVE_steam_overlay_1=1\nexport DISABLE_VK_LAYER_VALVE_steam_fossilize_1=1\nexec primerun vpn-run /usr/lib/steam/steam "'"$@"' > "${D}/usr/bin/steam"
         chmod +x "${D}/usr/bin/steam"
     fi
 }
