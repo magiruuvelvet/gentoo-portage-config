@@ -1,5 +1,3 @@
 net-analyzer/zabbix agent curl -frontend libxml2 mysql -postgres server ssh ssl
 net-analyzer/fping suid
-
-# note: the frontend requires a PHP build with support for IPC which segfaults on my userland
-# use the frontend in Docker instead :)
+net-analyzer/tcpdump -samba
