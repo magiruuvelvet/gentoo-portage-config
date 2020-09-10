@@ -217,6 +217,7 @@ virtual/pkgconfig abi_x86_32
 virtual/rust abi_x86_32
 x11-base/xcb-proto abi_x86_32
 x11-drivers/nvidia-drivers abi_x86_32
+x11-libs/libxnvctrl abi_x86_32
 x11-libs/cairo abi_x86_32
 x11-libs/gdk-pixbuf abi_x86_32
 x11-libs/gtk+ abi_x86_32
@@ -260,6 +261,7 @@ x11-libs/libxkbcommon abi_x86_32
 x11-misc/colord abi_x86_32
 x11-misc/bumblebee abi_x86_32
 x11-misc/primus abi_x86_32
+x11-misc/mangohud abi_x86_32
 x11-proto/damageproto abi_x86_32
 x11-proto/dri2proto abi_x86_32
 x11-proto/dri3proto abi_x86_32

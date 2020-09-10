@@ -1,0 +1,34 @@
+diff --git a/src/config.cpp b/src/config.cpp
+index fc1c8dd..ae02867 100644
+--- a/src/config.cpp
++++ b/src/config.cpp
+@@ -28,14 +28,28 @@ void parseConfigLine(std::string line, std::unordered_map<std::string,std::strin
+         options[param] = value;
+ }
+ 
++static std::string get_gpu_vendor()
++{
++    const auto glx_vendor = getenv("__GLX_VENDOR_LIBRARY_NAME");
++    if (glx_vendor)
++    {
++        return std::string(glx_vendor);
++    }
++    else
++    {
++        return "mesa";
++    }
++}
++
+ void enumerate_config_files(std::vector<std::string>& paths)
+ {
+     static const char *mangohud_dir = "/MangoHud/";
+ 
+     std::string env_config = get_config_dir();
++    std::string gpu_vendor = get_gpu_vendor();
+ 
+     if (!env_config.empty())
+-        paths.push_back(env_config + mangohud_dir + "MangoHud.conf");
++        paths.push_back(env_config + mangohud_dir + "MangoHud-" + gpu_vendor + ".conf");
+ 
+     if (program_name.empty())
+         program_name = "Unknown";
