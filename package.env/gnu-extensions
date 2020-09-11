@@ -171,7 +171,7 @@ media-libs/libshout gnu-source.conf
 media-libs/freeglut gnu-source.conf
 media-libs/libvpx gnu-source.conf
 media-libs/virglrenderer gnu-source.conf
-media-libs/openal gnu-gcc.conf
+media-libs/openal gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libv4l std-gnu99.conf
 media-plugins/alsa-plugins std-gnu99.conf
 media-plugins/frei0r-plugins gnu-source.conf c++11.conf
@@ -348,12 +348,12 @@ www-client/w3m gnu-source.conf
 app-accessibility/speech-dispatcher gnu-source.conf
 net-im/coturn gnu-source.conf
 media-tv/kodi gnu-source.conf
-media-tv/v4l-utils gnu-gcc.conf
+media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
 
 # error: cannot specify -o when generating multiple output files
 # this package is hardcoded to assume everyone uses gcc
 # clang doesn't support the command line arguments given here
-net-wireless/crda gnu-gcc.conf
+net-wireless/crda gnu-gcc.conf static-gnu-runtime.conf
 
 # TODO: explicitly requires GNU extensions like nested functions *reeee*
 #       why can't the devs not stick to the ISO C Standard????
