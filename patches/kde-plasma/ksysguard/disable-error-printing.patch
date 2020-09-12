@@ -1,0 +1,14 @@
+diff --git a/ksysguardd/Command.c b/ksysguardd/Command.c
+index 8d350bd..3412e94 100644
+--- a/ksysguardd/Command.c
++++ b/ksysguardd/Command.c
+@@ -77,6 +77,9 @@ void output( const char *fmt, ...)
+ }
+ void print_error( const char *fmt, ... )
+ {
++  // disable error printing
++  return;
++
+   char errmsg[ 1024 ];
+   va_list az;
+ 
