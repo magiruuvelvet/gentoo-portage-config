@@ -7,7 +7,7 @@ index 94b45bd..5996faf 100644
  
      function check() {
 -        executable.exec("nvidia-settings -q=GPUUtilization -t")
-+        executable.exec("/opt/nvidia-tools/nvidia-settings -q=GPUUtilization -t")
++        executable.exec("nvidia-prime-status")
      }
  
      Connections {
