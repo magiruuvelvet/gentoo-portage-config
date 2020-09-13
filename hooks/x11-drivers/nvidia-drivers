@@ -121,8 +121,17 @@ instprep() {
 
     rm "${D}/etc/conf.d/nvidia-persistenced"
     rm "${D}/etc/init.d/nvidia-persistenced"
+    rm "${D}/etc/nvidia/nvidia-application-profiles-rc"
+    rm -r "${D}/etc/X11/xinit"
+
+    rm -r "${D}/usr/share/applications"
+    rm -r "${D}/usr/share/pixmaps"
+    rm -r "${D}/usr/share/nvidia"
 
     rm -r "${D}/usr/share/doc"
+
+    mkdir -p "${D}/opt/nvidia-tools"
+    mv "${D}/usr/bin/nvidia-settings" "${D}/opt/nvidia-tools/"
 }
 
 case "$1" in
