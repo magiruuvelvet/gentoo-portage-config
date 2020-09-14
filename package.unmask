@@ -35,7 +35,6 @@ www-client/ungoogled-chromium-bin::chaoslab
 # media
 media-video/mpv::vapoursynth
 
-=net-libs/nodejs-11.14.0
 =sys-libs/glibc-2.29-r4
 
 # stubs for gcc and binutils

@@ -10,7 +10,6 @@ x11-misc/primus::gentoo
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
 media-video/mpv::gentoo
-net-libs/nodejs
 dev-lang/rust-bin
 
 www-servers/caddy::gentoo

@@ -1,0 +1,26 @@
+diff --git a/node.gyp b/node.gyp
+index 88942393..37a822d6 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -318,7 +318,7 @@
+         ],
+       }],
+       ['OS == "linux" and llvm_version != "0.0"', {
+-        'libraries': ['-latomic'],
++        'libraries': [],
+       }],
+     ],
+   },
+diff --git a/tools/v8_gypfiles/v8.gyp b/tools/v8_gypfiles/v8.gyp
+index 48ec392b..93e1121a 100644
+--- a/tools/v8_gypfiles/v8.gyp
++++ b/tools/v8_gypfiles/v8.gyp
+@@ -905,7 +905,7 @@
+         # to implement atomic memory access
+         ['v8_current_cpu in ["mips", "mipsel", "mips64", "mips64el", "ppc", "arm"]', {
+           'link_settings': {
+-            'libraries': ['-latomic', ],
++            'libraries': [],
+           },
+         }],
+       ],
