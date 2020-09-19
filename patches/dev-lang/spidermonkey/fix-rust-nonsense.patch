@@ -1,0 +1,10 @@
+diff --git a/build/cargo-linker b/build/cargo-linker
+index 394dabc..b18aa13 100755
+--- a/build/cargo-linker
++++ b/build/cargo-linker
+@@ -19,4 +19,4 @@
+ #
+ # $@ is doubly quoted for the eval. See bug 1418598.
+ 
+-eval ${MOZ_CARGO_WRAP_LD} ${MOZ_CARGO_WRAP_LDFLAGS} '"$@"'
++eval /etc/portage/compiler-wrapper/rust-clang ${MOZ_CARGO_WRAP_LDFLAGS} '"$@"'

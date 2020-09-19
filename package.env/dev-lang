@@ -8,3 +8,6 @@ dev-lang/rust rust-clang.conf
 # allow usage of extensions for more modules
 dev-lang/python gnu-source.conf define-linux.conf
 dev-lang/php gnu-source.conf define-linux.conf
+
+# rustc can't handle my target triple without the libc in name
+#dev-lang/spidermonkey rust-clang.conf
