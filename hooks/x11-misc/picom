@@ -1,0 +1,17 @@
+#!/bin/sh
+
+. /etc/portage/hooks/functions/desktop-utils.sh
+
+instprep() {
+    echo -e ">>> Removing ${PN} desktop files..."
+    remove_desktop_files
+
+    echo -e ">>> Removing compton legacy compat symlinks..."
+    rm "${ED}/usr/bin/compton"
+    rm "${ED}/usr/bin/compton-trans"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

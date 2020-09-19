@@ -19,6 +19,7 @@
 =media-video/mpv-9999::vapoursynth **
 
 =dev-util/unicorn-9999 **
+dev-util/gyp **
 
 # localrepo
 =x11-misc/nvidia-xrun-9999 **

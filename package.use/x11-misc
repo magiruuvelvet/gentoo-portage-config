@@ -1,3 +1,4 @@
 x11-misc/compton drm pcre dbus opengl xinerama PYTHON_TARGETS: python3_6
 x11-misc/sddm pam
 x11-misc/bumblebee bbswitch
+x11-misc/picom dbus opengl

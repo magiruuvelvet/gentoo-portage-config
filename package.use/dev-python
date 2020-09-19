@@ -53,3 +53,8 @@ dev-python/distro python_targets_python3_6
 dev-python/python-dotenv python_targets_python3_6
 virtual/python-enum34 python_targets_python3_6
 virtual/python-cffi python_targets_python3_6
+
+# Python 2.7 compat (ONLY setuptools and NOTHING ELSE!!)
+dev-python/setuptools python_targets_python2_7
+dev-python/setuptools_scm python_targets_python2_7
+dev-python/certifi python_targets_python2_7
