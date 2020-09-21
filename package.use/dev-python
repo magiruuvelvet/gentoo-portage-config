@@ -2,5 +2,4 @@ dev-python/PyQt5 bluetooth ssl dbus declarative gui multimedia network networkau
 dev-python/cryptography idna
 dev-python/ipython matplotlib
 dev-python/pillow zlib jpeg jpeg2k lcms tiff truetype webp
-dev-python/pyalsa PYTHON_TARGETS: python3_6
 dev-python/requests socks5
