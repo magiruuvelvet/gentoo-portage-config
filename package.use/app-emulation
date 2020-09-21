@@ -1,6 +1,6 @@
 app-emulation/containerd -btrfs
 app-emulation/docker -btrfs aufs
-app-emulation/docker-compose PYTHON_TARGETS: python3_6
+app-emulation/docker-compose
 app-emulation/libvirt caps dbus fuse libssh libvirtd lxc macvtap -numa policykit qemu udev vepa virt-network -zfs
 app-emulation/libvirt-glib introspection
 app-emulation/qemu aio bzip2 caps curl fdt filecaps gnutls jpeg lzo numa opengl png seccomp snappy spice ssh usb

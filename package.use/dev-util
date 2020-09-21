@@ -1,6 +1,5 @@
 dev-util/ctags json xml yaml
 dev-util/cppcheck pcre
-dev-util/gyp PYTHON_SINGLE_TARGET: python2_7
 dev-util/scanmem gui PYTHON_TARGETS: python3_7 PYTHON_SINGLE_TARGET: python3_7
 dev-util/unicorn unicorn_targets_aarch64 unicorn_targets_arm unicorn_targets_x86
 dev-util/electron proprietary-codecs tcmalloc system-ssl -system-ffmpeg
