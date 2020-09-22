@@ -11,6 +11,7 @@ sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
 media-video/mpv::gentoo
 dev-lang/rust-bin
+dev-java/openjdk-bin
 
 www-servers/caddy::gentoo
 
