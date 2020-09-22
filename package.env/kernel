@@ -1,7 +1,6 @@
 # low-level stuff and kernel modules
 sys-kernel/linux-headers gnu-gcc.conf
 sys-kernel/vanilla-sources gnu-gcc.conf
-#sys-kernel/dracut clang.conf
 sys-apps/kmod gnu-gcc.conf
 sys-power/bbswitch gnu-gcc.conf
 app-emulation/vmware-modules gnu-gcc.conf

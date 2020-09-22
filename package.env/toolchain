@@ -1,4 +1,4 @@
-# default system toolchain: LLVM 9.0.1
+# default system toolchain: LLVM 10.0.0
 
 # TODO: [future] get rid of glibc and replace with something non-GNU (preferred: musl)
 # TODO: [future] transparent glibc compatibility without explicit wrapper command or similar

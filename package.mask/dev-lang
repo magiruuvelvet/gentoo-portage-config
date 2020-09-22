@@ -1,7 +1,3 @@
-# go1.14 complains about memlock limits and compiled programs are breaking too with it
-# docker fails to start because of memory issues when compiled with this version of go
-=dev-lang/go-1.14
-
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0
 

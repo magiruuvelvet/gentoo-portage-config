@@ -2,25 +2,13 @@
 
 # TODO: convert to directory
 
-x11-misc/bumblebee::seden
-
-# patched ebuild to allow NVIDIA GLVND to be installed
-# no problems with it being installed, just use "optirun -b primus" instead of "primusrun"
-# GLVND is required for Vulkan support in "nvidia-xrun"
-x11-misc/primus::localrepo
-
 # telemetry free build of VS Code
 app-editors/vscodium-bin::jorgicio
-
-#net-im/zoom::jorgicio
 
 dev-util/gyp::localrepo
 
 kde-misc/plasma-applet-places-widget::jorgicio
 kde-misc/plasma-applet-window-appmenu::jorgicio
-
-media-sound/mellowplayer::jorgicio
-x11-misc/ulauncher::jorgicio
 
 app-emulation/vmware-modules::stefantalpalaru
 app-emulation/vmware-workstation::stefantalpalaru
@@ -28,8 +16,6 @@ app-emulation/vmware-workstation::stefantalpalaru
 # full caddy build with many plugins I need
 # official repos are lacking some USE flags here
 www-servers/caddy::chaoslab
-
-www-client/ungoogled-chromium-bin::chaoslab
 
 # installed kernels
 =sys-kernel/vanilla-sources-5.2.13
@@ -45,4 +31,3 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
-

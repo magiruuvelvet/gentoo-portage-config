@@ -26,7 +26,6 @@ dev-libs/boehm-gc c++11.conf
 dev-libs/xapian c++11.conf
 dev-libs/libplatform c++11.conf
 dev-python/kiwisolver c++11.conf
-dev-python/wxpython c++11.conf
 dev-python/matplotlib c++11.conf ld-force-lib64.conf
 dev-util/gperf c++11.conf
 media-gfx/graphicsmagick ld-no-gnu.conf
@@ -41,8 +40,6 @@ x11-misc/virtualgl c++11.conf
 games-util/xboxdrv c++11.conf
 games-emulation/mupen64plus-video-rice c++11.conf gnu-source.conf
 dev-games/irrlicht c++11.conf strict-ansi.conf
-
-=x11-libs/wxGTK-3.0.4-r2 c++11.conf
 
 app-i18n/kcm-fcitx no-c++11-narrowing-error.conf
 dev-cpp/clucene no-c++11-narrowing-error.conf

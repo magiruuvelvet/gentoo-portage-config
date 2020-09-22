@@ -4,12 +4,6 @@
 =media-sound/pulseaudio-modules-bt-9999 **
 =net-misc/streamlink-9999 **
 =games-emulation/pcsx2-9999 **
-#=games-emulation/dolphin-9999 **
-
-# eselect repositories
-=x11-misc/bumblebee-9999-r4 **
-=x11-misc/bumblebee-9999 **
-=x11-misc/primus-9999-r1 **
 
 =kde-misc/plasma-applet-places-widget-9999::jorgicio **
 =kde-misc/plasma-applet-window-appmenu-9999::jorgicio **
@@ -18,14 +12,10 @@
 =media-video/mpv-9999-r9::vapoursynth **
 =media-video/mpv-9999::vapoursynth **
 
-=dev-util/unicorn-9999 **
-
 # localrepo
 =x11-misc/nvidia-xrun-9999 **
-=x11-misc/primus-vk-9999 **
 =kde-misc/krohnkite-9999 **
 =media-gfx/flameshot-9999 **
-#=dev-qt/qt-creator-9999 **
 
 # toolchain
 =sys-devel/llvm-9.0.0.9999 **

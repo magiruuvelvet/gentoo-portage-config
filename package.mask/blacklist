@@ -5,8 +5,6 @@ dev-java/icedtea-sound
 dev-java/icedtea-web
 sys-devel/gdb
 sys-libs/libunwind
-x11-misc/bumblebee::gentoo
-x11-misc/primus::gentoo
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
 media-video/mpv::gentoo

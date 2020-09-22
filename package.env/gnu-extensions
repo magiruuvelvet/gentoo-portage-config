@@ -366,11 +366,3 @@ dev-libs/elfutils gnu-gcc.conf
 # TODO: mariadb straight out doesn't work at all without GNU *rage*
 # backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
 dev-db/mariadb gnu-gcc.conf
-
-# undefined behavior and bugs when compiled with clang against libc++
-# https://github.com/felixdoerre/primus_vk/issues/61#issuecomment-616407778
-x11-misc/primus-vk gnu-gcc.conf static-gnu-runtime.conf
-#dev-util/vulkan-headers gnu-gcc.conf
-#dev-util/vulkan-tools gnu-gcc.conf
-#media-libs/vulkan-layers gnu-gcc.conf
-#media-libs/vulkan-loader gnu-gcc.conf
