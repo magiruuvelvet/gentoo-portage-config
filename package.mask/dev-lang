@@ -3,6 +3,3 @@
 
 # mask ruby 2.7 for now (compatibility with native extensions)
 >=dev-lang/ruby-2.7
-
-# I have 3 python versions installed already (no more python nonsense please)
->=dev-lang/python-3.8.0
