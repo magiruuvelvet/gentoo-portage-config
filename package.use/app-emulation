@@ -14,6 +14,7 @@ app-emulation/qemu usbredir vhost-net vnc xattr xfs plugins vhost-user-fs virtfs
 app-emulation/spice gstreamer lz4
 app-emulation/virt-manager gtk
 app-emulation/winetricks kde rar
+app-emulation/protontricks -gui
 app-emulation/faudio ffmpeg
 app-emulation/lxd daemon nls tools -dnsmasq
 app-emulation/vmware-workstation systemd modules bundled-libs macos-guests vmware-tools-darwin vmware-tools-darwinPre15

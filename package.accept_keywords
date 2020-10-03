@@ -4,6 +4,7 @@
 =media-sound/pulseaudio-modules-bt-9999 **
 =net-misc/streamlink-9999 **
 =games-emulation/pcsx2-9999 **
+=games-emulation/dolphin-9999 **
 
 =kde-misc/plasma-applet-places-widget-9999::jorgicio **
 =kde-misc/plasma-applet-window-appmenu-9999::jorgicio **
