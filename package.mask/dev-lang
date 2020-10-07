@@ -5,4 +5,7 @@
 >=dev-lang/ruby-2.7
 
 # skip python 3.8
-=dev-lang/python-3.8.6
+dev-lang/python:3.8
+
+# skip alpha versions...
+dev-lang/python:3.10
