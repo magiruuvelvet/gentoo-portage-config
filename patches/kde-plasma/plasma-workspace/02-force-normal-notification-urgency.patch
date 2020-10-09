@@ -1,0 +1,27 @@
+diff --git a/libnotificationmanager/notification.cpp b/libnotificationmanager/notification.cpp
+--- a/libnotificationmanager/notification.cpp
++++ b/libnotificationmanager/notification.cpp
+@@ -334,22 +334,7 @@
+ 
+     eventId = hints.value(QStringLiteral("x-kde-eventId")).toString();
+ 
+-    bool ok;
+-    const int urgency = hints.value(QStringLiteral("urgency")).toInt(&ok); // DBus type is actually "byte"
+-    if (ok) {
+-        // FIXME use separate enum again
+-        switch (urgency) {
+-        case 0:
+-            setUrgency(Notifications::LowUrgency);
+-            break;
+-        case 1:
+-            setUrgency(Notifications::NormalUrgency);
+-            break;
+-        case 2:
+-            setUrgency(Notifications::CriticalUrgency);
+-            break;
+-        }
+-    }
++    setUrgency(Notifications::LowUrgency);
+ 
+     urls = QUrl::fromStringList(hints.value(QStringLiteral("x-kde-urls")).toStringList());
+ 

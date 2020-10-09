@@ -1,4 +1,4 @@
-net-misc/curl ssl ssh threads http2 quiche rtmp brotli telnet
+net-misc/curl ssl ssh threads http2 quiche rtmp brotli telnet zstd
 net-misc/freerdp X client alsa ffmpeg gstreamer jpeg pulseaudio xv xinerama -server
 net-misc/modemmanager qmi udev mbim -policykit -vala
 net-misc/networkmanager dhclient modemmanager ncurses nss ppp wext wifi bluetooth connection-sharing json ofono -teamd -policykit -vala

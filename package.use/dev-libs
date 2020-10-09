@@ -14,3 +14,5 @@ dev-libs/libinput INPUT_DEVICES: wacom
 dev-libs/libdbusmenu gtk gtk3 introspection
 dev-libs/boehm-gc cxx
 dev-libs/gmp cxx
+dev-libs/liblinphone libnotify
+dev-libs/xerces-c icu

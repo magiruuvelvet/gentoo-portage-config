@@ -1,0 +1,11 @@
+#!/bin/sh
+
+prepare() {
+    # remove version file (conflicts with LLVM/libc++)
+    rm "../work/${P}/version"
+}
+
+case "$1" in
+    prepare) prepare ;;
+    *) : ;;
+esac

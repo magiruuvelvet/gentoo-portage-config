@@ -20,6 +20,9 @@ www-servers/caddy::chaoslab
 # installed kernels
 =sys-kernel/vanilla-sources-5.2.13
 
+# installed grub version
+=sys-boot/grub-2.04-r1
+
 # media
 media-video/mpv::vapoursynth
 
@@ -31,3 +34,22 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
+
+
+# linphone voip client
+net-voip/linphone-desktop::nest
+dev-libs/liblinphone::nest
+dev-libs/belcard::nest
+dev-libs/belle-sip::nest
+dev-libs/lime::nest
+media-libs/mediastreamer2::nest
+net-libs/bctoolbox::nest
+net-libs/bzrtp::nest
+net-libs/ortp::nest
+dev-cpp/belr::nest
+dev-cpp/xsd::nest
+dev-cpp/libxsd-frontend::nest
+dev-cpp/libcutl::nest
+dev-db/soci::nest
+dev-util/cli::nest
+dev-libs/xerces-c::nest

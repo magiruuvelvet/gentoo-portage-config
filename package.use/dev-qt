@@ -9,7 +9,7 @@ dev-qt/qtconcurrent
 dev-qt/qtmultimedia qml gstreamer alsa pulseaudio widgets
 dev-qt/qtvirtualkeyboard xcb -spell
 dev-qt/qtquickcontrols widgets
-dev-qt/qtquickcontrols2
+dev-qt/qtquickcontrols2 widgets
 dev-qt/qtdeclarative jit widgets -localstorage
 dev-qt/qtscript jit scripttools
 dev-qt/qttest

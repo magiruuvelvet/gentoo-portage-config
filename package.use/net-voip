@@ -1,0 +1,1 @@
+net-voip/ring-daemon -video -hwaccel -vaapi -x264 -libilbc -speex -speexdsp
