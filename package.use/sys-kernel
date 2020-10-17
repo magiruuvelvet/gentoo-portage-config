@@ -1,5 +1,5 @@
 sys-kernel/gentoo-sources symlink -firmware
-sys-kernel/linux-firmware -redistributable savedconfig unknown-license
+sys-kernel/linux-firmware redistributable savedconfig unknown-license
 
 # managed manually by my update-initramfs script
 sys-kernel/gentoo-kernel-bin -initramfs

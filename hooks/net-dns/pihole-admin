@@ -7,17 +7,20 @@ instprep() {
 
     # web server
     chown -R http:http "${ED}/srv/http/pihole"
-    ln -s "${ED}/srv/http/pihole/admin/scripts/vendor/adminlte.min.js" \
-          "${ED}/srv/http/pihole/admin/scripts/vendor/lte.min.js"
-    patch -i /etc/portage/hooks/patches/net-dns/pihole-admin/caddy-routing-fix.patch "${ED}/srv/http/pihole/admin/scripts/pi-hole/php/header.php"
+    #ln -s "${ED}/srv/http/pihole/admin/scripts/vendor/adminlte.min.js" \
+    #      "${ED}/srv/http/pihole/admin/scripts/vendor/lte.min.js"
+    #patch -i /etc/portage/hooks/patches/net-dns/pihole-admin/caddy-routing-fix.patch "${ED}/srv/http/pihole/admin/scripts/pi-hole/php/header.php"
 
     # cli
     patch -i /etc/portage/hooks/patches/net-dns/pihole-admin/gravity-db-custom-ownership.patch "${ED}/opt/pihole/gravity.sh"
 
     # tidy up web interface for local usage
-    cd srv/http/pihole
-    patch -p1 < /etc/portage/hooks/patches/net-dns/pihole-admin/tidy-up-admin-interface.patch
-    cp /etc/portage/hooks/patches/net-dns/pihole-admin/boxed-bg.jpg admin/img/boxed-bg.jpg
+    #cd srv/http/pihole
+    #patch -p1 < /etc/portage/hooks/patches/net-dns/pihole-admin/tidy-up-admin-interface.patch
+    #cp /etc/portage/hooks/patches/net-dns/pihole-admin/boxed-bg.jpg admin/img/boxed-bg.jpg
+
+    cd srv/http/pihole/admin
+    git apply /etc/portage/hooks/patches/net-dns/pihole-admin/customizations.patch
 
     # after fresh install is done, keep this file removed
     rm "${ED}/etc/pihole/adlists.list"

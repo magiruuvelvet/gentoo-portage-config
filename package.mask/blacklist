@@ -7,6 +7,7 @@ sys-devel/gdb
 sys-libs/libunwind
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
+sys-kernel/gentoo-kernel-bin
 media-video/mpv::gentoo
 dev-lang/rust-bin
 dev-java/openjdk-bin

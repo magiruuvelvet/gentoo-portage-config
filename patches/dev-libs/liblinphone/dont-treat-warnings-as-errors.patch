@@ -1,0 +1,67 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c65e323..472f412 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -288,7 +288,6 @@ else()
+ 	list(APPEND STRICT_OPTIONS_CPP
+ 		"-Wall"
+ 		"-Wconversion"
+-		"-Werror=return-type"
+ 		"-Winit-self"
+ 		"-Wno-error=deprecated-declarations"
+ 		"-Wpointer-arith"
+@@ -303,7 +302,7 @@ else()
+ 	if (SUGGEST_OVERRIDE)
+ 		list(APPEND STRICT_OPTIONS_CXX "-Wsuggest-override" "-Wno-error=suggest-override" )
+ 	endif ()
+-	list(APPEND STRICT_OPTIONS_C "-Wstrict-prototypes" "-Werror=strict-prototypes")
++	list(APPEND STRICT_OPTIONS_C "-Wstrict-prototypes")
+ 	if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+ 		list(APPEND STRICT_OPTIONS_C "-fno-inline-small-functions")
+ 	endif()
+@@ -317,8 +316,8 @@ else()
+ 		list(APPEND STRICT_OPTIONS_CPP "-Wno-error=unknown-warning-option" "-Qunused-arguments" "-Wno-tautological-compare" "-Wno-unused-function" "-Wno-array-bounds")
+ 	endif()
+ 	if(ENABLE_STRICT)
+-		list(APPEND STRICT_OPTIONS_C "-Werror" "-Wextra" "-Wno-unused-parameter" "-Wno-missing-field-initializers" "-fno-strict-aliasing")
+-		list(APPEND STRICT_OPTIONS_CPP "-Werror" "-Wextra" "-Wno-unused-parameter" "-Wno-missing-field-initializers" "-fno-strict-aliasing")
++		list(APPEND STRICT_OPTIONS_C "-Wextra" "-Wno-unused-parameter" "-Wno-missing-field-initializers" "-fno-strict-aliasing")
++		list(APPEND STRICT_OPTIONS_CPP "-Wextra" "-Wno-unused-parameter" "-Wno-missing-field-initializers" "-fno-strict-aliasing")
+ 	endif()
+ endif()
+ if(STRICT_OPTIONS_CPP)
+diff --git a/coreapi/plugins/buddylookup/configure.ac b/coreapi/plugins/buddylookup/configure.ac
+index b3c3c71..0daf9f0 100644
+--- a/coreapi/plugins/buddylookup/configure.ac
++++ b/coreapi/plugins/buddylookup/configure.ac
+@@ -19,7 +19,7 @@ AC_MSG_CHECKING([warning make an error on compilation])
+ AC_ARG_ENABLE(strict,
+ [  --enable-strict       Enable error on compilation warning [default=yes]],
+ [wall_werror=$enableval],
+-[wall_werror=yes]
++[wall_werror=no]
+ )
+ 
+ dnl AC_CONFIG_HEADERS([config.h])
+@@ -60,7 +60,7 @@ CFLAGS="$CFLAGS -Wall"
+ LDFLAGS="$LDFLAGS -rdynamic "
+ 
+ 	if test $wall_werror = yes;  then
+-		CFLAGS="$CFLAGS -Werror "
++		CFLAGS="$CFLAGS "
+ 	fi
+ fi
+ 
+diff --git a/tester/CMakeLists.txt b/tester/CMakeLists.txt
+index e2ba232..618effe 100644
+--- a/tester/CMakeLists.txt
++++ b/tester/CMakeLists.txt
+@@ -277,7 +277,7 @@ set(GROUP_CHAT_BENCHMARK_HEADERS
+ 
+ 
+ # TODO: Remove me later!
+-list(REMOVE_ITEM STRICT_OPTIONS_CPP "-Wconversion" "-Werror=conversion" "-Wcast-align" "-Werror=cast-align")
++list(REMOVE_ITEM STRICT_OPTIONS_CPP "-Wconversion" "-Wcast-align")
+ if (ANDROID AND CMAKE_C_COMPILER_ID STREQUAL "GNU") #restrict to Android as it seems to break regular linux
+ 	list (APPEND STRICT_OPTIONS_C "-std=c99")
+ endif()
