@@ -16,3 +16,5 @@ dev-libs/boehm-gc cxx
 dev-libs/gmp cxx
 dev-libs/liblinphone libnotify
 dev-libs/xerces-c icu
+dev-libs/capstone python
+dev-libs/keystone python

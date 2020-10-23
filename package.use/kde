@@ -5,7 +5,7 @@ kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 
 
 kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
 
-kde-plasma/plasma-desktop fontconfig touchpad mouse
+kde-plasma/plasma-desktop fontconfig touchpad mouse -kaccounts
 kde-plasma/plasma-workspace calendar qalculate qrcode
 
 kde-plasma/kwin multimedia
@@ -22,8 +22,9 @@ kde-frameworks/kwallet gpg
 kde-frameworks/kauth policykit
 kde-frameworks/knotifications dbus phonon
 kde-frameworks/kconfig dbus
-kde-frameworks/purpose -kaccounts -dolphin
+kde-frameworks/purpose -kaccounts -dolphin -bluetooth
 kde-frameworks/kitemmodels qml
+kde-frameworks/prison qml
 kde-frameworks/ktexteditor -editorconfig
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
@@ -53,7 +54,7 @@ kde-apps/kitinerary -barcode -pdf
 kde-apps/libkleo -fancyviewer
 kde-apps/krdc vnc rdp
 
-kde-plasma/ksysguard lm-sensors -pcap caps
+kde-plasma/ksysguard lm-sensors -pcap caps -network
 kde-plasma/libksysguard X -webengine
 
 net-p2p/ktorrent -bwscheduler upnp -zeroconf

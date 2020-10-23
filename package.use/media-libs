@@ -17,7 +17,7 @@ media-libs/libcanberra sound udev alsa gstreamer pulseaudio -gtk -gtk3 -gnome
 media-libs/libmypaint gegl
 media-libs/libpng apng
 media-libs/libsdl X alsa joystick pulseaudio sound video aalib opengl xinerama xv
-media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads udev video vulkan xinerama
+media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads udev video vulkan xinerama fcitx4
 media-libs/libsoundtouch -openmp
 media-libs/libvpx highbitdepth postproc svc
 media-libs/lv2 plugins

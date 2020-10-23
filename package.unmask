@@ -48,9 +48,12 @@ net-libs/bctoolbox::nest
 net-libs/bzrtp::nest
 net-libs/ortp::nest
 dev-cpp/belr::nest
+
+# linphone voip client additional dependencies
 dev-cpp/xsd::nest
 dev-cpp/libxsd-frontend::nest
 dev-cpp/libcutl::nest
 dev-db/soci::nest
 dev-util/cli::nest
 dev-libs/xerces-c::nest
+dev-python/pystache::nest
