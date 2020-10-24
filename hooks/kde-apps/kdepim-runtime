@@ -4,10 +4,13 @@ instprep() {
     if [ ! -z "${D}" ]; then
         echo "Remove Google..."
 
-        rm "${D}/usr/bin/akonadi_googlecalendar_resource"
-        rm "${D}/usr/bin/akonadi_googlecontacts_resource"
-        rm "${D}/usr/share/akonadi/agents/googlecalendarresource.desktop"
-        rm "${D}/usr/share/akonadi/agents/googlecontactsresource.desktop"
+        #rm "${D}/usr/bin/akonadi_googlecalendar_resource"
+        #rm "${D}/usr/bin/akonadi_googlecontacts_resource"
+        #rm "${D}/usr/share/akonadi/agents/googlecalendarresource.desktop"
+        #rm "${D}/usr/share/akonadi/agents/googlecontactsresource.desktop"
+
+        rm "${D}/usr/bin/akonadi_google_resource"
+        rm "${D}/usr/share/akonadi/agents/googleresource.desktop"
     fi
 }
 

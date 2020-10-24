@@ -1,0 +1,13 @@
+diff --git a/smb/transfer.h b/smb/transfer.h
+index b5ace64..cd35086 100644
+--- a/smb/transfer.h
++++ b/smb/transfer.h
+@@ -11,6 +11,8 @@
+ 
+ #include <condition_variable>
+ #include <mutex>
++#include <array>
++#include <memory>
+ 
+ constexpr off_t c_minSegmentSize = 64 * 1024; // minimal size on stack
+ constexpr off_t c_maxSegmentSize = 4L * 1024 * 1024; // 4MiB is the largest request we make

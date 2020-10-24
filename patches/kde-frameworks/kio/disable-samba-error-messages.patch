@@ -1,8 +1,8 @@
 diff --git a/src/core/ksambashare.cpp b/src/core/ksambashare.cpp
-index d8dff8e..ecdba0c 100644
+index d6aae70..413e654 100644
 --- a/src/core/ksambashare.cpp
 +++ b/src/core/ksambashare.cpp
-@@ -153,26 +153,8 @@ QString KSambaSharePrivate::testparmParamValue(const QString &parameterName)
+@@ -152,26 +152,8 @@ QString KSambaSharePrivate::testparmParamValue(const QString &parameterName)
              err.removeFirst();
          }
          if (err.count() > 0 && err.at(0).startsWith("WARNING: The 'netbios name' is too long (max. 15 chars).")) {
@@ -29,7 +29,7 @@ index d8dff8e..ecdba0c 100644
      }
  
      if (!stdOut.isEmpty()) {
-@@ -203,12 +185,6 @@ QByteArray KSambaSharePrivate::getNetUserShareInfo()
+@@ -202,12 +184,6 @@ QByteArray KSambaSharePrivate::getNetUserShareInfo()
              skipUserShare = true;
          } else if (stdErr.contains("usershares are currently disabled")) {
              skipUserShare = true;
@@ -42,18 +42,42 @@ index d8dff8e..ecdba0c 100644
          }
      }
  
-@@ -367,14 +343,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::add(const KSambaShareData &s
- 
-     int ret = runProcess(QStringLiteral("net"), args, stdOut, stdErr);
+@@ -364,14 +340,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::add(const KSambaShareData &s
+     QByteArray stdOut;
+     int ret = runProcess(QStringLiteral("net"), args, stdOut, m_stdErr);
  
 -    //TODO: parse and process error messages.
--    if (!stdErr.isEmpty()) {
+-    if (!m_stdErr.isEmpty()) {
 -        // create a parser for the error output and
 -        // send error message somewhere
 -        qCWarning(KIO_CORE) << "We got some errors while running 'net usershare add'" << args;
--        qCWarning(KIO_CORE) << stdErr;
+-        qCWarning(KIO_CORE) << m_stdErr;
+-    }
+-
+     if (ret == 0 && !data.contains(shareData.name())) {
+         // It needs to be added in this function explicitly, otherwise another instance of
+         // KSambaShareDataPrivate will be created and added to data when the share
+@@ -402,14 +370,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::remove(const KSambaShareData
+     QByteArray stdOut;
+     int ret = runProcess(QStringLiteral("net"), args, stdOut, m_stdErr);
+ 
+-    //TODO: parse and process error messages.
+-    if (!m_stdErr.isEmpty()) {
+-        // create a parser for the error output and
+-        // send error message somewhere
+-        qCWarning(KIO_CORE) << "We got some errors while running 'net usershare delete'" << args;
+-        qCWarning(KIO_CORE) << m_stdErr;
 -    }
 -
      return (ret == 0) ? KSambaShareData::UserShareOk : KSambaShareData::UserShareSystemError;
- }
  
+     // NB: the share file gets deleted which leads us to reload and drop the ShareData, hence no explicit remove
+@@ -459,8 +419,6 @@ QMap<QString, KSambaShareData> KSambaSharePrivate::parse(const QByteArray &users
+             } else if (key == QLatin1String("guest_ok")) {
+                 shareData.dd->guestPermission = value;
+             } else {
+-                qCWarning(KIO_CORE) << "Something nasty happen while parsing 'net usershare info'"
+-                           << "share:" << currentShare << "key:" << key;
+             }
+         } else if (line.trimmed().isEmpty()) {
+             continue;

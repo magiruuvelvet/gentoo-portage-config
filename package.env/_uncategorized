@@ -10,11 +10,13 @@ media-libs/mesa libatomic-clang.conf
 dev-libs/libgcrypt no-optimizations.conf std-gnu99.conf
 
 media-video/ffmpeg ffmpeg.conf
+media-sound/mpd stdc-constant-macros.conf
 
 media-libs/x265 fpic.conf lld-text-relocations.conf std-gnu17.conf
 media-libs/x264 fpic.conf lld-text-relocations.conf
 media-libs/xvid fpic.conf lld-text-relocations.conf
 media-libs/libass fpic.conf lld-text-relocations.conf
+media-libs/dav1d fpic.conf lld-text-relocations.conf
 net-libs/gnutls fpic.conf lld-text-relocations.conf
 
 

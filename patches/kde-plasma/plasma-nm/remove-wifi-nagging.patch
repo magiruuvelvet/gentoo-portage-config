@@ -1,18 +1,65 @@
 diff --git a/libs/handler.cpp b/libs/handler.cpp
-index b0a0da7..68f249d 100644
+index 4de2b4b..0e96291 100644
 --- a/libs/handler.cpp
 +++ b/libs/handler.cpp
-@@ -405,9 +405,7 @@ void Handler::enableBluetooth(bool enable)
-             if (reply.isValid()) {
-                 for (const QDBusObjectPath &path : reply.value().keys()) {
-                     const QString objPath = path.path();
--                    qCDebug(PLASMA_NM) << "inspecting path" << objPath;
-                     const QStringList interfaces = reply.value().value(path).keys();
--                    qCDebug(PLASMA_NM) << "interfaces:" << interfaces;
-                     if (interfaces.contains("org.bluez.Adapter1")) {
-                         // We need to check previous state first
-                         if (!enable) {
-@@ -520,7 +518,6 @@ void Handler::requestScan(const QString &interface)
+@@ -102,14 +102,12 @@ void Handler::activateConnection(const QString& connection, const QString& devic
+     NetworkManager::Connection::Ptr con = NetworkManager::findConnection(connection);
+ 
+     if (!con) {
+-        qCWarning(PLASMA_NM) << "Not possible to activate this connection";
+         return;
+     }
+ 
+     if (con->settings()->connectionType() == NetworkManager::ConnectionSettings::Vpn) {
+         NetworkManager::VpnSetting::Ptr vpnSetting = con->settings()->setting(NetworkManager::Setting::Vpn).staticCast<NetworkManager::VpnSetting>();
+         if (vpnSetting) {
+-            qCDebug(PLASMA_NM) << "Checking VPN" << con->name() << "type:" << vpnSetting->serviceType();
+ 
+             bool pluginMissing = false;
+ 
+@@ -128,7 +126,6 @@ void Handler::activateConnection(const QString& connection, const QString& devic
+             }
+ 
+             if (pluginMissing) {
+-                qCWarning(PLASMA_NM) << "VPN" << vpnSetting->serviceType() << "not found, skipping";
+                 KNotification *notification = new KNotification("MissingVpnPlugin", KNotification::CloseOnTimeout, this);
+                 notification->setComponentName("networkmanagement");
+                 notification->setTitle(con->name());
+@@ -339,7 +336,6 @@ void Handler::deactivateConnection(const QString& connection, const QString& dev
+     NetworkManager::Connection::Ptr con = NetworkManager::findConnection(connection);
+ 
+     if (!con) {
+-        qCWarning(PLASMA_NM) << "Not possible to deactivate this connection";
+         return;
+     }
+ 
+@@ -397,7 +393,6 @@ void makeDBusCall(const QDBusMessage &message, QObject *context, std::function<v
+     QObject::connect(watcher, &QDBusPendingCallWatcher::finished, context, [func] (QDBusPendingCallWatcher *watcher) {
+         const QDBusPendingReply<T> reply = *watcher;
+         if (!reply.isValid()) {
+-            qCWarning(PLASMA_NM) << reply.error().message();
+             return;
+         }
+         func(reply);
+@@ -425,9 +420,7 @@ void Handler::enableBluetooth(bool enable)
+     makeDBusCall<QMap<QDBusObjectPath, NMVariantMapMap>>(getObjects, this, [enable, this](const auto reply) {
+         for (const QDBusObjectPath &path : reply.value().keys()) {
+             const QString objPath = path.path();
+-            qCDebug(PLASMA_NM) << "inspecting path" << objPath;
+             const QStringList interfaces = reply.value().value(path).keys();
+-            qCDebug(PLASMA_NM) << "interfaces:" << interfaces;
+ 
+             if (!interfaces.contains("org.bluez.Adapter1")) {
+                 continue;
+@@ -470,7 +463,6 @@ void Handler::removeConnection(const QString& connection)
+     NetworkManager::Connection::Ptr con = NetworkManager::findConnection(connection);
+ 
+     if (!con || con->uuid().isEmpty()) {
+-        qCWarning(PLASMA_NM) << "Not possible to remove connection " << connection;
+         return;
+     }
+ 
+@@ -521,7 +513,6 @@ void Handler::requestScan(const QString &interface)
                      } else if (lastRequestScan.isValid() && lastRequestScan.msecsTo(now) < NM_REQUESTSCAN_LIMIT_RATE) {
                          timeout = NM_REQUESTSCAN_LIMIT_RATE - lastRequestScan.msecsTo(now);
                      }
@@ -20,7 +67,7 @@ index b0a0da7..68f249d 100644
                      scheduleRequestScan(wifiDevice->interfaceName(), timeout);
  
                      if (!interface.isEmpty()) {
-@@ -532,7 +529,6 @@ void Handler::requestScan(const QString &interface)
+@@ -533,7 +524,6 @@ void Handler::requestScan(const QString &interface)
                      delete m_wirelessScanRetryTimer.take(interface);
                  }
  
@@ -28,7 +75,15 @@ index b0a0da7..68f249d 100644
                  QDBusPendingReply<> reply = wifiDevice->requestScan();
                  QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
                  watcher->setProperty("action", Handler::RequestScan);
-@@ -659,8 +655,6 @@ bool Handler::checkRequestScanRateLimit(const NetworkManager::WirelessDevice::Pt
+@@ -583,7 +573,6 @@ void Handler::createHotspot()
+     }
+ 
+     if (!wifiDev) {
+-        qCWarning(PLASMA_NM) << "Failed to create hotspot: missing wireless device";
+         return;
+     }
+ 
+@@ -660,8 +649,6 @@ bool Handler::checkRequestScanRateLimit(const NetworkManager::WirelessDevice::Pt
      ret |= lastRequestScan.isValid() && lastRequestScan.msecsTo(now) < NM_REQUESTSCAN_LIMIT_RATE;
      // skip the request scan
      if (ret) {
@@ -37,7 +92,7 @@ index b0a0da7..68f249d 100644
          return false;
      }
      return true;
-@@ -783,7 +777,6 @@ void Handler::replyFinished(QDBusPendingCallWatcher * watcher)
+@@ -775,7 +762,6 @@ void Handler::replyFinished(QDBusPendingCallWatcher * watcher)
              case Handler::RequestScan:
              {
                  const QString interface = watcher->property("interface").toString();
@@ -45,7 +100,7 @@ index b0a0da7..68f249d 100644
                  scanRequestFailed(interface);
                  break;
              }
-@@ -819,7 +812,6 @@ void Handler::replyFinished(QDBusPendingCallWatcher * watcher)
+@@ -811,7 +797,6 @@ void Handler::replyFinished(QDBusPendingCallWatcher * watcher)
                  notification->setText(i18n("Connection %1 has been updated", watcher->property("connection").toString()));
                  break;
              case Handler::RequestScan:

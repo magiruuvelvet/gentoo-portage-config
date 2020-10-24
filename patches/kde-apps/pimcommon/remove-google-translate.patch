@@ -1,8 +1,8 @@
 diff --git a/src/pimcommon/translator/googletranslator.cpp b/src/pimcommon/translator/googletranslator.cpp
-index 1875d05..730e5cf 100644
+index a426ceb..6cac0bb 100644
 --- a/src/pimcommon/translator/googletranslator.cpp
 +++ b/src/pimcommon/translator/googletranslator.cpp
-@@ -151,29 +151,6 @@ QMap<QString, QMap<QString, QString> > GoogleTranslator::initListLanguage(QCombo
+@@ -154,33 +154,6 @@ QMap<QString, QMap<QString, QString> > GoogleTranslator::initListLanguage(QCombo
  
  void GoogleTranslator::translate()
  {
@@ -28,11 +28,15 @@ index 1875d05..730e5cf 100644
 -    const QNetworkRequest request(url);
 -
 -    QNetworkReply *reply = mNetworkAccessManager->get(request);
+-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 -    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this, &GoogleTranslator::slotError);
+-#else
+-    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::errorOccurred), this, &GoogleTranslator::slotError);
+-#endif
  }
  
  void GoogleTranslator::slotError(QNetworkReply::NetworkError /*error*/)
-@@ -184,36 +161,7 @@ void GoogleTranslator::slotError(QNetworkReply::NetworkError /*error*/)
+@@ -191,36 +164,7 @@ void GoogleTranslator::slotError(QNetworkReply::NetworkError /*error*/)
  void GoogleTranslator::slotTranslateFinished(QNetworkReply *reply)
  {
      mResult.clear();

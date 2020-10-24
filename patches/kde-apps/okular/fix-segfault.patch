@@ -1,23 +1,22 @@
 diff --git a/shell/shell.cpp b/shell/shell.cpp
-index 0bdb710..49e9fea 100644
+index 5d218e2..36af7f3 100644
 --- a/shell/shell.cpp
 +++ b/shell/shell.cpp
-@@ -223,8 +223,7 @@ bool Shell::openDocument( const QUrl& url, const QString &serializedOptions )
-     KParts::ReadWritePart* const part = m_tabs[0].part;
+@@ -215,7 +215,7 @@ bool Shell::openDocument(const QUrl &url, const QString &serializedOptions)
+     KParts::ReadWritePart *const part = m_tabs[0].part;
  
      // Return false if we can't open new tabs and the only part is occupied
--    if ( !dynamic_cast<Okular::ViewerInterface*>(part)->openNewFilesInTabs()
--         && !part->url().isEmpty()
-+    if ( !part->url().isEmpty()
-          && !ShellUtils::unique(serializedOptions))
-     {
+-    if (!dynamic_cast<Okular::ViewerInterface *>(part)->openNewFilesInTabs() && !part->url().isEmpty() && !ShellUtils::unique(serializedOptions)) {
++    if ( !part->url().isEmpty() && !ShellUtils::unique(serializedOptions) )
          return false;
-@@ -246,7 +245,7 @@ bool Shell::canOpenDocs( int numDocs, int desktop )
-       return false;
+     }
  
-    KParts::ReadWritePart* const part = m_tabs[0].part;
--   const bool allowTabs = dynamic_cast<Okular::ViewerInterface*>(part)->openNewFilesInTabs();
-+   const bool allowTabs = false;
+@@ -235,7 +235,7 @@ bool Shell::canOpenDocs(int numDocs, int desktop)
+         return false;
  
-    if( !allowTabs && (numDocs > 1 || !part->url().isEmpty()) )
-       return false;
+     KParts::ReadWritePart *const part = m_tabs[0].part;
+-    const bool allowTabs = dynamic_cast<Okular::ViewerInterface *>(part)->openNewFilesInTabs();
++    const bool allowTabs = false;
+ 
+     if (!allowTabs && (numDocs > 1 || !part->url().isEmpty()))
+         return false;

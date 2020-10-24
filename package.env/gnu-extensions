@@ -301,7 +301,7 @@ sys-fs/e2fsprogs std-gnu99.conf
 sys-fs/fuse std-gnu99.conf
 sys-fs/fuse-exfat gnu-source.conf
 sys-fs/lvm2 std-gnu99.conf
-sys-fs/rar2fs gnu-source.conf
+sys-fs/rar2fs std-gnu99.conf
 sys-fs/reiser4progs std-gnu99.conf
 sys-fs/udftools gnu-source.conf
 sys-fs/udisks std-gnu99.conf

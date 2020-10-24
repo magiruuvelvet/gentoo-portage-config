@@ -9,7 +9,7 @@ media-libs/jasper opengl jpeg
 media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
 media-libs/libaacs
 media-libs/libao alsa pulseaudio
-media-libs/libaom -tests
+media-libs/libaom -tests -cpu_flags_x86_sse2 -cpu_flags_x86_ssse3
 media-libs/libbdplus aacs
 media-libs/libbluray aacs bdplus java
 media-libs/libcaca -ncurses cxx

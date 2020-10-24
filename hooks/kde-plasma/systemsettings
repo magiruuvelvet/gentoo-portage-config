@@ -1,0 +1,19 @@
+#!/bin/sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        # this fixes some (not all) shortcuts to open in kcmshell5 again instead of the full settings application
+        # who the fuck thought this would be a great idea anyway :| and it's even hardcoded, no way to change it without using Gentoo
+        echo "Remove systemsettings desktop entry..."
+        rm "${D}/usr/share/applications/kdesystemsettings.desktop"
+        rm "${D}/usr/share/applications/systemsettings.desktop"
+        rm "${D}/usr/share/kglobalaccel/systemsettings.desktop"
+
+        # for the remaining shit see "revert-opening-kcms-in-systemsettings.patch"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

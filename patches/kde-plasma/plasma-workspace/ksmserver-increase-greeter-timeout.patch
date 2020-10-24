@@ -1,8 +1,8 @@
 diff --git a/ksmserver/logout.cpp b/ksmserver/logout.cpp
-index c09358b..ee0a1a2 100644
+index 0b45d2c..863386f 100644
 --- a/ksmserver/logout.cpp
 +++ b/ksmserver/logout.cpp
-@@ -435,7 +435,8 @@ void KSMServer::startProtection()
+@@ -398,7 +398,8 @@ void KSMServer::startProtection()
      config->reparseConfiguration(); // config may have changed in the KControl module
      KConfigGroup cg( config, "General" );
  

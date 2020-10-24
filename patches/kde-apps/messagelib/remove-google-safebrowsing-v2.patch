@@ -1,39 +1,916 @@
+diff --git a/messageviewer/src/viewer/urlhandlermanager.cpp b/messageviewer/src/viewer/urlhandlermanager.cpp
+index b6d1b40..42b6da7 100644
+--- a/messageviewer/src/viewer/urlhandlermanager.cpp
++++ b/messageviewer/src/viewer/urlhandlermanager.cpp
+@@ -912,7 +912,6 @@ bool KRunURLHandler::handleClick(const QUrl &url, ViewerPrivate *w) const
+                 return true;
+             }
+         }
+-        w->checkPhishingUrl();
+         return true;
+     } else {
+         return false;
+diff --git a/messageviewer/src/viewer/viewer_p.cpp b/messageviewer/src/viewer/viewer_p.cpp
+index 6f109fe..e32756d 100644
+--- a/messageviewer/src/viewer/viewer_p.cpp
++++ b/messageviewer/src/viewer/viewer_p.cpp
+@@ -2009,12 +2009,6 @@ void ViewerPrivate::slotUrlOpen(const QUrl &url)
+ 
+ void ViewerPrivate::checkPhishingUrl()
+ {
+-    if (MessageViewer::MessageViewerSettings::self()->checkPhishingUrl()
+-        && (mClickedUrl.scheme() != QLatin1String("mailto"))) {
+-        mPhishingDatabase->checkUrl(mClickedUrl);
+-    } else {
+-        executeRunner(mClickedUrl);
+-    }
+ }
+ 
+ void ViewerPrivate::executeRunner(const QUrl &url)
+@@ -2029,37 +2023,11 @@ void ViewerPrivate::executeRunner(const QUrl &url)
+ 
+ void ViewerPrivate::slotCheckedUrlFinished(const QUrl &url, WebEngineViewer::CheckPhishingUrlUtil::UrlStatus status)
+ {
+-    switch (status) {
+-    case WebEngineViewer::CheckPhishingUrlUtil::BrokenNetwork:
+-        KMessageBox::error(mMainWindow, i18n("The network is broken."), i18n("Check Phishing URL"));
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl:
+-        KMessageBox::error(mMainWindow, i18n("The URL %1 is not valid.", url.toString()),
+-                           i18n("Check Phishing URL"));
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::Ok:
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::MalWare:
+-        if (!urlIsAMalwareButContinue()) {
+-            return;
+-        }
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::Unknown:
+-        qCWarning(MESSAGEVIEWER_LOG) << "WebEngineViewer::slotCheckedUrlFinished unknown error ";
+-        break;
+-    }
+     executeRunner(url);
+ }
+ 
+ bool ViewerPrivate::urlIsAMalwareButContinue()
+ {
+-    if (KMessageBox::No
+-        == KMessageBox::warningYesNo(mMainWindow,
+-                                     i18n(
+-                                         "This web site is a malware, do you want to continue to show it?"),
+-                                     i18n("Malware"))) {
+-        return false;
+-    }
+     return true;
+ }
+ 
+diff --git a/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp b/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp
+index 63da39f..b884600 100644
+--- a/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp
++++ b/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp
+@@ -45,18 +45,6 @@ public:
+ 
+ void BackOffModeManagerPrivate::save()
+ {
+-    KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-    KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("BackOffMode"));
+-    grp.writeEntry("Enabled", isInOffMode);
+-    if (isInOffMode) {
+-        const int calculateTimeInSeconds = calculateBackModeTime();
+-        const qint64 delay = QDateTime::currentDateTime().addSecs(calculateTimeInSeconds).toSecsSinceEpoch();
+-        grp.writeEntry("Delay", delay);
+-        updateTimer(calculateTimeInSeconds);
+-    } else {
+-        grp.deleteEntry("Delay");
+-    }
+-    grp.sync();
+ }
+ 
+ void BackOffModeManagerPrivate::slotTimerFinished()
+@@ -77,20 +65,6 @@ void BackOffModeManagerPrivate::updateTimer(int seconds)
+ 
+ void BackOffModeManagerPrivate::load()
+ {
+-    KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-    KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("BackOffMode"));
+-    isInOffMode = grp.readEntry("Enabled", false);
+-    if (isInOffMode) {
+-        const qint64 delay = grp.readEntry("Delay", 0);
+-        const qint64 now = QDateTime::currentDateTimeUtc().toSecsSinceEpoch();
+-        if (delay > now) {
+-            const qint64 diff = (delay - now);
+-            updateTimer(diff);
+-        } else {
+-            //Disable mode.
+-            isInOffMode = false;
+-        }
+-    }
+ }
+ 
+ int BackOffModeManagerPrivate::calculateBackModeTime() const
+diff --git a/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp b/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp
+index 2c793e1..9e04d3e 100644
+--- a/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp
++++ b/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp
+@@ -59,65 +59,15 @@ void CheckPhishingUrlCachePrivate::clearCache()
+ 
+ void CheckPhishingUrlCachePrivate::load()
+ {
+-    mCacheCheckedUrl.clear();
+-    KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-    KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("MalwareUrl"));
+-    const QList<QUrl> listMalware = grp.readEntry("Url", QList<QUrl>());
+-    const QList<double> listMalwareCachedTime = grp.readEntry("CachedTime", QList<double>());
+-    if (listMalware.count() != listMalwareCachedTime.count()) {
+-        qCWarning(WEBENGINEVIEWER_LOG) << "CheckPhishingUrlCachePrivate invalid number of data stored";
+-    } else {
+-        UrlCacheInfo info;
+-        const int numberOfMalware = listMalware.count();
+-        for (int i = 0; i < numberOfMalware; ++i) {
+-            info.status = WebEngineViewer::CheckPhishingUrlCache::MalWare;
+-            info.verifyCacheAfterThisTime = listMalwareCachedTime.at(i);
+-            if (WebEngineViewer::CheckPhishingUrlUtil::cachedValueStillValid(info.verifyCacheAfterThisTime)) {
+-                mCacheCheckedUrl.insert(listMalware.at(i), info);
+-            }
+-        }
+-    }
+ }
+ 
+ void CheckPhishingUrlCachePrivate::save()
+ {
+-    KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-    KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("MalwareUrl"));
+-
+-    QList<QUrl> listMalware;
+-    QList<double> listMalwareCachedTime;
+-
+-    QMap<QUrl, UrlCacheInfo>::const_iterator i = mCacheCheckedUrl.constBegin();
+-    const QMap<QUrl, UrlCacheInfo>::const_iterator end = mCacheCheckedUrl.constEnd();
+-    while (i != end) {
+-        const UrlCacheInfo info = i.value();
+-        if (info.isMalWare() && WebEngineViewer::CheckPhishingUrlUtil::cachedValueStillValid(info.verifyCacheAfterThisTime)) {
+-            listMalware.append(i.key());
+-            listMalwareCachedTime.append(info.verifyCacheAfterThisTime);
+-        }
+-        ++i;
+-    }
+-    grp.writeEntry("Url", listMalware);
+-    grp.writeEntry("CachedTime", listMalwareCachedTime);
+-    grp.sync();
+ }
+ 
+ CheckPhishingUrlCache::UrlStatus CheckPhishingUrlCachePrivate::urlStatus(const QUrl &url)
+ {
+-    const UrlCacheInfo info = mCacheCheckedUrl.value(url, UrlCacheInfo());
+-    if (info.isValid()) {
+-        if (info.verifyCacheAfterThisTime > 0) {
+-            if (CheckPhishingUrlUtil::cachedValueStillValid(info.verifyCacheAfterThisTime)) {
+-                return info.status;
+-            } else {
+-                return CheckPhishingUrlCache::Unknown;
+-            }
+-        } else {
+-            return info.status;
+-        }
+-    } else {
+-        return CheckPhishingUrlCache::Unknown;
+-    }
++    return CheckPhishingUrlCache::Unknown;
+ }
+ 
+ void CheckPhishingUrlCachePrivate::addCheckPhishingUrlResult(const QUrl &url, bool correctUrl, uint verifyCacheAfterThisTime)
 diff --git a/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp b/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
-index 53f042b..d952d38 100644
+index 59e4b48..f2da17e 100644
 --- a/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
 +++ b/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
-@@ -151,7 +151,7 @@ void CheckPhishingUrlJob::start()
-     } else if (canStart()) {
-         QUrlQuery query;
-         query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
+@@ -48,48 +48,11 @@ CheckPhishingUrlJob::~CheckPhishingUrlJob()
+ 
+ void CheckPhishingUrlJob::slotSslErrors(QNetworkReply *reply, const QList<QSslError> &error)
+ {
+-    qCDebug(WEBENGINEVIEWER_LOG) << " void CheckPhishingUrlJob::slotSslErrors(QNetworkReply *reply, const QList<QSslError> &error)" << error.count();
+     reply->ignoreSslErrors(error);
+ }
+ 
+ void CheckPhishingUrlJob::parse(const QByteArray &replyStr)
+ {
+-    QJsonDocument document = QJsonDocument::fromJson(replyStr);
+-    if (document.isNull()) {
+-        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Unknown, d->mUrl);
+-    } else {
+-        const QVariantMap answer = document.toVariant().toMap();
+-        if (answer.isEmpty()) {
+-            Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Ok, d->mUrl);
+-            return;
+-        } else {
+-            const QVariantList info = answer.value(QStringLiteral("matches")).toList();
+-            if (info.count() == 1) {
+-                const QVariantMap map = info.at(0).toMap();
+-                const QString threatTypeStr = map[QStringLiteral("threatType")].toString();
+-                const QString cacheDuration = map[QStringLiteral("cacheDuration")].toString();
+-                uint verifyCacheAfterThisTime = 0;
+-                if (!cacheDuration.isEmpty()) {
+-                    double cacheDurationValue = WebEngineViewer::CheckPhishingUrlUtil::convertToSecond(cacheDuration);
+-                    if (cacheDurationValue > 0) {
+-                        verifyCacheAfterThisTime = WebEngineViewer::CheckPhishingUrlUtil::refreshingCacheAfterThisTime(cacheDurationValue);
+-                    }
+-                }
+-                if (threatTypeStr == QLatin1String("MALWARE")) {
+-                    const QVariantMap urlMap = map[QStringLiteral("threat")].toMap();
+-                    if (urlMap.count() == 1) {
+-                        if (urlMap[QStringLiteral("url")].toString() == d->mUrl.toString()) {
+-                            Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::MalWare, d->mUrl, verifyCacheAfterThisTime);
+-                            return;
+-                        }
+-                    }
+-                } else {
+-                    qCWarning(WEBENGINEVIEWER_LOG) << " CheckPhishingUrlJob::parse threatTypeStr : " << threatTypeStr;
+-                }
+-            }
+-            Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Unknown, d->mUrl);
+-        }
+-    }
+ }
+ 
+ void CheckPhishingUrlJob::slotCheckUrlFinished(QNetworkReply *reply)
+@@ -101,80 +64,25 @@ void CheckPhishingUrlJob::slotCheckUrlFinished(QNetworkReply *reply)
+ 
+ void CheckPhishingUrlJob::setUrl(const QUrl &url)
+ {
+-    d->mUrl = url;
+ }
+ 
+ QByteArray CheckPhishingUrlJob::jsonRequest() const
+ {
+-    QVariantMap clientMap;
+-    QVariantMap map;
+-
+-    clientMap.insert(QStringLiteral("clientId"), QStringLiteral("KDE"));
+-    clientMap.insert(QStringLiteral("clientVersion"), CheckPhishingUrlUtil::versionApps());
+-    map.insert(QStringLiteral("client"), clientMap);
+-
+-    QVariantMap threatMap;
+-    const QVariantList platformList = { QStringLiteral("WINDOWS") };
+-    threatMap.insert(QStringLiteral("platformTypes"), platformList);
+-
+-    const QVariantList threatTypesList = { QStringLiteral("MALWARE") };
+-    threatMap.insert(QStringLiteral("threatTypes"), threatTypesList);
+-    const QVariantList threatEntryTypesList = { QStringLiteral("URL") };
+-    threatMap.insert(QStringLiteral("threatEntryTypes"), threatEntryTypesList);
+-    QVariantList threatEntriesList;
+-    QVariantMap urlMap;
+-    urlMap.insert(QStringLiteral("url"), d->mUrl.toString());
+-    threatEntriesList.append(urlMap);
+-    threatMap.insert(QStringLiteral("threatEntries"), threatEntriesList);
+-
+-    map.insert(QStringLiteral("threatInfo"), threatMap);
+-
+-    const QJsonDocument postData = QJsonDocument::fromVariant(map);
+-    const QByteArray baPostData = postData.toJson(webengineview_useCompactJson ? QJsonDocument::Compact : QJsonDocument::Indented);
+-    return baPostData;
++    return {};
+ }
+ 
+ void CheckPhishingUrlJob::start()
+ {
+-    if (!PimCommon::NetworkManager::self()->networkConfigureManager()->isOnline()) {
+-        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::BrokenNetwork, d->mUrl);
+-        deleteLater();
+-    } else if (canStart()) {
+-        QUrlQuery query;
+-        query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
 -        QUrl safeUrl = QUrl(QStringLiteral("https://safebrowsing.googleapis.com/v4/threatMatches:find"));
-+        QUrl safeUrl;
-         safeUrl.setQuery(query);
-         QNetworkRequest request(safeUrl);
-         request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
+-        safeUrl.setQuery(query);
+-        QNetworkRequest request(safeUrl);
+-        request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
+-
+-        const QByteArray baPostData = jsonRequest();
+-        qCDebug(WEBENGINEVIEWER_LOG) << " postData.toJson()" << baPostData;
+-        Q_EMIT debugJson(baPostData);
+-        //curl -H "Content-Type: application/json" -X POST -d '{"client":{"clientId":"KDE","clientVersion":"5.4.0"},"threatInfo":{"platformTypes":["WINDOWS"],"threatEntries":[{"url":"http://www.kde.org"}],"threatEntryTypes":["URL"],"threatTypes":["MALWARE"]}}' https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyBS62pXATjabbH2RM_jO2EzDg1mTMHlnyo
+-
+-        QNetworkReply *reply = d->mNetworkAccessManager->post(request, baPostData);
+-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+-        connect(reply, qOverload<QNetworkReply::NetworkError>(&QNetworkReply::error), this, &CheckPhishingUrlJob::slotError);
+-#else
+-        connect(reply, qOverload<QNetworkReply::NetworkError>(&QNetworkReply::errorOccurred), this, &CheckPhishingUrlJob::slotError);
+-#endif
+-
+-
+-    } else {
+-        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl, d->mUrl);
+-        deleteLater();
+-    }
++    Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl, {});
++    deleteLater();
+ }
+ 
+ void CheckPhishingUrlJob::slotError(QNetworkReply::NetworkError error)
+ {
+-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+-    qCWarning(WEBENGINEVIEWER_LOG) << " error " << error << " error string : " << reply->errorString();
+-    reply->deleteLater();
+     deleteLater();
+ }
+ 
+ bool CheckPhishingUrlJob::canStart() const
+ {
+-    return d->mUrl.isValid();
++    return false;
+ }
+diff --git a/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp b/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp
+index 42c412a..7ba674b 100644
+--- a/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp
++++ b/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp
+@@ -12,17 +12,17 @@
+ using namespace WebEngineViewer;
+ QString CheckPhishingUrlUtil::apiKey()
+ {
+-    return QStringLiteral("AIzaSyBS62pXATjabbH2RM_jO2EzDg1mTMHlnyo");
++    return {};
+ }
+ 
+ QString CheckPhishingUrlUtil::versionApps()
+ {
+-    return QStringLiteral(WEBENGINEVIEWER_VERSION_STRING);
++    return {};
+ }
+ 
+ QString CheckPhishingUrlUtil::databaseFileName()
+ {
+-    return QStringLiteral("malware.db");
++    return {};
+ }
+ 
+ quint16 CheckPhishingUrlUtil::majorVersion()
+@@ -37,7 +37,7 @@ quint16 CheckPhishingUrlUtil::minorVersion()
+ 
+ QString CheckPhishingUrlUtil::configFileName()
+ {
+-    return QStringLiteral("phishingurlrc");
++    return QString::fromUtf8("/dev/null");
+ }
+ 
+ double CheckPhishingUrlUtil::convertToSecond(const QString &str)
 diff --git a/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp b/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
-index 679117c..b3c8b01 100644
+index e8896b8..cc7539f 100644
 --- a/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
 +++ b/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
-@@ -79,7 +79,7 @@ void CreatePhishingUrlDataBaseJob::start()
-     } else {
-         QUrlQuery query;
-         query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
+@@ -63,30 +63,8 @@ void CreatePhishingUrlDataBaseJob::slotSslErrors(QNetworkReply *reply, const QLi
+ 
+ void CreatePhishingUrlDataBaseJob::start()
+ {
+-    if (!PimCommon::NetworkManager::self()->networkConfigureManager()->isOnline()) {
+-        Q_EMIT finished(UpdateDataBaseInfo(), BrokenNetwork);
+-        deleteLater();
+-    } else {
+-        QUrlQuery query;
+-        query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
 -        QUrl safeUrl = QUrl(QStringLiteral("https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch"));
-+        QUrl safeUrl;
-         safeUrl.setQuery(query);
-         //qCDebug(WEBENGINEVIEWER_LOG) << " safeUrl" << safeUrl;
-         QNetworkRequest request(safeUrl);
+-        safeUrl.setQuery(query);
+-        //qCDebug(WEBENGINEVIEWER_LOG) << " safeUrl" << safeUrl;
+-        QNetworkRequest request(safeUrl);
+-        request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
+-
+-        const QByteArray baPostData = jsonRequest();
+-        Q_EMIT debugJson(baPostData);
+-        qCDebug(WEBENGINEVIEWER_LOG) << " postData.toJson()" << baPostData;
+-        //curl -H "Content-Type: application/json" -X POST -d '{"client":{"clientId":"KDE","clientVersion":"5.4.0"},"threatInfo":{"platformTypes":["WINDOWS"],"threatEntries":[{"url":"http://www.kde.org"}],"threatEntryTypes":["URL"],"threatTypes":["MALWARE"]}}' https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyBS62pXATjabbH2RM_jO2EzDg1mTMHlnyo
+-        QNetworkReply *reply = d->mNetworkAccessManager->post(request, baPostData);
+-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+-        connect(reply, qOverload<QNetworkReply::NetworkError>(&QNetworkReply::error), this, &CreatePhishingUrlDataBaseJob::slotError);
+-#else
+-        connect(reply, qOverload<QNetworkReply::NetworkError>(&QNetworkReply::errorOccurred), this, &CreatePhishingUrlDataBaseJob::slotError);
+-#endif
+-
+-    }
++    Q_EMIT finished(UpdateDataBaseInfo(), BrokenNetwork);
++    deleteLater();
+ }
+ 
+ void CreatePhishingUrlDataBaseJob::setDataBaseState(const QString &value)
+@@ -104,78 +82,7 @@ void CreatePhishingUrlDataBaseJob::slotError(QNetworkReply::NetworkError error)
+ 
+ QByteArray CreatePhishingUrlDataBaseJob::jsonRequest() const
+ {
+-#if 0
+-    {
+-        "client" : {
+-            "clientId" :       "yourcompanyname",
+-            "clientVersion" :  "1.5.2"
+-        },
+-        "listUpdateRequests" : [{
+-                                    "threatType" :      "MALWARE",
+-                                    "platformType" :    "WINDOWS",
+-                                    "threatEntryType" : "URL",
+-                                    "state" :           "Gg4IBBADIgYQgBAiAQEoAQ==",
+-                                    "constraints" : {
+-                                        "maxUpdateEntries" :      2048,
+-                                        "maxDatabaseEntries" :    4096,
+-                                        "region" :                "US",
+-                                        "supportedCompressions" : ["RAW"]
+-                                    }
+-                                }]
+-    }
+-#endif
+-    QVariantMap clientMap;
+-    QVariantMap map;
+-
+-    clientMap.insert(QStringLiteral("clientId"), QStringLiteral("KDE"));
+-    clientMap.insert(QStringLiteral("clientVersion"), CheckPhishingUrlUtil::versionApps());
+-    map.insert(QStringLiteral("client"), clientMap);
+-
+-    QVariantList listUpdateRequests;
+-
+-    QVariantMap threatMap;
+-    threatMap.insert(QStringLiteral("platformType"), QStringLiteral("WINDOWS"));
+-    threatMap.insert(QStringLiteral("threatType"), QStringLiteral("MALWARE"));
+-    threatMap.insert(QStringLiteral("threatEntryType"), QStringLiteral("URL"));
+-
+-    //Contrainsts
+-    QVariantMap contraintsMap;
+-    QVariantList contraintsCompressionList;
+-    QString compressionStr;
+-    switch (d->mContraintsCompressionType) {
+-    case RiceCompression:
+-        compressionStr = QStringLiteral("RICE");
+-        break;
+-    case RawCompression:
+-        compressionStr = QStringLiteral("RAW");
+-        break;
+-    }
+-    contraintsCompressionList.append(compressionStr);
+-    contraintsMap.insert(QStringLiteral("supportedCompressions"), contraintsCompressionList);
+-    threatMap.insert(QStringLiteral("constraints"), contraintsMap);
+-
+-    //Define state when we want to define update database. Empty is full.
+-    switch (d->mDataBaseDownloadNeeded) {
+-    case FullDataBase:
+-        qCDebug(WEBENGINEVIEWER_LOG) << " full update";
+-        threatMap.insert(QStringLiteral("state"), QString());
+-        break;
+-    case UpdateDataBase:
+-        qCDebug(WEBENGINEVIEWER_LOG) << " update database";
+-        if (d->mDataBaseState.isEmpty()) {
+-            qCWarning(WEBENGINEVIEWER_LOG) << "Partial Download asked but database set is empty";
+-        }
+-        threatMap.insert(QStringLiteral("state"), d->mDataBaseState);
+-        break;
+-    }
+-
+-    listUpdateRequests.append(threatMap);
+-
+-    map.insert(QStringLiteral("listUpdateRequests"), listUpdateRequests);
+-
+-    const QJsonDocument postData = QJsonDocument::fromVariant(map);
+-    const QByteArray baPostData = postData.toJson(webengineview_useCompactJson_CreatePhishingUrlDataBaseJob ? QJsonDocument::Compact : QJsonDocument::Indented);
+-    return baPostData;
++    return {};
+ }
+ 
+ void CreatePhishingUrlDataBaseJob::setDataBaseDownloadNeeded(CreatePhishingUrlDataBaseJob::DataBaseDownloadType type)
+diff --git a/webengineviewer/src/checkphishingurl/hashcachemanager.cpp b/webengineviewer/src/checkphishingurl/hashcachemanager.cpp
+index e130262..d4858e0 100644
+--- a/webengineviewer/src/checkphishingurl/hashcachemanager.cpp
++++ b/webengineviewer/src/checkphishingurl/hashcachemanager.cpp
+@@ -59,110 +59,20 @@ void HashCacheManagerPrivate::clearCache()
+ 
+ void HashCacheManagerPrivate::save()
+ {
+-    KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-    KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("Hash"));
+-
+-    QList<QByteArray> lstMalware;
+-    QList<double> lstMalwareDuration;
+-
+-    QList<QByteArray> lstOk;
+-    QList<double> lstOkDuration;
+-
+-    QMapIterator<QByteArray, HashCacheInfo> i(mHashList);
+-    while (i.hasNext()) {
+-        i.next();
+-        switch (i.value().status) {
+-        case HashCacheManager::UrlOk:
+-            lstOk << i.key();
+-            lstOkDuration << i.value().verifyCacheAfterThisTime;
+-            break;
+-        case HashCacheManager::MalWare:
+-            lstMalware << i.key();
+-            lstMalwareDuration << i.value().verifyCacheAfterThisTime;
+-            break;
+-        case HashCacheManager::Unknown:
+-            break;
+-        }
+-    }
+-    grp.writeEntry("malware", lstMalware);
+-    grp.writeEntry("malwareCacheDuration", lstMalwareDuration);
+-
+-    grp.writeEntry("safe", lstOk);
+-    grp.writeEntry("safeCacheDuration", lstOkDuration);
+-    grp.sync();
+ }
+ 
+ void HashCacheManagerPrivate::load()
+ {
+     clear();
+-    KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-    KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("Hash"));
+-    QList<QByteArray> lstMalware = grp.readEntry("malware", QList<QByteArray>());
+-    QList<double> lstMalwareDuration = grp.readEntry("malwareCacheDuration", QList<double>());
+-
+-    QList<QByteArray> lstOk = grp.readEntry("safe", QList<QByteArray>());
+-    QList<double> lstOkDuration = grp.readEntry("safeCacheDuration", QList<double>());
+-    if (lstMalware.count() != lstMalwareDuration.count()) {
+-        qCWarning(WEBENGINEVIEWER_LOG) << "unsafe url: HashCacheManagerPrivate invalid number of data stored";
+-        return;
+-    }
+-    if (lstOk.count() != lstOkDuration.count()) {
+-        qCWarning(WEBENGINEVIEWER_LOG) << "safe url: HashCacheManagerPrivate invalid number of data stored";
+-        return;
+-    }
+-
+-    const int nb(lstOk.count());
+-    for (int i = 0; i < nb; ++i) {
+-        HashCacheInfo info;
+-        info.status = HashCacheManager::UrlOk;
+-        info.verifyCacheAfterThisTime = lstOkDuration.at(i);
+-        if (info.isValid()) {
+-            mHashList.insert(lstOk.at(i), info);
+-        }
+-    }
+-
+-    const int nb2(lstMalware.count());
+-    for (int i = 0; i < nb2; ++i) {
+-        HashCacheInfo info;
+-        info.status = HashCacheManager::MalWare;
+-        info.verifyCacheAfterThisTime = lstMalwareDuration.at(i);
+-        if (info.isValid()) {
+-            mHashList.insert(lstMalware.at(i), info);
+-        }
+-    }
+ }
+ 
+ HashCacheManager::UrlStatus HashCacheManagerPrivate::hashStatus(const QByteArray &hash)
+ {
+-    const HashCacheInfo info = mHashList.value(hash, HashCacheInfo());
+-    if (info.isValid()) {
+-        if (CheckPhishingUrlUtil::cachedValueStillValid(info.verifyCacheAfterThisTime)) {
+-            return info.status;
+-        } else {
+-            return HashCacheManager::Unknown;
+-        }
+-    } else {
+-        return HashCacheManager::Unknown;
+-    }
++    return HashCacheManager::Unknown;
+ }
+ 
+ void HashCacheManagerPrivate::addHashStatus(const QByteArray &hash, HashCacheManager::UrlStatus status, uint cacheDuration)
+ {
+-    HashCacheInfo info;
+-    info.status = status;
+-    info.verifyCacheAfterThisTime = cacheDuration;
+-    switch (status) {
+-    case HashCacheManager::UrlOk:
+-        mHashList.insert(hash, info);
+-        break;
+-    case HashCacheManager::MalWare:
+-        mHashList.insert(hash, info);
+-        break;
+-    case HashCacheManager::Unknown:
+-        qCWarning(WEBENGINEVIEWER_LOG()) << "HashCacheManagerPrivate::addHashStatus unknown status detected!";
+-        return;
+-    }
+-    save();
+ }
+ 
+ HashCacheManager *HashCacheManager::self()
+diff --git a/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h b/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h
+index ea23109..1b9607a 100644
+--- a/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h
++++ b/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h
+@@ -51,78 +51,22 @@ public:
+             downloadLocalDatabaseThread->wait();
+             delete downloadLocalDatabaseThread;
+         }
+-        saveConfig();
+     }
+ 
+     void initialize()
+     {
+-        if (mDownloadProgress) {
+-            return;
+-        }
+-        if (!mDataBaseOk) {
+-            qCDebug(WEBENGINEVIEWER_LOG) << "Start to create database";
+-            if (!QFileInfo::exists(databaseFullPath())) {
+-                downloadDataBase(QString());
+-            } else {
+-                const uint now = QDateTime::currentDateTimeUtc().toSecsSinceEpoch();
+-                //qDebug() << " now "<< now << " d->mSecondToStartRefreshing "<<d->mSecondToStartRefreshing << " now > d->mSecondToStartRefreshing" << (now > d->mSecondToStartRefreshing);
+-                if ((mSecondToStartRefreshing != 0) && (mSecondToStartRefreshing > now)) {
+-                    qCDebug(WEBENGINEVIEWER_LOG) << " It's not necessary to check database now";
+-                    mDataBaseOk = true;
+-                } else {
+-                    //Perhaps don't download for each start of kmail
+-                    downloadDataBase(mNewClientState);
+-                }
+-            }
+-        }
+     }
+ 
+     virtual void downloadDataBase(const QString &clientState)
+     {
+-        mDownloadProgress = true;
+-        downloadLocalDatabaseThread = new WebEngineViewer::DownloadLocalDatabaseThread;
+-        downloadLocalDatabaseThread->setDatabaseFullPath(databaseFullPath());
+-        downloadLocalDatabaseThread->setDataBaseState(clientState);
+-        QObject::connect(downloadLocalDatabaseThread.data(), &DownloadLocalDatabaseThread::createDataBaseFailed,
+-                         [this]() {
+-                mDataBaseOk = false;
+-                mDownloadProgress = false;
+-            });
+-        QObject::connect(downloadLocalDatabaseThread.data(), &DownloadLocalDatabaseThread::createDataBaseFinished,
+-                         [this](bool success, const QString &newClientState, const QString &minWaitDurationStr) {
+-                mDataBaseOk = success;
+-                mDownloadProgress = false;
+-                mNewClientState = success ? newClientState : QString();
+-                mMinimumWaitDuration = minWaitDurationStr;
+-                saveConfig();
+-                //if !success => redownload full!
+-                if (!success) {
+-                    qCWarning(WEBENGINEVIEWER_LOG) << "We need to redownload full database";
+-                    downloadDataBase(QString());             // download full database
+-                }
+-            });
+-        QObject::connect(downloadLocalDatabaseThread.data(), &DownloadLocalDatabaseThread::finished,
+-                         downloadLocalDatabaseThread.data(), &DownloadLocalDatabaseThread::deleteLater);
+-        downloadLocalDatabaseThread->start();
+     }
+ 
+     void readConfig()
+     {
+-        KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-        KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("General"));
+-        mNewClientState = grp.readEntry(QStringLiteral("DataBaseState"));
+-        mMinimumWaitDuration = grp.readEntry(QStringLiteral("RefreshDataBase"));
+-        if (!mMinimumWaitDuration.isEmpty()) {
+-            mSecondToStartRefreshing = WebEngineViewer::CheckPhishingUrlUtil::refreshingCacheAfterThisTime(WebEngineViewer::CheckPhishingUrlUtil::convertToSecond(mMinimumWaitDuration));
+-        }
+     }
+ 
+     void saveConfig()
+     {
+-        KConfig phishingurlKConfig(WebEngineViewer::CheckPhishingUrlUtil::configFileName());
+-        KConfigGroup grp = phishingurlKConfig.group(QStringLiteral("General"));
+-        grp.writeEntry(QStringLiteral("DataBaseState"), mNewClientState);
+-        grp.writeEntry(QStringLiteral("RefreshDataBase"), mMinimumWaitDuration);
+     }
+ 
+     LocalDataBaseFile mFile;
 diff --git a/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp b/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
-index fca6b60..037ab0a 100644
+index b1e23ef..d81a489 100644
 --- a/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
 +++ b/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
-@@ -250,7 +250,7 @@ void SearchFullHashJob::start()
-     } else if (canStart()) {
-         QUrlQuery query;
-         query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
+@@ -58,88 +58,6 @@ void SearchFullHashJob::slotSslErrors(QNetworkReply *reply, const QList<QSslErro
+ 
+ void SearchFullHashJob::parse(const QByteArray &replyStr)
+ {
+-    /*
+-
+-    {
+-    "matches": [{
+-    "threatType":      "MALWARE",
+-    "platformType":    "WINDOWS",
+-    "threatEntryType": "URL",
+-    "threat": {
+-      "hash": "WwuJdQx48jP-4lxr4y2Sj82AWoxUVcIRDSk1PC9Rf-4="
+-    },
+-    "threatEntryMetadata": {
+-      "entries": [{
+-        "key": "bWFsd2FyZV90aHJlYXRfdHlwZQ==",  // base64-encoded "malware_threat_type"
+-        "value": "TEFORElORw=="  // base64-encoded "LANDING"
+-       }]
+-    },
+-    "cacheDuration": "300.000s"
+-    }, {
+-    "threatType":      "SOCIAL_ENGINEERING",
+-    "platformType":    "WINDOWS",
+-    "threatEntryType": "URL",
+-    "threat": {
+-      "hash": "771MOrRPMn6xPKlCrXx_CrR-wmCk0LgFFoSgGy7zUiA="
+-    },
+-    "threatEntryMetadata": {
+-      "entries": []
+-    },
+-    "cacheDuration": "300.000s"
+-    }],
+-    "minimumWaitDuration": "300.000s",
+-    "negativeCacheDuration": "300.000s"
+-    }
+-    */
+-    QJsonDocument document = QJsonDocument::fromJson(replyStr);
+-    if (document.isNull()) {
+-        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Unknown, d->mUrl);
+-    } else {
+-        const QVariantMap answer = document.toVariant().toMap();
+-        if (answer.isEmpty()) {
+-            Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Ok, d->mUrl);
+-            return;
+-        } else {
+-            const QVariantList info = answer.value(QStringLiteral("matches")).toList();
+-            //TODO
+-            //const QString minimumWaitDuration = answer.value(QStringLiteral("minimumWaitDuration")).toString();
+-            //const QString negativeCacheDuration = answer.value(QStringLiteral("negativeCacheDuration")).toString();
+-            //Implement multi match ?
+-            if (info.count() == 1) {
+-                const QVariantMap map = info.at(0).toMap();
+-                const QString threatTypeStr = map[QStringLiteral("threatType")].toString();
+-
+-                //const QString cacheDuration = map[QStringLiteral("cacheDuration")].toString();
+-
+-                if (threatTypeStr == QLatin1String("MALWARE")) {
+-                    const QVariantMap urlMap = map[QStringLiteral("threat")].toMap();
+-                    QList<QByteArray> hashList;
+-                    QMap<QString, QVariant>::const_iterator urlMapIt = urlMap.cbegin();
+-                    const QMap<QString, QVariant>::const_iterator urlMapItEnd = urlMap.cend();
+-                    hashList.reserve(urlMap.count());
+-                    for (; urlMapIt != urlMapItEnd; ++urlMapIt) {
+-                        const QByteArray hashStr = urlMapIt.value().toByteArray();
+-                        hashList << hashStr;
+-                    }
+-
+-                    if (d->foundExactHash(hashList)) {
+-                        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::MalWare, d->mUrl);
+-                    } else {
+-                        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Unknown, d->mUrl);
+-                    }
+-                    const QVariantMap threatEntryMetadataMap = map[QStringLiteral("threatEntryMetadata")].toMap();
+-                    if (!threatEntryMetadataMap.isEmpty()) {
+-                        //TODO
+-                    }
+-                } else {
+-                    qCWarning(WEBENGINEVIEWER_LOG) << " SearchFullHashJob::parse threatTypeStr : " << threatTypeStr;
+-                }
+-            } else {
+-                qCWarning(WEBENGINEVIEWER_LOG) << " SearchFullHashJob::parse matches multi element : " << info.count();
+-                Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Unknown, d->mUrl);
+-            }
+-        }
+-    }
+     deleteLater();
+ }
+ 
+@@ -167,100 +85,11 @@ void SearchFullHashJob::setSearchHashs(const QHash<QByteArray, QByteArray> &hash
+ 
+ QByteArray SearchFullHashJob::jsonRequest() const
+ {
+-    /*
+-    {
+-    "client": {
+-    "clientId":      "yourcompanyname",
+-    "clientVersion": "1.5.2"
+-    },
+-    "clientStates": [
+-    "ChAIARABGAEiAzAwMSiAEDABEAE=",
+-    "ChAIAhABGAEiAzAwMSiAEDABEOgH"
+-    ],
+-    "threatInfo": {
+-    "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING"],
+-    "platformTypes":    ["WINDOWS"],
+-    "threatEntryTypes": ["URL"],
+-    "threatEntries": [
+-      {"hash": "WwuJdQ=="},
+-      {"hash": "771MOg=="},
+-      {"hash": "5eOrwQ=="}
+-    ]
+-    }
+-    }
+-     */
+-    QVariantMap clientMap;
+-    QVariantMap map;
+-
+-    clientMap.insert(QStringLiteral("clientId"), QStringLiteral("KDE"));
+-    clientMap.insert(QStringLiteral("clientVersion"), CheckPhishingUrlUtil::versionApps());
+-    map.insert(QStringLiteral("client"), clientMap);
+-
+-    //clientStates We can support multi database.
+-    QVariantList clientStatesList;
+-    for (const QString &str : qAsConst(d->mDatabaseHashes)) {
+-        if (!str.isEmpty()) {
+-            clientStatesList.append(str);
+-        }
+-    }
+-    map.insert(QStringLiteral("clientStates"), clientStatesList);
+-
+-    QVariantMap threatMap;
+-    QVariantList platformList;
+-    platformList.append(QLatin1String("WINDOWS"));
+-    threatMap.insert(QStringLiteral("platformTypes"), platformList);
+-
+-    const QVariantList threatTypesList = { QStringLiteral("MALWARE") };
+-    threatMap.insert(QStringLiteral("threatTypes"), threatTypesList);
+-    const QVariantList threatEntryTypesList = { QStringLiteral("URL") };
+-    threatMap.insert(QStringLiteral("threatEntryTypes"), threatEntryTypesList);
+-
+-    QVariantList threatEntriesList;
+-
+-    QVariantMap hashUrlMap;
+-    QHashIterator<QByteArray, QByteArray> i(d->mHashs);
+-    while (i.hasNext()) {
+-        i.next();
+-        hashUrlMap.insert(QStringLiteral("hash"), i.value());
+-    }
+-    threatEntriesList.append(hashUrlMap);
+-
+-    threatMap.insert(QStringLiteral("threatEntries"), threatEntriesList);
+-
+-    map.insert(QStringLiteral("threatInfo"), threatMap);
+-
+-    const QJsonDocument postData = QJsonDocument::fromVariant(map);
+-    const QByteArray baPostData = postData.toJson(webengineview_useCompactJson_SearchFullHashJob ? QJsonDocument::Compact : QJsonDocument::Indented);
+-    return baPostData;
++    return {};
+ }
+ 
+ void SearchFullHashJob::start()
+ {
+-    if (!PimCommon::NetworkManager::self()->networkConfigureManager()->isOnline()) {
+-        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::BrokenNetwork, d->mUrl);
+-        deleteLater();
+-    } else if (canStart()) {
+-        QUrlQuery query;
+-        query.addQueryItem(QStringLiteral("key"), WebEngineViewer::CheckPhishingUrlUtil::apiKey());
 -        QUrl safeUrl = QUrl(QStringLiteral("https://safebrowsing.googleapis.com/v4/fullHashes:find"));
-+        QUrl safeUrl;
-         safeUrl.setQuery(query);
-         QNetworkRequest request(safeUrl);
-         request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
+-        safeUrl.setQuery(query);
+-        QNetworkRequest request(safeUrl);
+-        request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/json"));
+-
+-        const QByteArray baPostData = jsonRequest();
+-        //qCDebug(WEBENGINEVIEWER_LOG) << " postData.toJson()" << baPostData;
+-        Q_EMIT debugJson(baPostData);
+-        QNetworkReply *reply = d->mNetworkAccessManager->post(request, baPostData);
+-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+-        connect(reply, qOverload<QNetworkReply::NetworkError>(&QNetworkReply::error), this, &SearchFullHashJob::slotError);
+-#else
+-        connect(reply, qOverload<QNetworkReply::NetworkError>(&QNetworkReply::errorOccurred), this, &SearchFullHashJob::slotError);
+-#endif
+-
+-    } else {
+-        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl, d->mUrl);
+-        deleteLater();
+-    }
+ }
+ 
+ void SearchFullHashJob::slotError(QNetworkReply::NetworkError error)
+@@ -273,7 +102,7 @@ void SearchFullHashJob::slotError(QNetworkReply::NetworkError error)
+ 
+ bool SearchFullHashJob::canStart() const
+ {
+-    return !d->mHashs.isEmpty() && !d->mDatabaseHashes.isEmpty() && !d->mUrl.isEmpty();
++    return false;
+ }
+ 
+ void SearchFullHashJob::setDatabaseState(const QStringList &hash)
+diff --git a/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp b/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp
+index fd93226..577f86b 100644
+--- a/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp
++++ b/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp
+@@ -43,36 +43,11 @@ WebEngineViewWithSafeBrowsingSupport::~WebEngineViewWithSafeBrowsingSupport()
+ 
+ void WebEngineViewWithSafeBrowsingSupport::slotUrlClicked(const QUrl &url)
+ {
+-    qDebug() << " url clicked " << url;
+-    pageView->phishingDatabase()->checkUrl(url);
+ }
+ 
+ void WebEngineViewWithSafeBrowsingSupport::slotCheckedUrlFinished(const QUrl &url, WebEngineViewer::CheckPhishingUrlUtil::UrlStatus status)
+ {
+-    QString statusStr;
+-    switch (status) {
+-    case WebEngineViewer::CheckPhishingUrlUtil::Unknown:
+-        statusStr = QStringLiteral("Unknown Status");
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::Ok:
+-        statusStr = QStringLiteral("Url Ok");
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::MalWare:
+-        statusStr = QStringLiteral("MalWare");
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl:
+-        statusStr = QStringLiteral("Invalid Url");
+-        break;
+-    case WebEngineViewer::CheckPhishingUrlUtil::BrokenNetwork:
+-        statusStr = QStringLiteral("Broken Network");
+-        break;
+-    }
+-
+-    qDebug() << " checked url: " << url << " result : " << statusStr;
+-    mDebug->setPlainText(QStringLiteral("Url: %1 , Status %2").arg(url.toDisplayString(), statusStr));
+-    if (status != WebEngineViewer::CheckPhishingUrlUtil::MalWare) {
+-        pageView->load(url);
+-    }
++    pageView->load(url);
+ }
+ 
+ int main(int argc, char **argv)

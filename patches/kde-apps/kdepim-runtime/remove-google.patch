@@ -1,36 +1,80 @@
-diff --git a/resources/google/common/googleresource.cpp b/resources/google/common/googleresource.cpp
-index d99752a..c221ace 100644
---- a/resources/google/common/googleresource.cpp
-+++ b/resources/google/common/googleresource.cpp
-@@ -110,7 +110,6 @@ void GoogleResource::configure(WId windowId)
+diff --git a/resources/google-groupware/calendarhandler.cpp b/resources/google-groupware/calendarhandler.cpp
+index e0edfc1..5dbe292 100644
+--- a/resources/google-groupware/calendarhandler.cpp
++++ b/resources/google-groupware/calendarhandler.cpp
+@@ -381,7 +381,7 @@ void FreeBusyHandler::retrieveFreeBusy(const QString &email, const QDateTime &st
+         }
  
-         m_account = accountManager()->findAccount(settings()->account());
-         if (m_account.isNull()) {
+         KCalendarCore::FreeBusy::Ptr fb(new KCalendarCore::FreeBusy);
+-        fb->setUid(QStringLiteral("%1%2@google.com").arg(QDateTime::currentDateTimeUtc().toString(QStringLiteral("yyyyMMddTHHmmssZ"))));
++        fb->setUid(QStringLiteral("%1%2@nothanks.invalid").arg(QDateTime::currentDateTimeUtc().toString(QStringLiteral("yyyyMMddTHHmmssZ"))));
+         fb->setOrganizer(job->account()->accountName());
+         fb->addAttendee(KCalendarCore::Attendee(QString(), queryJob->id()));
+         // FIXME: is it really sort?
+diff --git a/resources/google-groupware/contacthandler.cpp b/resources/google-groupware/contacthandler.cpp
+index a56b42b..a7ba5f9 100644
+--- a/resources/google-groupware/contacthandler.cpp
++++ b/resources/google-groupware/contacthandler.cpp
+@@ -69,7 +69,7 @@ bool ContactHandler::canPerformTask(const Item::List &items)
+ 
+ QString ContactHandler::myContactsRemoteId() const
+ {
+-    return QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(m_settings->accountPtr()->accountName())));
++    return {};
+ }
+ 
+ void ContactHandler::setupCollection(Collection &collection, const ContactsGroupPtr &group)
+diff --git a/resources/google-groupware/googleresource.cpp b/resources/google-groupware/googleresource.cpp
+index 8c2af27..281492c 100644
+--- a/resources/google-groupware/googleresource.cpp
++++ b/resources/google-groupware/googleresource.cpp
+@@ -138,7 +138,6 @@ void GoogleResource::configure(WId windowId)
+         Q_EMIT configurationDialogAccepted();
+ 
+         if (m_settings->accountPtr().isNull()) {
 -            Q_EMIT status(NotConfigured, i18n("Configured account does not exist"));
              m_isConfiguring = false;
              return;
          }
-@@ -140,7 +139,6 @@ void GoogleResource::reloadConfig()
+@@ -164,18 +163,10 @@ QList<QUrl> GoogleResource::scopes() const
  
-     if (!accountName.isEmpty()) {
-         if (!configureKGAPIAccount(m_accountMgr->findAccount(accountName))) {
--            Q_EMIT status(NotConfigured, i18n("Configured account does not exist"));
-             return;
-         }
-     } else {
-@@ -178,7 +176,6 @@ void GoogleResource::slotAccountManagerReady(bool ready)
+ void GoogleResource::updateResourceName()
+ {
+-    const QString accountName = m_settings->account();
+-    setName(i18nc("%1 is account name (user@gmail.com)", "Google Groupware (%1)", accountName.isEmpty() ? i18n("not configured") : accountName));
+ }
  
-     m_account = m_accountMgr->findAccount(accountName);
-     if (m_account.isNull()) {
+ void GoogleResource::reloadConfig()
+ {
+-    const AccountPtr account = m_settings->accountPtr();
+-    if (account.isNull() || account->accountName().isEmpty()) {
 -        Q_EMIT status(NotConfigured, i18n("Configured account does not exist"));
-         return;
-     }
+-    } else {
+-        emitReadyStatus();
+-    }
+ }
  
-diff --git a/resources/google/common/googlesettings.cpp b/resources/google/common/googlesettings.cpp
-index e8339f7..79e5eee 100644
---- a/resources/google/common/googlesettings.cpp
-+++ b/resources/google/common/googlesettings.cpp
-@@ -25,12 +25,12 @@ GoogleSettings::GoogleSettings()
+ bool GoogleResource::handleError(KGAPI2::Job *job, bool _cancelTask)
+@@ -207,13 +198,7 @@ bool GoogleResource::handleError(KGAPI2::Job *job, bool _cancelTask)
+ 
+ bool GoogleResource::canPerformTask()
+ {
+-    if (!m_settings->accountPtr() && accountId() == 0) {
+-        cancelTask(i18nc("@info:status", "Resource is not configured"));
+-        Q_EMIT status(NotConfigured, i18nc("@info:status", "Resource is not configured"));
+-        return false;
+-    }
+-
+-    return true;
++    return false;
+ }
+ 
+ void GoogleResource::slotAuthJobFinished(KGAPI2::Job *job)
+diff --git a/resources/google-groupware/googlesettings.cpp b/resources/google-groupware/googlesettings.cpp
+index f07950b..17d4b5c 100644
+--- a/resources/google-groupware/googlesettings.cpp
++++ b/resources/google-groupware/googlesettings.cpp
+@@ -153,17 +153,17 @@ void GoogleSettings::addTaskList(const QString &taskList)
  
  QString GoogleSettings::clientId() const
  {
@@ -44,53 +88,13 @@ index e8339f7..79e5eee 100644
 +    return {};
  }
  
- void GoogleSettings::setWindowId(WId id)
-@@ -45,7 +45,7 @@ void GoogleSettings::setResourceId(const QString &resourceIdentificator)
- 
- QString GoogleSettings::account() const
+ bool GoogleSettings::isReady() const
  {
--    return SettingsBase::account();
-+    return {};
+-    return m_isReady;
++    return false;
  }
  
- void GoogleSettings::setAccount(const QString &account)
-diff --git a/resources/google/contacts/contactsresource.cpp b/resources/google/contacts/contactsresource.cpp
-index a602c52..125e62b 100644
---- a/resources/google/contacts/contactsresource.cpp
-+++ b/resources/google/contacts/contactsresource.cpp
-@@ -155,7 +155,7 @@ void ContactsResource::itemAdded(const Item &item, const Collection &collection)
- 
-     /* If the contact has been moved into My Contacts group then modify the membership */
-     if (collection.remoteId() == MYCONTACTS_REMOTEID) {
--        contact->addGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
-+        contact->addGroup(QStringLiteral(""));
-     }
- 
-     /* If the contact has been moved to Other Contacts then remove all groups */
-@@ -181,7 +181,7 @@ void ContactsResource::itemChanged(const Item &item, const QSet< QByteArray > &p
-     ContactPtr contact(new Contact(addressee));
- 
-     if (item.parentCollection().remoteId() == MYCONTACTS_REMOTEID) {
--        contact->addGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
-+        contact->addGroup(QStringLiteral(""));
-     }
- 
-     ContactModifyJob *modifyJob = new ContactModifyJob(contact, account(), this);
-@@ -202,12 +202,12 @@ void ContactsResource::itemMoved(const Item &item, const Collection &collectionS
-     // MyContacts -> OtherContacts
-     if (collectionSource.remoteId() == MYCONTACTS_REMOTEID
-         && collectionDestination.remoteId() == OTHERCONTACTS_REMOTEID) {
--        contact->removeGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
-+        contact->removeGroup(QStringLiteral(""));
- 
-         // OtherContacts -> MyContacts
-     } else if (collectionSource.remoteId() == OTHERCONTACTS_REMOTEID
-                && collectionDestination.remoteId() == MYCONTACTS_REMOTEID) {
--        contact->addGroup(QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(account()->accountName()))));
-+        contact->addGroup(QStringLiteral(""));
-     } else {
-         cancelTask(i18n("Invalid source or destination collection"));
-         return;
+ AccountPtr GoogleSettings::accountPtr()
 diff --git a/resources/imap/gmailpasswordrequester.cpp b/resources/imap/gmailpasswordrequester.cpp
 index dd7baed..7761f57 100644
 --- a/resources/imap/gmailpasswordrequester.cpp
