@@ -4,3 +4,4 @@ sys-libs/libblockdev cryptsetup tools bcache -device-mapper
 sys-libs/db -cxx
 sys-libs/libosinfo introspection
 sys-libs/zlib minizip
+sys-libs/timezone-data leaps-timezone

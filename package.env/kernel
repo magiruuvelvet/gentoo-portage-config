@@ -5,3 +5,4 @@ sys-apps/kmod gnu-gcc.conf
 sys-power/bbswitch gnu-gcc.conf
 app-emulation/vmware-modules gnu-gcc.conf
 media-video/v4l2loopback gnu-gcc.conf
+app-emulation/anbox-modules gnu-gcc.conf
