@@ -13,3 +13,4 @@ media-video/subtitlecomposer unicode mpv
 media-video/mpv X alsa jack archive bluray cdda cli cplugins drm -dvd egl iconv javascript libass libcaca
 media-video/mpv libmpv lua luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland
 media-video/obs-studio alsa pulseaudio jack fdk luajit speex truetype ssl v4l
+media-video/pipewire -X bluetooth ffmpeg gstreamer
