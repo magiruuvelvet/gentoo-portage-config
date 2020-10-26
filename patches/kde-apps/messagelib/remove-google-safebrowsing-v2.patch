@@ -1,20 +1,8 @@
-diff --git a/messageviewer/src/viewer/urlhandlermanager.cpp b/messageviewer/src/viewer/urlhandlermanager.cpp
-index b6d1b40..42b6da7 100644
---- a/messageviewer/src/viewer/urlhandlermanager.cpp
-+++ b/messageviewer/src/viewer/urlhandlermanager.cpp
-@@ -912,7 +912,6 @@ bool KRunURLHandler::handleClick(const QUrl &url, ViewerPrivate *w) const
-                 return true;
-             }
-         }
--        w->checkPhishingUrl();
-         return true;
-     } else {
-         return false;
 diff --git a/messageviewer/src/viewer/viewer_p.cpp b/messageviewer/src/viewer/viewer_p.cpp
-index 6f109fe..e32756d 100644
+index 6f109fe..b94d956 100644
 --- a/messageviewer/src/viewer/viewer_p.cpp
 +++ b/messageviewer/src/viewer/viewer_p.cpp
-@@ -2009,12 +2009,6 @@ void ViewerPrivate::slotUrlOpen(const QUrl &url)
+@@ -2009,12 +2009,7 @@ void ViewerPrivate::slotUrlOpen(const QUrl &url)
  
  void ViewerPrivate::checkPhishingUrl()
  {
@@ -24,10 +12,11 @@ index 6f109fe..e32756d 100644
 -    } else {
 -        executeRunner(mClickedUrl);
 -    }
++    executeRunner(mClickedUrl);
  }
  
  void ViewerPrivate::executeRunner(const QUrl &url)
-@@ -2029,37 +2023,11 @@ void ViewerPrivate::executeRunner(const QUrl &url)
+@@ -2029,37 +2024,11 @@ void ViewerPrivate::executeRunner(const QUrl &url)
  
  void ViewerPrivate::slotCheckedUrlFinished(const QUrl &url, WebEngineViewer::CheckPhishingUrlUtil::UrlStatus status)
  {
