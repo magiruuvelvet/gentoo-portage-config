@@ -155,6 +155,7 @@ media-libs/libcaca std-gnu17.conf
 media-libs/libdvdread std-gnu99.conf
 media-libs/libheif std-gnu99.conf
 media-libs/libjpeg-turbo gnu-source.conf
+media-libs/libmtp gnu-source.conf
 media-libs/portaudio std-gnu99.conf
 media-libs/tiff gnu-source.conf
 media-libs/mlt gnu-source.conf ld-force-lib64.conf
