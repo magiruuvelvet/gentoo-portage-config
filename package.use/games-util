@@ -1,2 +1,2 @@
 games-util/steam-meta steamruntime
-games-util/steam-launcher steamruntime
+games-util/steam-launcher steamruntime -joystick -udev
