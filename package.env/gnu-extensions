@@ -321,6 +321,7 @@ sys-fs/copyfs gnu-source.conf
 sys-fs/quota std-gnu99.conf
 sys-fs/extundelete gnu-source.conf std-gnu11.conf
 sys-fs/dmg2img gnu-source.conf
+sys-fs/squashfs-tools std-gnu99.conf
 sys-libs/e2fsprogs-libs std-gnu99.conf
 sys-libs/libaal gnu-source.conf
 sys-libs/libblockdev std-gnu99.conf
