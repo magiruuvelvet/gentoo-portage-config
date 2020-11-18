@@ -1,0 +1,26 @@
+diff --git a/src/modules/module-stream-restore.c b/src/modules/module-stream-restore.c
+index cbef478..b419c09 100644
+--- a/src/modules/module-stream-restore.c
++++ b/src/modules/module-stream-restore.c
+@@ -2415,7 +2415,7 @@ int pa__init(pa_module*m) {
+     pa_sink_input *si;
+     pa_source_output *so;
+     uint32_t idx;
+-    bool restore_device = true, restore_volume = true, restore_muted = true, on_hotplug = true, on_rescue = true;
++    bool restore_device = true, restore_volume = false, restore_muted = false, on_hotplug = true, on_rescue = true;
+ #ifdef HAVE_DBUS
+     pa_datum key;
+     bool done;
+@@ -2443,9 +2443,9 @@ int pa__init(pa_module*m) {
+     m->userdata = u = pa_xnew0(struct userdata, 1);
+     u->core = m->core;
+     u->module = m;
+-    u->restore_device = restore_device;
+-    u->restore_volume = restore_volume;
+-    u->restore_muted = restore_muted;
++    u->restore_device = true;
++    u->restore_volume = false;
++    u->restore_muted = false;
+     u->on_hotplug = on_hotplug;
+     u->on_rescue = on_rescue;
+     u->subscribed = pa_idxset_new(pa_idxset_trivial_hash_func, pa_idxset_trivial_compare_func);
