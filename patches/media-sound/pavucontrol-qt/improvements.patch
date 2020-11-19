@@ -1,0 +1,102 @@
+diff --git a/src/channel.cc b/src/channel.cc
+index 195e2f1..e0329f5 100644
+--- a/src/channel.cc
++++ b/src/channel.cc
+@@ -26,9 +26,39 @@
+ #include <QLabel>
+ #include <QSlider>
+ #include <QFontMetrics>
++#include <QMouseEvent>
+ #include "channel.h"
+ #include "minimalstreamwidget.h"
+ 
++QClickSlider::QClickSlider(QWidget *parent)
++    : QSlider(parent)
++{
++}
++
++QClickSlider::QClickSlider(Qt::Orientation orientation, QWidget *parent)
++    : QSlider(orientation, parent)
++{
++}
++
++void QClickSlider::mousePressEvent(QMouseEvent *event)
++{
++    if (event->button() == Qt::LeftButton)
++    {
++        if (orientation() == Qt::Vertical)
++        {
++            setValue(minimum() + ((maximum() - minimum()) * (height()-event->y())) / height());
++        }
++        else
++        {
++            setValue(minimum() + ((maximum() - minimum()) * event->x()) / width());
++        }
++
++        event->accept();
++    }
++
++    QSlider::mousePressEvent(event);
++}
++
+ constexpr int SLIDER_SNAP = 2;
+ static inline int paVolume2Percent(pa_volume_t vol)
+ {
+@@ -51,7 +81,7 @@ Channel::Channel(QGridLayout* parent) :
+     last(false)
+ {
+     channelLabel = new QLabel(nullptr);
+-    volumeScale = new QSlider(Qt::Horizontal, nullptr);
++    volumeScale = new QClickSlider(Qt::Horizontal, nullptr);
+     volumeLabel = new QLabel(nullptr);
+ 
+     const int row = parent->rowCount();
+diff --git a/src/channel.h b/src/channel.h
+index e1c1df8..b51beb3 100644
+--- a/src/channel.h
++++ b/src/channel.h
+@@ -26,9 +26,21 @@
+ 
+ class QGridLayout;
+ class QLabel;
+-class QSlider;
++#include <QSlider>
+ class MinimalStreamWidget;
+ 
++class QClickSlider : public QSlider
++{
++    Q_OBJECT
++
++public:
++    QClickSlider(QWidget *parent = nullptr);
++    QClickSlider(Qt::Orientation orientation, QWidget *parent = nullptr);
++
++protected:
++    void mousePressEvent(QMouseEvent *event);
++};
++
+ class Channel : public QObject {
+     Q_OBJECT
+ public:
+@@ -51,7 +63,7 @@ public:
+     bool last;
+ 
+     QLabel *channelLabel;
+-    QSlider *volumeScale;
++    QClickSlider *volumeScale;
+     QLabel *volumeLabel;
+ 
+     //virtual void set_sensitive(bool enabled);
+diff --git a/src/pavucontrol.h b/src/pavucontrol.h
+index 925be4f..0792695 100644
+--- a/src/pavucontrol.h
++++ b/src/pavucontrol.h
+@@ -29,7 +29,7 @@
+ 
+ /* Can be removed when PulseAudio 0.9.23 or newer is required */
+ #ifndef PA_VOLUME_UI_MAX
+-# define PA_VOLUME_UI_MAX (pa_sw_volume_from_dB(+11.0))
++# define PA_VOLUME_UI_MAX (pa_sw_volume_from_dB(+0))
+ #endif
+ 
+ #define HAVE_SOURCE_OUTPUT_VOLUMES PA_CHECK_VERSION(0,99,0)
