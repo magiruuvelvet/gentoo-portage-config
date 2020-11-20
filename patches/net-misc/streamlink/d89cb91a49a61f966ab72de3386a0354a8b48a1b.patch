@@ -1,0 +1,80 @@
+From d89cb91a49a61f966ab72de3386a0354a8b48a1b Mon Sep 17 00:00:00 2001
+From: Hebo <hebo@hey.com>
+Date: Thu, 19 Nov 2020 15:18:38 -0800
+Subject: [PATCH] Add support for twitch oauth tokens
+
+---
+ src/streamlink/plugins/twitch.py | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/src/streamlink/plugins/twitch.py b/src/streamlink/plugins/twitch.py
+index 8ab4507c4..e0420e4ac 100644
+--- a/src/streamlink/plugins/twitch.py
++++ b/src/streamlink/plugins/twitch.py
+@@ -181,6 +181,7 @@ class TwitchAPI(object):
+ 
+     def __init__(self, session):
+         self.session = session
++        self.private_oauth_token = None
+ 
+     def _call(self, method="GET", subdomain="api", path="/", headers=None, private=False, data=None, **params):
+         url = "https://{0}.twitch.tv{1}".format(subdomain, path)
+@@ -189,6 +190,11 @@ def _call(self, method="GET", subdomain="api", path="/", headers=None, private=F
+             "Client-ID": self.TWITCH_CLIENT_ID if not private else self.TWITCH_CLIENT_ID_PRIVATE
+         })
+ 
++        if self.private_oauth_token and private:
++            headers.update({
++                "Authorization": "OAuth {}".format(self.private_oauth_token)
++            })
++
+         return self.session.http.request(method, url, data=data, params=params, headers=headers)
+ 
+     def call(self, path, schema=None, **params):
+@@ -447,7 +453,14 @@ class Twitch(Plugin):
+             Please refer to the player's own documentation for the required parameters and its configuration.
+             Player parameters can be set via Streamlink's --player or --player-args parameters.
+             """.format(live_edge=LOW_LATENCY_MAX_LIVE_EDGE)
+-        )
++        ),
++        PluginArgument(
++            "private-oauth-token",
++            sensitive=True,
++            help="""
++            An OAuth token to use for Twitch authentication.
++            """
++        ),
+     )
+ 
+     _re_url = re.compile(r"""
+@@ -604,6 +617,14 @@ def _check_for_rerun(self):
+ 
+         return False
+ 
++    def _authenticate(self):
++        if self.api.private_oauth_token:
++            return
++
++        oauth_token = self.options.get("private_oauth_token")
++        if oauth_token:
++            self.api.private_oauth_token = oauth_token
++
+     def _get_hls_streams_live(self):
+         if self._switch_to_hosted_channel():
+             return
+@@ -612,6 +633,7 @@ def _get_hls_streams_live(self):
+ 
+         # only get the token once the channel has been resolved
+         log.debug("Getting live HLS streams for {0}".format(self.channel))
++        self._authenticate()
+         sig, token, restricted_bitrates = self._access_token(True, self.channel)
+         url = self.usher.channel(self.channel, sig=sig, token=token, fast_bread=True)
+ 
+@@ -619,6 +641,7 @@ def _get_hls_streams_live(self):
+ 
+     def _get_hls_streams_video(self):
+         log.debug("Getting video HLS streams for {0}".format(self.channel))
++        self._authenticate()
+         sig, token, restricted_bitrates = self._access_token(False, self.video_id)
+         url = self.usher.video(self.video_id, nauthsig=sig, nauth=token)
+ 
