@@ -22,3 +22,4 @@ dev-python/cffi python_targets_python3_9
 dev-python/pycparser python_targets_python3_9
 dev-python/ply python_targets_python3_9
 dev-python/pyopenssl python_targets_python3_9
+dev-python/ssl-fetch python_targets_python3_9
