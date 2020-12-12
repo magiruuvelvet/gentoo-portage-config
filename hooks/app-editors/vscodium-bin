@@ -1,0 +1,10 @@
+#!/bin/sh
+
+instprep() {
+    python /etc/portage/hooks/app-editors/vscodium-bin.py
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
