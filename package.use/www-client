@@ -3,3 +3,4 @@ www-client/ungoogled-chromium-bin widevine
 www-client/waterfox gmp-autoupdate pulseaudio dbus hardened hwaccel
 www-client/waterfox system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-sqlite nsplugin -wifi
 www-client/falkon X dbus kde
+www-client/vivaldi widevine
