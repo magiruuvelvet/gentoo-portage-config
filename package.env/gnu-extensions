@@ -23,6 +23,7 @@ app-crypt/rhash gnu-source.conf
 app-crypt/libb2 gnu-source.conf
 app-crypt/seahorse gnu-source.conf
 app-crypt/gcr gnu-source.conf
+app-crypt/libsecret gnu-source.conf
 app-emulation/spice std-gnu99.conf
 app-i18n/libhangul gnu-source.conf
 app-i18n/fbterm std-gnu99.conf

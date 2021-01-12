@@ -14,6 +14,7 @@ dev-lang/rust-bin
 dev-java/openjdk-bin
 
 www-servers/caddy::gentoo
+net-misc/nextcloud-client
 
 # incompatible with my system Qt install due to LLVM being used by default
 net-im/zoom::gentoo

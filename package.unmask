@@ -17,6 +17,10 @@ app-emulation/vmware-workstation::stefantalpalaru
 # official repos are lacking some USE flags here
 www-servers/caddy::chaoslab
 
+# version 3 is a complete brick in my opinion, backport security patches instead as long as possible
+# to avoid using the new shitty user interface which is a fucking mess
+=net-misc/nextcloud-client-2.6.5
+
 # installed kernels
 =sys-kernel/vanilla-sources-5.2.13
 =sys-kernel/gentoo-kernel-bin-5.8.14
