@@ -2,4 +2,4 @@ virtual/libusb udev
 virtual/ffmpeg encode X jpeg2k mp3 opus theora truetype vaapi vdpau x264 sdl -libav
 virtual/linux-sources -firmware
 virtual/imagemagick-tools jpeg png svg tiff
-virtual/rubygems ruby_targets_ruby26
+virtual/rubygems ruby_targets_ruby27

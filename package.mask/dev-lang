@@ -1,8 +1,8 @@
 # mask php7.4 for now util all pecl ebuilds are updated
 >=dev-lang/php-7.4.0
 
-# mask ruby 2.7 for now (compatibility with native extensions)
->=dev-lang/ruby-2.7
+# mask ruby 3.0 for now (compatibility with native extensions)
+>=dev-lang/ruby-3.0
 
 # skip python 3.8
 dev-lang/python:3.8

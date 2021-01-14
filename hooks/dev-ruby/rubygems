@@ -10,7 +10,8 @@
 
 instprep() {
     # FIXME: hardcoded ruby target version
-    rm "$ED/usr/lib64/ruby/site_ruby/2.6.0/rubygems/defaults/operating_system.rb"
+    rm -f "$ED/usr/lib64/ruby/site_ruby/2.6.0/rubygems/defaults/operating_system.rb"
+    rm -f "$ED/usr/lib64/ruby/site_ruby/2.7.0/rubygems/defaults/operating_system.rb"
 }
 
 case "$1" in

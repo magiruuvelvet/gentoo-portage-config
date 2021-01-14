@@ -361,6 +361,7 @@ app-accessibility/speech-dispatcher gnu-source.conf
 net-im/coturn gnu-source.conf
 media-tv/kodi gnu-source.conf
 media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
+dev-ruby/redcarpet gnu-source.conf
 
 # error: cannot specify -o when generating multiple output files
 # this package is hardcoded to assume everyone uses gcc

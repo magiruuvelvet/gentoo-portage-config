@@ -1,0 +1,20 @@
+diff --git a/include/ruby/ruby.h b/include/ruby/ruby.h
+index 1ce73d5..e81a84f 100644
+--- a/include/ruby/ruby.h
++++ b/include/ruby/ruby.h
+@@ -1761,6 +1761,15 @@ ruby_nonempty_memcpy(void *dest, const void *src, size_t n)
+     return (n ? memcpy(dest, src, n) : dest);
+ }
+ #define memcpy(p1,p2,n) ruby_nonempty_memcpy(p1, p2, n)
++
++// fix for "std::memcpy" usage in C++
++#if defined(__cplusplus)
++namespace std
++{
++    using ::ruby_nonempty_memcpy;
++    namespace __1 { using ::ruby_nonempty_memcpy; }
++}
++#endif
+ #endif
+ 
+ void rb_obj_infect(VALUE victim, VALUE carrier);
