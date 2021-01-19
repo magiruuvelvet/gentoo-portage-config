@@ -13,6 +13,9 @@ media-video/mpv::gentoo
 dev-lang/rust-bin
 dev-java/openjdk-bin
 
+# blacklist legacy gtk2, i don't want this anymore
+x11-libs/gtk+:2
+
 www-servers/caddy::gentoo
 net-misc/nextcloud-client
 
