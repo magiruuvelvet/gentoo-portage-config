@@ -1,0 +1,26 @@
+diff --git a/cmake/FindGettextPo.cmake b/cmake/FindGettextPo.cmake
+index afcd3f6..1b54a48 100644
+--- a/cmake/FindGettextPo.cmake
++++ b/cmake/FindGettextPo.cmake
+@@ -19,7 +19,7 @@ find_path(GETTEXTPO_INCLUDE_DIR
+   NAMES gettext-po.h)
+ 
+ find_library(GETTEXTPO_LIBRARIES
+-  NAMES gettextpo)
++  NAMES gettextpo gettextlib)
+ 
+ include(FindPackageHandleStandardArgs)
+ find_package_handle_standard_args(GettextPo DEFAULT_MSG GETTEXTPO_LIBRARIES
+diff --git a/tools/dev/CMakeLists.txt b/tools/dev/CMakeLists.txt
+index 1778f18..840a29f 100644
+--- a/tools/dev/CMakeLists.txt
++++ b/tools/dev/CMakeLists.txt
+@@ -16,7 +16,7 @@ endif()
+ add_executable(fcitx-po-parser ${fcitx_po_parser_SOURCES})
+ 
+ if(NOT _FCITX_DISABLE_GETTEXT)
+-  target_link_libraries(fcitx-po-parser fcitx-utils ${GETTEXTPO_LIBRARIES})
++  target_link_libraries(fcitx-po-parser fcitx-utils ${GETTEXTPO_LIBRARIES} -lgettextlib)
+ endif()
+ 
+ install(TARGETS fcitx-scanner fcitx-po-parser
