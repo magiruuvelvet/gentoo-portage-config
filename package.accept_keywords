@@ -18,20 +18,6 @@
 =media-gfx/flameshot-9999 **
 
 # toolchain
-=sys-devel/llvm-9.0.0.9999 **
-=sys-devel/llvm-common-9.0.0.9999 **
-=sys-devel/clang-9.0.0.9999 **
-=sys-devel/clang-runtime-9.0.0.9999 **
-=sys-devel/clang-common-9.0.0.9999 **
-=sys-libs/compiler-rt-9.0.0.9999 **
-=sys-libs/compiler-rt-sanitizers-9.0.0.9999 **
-=sys-libs/llvm-libunwind-9.0.0.9999 **
-=sys-libs/libcxx-9.0.0.9999 **
-=sys-libs/libcxxabi-9.0.0.9999 **
-=sys-libs/libomp-9.0.0.9999 **
-=dev-util/lldb-9.0.0.9999 **
-=sys-devel/lld-9.0.0.9999 **
-
 =sys-devel/llvm-10.0.0.9999 **
 =sys-devel/llvm-common-10.0.0.9999 **
 =sys-devel/clang-10.0.0.9999 **
