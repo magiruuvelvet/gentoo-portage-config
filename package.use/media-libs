@@ -37,7 +37,6 @@ media-libs/libsamplerate sndfile
 media-libs/phonon pulseaudio gstreamer -vlc
 media-libs/phonon-gstreamer network alsa
 media-libs/mesa pic vaapi vdpau vulkan vulkan-overlay wayland lm-sensors xa -llvm
-media-libs/mesa-non-glvnd pic vaapi vdpau vulkan vulkan-overlay wayland lm-sensors xa -llvm
 media-libs/freetype -infinality png utils
 media-libs/harfbuzz icu
 media-libs/libglvnd X

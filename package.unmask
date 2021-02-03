@@ -60,5 +60,4 @@ dev-cpp/libxsd-frontend::nest
 dev-cpp/libcutl::nest
 dev-db/soci::nest
 dev-util/cli::nest
-dev-libs/xerces-c::nest
 dev-python/pystache::nest
