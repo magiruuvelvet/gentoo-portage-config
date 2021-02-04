@@ -1,8 +1,8 @@
 diff --git a/include/clang/Driver/Options.td b/include/clang/Driver/Options.td
-index 0a60873443f..a0bf76a6025 100644
+index 966cb907b7e2..c41bbe6706b2 100644
 --- a/include/clang/Driver/Options.td
 +++ b/include/clang/Driver/Options.td
-@@ -3227,7 +3227,7 @@ defm : BooleanFFlag<"keep-inline-functions">, Group<clang_ignored_gcc_optimizati
+@@ -3276,7 +3276,7 @@ defm : BooleanFFlag<"keep-inline-functions">, Group<clang_ignored_gcc_optimizati
  
  def fprofile_dir : Joined<["-"], "fprofile-dir=">, Group<f_Group>;
  
