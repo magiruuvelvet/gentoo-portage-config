@@ -23,6 +23,10 @@
   also prevents GNU pubnames from being created when the tuning is set to LLDB.
   This makes debugging with LLDB way more efficient and easier.
 
+- forces the language standard to be strict ISO C17 and C++17 with GNU extensions
+  disabled by default when not specified using `-std=gnu...`
+  (LLVM 10 had a CMake option for this, but they removed it in LLVM 11 onwards)
+
 
 ## LLDB tuning patch in action!!!
 

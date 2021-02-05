@@ -41,18 +41,18 @@ sys-devel/binutils-config::gentoo
 sys-libs/binutils-libs::gentoo
 
 # mask Gentoo version of LLVM
-sys-devel/llvm::gentoo
-sys-devel/llvm-common::gentoo
-sys-devel/clang::gentoo
-sys-devel/clang-common::gentoo
-sys-devel/clang-runtime::gentoo
-sys-libs/libcxx::gentoo
-sys-libs/libcxxabi::gentoo
-sys-libs/llvm-libunwind::gentoo
-dev-util/lldb::gentoo
-sys-devel/lld::gentoo
-sys-libs/libomp::gentoo
-sys-libs/compiler-rt::gentoo
+#sys-devel/llvm::gentoo
+#sys-devel/llvm-common::gentoo
+#sys-devel/clang::gentoo
+#sys-devel/clang-common::gentoo
+#sys-devel/clang-runtime::gentoo
+#sys-libs/libcxx::gentoo
+#sys-libs/libcxxabi::gentoo
+#sys-libs/llvm-libunwind::gentoo
+#dev-util/lldb::gentoo
+#sys-devel/lld::gentoo
+#sys-libs/libomp::gentoo
+#sys-libs/compiler-rt::gentoo
 
 # use custom version
 sys-libs/musl::gentoo

@@ -1,8 +1,8 @@
 diff --git a/include/lldb/Host/MainLoop.h b/include/lldb/Host/MainLoop.h
-index d59aa28ccb0..f5264954f15 100644
+index 9ca5040b60a8..7040845c5afc 100644
 --- a/include/lldb/Host/MainLoop.h
 +++ b/include/lldb/Host/MainLoop.h
-@@ -91,9 +91,7 @@ private:
+@@ -92,9 +92,7 @@ private:
  
    struct SignalInfo {
      Callback callback;

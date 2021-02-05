@@ -4,6 +4,14 @@
 
 prepare() {
     remove_vcs git
+
+    # apply patches
+    pushd "${S}"
+    for PATCH in /etc/portage/hooks/patches/dev-util/lldb/*.patch; do
+        echo -e "\e[1m === Applying patch ${PATCH}...\e[0m"
+        patch --verbose -p1 < "$PATCH"
+    done
+    popd
 }
 
 case "$1" in
