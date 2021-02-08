@@ -1,8 +1,8 @@
 diff --git a/doas.c b/doas.c
-index e253905..60b75bb 100644
+index ac3a42a..64df5a7 100644
 --- a/doas.c
 +++ b/doas.c
-@@ -27,7 +27,6 @@
+@@ -32,7 +32,6 @@
  #include <unistd.h>
  #include <pwd.h>
  #include <grp.h>
@@ -10,30 +10,30 @@ index e253905..60b75bb 100644
  #include <errno.h>
  #include <fcntl.h>
  
-@@ -339,8 +338,6 @@ main(int argc, char **argv)
+@@ -344,8 +343,6 @@ main(int argc, char **argv)
  	cmd = argv[0];
  	if (!permit(uid, groups, ngroups, &rule, target, cmd,
  	    (const char **)argv + 1)) {
 -		syslog(LOG_AUTHPRIV | LOG_NOTICE,
--		    "failed command for %s: %s", mypw->pw_name, cmdline);
+-		    "command not permitted for %s: %s", mypw->pw_name, cmdline);
  		errc(1, EPERM, NULL);
  	}
  
-@@ -391,9 +388,6 @@ main(int argc, char **argv)
- 	else
+@@ -407,9 +404,6 @@ main(int argc, char **argv)
  		cwd = cwdpath;
  
--	syslog(LOG_AUTHPRIV | LOG_INFO, "%s ran command %s as %s from %s",
--	    mypw->pw_name, cmdline, targpw->pw_name, cwd);
--
- 	envp = prepenv(rule, mypw, targpw);
+ 	if (!(rule->options & NOLOG)) {
+-		syslog(LOG_AUTHPRIV | LOG_INFO,
+-		    "%s ran command %s as %s from %s",
+-		    mypw->pw_name, cmdline, targpw->pw_name, cwd);
+ 	}
  
- 	/* setusercontext set path for the next process, so reset it for us */
+ 	envp = prepenv(rule, mypw, targpw);
 diff --git a/pam.c b/pam.c
-index c5a3001..f4b6a7a 100644
+index a9e2036..442f18c 100644
 --- a/pam.c
 +++ b/pam.c
-@@ -30,7 +30,6 @@
+@@ -32,7 +32,6 @@
  #include <stdio.h>
  #include <stdlib.h>
  #include <string.h>
@@ -41,27 +41,27 @@ index c5a3001..f4b6a7a 100644
  #include <unistd.h>
  
  #include <security/pam_appl.h>
-@@ -282,7 +281,6 @@ pamauth(const char *user, const char *myname, int interactive, int nopass, int p
+@@ -290,7 +289,6 @@ pamauth(const char *user, const char *myname, int interactive, int nopass, int p
  		ret = pam_authenticate(pamh, 0);
  		if (ret != PAM_SUCCESS) {
  			pamcleanup(ret, sess, cred);
 -			syslog(LOG_AUTHPRIV | LOG_NOTICE, "failed auth for %s", myname);
- 			errx(1, "Authorization failed");
+ 			errx(1, "Authentication failed");
  		}
  	}
-@@ -295,7 +293,6 @@ pamauth(const char *user, const char *myname, int interactive, int nopass, int p
+@@ -303,7 +301,6 @@ pamauth(const char *user, const char *myname, int interactive, int nopass, int p
  	/* account not vaild or changing the auth token failed */
  	if (ret != PAM_SUCCESS) {
  		pamcleanup(ret, sess, cred);
 -		syslog(LOG_AUTHPRIV | LOG_NOTICE, "failed auth for %s", myname);
- 		errx(1, "Authorization failed");
+ 		errx(1, "Authentication failed");
  	}
  
 diff --git a/shadow.c b/shadow.c
-index 71c71c6..7a1b7c1 100644
+index 2569b58..b182462 100644
 --- a/shadow.c
 +++ b/shadow.c
-@@ -13,7 +13,6 @@
+@@ -31,7 +31,6 @@
  #include <shadow.h>
  #include <stdio.h>
  #include <string.h>
@@ -69,7 +69,7 @@ index 71c71c6..7a1b7c1 100644
  #include <unistd.h>
  
  #include "openbsd.h"
-@@ -60,8 +59,6 @@ shadowauth(const char *myname, int persist)
+@@ -83,8 +82,6 @@ shadowauth(const char *myname, int persist)
  
  	response = readpassphrase(challenge, rbuf, sizeof(rbuf), RPP_REQUIRE_TTY);
  	if (response == NULL && errno == ENOTTY) {
@@ -78,11 +78,11 @@ index 71c71c6..7a1b7c1 100644
  		errx(1, "a tty is required");
  	}
  	if (response == NULL)
-@@ -72,7 +69,6 @@ shadowauth(const char *myname, int persist)
+@@ -95,7 +92,6 @@ shadowauth(const char *myname, int persist)
  	}
  	explicit_bzero(rbuf, sizeof(rbuf));
  	if (strcmp(encrypted, hash) != 0) {
 -		syslog(LOG_AUTHPRIV | LOG_NOTICE, "failed auth for %s", myname);
- 		errx(1, "Authorization failed");
+ 		errx(1, "Authentication failed");
  	}
  

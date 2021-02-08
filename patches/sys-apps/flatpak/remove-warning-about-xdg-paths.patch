@@ -1,0 +1,52 @@
+diff --git a/app/flatpak-main.c b/app/flatpak-main.c
+index e8ec2e4..4c5e535 100644
+--- a/app/flatpak-main.c
++++ b/app/flatpak-main.c
+@@ -247,7 +247,6 @@ check_environment (void)
+   g_autofree char *system_exports = NULL;
+   g_autofree char *user_exports = NULL;
+   int i;
+-  int rows, cols;
+ 
+   /* Only print warnings on ttys */
+   if (!flatpak_fancy_output ())
+@@ -282,39 +281,6 @@ check_environment (void)
+       if (g_str_has_prefix (dir_path, user_exports))
+         has_user = TRUE;
+     }
+-
+-  flatpak_get_window_size (&rows, &cols);
+-  if (cols > 80)
+-    cols = 80;
+-
+-  if (!has_system && !has_user)
+-    {
+-      g_autofree char *missing = NULL;
+-      missing = g_strdup_printf ("\n\n '%s'\n '%s'\n\n", system_exports, user_exports);
+-      g_print ("\n");
+-      /* Translators: this text is automatically wrapped, don't insert line breaks */
+-      print_wrapped (cols,
+-                     _("Note that the directories %s are not in the search path "
+-                       "set by the XDG_DATA_DIRS environment variable, so applications "
+-                       "installed by Flatpak may not appear on your desktop until the "
+-                       "session is restarted."),
+-                     missing);
+-      g_print ("\n");
+-    }
+-  else if (!has_system || !has_user)
+-    {
+-      g_autofree char *missing = NULL;
+-      missing = g_strdup_printf ("\n\n '%s'\n\n", !has_system ? system_exports : user_exports);
+-      g_print ("\n");
+-      /* Translators: this text is automatically wrapped, don't insert line breaks */
+-      print_wrapped (cols,
+-                     _("Note that the directory %s is not in the search path "
+-                       "set by the XDG_DATA_DIRS environment variable, so applications "
+-                       "installed by Flatpak may not appear on your desktop until the "
+-                       "session is restarted."),
+-                     missing);
+-      g_print ("\n");
+-    }
+ }
+ 
+ gboolean
