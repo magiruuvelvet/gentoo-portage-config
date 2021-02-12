@@ -16,6 +16,12 @@ dev-java/openjdk-bin
 # blacklist legacy gtk2, i don't want this anymore
 x11-libs/gtk+:2
 
+# blacklist this broken tool (uses lots of legacy crap and is literally not even required anymore)
+x11-misc/imake
+# requires imake to build so blacklist it too (virt-manager is sad, but i patched the ebuild)
+net-misc/x11-ssh-askpass
+
+# other
 www-servers/caddy::gentoo
 net-misc/nextcloud-client
 
@@ -60,3 +66,7 @@ sys-libs/musl::gentoo
 # need to fix my mess with 2 libc's installed in parallel
 # move this to /opt and not tracked by Portage
 sys-libs/glibc
+
+
+# i have my own version in localrepo
+dev-cpp/catch::gentoo

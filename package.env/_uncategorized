@@ -76,10 +76,3 @@ app-emulation/libvirt libunwind.conf std-gnu99.conf
 # bundled sha util uses GNU extension -> inline assembly
 games-action/minetest std-gnu11.conf
 
-
-# trying something out, constant bluetooth connection crashes (pulse daemon getting killed)
-# turns out the problem wasn't compiler related, but
-# https://www.tablix.org/~avian/blog/archives/2018/11/the_case_of_disappearing_pulseaudio_daemon/
-# oof, never turn on options you don't understand what they are doing (realtime, no-cpu-limit)
-#media-sound/pulseaudio gnu-gcc.conf static-gnu-runtime.conf
-#media-sound/pulseaudio-modules-bt gnu-gcc.conf static-gnu-runtime.conf
