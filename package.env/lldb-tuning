@@ -1,0 +1,5 @@
+# use this file to enable lldb debugger tunings when debugging the weirdest errors ever
+# warning: this makes binaries super huge because it embeds source code partially into the binary
+# for lldb to print in backtraces
+
+#dev-util/rz-ghidra lldb-tuning.conf
