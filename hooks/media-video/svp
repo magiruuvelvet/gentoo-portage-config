@@ -1,0 +1,18 @@
+#!/bin/sh
+
+instprep() {
+    echo "Patching svp to inject GCC runtime libraries..."
+
+    cd "${ED}/opt/svp/plugins"
+    for i in *; do
+        echo "Patching ${i}..."
+        patchelf --replace-needed libstdc++.so.6 /sucks/gnu/lib64/libstdc++.so.6 "$i"
+        patchelf --replace-needed libgcc_s.so.1 /sucks/gnu/lib64/libgcc_s.so.1 "$i"
+    done
+
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
