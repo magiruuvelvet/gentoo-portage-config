@@ -1,0 +1,24 @@
+#!/bin/sh
+
+instprep() {
+    echo "Patching zoom to inject GCC runtime libraries..."
+
+    # the zoom launcher is clearing LD_LIBRARY_PATH and then fails to launch
+
+    cd "${ED}/opt/zoom"
+    patchelf --replace-needed libstdc++.so.6 /sucks/gnu/lib64/libstdc++.so.6 ZoomLauncher
+    patchelf --replace-needed libgcc_s.so.1 /sucks/gnu/lib64/libgcc_s.so.1 ZoomLauncher
+
+    patchelf --replace-needed libstdc++.so.6 /sucks/gnu/lib64/libstdc++.so.6 zoom
+    patchelf --replace-needed libgcc_s.so.1 /sucks/gnu/lib64/libgcc_s.so.1 zoom
+
+    echo "Creating launcher script to set LD_LIBRARY_PATH on initial startup..."
+    cd "${ED}/usr/bin"
+    rm zoom
+    cp /etc/portage/hooks/patches/net-im/zoom/zoom.sh zoom
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
