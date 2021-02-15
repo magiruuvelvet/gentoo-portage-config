@@ -5,8 +5,6 @@
 # telemetry free build of VS Code
 app-editors/vscodium-bin::jorgicio
 
-dev-util/gyp::localrepo
-
 kde-misc/plasma-applet-places-widget::jorgicio
 kde-misc/plasma-applet-window-appmenu::jorgicio
 

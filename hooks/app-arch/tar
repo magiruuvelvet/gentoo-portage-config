@@ -1,0 +1,17 @@
+#!/bin/sh
+
+instprep() {
+    cd "${ED}/bin" || exit 1
+
+    # create explicit GNU tar symlink, this is enabled with userland_bsd use flag
+    # but since we are not on *BSD, use a hook to create this manually
+    # in the future I plan to replace GNU tar with libarchive bsdtar
+
+    echo "creating gtar symlink..."
+    ln -s tar gtar
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
