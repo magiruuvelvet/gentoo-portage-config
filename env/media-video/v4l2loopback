@@ -1,1 +1,1 @@
-export PATH="/opt/gnu/bin:/opt/compat/bin:$PATH"
+export PATH="/sucks/gnu/bin:/sucks/compat/bin:$PATH"
