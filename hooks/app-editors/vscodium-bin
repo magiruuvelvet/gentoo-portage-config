@@ -2,6 +2,10 @@
 
 instprep() {
     python /etc/portage/hooks/app-editors/vscodium-bin.py
+
+    echo "Injecting GCC runtime libraries into launcher script..."
+    cd "${ED}/opt/vscodium/bin"
+    patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium-bin/gnu-runtime-libs.patch
 }
 
 case "$1" in

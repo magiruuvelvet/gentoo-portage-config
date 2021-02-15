@@ -21,7 +21,8 @@ fi
 
 for x in "$@"; do
     if [[ "$x" == *"-latomic"* ]]; then
-        args+=("/usr/lib$BITS/libatomic.so.1")
+        #args+=("/usr/lib$BITS/libatomic.so.1")
+        args+=("/sucks/gnu/lib$BITS/libatomic.a")
     else
         args+=("$x")
     fi

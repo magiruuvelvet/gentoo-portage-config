@@ -1,0 +1,14 @@
+diff --git a/vivaldi b/vivaldi
+index 6c9858a..389ef3f 100755
+--- a/vivaldi
++++ b/vivaldi
+@@ -4,6 +4,9 @@
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+ 
++# vivaldi and the widevine plugin require GCC runtime libraries
++export LD_LIBRARY_PATH="/sucks/gnu/runtime/64:$LD_LIBRARY_PATH"
++
+ # Let the wrapped binary know that it has been run through the wrapper.
+ export CHROME_WRAPPER="$(readlink -f "$0")"
+ 

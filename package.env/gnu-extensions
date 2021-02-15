@@ -280,7 +280,7 @@ sys-apps/usbredir gnu-source.conf
 sys-apps/usbutils gnu-source.conf
 sys-apps/util-linux std-gnu99.conf
 sys-apps/debianutils std-gnu99.conf
-sys-apps/busybox gnu-gcc.conf
+sys-apps/busybox gnu-gcc.conf static-gnu-runtime.conf
 sys-apps/hdparm gnu-source.conf
 sys-apps/dmidecode std-gnu99.conf
 sys-apps/dtc gnu-source.conf
@@ -341,7 +341,7 @@ sys-process/criu std-gnu99.conf
 sys-process/cronie gnu-source.conf
 sys-process/lsof gnu-source.conf
 sys-process/psmisc gnu-source.conf
-sys-process/tini gnu-gcc.conf
+sys-process/tini gnu-gcc.conf static-gnu-runtime.conf
 sys-process/numactl std-gnu99.conf
 sys-auth/rtkit gnu-source.conf
 sys-auth/passwdqc gnu-source.conf
@@ -374,7 +374,7 @@ net-wireless/crda gnu-gcc.conf static-gnu-runtime.conf
 #       what's the point of GNU-hardcoding??
 # the linux kernel and kernel modules depend on this for building, so this
 # essential utility must be fixed !!
-dev-libs/elfutils gnu-gcc.conf
+dev-libs/elfutils gnu-gcc.conf static-gnu-runtime.conf
 
 # TODO: mariadb straight out doesn't work at all without GNU *rage*
 # backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything

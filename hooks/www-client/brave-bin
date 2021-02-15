@@ -1,0 +1,14 @@
+#!/bin/sh
+
+instprep() {
+    echo "Create custom launcher to inject GCC runtime libraries..."
+
+    cd "${ED}/usr/bin"
+    rm brave-bin
+    cp /etc/portage/hooks/patches/www-client/brave-bin/brave.sh brave-bin
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+instprep() {
+    echo "Injecting GCC runtime libraries into launcher script..."
+    cd "${ED}/opt/vivaldi"
+    patch -p1 < /etc/portage/hooks/patches/www-client/vivaldi/gnu-runtime-libs.patch
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

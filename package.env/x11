@@ -19,8 +19,8 @@ x11-apps/smproxy gnu-source.conf
 x11-apps/setxkbmap gnu-source.conf
 x11-libs/libdrm std-gnu99.conf
 x11-libs/libva std-gnu99.conf
-x11-libs/libva-intel-driver gnu-gcc.conf
-x11-libs/libva-vdpau-driver std-gnu99.conf
+x11-libs/libva-intel-driver gnu-gcc.conf static-gnu-runtime.conf
+x11-libs/libva-vdpau-driver std-gnu99.conf gnu-source.conf
 x11-libs/libvdpau std-gnu99.conf
 x11-libs/libnotify gnu-source.conf
 x11-libs/libXpm gnu-source.conf
@@ -37,7 +37,7 @@ x11-drivers/* std-gnu99.conf
 x11-wm/xpra Wno-error.conf
 
 x11-drivers/nvidia-drivers gnu-gcc.conf
-x11-drivers/xf86-video-intel gnu-gcc.conf
+x11-drivers/xf86-video-intel gnu-gcc.conf static-gnu-runtime.conf
 
 # requires patching, build system is too opinionated
 # imake seems very fragile
