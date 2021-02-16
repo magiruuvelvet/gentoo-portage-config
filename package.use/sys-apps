@@ -1,4 +1,4 @@
-sys-apps/busybox -static
+sys-apps/busybox static -pam -systemd
 sys-apps/dbus X user-session
 sys-apps/file bzip2 lzma zlib
 sys-apps/pciutils dns
