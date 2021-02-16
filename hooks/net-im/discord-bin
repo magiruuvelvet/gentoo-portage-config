@@ -7,13 +7,18 @@ instprep() {
         mkdir -p "${ED}/usr/share/applications"
         cp "${ED}/usr/share/applications/discord.desktop" "${ED}/usr/share/applications/discord-firejail.desktop"
 
-        sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord-allow-audio\.local\ \/opt\/discord\/Discord/g' \
+        sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord-allow-audio\.local\ \/usr\/bin\/discord/g' \
             "${ED}/usr/share/applications/discord.desktop"
 
-        sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord\.local\ \/opt\/discord\/Discord/g' \
+        sed -i 's/Exec\=.*/Exec\=firejail\ \-\-profile\=\/etc\/firejail\/discord\.local\ \/usr\/bin\/discord/g' \
             "${ED}/usr/share/applications/discord-firejail.desktop"
         sed -i 's/Name\=.*/Name\=Discord\ \(Firejail\)/g' \
             "${ED}/usr/share/applications/discord-firejail.desktop"
+
+        echo "Create launcher script..."
+        cd "${ED}/usr/bin"
+        rm discord
+        cp /etc/portage/hooks/patches/net-im/discord-bin/discord.sh discord
     fi
 }
 
