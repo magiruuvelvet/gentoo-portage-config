@@ -1,0 +1,13 @@
+#!/bin/sh
+
+instprep() {
+    # for some reason this exists on mariadb, remove it
+    cd "${ED}"
+    rm -f usr/lib64/libgcc.a
+    rm -f usr/lib/libgcc.a
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
