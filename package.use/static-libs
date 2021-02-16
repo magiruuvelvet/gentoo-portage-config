@@ -1,0 +1,4 @@
+#sys-libs/zlib static-libs
+#dev-libs/libpcre static-libs
+#sys-apps/attr static-libs
+#dev-libs/glib static-libs
