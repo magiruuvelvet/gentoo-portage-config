@@ -1,0 +1,17 @@
+#!/bin/sh
+
+instprep() {
+    echo "Patching binaries to find GNU runtime libraries..."
+
+    cd "${ED}/usr/lib64/freeoffice"
+
+    for elf in textmaker planmaker presentations; do
+        patchelf --replace-needed libstdc++.so.6 /sucks/gnu/lib64/libstdc++.so.6 "$elf"
+        patchelf --replace-needed libgcc_s.so.1 /sucks/gnu/lib64/libgcc_s.so.1 "$elf"
+    done
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
