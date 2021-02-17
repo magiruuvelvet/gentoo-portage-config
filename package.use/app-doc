@@ -1,2 +1,4 @@
 # llvm 10 not supported yet (causes command line option duplicates for help-list)
+# llvm 11 not supported either (not checked yet, but I assume)
+
 app-doc/doxygen -clang qt5 dot
