@@ -1,0 +1,25 @@
+# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf CFLAGS="-v" CXXFLAGS="-v" ebuild /usr/portage/sys-libs/glibc/glibc-2.31-r7.ebuild clean install
+
+export PATH="/sucks/gnu/bin:$PATH"
+
+# /tmp/glibc contains a wrapper script for `as` to add the `--divide` argument to avoid errors
+# additionally /sucks/gnu/x86_64-pc-linux/bin/as temporarily must be replaced with the wrapper script too
+# when making wrapper scripts pay attention to not make an infinite exec loop :^)
+
+# remove clang specific compiler flags as they are causing trouble with gcc and especially building glibc
+export CFLAGS="-v"
+export CXXFLAGS="-v"
+
+# after building glibc and installing into $ED is done
+# llvm-objcopy --remove-section=.comment all_elf_files
+# (find -type f -exec llvm-objcopy --remove-section=.comment {} \;)
+# to remove traces from GCC so the compiler information
+# is not transferred by LLVM/lld into clang built binaries
+
+# now its time to merge, be careful and make sure you know how to rescue yourself from disaster
+# use a statically linked busybox and keep an extracted glibc backup from quickpkg somewhere
+# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf CFLAGS="-v" CXXFLAGS="-v" ebuild /usr/portage/sys-libs/glibc/glibc-2.31-r7.ebuild merge
+
+# before doing anything check with one of the unit tests
+# and compiler-ident if GCC is popping up in the .comment
+# section, it should not - only clang and lld are there

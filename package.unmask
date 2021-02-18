@@ -20,9 +20,8 @@ www-servers/caddy::chaoslab
 =net-misc/nextcloud-client-2.6.5
 
 # installed kernels
-=sys-kernel/vanilla-sources-5.2.13
 =sys-kernel/gentoo-kernel-bin-5.8.14
-=sys-kernel/gentoo-kernel-5.8.14
+=sys-kernel/gentoo-kernel-bin-5.10.16
 
 # installed grub version
 =sys-boot/grub-2.04-r1
@@ -30,7 +29,8 @@ www-servers/caddy::chaoslab
 # media
 media-video/mpv::vapoursynth
 
-=sys-libs/glibc-2.29-r4
+#=sys-libs/glibc-2.29-r4
+=sys-libs/glibc-2.31-r7
 
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo

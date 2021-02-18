@@ -1,2 +1,6 @@
 # multilib cross compilation is broken again in this version
 =dev-util/meson-0.56.2
+
+# is generating non-functional initramfs for me (fails to boot)
+# v050 with the exact same configuration works, weird
+=sys-kernel/dracut-051-r1
