@@ -1,0 +1,5 @@
+# sys-kernel/dracut
+#  v050 doesn't use GNU extensions and compiles perfectly fine in ISO C mode
+#  v051 introduced GNU language extensions which is cancer as fuck :( *rage*
+#       as an extend the developers didn't care to add a `-std=gnu99` argument
+sys-kernel/dracut std-gnu99.conf
