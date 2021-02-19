@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2f47b59..821d6ba 100644
+index d806872..9b4a038 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -199,7 +199,7 @@ include(CTest)  # Calls enable_testing().
+@@ -216,7 +216,7 @@ include(CTest)  # Calls enable_testing().
  include(CTestConfig.cmake)
  
  if(NOT DEFINED DATABASE_BACKEND)
@@ -11,7 +11,7 @@ index 2f47b59..821d6ba 100644
  endif()
  
  ############### CTest options ###############
-@@ -215,18 +215,18 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake ${CMAKE_CURRENT_BIN
+@@ -232,18 +232,18 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake ${CMAKE_CURRENT_BIN
  macro(SET_DEFAULT_DB_BACKEND)
      set(_backend ${ARGV0})
      if("${_backend}" STREQUAL "SQLITE")

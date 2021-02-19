@@ -1,8 +1,8 @@
 diff --git a/src/dolphincontextmenu.cpp b/src/dolphincontextmenu.cpp
-index c8e9629..1c5029a 100644
+index 912caf8..8257cb2 100644
 --- a/src/dolphincontextmenu.cpp
 +++ b/src/dolphincontextmenu.cpp
-@@ -391,8 +391,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
+@@ -409,8 +409,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
      // Insert 'Move to Trash' and/or 'Delete'
      const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
                                      !properties.isLocal());
@@ -13,7 +13,7 @@ index c8e9629..1c5029a 100644
      if (showDeleteAction && showMoveToTrashAction) {
          delete m_removeAction;
 diff --git a/src/panels/folders/treeviewcontextmenu.cpp b/src/panels/folders/treeviewcontextmenu.cpp
-index df9b9d6..e5c7493 100644
+index 6c4adf8..20c9684 100644
 --- a/src/panels/folders/treeviewcontextmenu.cpp
 +++ b/src/panels/folders/treeviewcontextmenu.cpp
 @@ -94,24 +94,10 @@ void TreeViewContextMenu::open(const QPoint& pos)

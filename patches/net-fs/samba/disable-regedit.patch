@@ -1,8 +1,8 @@
 diff --git a/docs-xml/wscript_build b/docs-xml/wscript_build
-index 3dad0a2..b935049 100644
+index dc5f314..8fa9201 100644
 --- a/docs-xml/wscript_build
 +++ b/docs-xml/wscript_build
-@@ -27,7 +27,6 @@ manpages='''
+@@ -28,7 +28,6 @@ manpages='''
           manpages/pdbedit.8
           manpages/profiles.1
           manpages/rpcclient.1
@@ -10,8 +10,27 @@ index 3dad0a2..b935049 100644
           manpages/samba-tool.8
           manpages/samba.7
           manpages/samba.8
+@@ -64,8 +63,6 @@ pam_winbind_manpages = '''
+ krb5_locator_manpages = 'manpages/winbind_krb5_locator.8'
+ krb5_localauth_manpages = 'manpages/winbind_krb5_localauth.8'
+ 
+-winexe_manpages = 'manpages/winexe.1'
+-
+ vfs_module_manpages = ['vfs_acl_tdb',
+                        'vfs_acl_xattr',
+                        'vfs_aio_fork',
+@@ -172,9 +169,6 @@ if ('XSLTPROC_MANPAGES' in bld.env and bld.env['XSLTPROC_MANPAGES']):
+     if bld.CONFIG_SET('HAVE_KRB5_LOCALAUTH_PLUGIN_H'):
+         bld.SAMBAMANPAGES(krb5_localauth_manpages)
+ 
+-    if conf.env.build_winexe == True:
+-        bld.SAMBAMANPAGES(winexe_manpages)
+-
+     for manpage in vfs_module_manpages:
+         if bld.SAMBA3_IS_ENABLED_MODULE(manpage):
+             bld.SAMBAMANPAGES('manpages/%s.8' % manpage)
 diff --git a/source3/utils/wscript_build b/source3/utils/wscript_build
-index 9d9aa56..a7e32d7 100644
+index 6157cac..32f9ca1 100644
 --- a/source3/utils/wscript_build
 +++ b/source3/utils/wscript_build
 @@ -158,16 +158,6 @@ bld.SAMBA3_BINARY('split_tokens',
@@ -32,20 +51,11 @@ index 9d9aa56..a7e32d7 100644
                   source='testparm.c',
                   deps='''
 diff --git a/source3/wscript b/source3/wscript
-index 4a3e756..c5b8262 100644
+index 9920432..ad830c3 100644
 --- a/source3/wscript
 +++ b/source3/wscript
-@@ -62,8 +62,6 @@ def options(opt):
- 
-     opt.samba_add_onoff_option('cluster-support', default=False)
- 
--    opt.samba_add_onoff_option('regedit', default=None)
--
-     opt.samba_add_onoff_option('fake-kaserver',
-                           help=("Include AFS fake-kaserver support"), default=False)
- 
-@@ -1606,21 +1604,6 @@ main() {
-             conf.DEFINE('HAVE_DBUS', '1')
+@@ -1785,40 +1782,11 @@ main() {
+             conf.DEFINE('HAVE_LIBURING', '1')
  
      conf.env.build_regedit = False
 -    if not Options.options.with_regedit == False:
@@ -66,3 +76,22 @@ index 4a3e756..c5b8262 100644
  
      if conf.CHECK_HEADERS('ftw.h') and conf.CHECK_FUNCS('nftw'):
          conf.env.build_mvxattr = True
+ 
+     conf.env.build_winexe = False
+-    if not Options.options.with_winexe == False:
+-        if conf.CONFIG_SET('HAVE_WINEXE_CC_WIN32') or conf.CONFIG_SET('HAVE_WINEXE_CC_WIN64'):
+-            conf.env.build_winexe = True
+-
+-    if conf.env.build_winexe:
+-        Logs.info("building winexe")
+-    else:
+-        if Options.options.with_winexe == False:
+-            Logs.info("not building winexe (--without-winexe)")
+-        elif Options.options.with_winexe == True:
+-            Logs.error("mingw not available, cannot build winexe")
+-            conf.fatal("mingw not available, but --with-winexe was specified")
+-        else:
+-            Logs.info("mingw not available, not building winexe")
+ 
+     conf.CHECK_FUNCS_IN('DES_pcbc_encrypt', 'crypto')
+     if Options.options.with_fake_kaserver == True:
