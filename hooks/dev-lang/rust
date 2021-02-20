@@ -16,10 +16,6 @@ compile() {
     patch -p1 < /etc/portage/hooks/patches/dev-lang/rust/fix-config-toml-multilib.patch || exit 1
     show_config_toml
 
-    #echo -e "\e[1mCopying patched config.toml...\e[0m"
-    #cp /etc/portage/hooks/patches/dev-lang/rust/config.toml config.toml
-    #show_config_toml
-
     echo -e "\e[1m───────────────────────────────────────────────────────────\e[0m"
 }
 

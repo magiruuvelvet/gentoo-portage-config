@@ -15,5 +15,4 @@ for x in "$@"; do
 done
 
 # invoice real clang with modified arguments
-#exec "clang++" -D_GNU_SOURCE -D_POSIX_C_SOURCE -D__USE_XOPEN_EXTENDED -D__USE_XOPEN2K -D__USE_XOPEN -D_XOPEN_SOURCE "${args[@]}"
 exec "clang++" -D_GNU_SOURCE "${args[@]}"
