@@ -1,0 +1,26 @@
+diff --git a/source/dub/commandline.d b/source/dub/commandline.d
+index 04f5d69..5a56eb3 100644
+--- a/source/dub/commandline.d
++++ b/source/dub/commandline.d
+@@ -515,7 +515,7 @@ struct CommonOptions {
+ 	string[] registry_urls;
+ 	string root_path;
+ 	SkipPackageSuppliers skipRegistry = SkipPackageSuppliers.none;
+-	PlacementLocation placementLocation = PlacementLocation.user;
++	PlacementLocation placementLocation = PlacementLocation.local;
+ 
+ 	/// Parses all common options and stores the result in the struct instance.
+ 	void prepare(CommandArgs args)
+diff --git a/source/dub/dub.d b/source/dub/dub.d
+index e88ece2..b658098 100644
+--- a/source/dub/dub.d
++++ b/source/dub/dub.d
+@@ -140,7 +140,7 @@ class Dub {
+ 		of the normal upgrade process are stored in a certain location. This is
+ 		how the "--local" and "--system" command line switches operate.
+ 	*/
+-	PlacementLocation defaultPlacementLocation = PlacementLocation.user;
++	PlacementLocation defaultPlacementLocation = PlacementLocation.local;
+ 
+ 
+ 	/** Initializes the instance for use with a specific root package.

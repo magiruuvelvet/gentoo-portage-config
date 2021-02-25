@@ -53,10 +53,7 @@ sys-fs/inotify-tools Wno-error.conf
 
 sys-libs/db clang-filter-opts.conf
 
-# TODO: address linker errors with llvm/lld
-# as workaround the GNU/gold linker can be used for now
-# symbols are compatible with lld linked libraries :)
-dev-util/valgrind std-gnu17.conf fpic.conf gnu-ldS.conf
+dev-util/valgrind std-gnu17.conf libunwind.conf fpic.conf
 
 app-backup/borgbackup ld-force-lib64.conf
 dev-util/cutter ld-force-lib64.conf
