@@ -1,0 +1,36 @@
+/* injected custom css */
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .monaco-scrollable-element {
+    height: 27px !important;
+    line-height: 27px !important;
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab,
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container {
+    height: 27px !important;
+    line-height: 27px !important;
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions {
+    height: 27px !important;
+    line-height: 27px !important;
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions .action-label, .monaco-workbench .part.editor>.content .editor-group-container>.title .title-actions .action-label {
+    height: 27px !important;
+    line-height: 27px !important;
+}
+
+.monaco-workbench .part.editor .monaco-icon-label,
+.monaco-workbench .part.editor .monaco-icon-label::before {
+    height: 27px !important;
+    line-height: 27px !important;
+}
+
+.monaco-workbench .part.sidebar .composite.title,
+.monaco-workbench .part.sidebar .composite.title .title-label,
+.monaco-workbench .part.sidebar .composite.title .title-actions,
+.monaco-workbench .part.sidebar .composite.title .action-label {
+    height: 27px !important;
+    line-height: 27px !important;
+}
