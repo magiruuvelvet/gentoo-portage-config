@@ -1,41 +1,52 @@
 /* injected custom css */
 
-/* reduce height of tabs, FIXME: causes fuck ups in other places, selectors are targeting too much */
-/*.monaco-workbench .part.editor>.content .editor-group-container>.title .monaco-scrollable-element {
-    height: 30px !important;
-    line-height: 30px !important;
+/* reduce height of editor tabs */
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom
+.monaco-scrollable-element .tabs-container[role="tablist"] {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom
+.monaco-scrollable-element .tabs-container[role="tablist"] .tab[role="tab"] {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom
+.monaco-scrollable-element .tabs-container[role="tablist"] .tab[role="tab"] .tab-label::before {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom
+.monaco-scrollable-element .tabs-container[role="tablist"] .tab[role="tab"] .tab-label .monaco-icon-label-container {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom
+.editor-actions {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom
+.editor-actions li.action-item a.action-label {
+    height: 25px !important;
+    line-height: 25px !important;
 }
 
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab,
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container {
-    height: 30px !important;
-    line-height: 30px !important;
+/* reduce height of project explorer header to match editor tabs height */
+/* FIXME: causes bugs with other sidebars, try to only target the project explorer */
+/*
+.monaco-workbench .part.sidebar[id="workbench.parts.sidebar"] .composite.title,
+.monaco-workbench .part.sidebar[id="workbench.parts.sidebar"] .composite.title .title-label,
+.monaco-workbench .part.sidebar[id="workbench.parts.sidebar"] .composite.title .title-actions,
+.monaco-workbench .part.sidebar[id="workbench.parts.sidebar"] .composite.title .action-label {
+    height: 25px !important;
+    line-height: 25px !important;
 }
-
-.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions {
-    height: 30px !important;
-    line-height: 30px !important;
-}
-
-.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions .action-label,
-.monaco-workbench .part.editor>.content .editor-group-container>.title .title-actions .action-label {
-    height: 30px !important;
-    line-height: 30px !important;
-}
-
-.monaco-workbench .part.editor .monaco-icon-label,
-.monaco-workbench .part.editor .monaco-icon-label::before {
-    height: 30px !important;
-    line-height: 30px !important;
-}
-
-.monaco-workbench .part.sidebar .composite.title,
-.monaco-workbench .part.sidebar .composite.title .title-label,
-.monaco-workbench .part.sidebar .composite.title .title-actions,
-.monaco-workbench .part.sidebar .composite.title .action-label {
-    height: 30px !important;
-    line-height: 30px !important;
-}*/
+*/
 
 /* hide settings icon at bottom in activity bar (it is literally useless, the command runner can do anything) */
 .part.activitybar.left .monaco-action-bar.vertical ul.actions-container li.action-item .action-label.codicon.codicon-settings-view-bar-icon {
