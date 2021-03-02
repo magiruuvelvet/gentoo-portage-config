@@ -1,36 +1,86 @@
 /* injected custom css */
 
-.monaco-workbench .part.editor>.content .editor-group-container>.title .monaco-scrollable-element {
-    height: 27px !important;
-    line-height: 27px !important;
+/* reduce height of tabs, FIXME: causes fuck ups in other places, selectors are targeting too much */
+/*.monaco-workbench .part.editor>.content .editor-group-container>.title .monaco-scrollable-element {
+    height: 30px !important;
+    line-height: 30px !important;
 }
 
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab,
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container {
-    height: 27px !important;
-    line-height: 27px !important;
+    height: 30px !important;
+    line-height: 30px !important;
 }
 
 .monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions {
-    height: 27px !important;
-    line-height: 27px !important;
+    height: 30px !important;
+    line-height: 30px !important;
 }
 
-.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions .action-label, .monaco-workbench .part.editor>.content .editor-group-container>.title .title-actions .action-label {
-    height: 27px !important;
-    line-height: 27px !important;
+.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions .action-label,
+.monaco-workbench .part.editor>.content .editor-group-container>.title .title-actions .action-label {
+    height: 30px !important;
+    line-height: 30px !important;
 }
 
 .monaco-workbench .part.editor .monaco-icon-label,
 .monaco-workbench .part.editor .monaco-icon-label::before {
-    height: 27px !important;
-    line-height: 27px !important;
+    height: 30px !important;
+    line-height: 30px !important;
 }
 
 .monaco-workbench .part.sidebar .composite.title,
 .monaco-workbench .part.sidebar .composite.title .title-label,
 .monaco-workbench .part.sidebar .composite.title .title-actions,
 .monaco-workbench .part.sidebar .composite.title .action-label {
-    height: 27px !important;
-    line-height: 27px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+}*/
+
+/* hide settings icon at bottom in activity bar (it is literally useless, the command runner can do anything) */
+.part.activitybar.left .monaco-action-bar.vertical ul.actions-container li.action-item .action-label.codicon.codicon-settings-view-bar-icon {
+    display: none !important;
+}
+
+/* move cmake tools build button to activity bar (mimic Qt Creator) */
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] {
+    position: absolute !important;
+    bottom: 42px !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] a {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] span::before {
+    content: '\eb6d' !important;
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 36px !important;
+    line-height: 48px !important;
+}
+
+/* move cmake tools run button to activity bar (mimic Qt Creator) */
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] {
+    position: absolute !important;
+    bottom: calc(42px + 42px + 10px) !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] a {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] span::before {
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 36px !important;
+    line-height: 48px !important;
 }
