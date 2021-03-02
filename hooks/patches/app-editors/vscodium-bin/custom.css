@@ -1,6 +1,8 @@
 /* injected custom css */
 
 /* reduce height of editor tabs */
+/* FIXME: its still broken :( */
+/*
 .monaco-workbench .part.editor .editor-group-container .title.tabs .tabs-and-actions-container.tabs-border-bottom {
     height: 25px !important;
     line-height: 25px !important;
@@ -35,6 +37,7 @@
     height: 25px !important;
     line-height: 25px !important;
 }
+*/
 
 /* reduce height of project explorer header to match editor tabs height */
 /* FIXME: causes bugs with other sidebars, try to only target the project explorer */
