@@ -53,7 +53,8 @@ sys-fs/inotify-tools Wno-error.conf
 
 sys-libs/db clang-filter-opts.conf
 
-dev-util/valgrind std-gnu17.conf libunwind.conf fpic.conf
+#dev-util/valgrind std-gnu17.conf libunwind.conf fpic.conf
+dev-util/valgrind gnu-gcc.conf static-gnu-runtime.conf
 
 app-backup/borgbackup ld-force-lib64.conf
 dev-util/cutter ld-force-lib64.conf

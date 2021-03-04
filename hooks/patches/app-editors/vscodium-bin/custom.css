@@ -51,6 +51,11 @@
 }
 */
 
+/* reduce some useless padding to gain some pixels in the tab bar */
+.monaco-workbench .part.editor>.content .editor-group-container>.title .editor-actions {
+    padding-right: 0 !important;
+}
+
 /* hide settings icon at bottom in activity bar (it is literally useless, the command runner can do anything) */
 .part.activitybar.left .monaco-action-bar.vertical ul.actions-container li.action-item .action-label.codicon.codicon-settings-view-bar-icon {
     display: none !important;
@@ -97,4 +102,66 @@
     height: 48px !important;
     font-size: 36px !important;
     line-height: 48px !important;
+}
+
+/* remove underline on mtk11 clangd extension when header file was found, Qt Creator doesn't do this either */
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk11.detected-link {
+    text-decoration: none !important;
+}
+
+/* ensure the amos402.scope-bar extension is always on the most left */
+.part.statusbar .items-container.right-items .statusbar-item[id="amos402.scope-bar"] {
+    order: 1000 !important;
+    color: #ccc !important;
+}
+
+/* fixed order of status bar items */
+.part.statusbar .items-container.right-items .statusbar-item[id="status.notifications"] {
+    order: -1000;
+    padding-right: 0 !important;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.eol"] {
+    order: -998;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.encoding"] {
+    order: -999;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="SirTori.indenticator"] {
+    order: -997;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] {
+    order: -996;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] {
+    order: -995;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] {
+    order: -994;
+    background: #555 !important;
+}
+
+/* fixed order of left status bar items */
+.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"] {
+    order: -1000 !important;
+}
+.part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] {
+    order: -999 !important;;
+}
+.part.statusbar .items-container.left-items .statusbar-item[id="waderyan.gitblame"] {
+    order: 1000;
+    color: #aaa !important;
+}
+
+/* gain some real estate in the status bar by reducing whitespace between basic items */
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.eol"] a,
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.encoding"] a,
+.part.statusbar .items-container.right-items .statusbar-item[id="SirTori.indenticator"] a,
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] a {
+    margin-left: 0;
+    margin-right: 0;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] a {
+    margin-right: 0;
+    border-left: 1px solid #aaa;
+    padding-left: 8px;
 }
