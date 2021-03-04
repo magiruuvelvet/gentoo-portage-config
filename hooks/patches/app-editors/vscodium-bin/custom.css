@@ -134,10 +134,16 @@
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] {
     order: -995;
+    border-left: 1px solid #aaa;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] {
     order: -994;
-    background: #555 !important;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] a {
+    background-color: #4a4a4a;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] a:hover {
+    background-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 /* fixed order of left status bar items */
@@ -162,6 +168,4 @@
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] a {
     margin-right: 0;
-    border-left: 1px solid #aaa;
-    padding-left: 8px;
 }
