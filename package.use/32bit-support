@@ -45,7 +45,6 @@ dev-libs/libxslt abi_x86_32
 dev-libs/lzo abi_x86_32
 dev-libs/nettle abi_x86_32
 dev-libs/nspr abi_x86_32
-dev-libs/nss abi_x86_32
 dev-libs/openssl abi_x86_32
 dev-libs/popt abi_x86_32
 dev-libs/serd abi_x86_32
