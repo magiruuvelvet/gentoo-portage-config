@@ -12,6 +12,8 @@ fi
 for x in "$@"; do
     if [[ "$x" == *"-Wl,--default-symver"* ]]; then
         :
+    elif [[ "$x" == *"-fuse-ld=bfd"* ]]; then
+        :
     else
         args+=("$x")
     fi

@@ -1,18 +1,13 @@
 test/test abi_x86_32
 app-arch/bzip2 abi_x86_32
-app-arch/libarchive abi_x86_32
 app-arch/lz4 abi_x86_32
 app-arch/snappy abi_x86_32
 app-arch/xz-utils abi_x86_32
 app-arch/zstd abi_x86_32
-app-crypt/libb2 abi_x86_32
-app-crypt/heimdal abi_x86_32
 app-emulation/vkd3d abi_x86_32
-dev-db/sqlite abi_x86_32
 dev-lang/orc abi_x86_32
 dev-lang/tcl abi_x86_32
 dev-lang/rust abi_x86_32
-dev-libs/atk abi_x86_32
 dev-libs/expat abi_x86_32
 dev-libs/fribidi abi_x86_32
 dev-libs/glib abi_x86_32
@@ -60,7 +55,6 @@ media-libs/game-music-emu abi_x86_32
 media-libs/glu abi_x86_32
 media-libs/graphene abi_x86_32
 media-libs/harfbuzz abi_x86_32
-media-libs/jbigkit abi_x86_32
 media-libs/lcms abi_x86_32
 media-libs/libaacs abi_x86_32
 media-libs/libaom abi_x86_32
@@ -118,15 +112,12 @@ media-video/rtmpdump abi_x86_32
 net-libs/gnutls abi_x86_32
 net-libs/libasyncns abi_x86_32
 net-libs/libnsl abi_x86_32
-net-libs/libproxy abi_x86_32
-net-libs/libpsl abi_x86_32
 net-libs/libssh abi_x86_32
 net-libs/libtirpc abi_x86_32
 net-libs/srt abi_x86_32
 sys-apps/acl abi_x86_32
 sys-apps/attr abi_x86_32
 sys-apps/dbus abi_x86_32
-sys-apps/keyutils abi_x86_32
 sys-apps/lm-sensors abi_x86_32
 sys-apps/systemd abi_x86_32
 sys-apps/tcp-wrappers abi_x86_32
@@ -155,7 +146,6 @@ x11-base/xcb-proto abi_x86_32
 x11-drivers/nvidia-drivers abi_x86_32
 x11-libs/cairo abi_x86_32
 x11-libs/gdk-pixbuf abi_x86_32
-x11-libs/gtk+ abi_x86_32
 x11-libs/libICE abi_x86_32
 x11-libs/libSM abi_x86_32
 x11-libs/libX11 abi_x86_32
@@ -194,3 +184,6 @@ x11-libs/xcb-util-wm abi_x86_32
 x11-libs/libxkbcommon abi_x86_32
 x11-misc/mangohud abi_x86_32
 virtual/libcrypt abi_x86_32
+
+#
+net-dns/libidn2 abi_x86_32

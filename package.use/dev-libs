@@ -18,3 +18,4 @@ dev-libs/liblinphone libnotify
 dev-libs/xerces-c icu
 dev-libs/capstone python
 dev-libs/keystone python
+dev-libs/newt -gpm
