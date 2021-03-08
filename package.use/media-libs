@@ -44,6 +44,7 @@ media-libs/vulkan-loader X wayland layers
 media-libs/vulkan-layers X wayland
 media-libs/libv4l jpeg
 media-libs/opus custom-modes
+media-libs/x264 pic
 media-libs/x265 pic
 media-libs/mediastreamer2 alsa pulseaudio ffmpeg gsm opus -v4l zrtp srtp jpeg speex vpx
 media-libs/libheif aom libde265 -rav1e x265
