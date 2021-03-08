@@ -1,5 +1,5 @@
 media-plugins/alsa-plugins pulseaudio speex usb_stream mix
 media-plugins/frei0r-plugins -*
 media-plugins/gst-plugins-meta X a52 aac alsa dts dvd ffmpeg flac lame http libass pulseaudio
-media-plugins/gst-plugins-meta theora taglib vaapi wavpack x264 mp3 mpeg ogg opus vpx vcd vorbis modplug cdda
+media-plugins/gst-plugins-meta theora taglib vaapi wavpack x264 mp3 mpeg ogg opus vpx vcd vorbis modplug -cdda
 media-plugins/calf lv2
