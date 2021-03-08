@@ -122,19 +122,24 @@
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.eol"] {
     order: -998;
+    color: #aaaaaa;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.encoding"] {
     order: -999;
+    color: #aaaaaa;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="SirTori.indenticator"] {
     order: -997;
+    color: #d3d3d3;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] {
     order: -996;
+    color: #d3d3d3;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] {
     order: -995;
     border-left: 1px solid #aaa;
+    color: #d3d3d3;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] {
     order: -994;
@@ -155,6 +160,15 @@
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] {
     order: -999 !important;;
+}
+.part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] .codicon-error {
+    color: #ff9797;
+}
+.part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] .codicon-warning {
+    color: #fffcb3;
+}
+.part.statusbar .items-container.left-items .statusbar-item[id="8amjp.charactercount"] {
+    order: -998 !important;;
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="waderyan.gitblame"] {
     order: 1000;
