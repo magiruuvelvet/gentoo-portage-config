@@ -167,6 +167,9 @@
 .part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] .codicon-warning {
     color: #fffcb3;
 }
+.part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] .codicon-info {
+    color: #e9f8ff;
+}
 .part.statusbar .items-container.left-items .statusbar-item[id="8amjp.charactercount"] {
     order: -998 !important;;
 }

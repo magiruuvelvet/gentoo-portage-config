@@ -1,7 +1,6 @@
 test/test abi_x86_32
 
 # TODO: 32-bit dedox, remove useless crap
-dev-lang/rust abi_x86_32
 dev-libs/fribidi abi_x86_32
 dev-libs/libbsd abi_x86_32
 dev-libs/libffi abi_x86_32
@@ -40,7 +39,6 @@ virtual/libintl abi_x86_32
 virtual/opencl abi_x86_32
 virtual/opengl abi_x86_32
 virtual/pkgconfig abi_x86_32
-virtual/rust abi_x86_32
 x11-base/xcb-proto abi_x86_32
 x11-drivers/nvidia-drivers abi_x86_32
 x11-libs/libICE abi_x86_32
