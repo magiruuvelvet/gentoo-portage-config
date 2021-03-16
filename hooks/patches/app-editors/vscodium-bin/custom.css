@@ -105,7 +105,8 @@
 }
 
 /* remove underline on mtk11 clangd extension when header file was found, Qt Creator doesn't do this either */
-.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk11.detected-link {
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk11.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk12.detected-link {
     text-decoration: none !important;
 }
 
@@ -120,29 +121,40 @@
     order: -1000;
     padding-right: 0 !important;
 }
-.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.eol"] {
+.part.statusbar .items-container.right-items .statusbar-item[id="alefragnani.read-only-indicator"] {
+    order: -999;
+    pointer-events: none !important;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="alefragnani.read-only-indicator"] a {
+    /* only visible when file is read-only */
+    pointer-events: none !important;
+    font-weight: bold;
+    color: red !important;
+    background: #eaeaea !important;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.encoding"] {
     order: -998;
     color: #aaaaaa;
 }
-.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.encoding"] {
-    order: -999;
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.eol"] {
+    order: -997;
     color: #aaaaaa;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="SirTori.indenticator"] {
-    order: -997;
-    color: #d3d3d3;
-}
-.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] {
     order: -996;
     color: #d3d3d3;
 }
-.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] {
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] {
     order: -995;
+    color: #d3d3d3;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.selection"] {
+    order: -994;
     border-left: 1px solid #aaa;
     color: #d3d3d3;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] {
-    order: -994;
+    order: -993;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.mode"] a {
     background-color: #4a4a4a;
@@ -151,7 +163,7 @@
     background-color: rgba(255, 255, 255, 0.12) !important;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="humao.rest-client"] {
-    order: -993;
+    order: -992;
 }
 
 /* fixed order of left status bar items */
@@ -182,7 +194,8 @@
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.eol"] a,
 .part.statusbar .items-container.right-items .statusbar-item[id="status.editor.encoding"] a,
 .part.statusbar .items-container.right-items .statusbar-item[id="SirTori.indenticator"] a,
-.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] a {
+.part.statusbar .items-container.right-items .statusbar-item[id="status.editor.indentation"] a,
+.part.statusbar .items-container.right-items .statusbar-item[id="alefragnani.read-only-indicator"] a {
     margin-left: 0;
     margin-right: 0;
 }
