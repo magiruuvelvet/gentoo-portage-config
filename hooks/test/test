@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo ">>> ebuild phase: $1"
+echo "$PN"
+echo "$ED"
+echo "$D"
