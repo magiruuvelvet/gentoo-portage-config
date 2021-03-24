@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 # remove compiled bytecode, because there are no docstrings
 # anymore which makes yacc unhappy and dies with:
 # "ERROR: start symbol translation_unit_or_empty undefined"

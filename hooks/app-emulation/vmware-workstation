@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     echo "Patching vmware-vmx to use absolute paths to bundled GCC runtime libraries..."
 

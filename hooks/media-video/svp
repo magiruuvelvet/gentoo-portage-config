@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     echo "Patching svp to inject GCC runtime libraries..."
 

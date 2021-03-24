@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 . /etc/portage/hooks/functions/desktop-utils.sh
 
 instprep() {

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 prepare() {
     # remove tests
     rm -r "../work/${P}/tests"

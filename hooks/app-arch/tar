@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     cd "${ED}/bin" || exit 1
 

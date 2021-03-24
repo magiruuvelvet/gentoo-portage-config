@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     if [ ! -z "${D}" ]; then
         # this fixes some (not all) shortcuts to open in kcmshell5 again instead of the full settings application

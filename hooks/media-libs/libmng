@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 prepare() {
     cd "$S"
     patch -p1 < /etc/portage/hooks/patches/media-libs/libmng/compiler.patch

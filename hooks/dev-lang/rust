@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 show_config_toml() {
     cat config.toml || exit 1
 }

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     echo -e ">>> Removing default config (only use my own profiles)..."
     if [ ! -z "${ED}" ]; then

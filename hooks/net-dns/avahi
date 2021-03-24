@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 # remove binaries and daemons
 # only keep libraries for some precompiled stuff which needs this but works without the daemon running
 

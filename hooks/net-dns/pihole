@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 # copy private adlists.list for pihole instead of using the default
 # one-time hook for fresh install
 # file is removed after updating pihole gravity

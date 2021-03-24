@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 # fix for Gentoo's eselect opengl
 # this patch makes the "primusrun" command actually work :)
 

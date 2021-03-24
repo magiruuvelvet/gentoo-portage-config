@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     cd "$S"
     cp -p /etc/portage/patches/sys-devel/gnuconfig/config.guess "${ED}/usr/share/gnuconfig/"

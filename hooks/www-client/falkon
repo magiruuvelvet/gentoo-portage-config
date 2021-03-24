@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 instprep() {
     echo -e "Setting up VPN Namespace by default for Falkon..."
     mkdir -p "${ED}/usr/lib64/falkon"

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 # out of line patch to remove desktop file processing in
 # eselect-wine, otherwise it complains with an error and
 # just dies leaving a lot of dangling and incorrect symlinks

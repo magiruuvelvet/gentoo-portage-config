@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/portage/hooks/functions/check-env.sh
+
 # put the overwritten commands in /usr/local/bin which
 # is placed before /usr/bin in $PATH
 
