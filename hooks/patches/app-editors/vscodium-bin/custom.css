@@ -104,9 +104,23 @@
     line-height: 48px !important;
 }
 
-/* remove underline on mtk11 clangd extension when header file was found, Qt Creator doesn't do this either */
+/* redundant and also broken, btw I use lldb by default; use CodeLLDB instead */
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="bug"] {
+    display: none !important;
+}
+
+/* remove underline on clangd extension when header file was found, Qt Creator doesn't do this either */
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk10.detected-link,
 .monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk11.detected-link,
-.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk12.detected-link {
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk12.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk13.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk14.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk15.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk16.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk17.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk18.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk19.detected-link,
+.monaco-workbench .part.editor .monaco-mouse-cursor-text .mtk20.detected-link {
     text-decoration: none !important;
 }
 
