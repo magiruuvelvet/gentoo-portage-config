@@ -316,6 +316,7 @@ sys-fs/hfsutils std-gnu99.conf
 sys-fs/exfat-utils gnu-source.conf
 sys-fs/jfsutils gnu-source.conf
 sys-fs/hfsutils gnu-source.conf
+sys-fs/hfsplusutils gnu-source.conf
 sys-fs/f2fs-tools std-gnu99.conf
 sys-fs/dosfstools gnu-source.conf
 sys-fs/diskdev_cmds gnu-source.conf
