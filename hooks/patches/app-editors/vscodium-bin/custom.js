@@ -25,34 +25,31 @@ document.addEventListener("DOMContentLoaded", () => {
     style.setAttribute("id", "custom-style");
     document.head.appendChild(style);
 
+    const getCss = (number, index) => {
+        return `
+            [id="workbench.parts.editor"] .split-view-view:nth-child(${index}) .editor-container .editor-instance > .monaco-editor .overflow-guard > .monaco-scrollable-element::before {
+                background-image: url(file:///opt/vscodium-assets/image${number}.png) !important;
+            }
+            [id="workbench.parts.editor"] .split-view-view:nth-child(${index}) .empty::before {
+                background-image: url(file:///opt/vscodium-assets/image${number}.png) !important;
+            }
+        `;
+    };
+
     const shuffleImages = () => {
         let randomNumber = getRandomInt(1, 2);
 
-        let css = `
-            @keyframes background_image_fade {
-                0% {
-                    opacity: 0;
-                }
-                50% {
-                    opacity: 1;
-                }
-                100% {
-                    opacity: 1;
-                }
-            }
+        let css = "";
+        for (let i = 1; i <= 6; ++i)
+        {
+            css += getCss(getRandomInt(1, 2), i);
+        }
 
-            [id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance > .monaco-editor .overflow-guard > .monaco-scrollable-element::before {
-                background-image: url(file:///opt/vscodium-assets/image${randomNumber}.png) !important;
-            }
-            [id="workbench.parts.editor"] .split-view-view .empty::before {
-                background-image: url(file:///opt/vscodium-assets/image${randomNumber}.png) !important;
-            }
-        `;
         let styleElement = document.getElementById("custom-style");
-        styleElement.innerText = css;
-
-        setTimeout(shuffleImages, 30000);
+        styleElement.textContent = css;
     };
 
+    // start shuffling images
+    setInterval(shuffleImages, 30000);
     shuffleImages();
 });
