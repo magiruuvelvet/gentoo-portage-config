@@ -218,6 +218,17 @@
 }
 
 
+/* reduce size of editor scrollbars */
+[id="workbench.parts.editor"] .split-view-view .editor-container .monaco-scrollable-element.editor-scrollable canvas.decorationsOverviewRuler,
+[id="workbench.parts.editor"] .split-view-view .editor-container .monaco-scrollable-element.editor-scrollable div[role="presentation"].scrollbar.vertical,
+[id="workbench.parts.editor"] .split-view-view .editor-container .monaco-scrollable-element.editor-scrollable div[role="presentation"].scrollbar.vertical .slider {
+    width: 10px !important;
+}
+[id="workbench.parts.editor"] .split-view-view .editor-container .monaco-scrollable-element.editor-scrollable div[role="presentation"].scrollbar.horizontal,
+[id="workbench.parts.editor"] .split-view-view .editor-container .monaco-scrollable-element.editor-scrollable div[role="presentation"].scrollbar.horizontal .slider {
+    height: 10px !important;
+}
+
 
 /**
  * editor background image
