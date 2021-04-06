@@ -18,6 +18,12 @@ instprep() {
         "${ED}/opt/vscodium/custom.css"
     cp /etc/portage/hooks/patches/app-editors/vscodium-bin/custom.js \
         "${ED}/opt/vscodium/custom.js"
+
+   cd "${ED}/opt/vscodium/resources/app/out/vs/workbench"
+   ln -s ../../../../../custom.css .
+   ln -s ../../../../../custom.js .
+
+   ln -s ../../../../../../vscodium-assets .
 }
 
 case "$1" in

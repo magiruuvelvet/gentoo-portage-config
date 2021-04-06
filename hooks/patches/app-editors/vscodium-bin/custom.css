@@ -239,7 +239,7 @@
 /* code editor */
 [id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance > .monaco-editor .overflow-guard > .monaco-scrollable-element::before {
     content: "";
-    background-image: url(file:///opt/vscodium-assets/image1.png);
+    background-image: url(file:///opt/vscodium/resources/app/out/vs/workbench/vscodium-assets/image1.png);
     pointer-events: none;
     position: absolute;
     z-index: 99999;
@@ -253,7 +253,7 @@
 /* home screen */
 [id="workbench.parts.editor"] .split-view-view .empty::before {
     content: "";
-    background-image: url(file:///opt/vscodium-assets/image1.png);
+    background-image: url(file:///opt/vscodium/resources/app/out/vs/workbench/vscodium-assets/image1.png);
     pointer-events: none;
     position: absolute;
     z-index: 99999;
