@@ -121,6 +121,7 @@ dev-util/radare2 std-gnu99.conf
 dev-util/scanmem gnu-source.conf
 dev-util/colm gnu-source.conf
 dev-util/unicorn std-gnu99.conf gnu-source.conf
+dev-util/rizin gnu-source.conf
 gnome-base/dconf std-gnu99.conf
 # clang is stuck in an infinite loop when building with optimizations and eventually gets killed by the OEM killer
 games-emulation/mupen64plus-core no-optimizations.conf gnu-source.conf
@@ -154,6 +155,7 @@ media-libs/jbigkit gnu-source.conf
 media-libs/ladspa-sdk std-gnu99.conf libdl.conf
 media-libs/lsp-plugins gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libcaca std-gnu17.conf
+media-libs/libuninameslist gnu-source.conf
 media-libs/libdvdread std-gnu99.conf
 media-libs/libheif std-gnu99.conf
 media-libs/libjpeg-turbo gnu-source.conf

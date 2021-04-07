@@ -24,7 +24,7 @@ sys-devel/clang -abi_x86_32 xml default-compiler-rt default-libcxx default-lld
 sys-devel/clang LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 sys-devel/clang
 
-dev-util/lldb python lzma
+dev-util/lldb python lzma -libedit
 
 # OpenMP runtime library for LLVM/clang compiler
 sys-libs/libomp abi_x86_32

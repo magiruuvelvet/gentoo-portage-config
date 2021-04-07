@@ -14,6 +14,8 @@ for x in "$@"; do
         :
     elif [[ "$x" == *"-fuse-ld=bfd"* ]]; then
         :
+    elif [[ "$x" == *"-stdlib=libstdc++"* ]]; then
+        :
     else
         args+=("$x")
     fi

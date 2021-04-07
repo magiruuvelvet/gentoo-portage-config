@@ -134,6 +134,10 @@
 .part.statusbar .items-container.right-items .statusbar-item[id="status.notifications"] {
     order: -1000;
     padding-right: 0 !important;
+    margin-right: 0 !important;
+}
+.part.statusbar .items-container.right-items .statusbar-item[id="status.notifications"] a {
+    margin-right: 0 !important;
 }
 .part.statusbar .items-container.right-items .statusbar-item[id="alefragnani.read-only-indicator"] {
     order: -999;
@@ -183,9 +187,14 @@
 /* fixed order of left status bar items */
 .part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"] {
     order: -1000 !important;
+    margin-left: 0 !important;
+}
+.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][title="Pause"] {
+    margin-left: 8px !important;
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] {
-    order: -999 !important;;
+    order: -999 !important;
+    margin-left: 8px !important;
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] .codicon-error {
     color: #ff9797;
