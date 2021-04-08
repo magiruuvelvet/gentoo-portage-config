@@ -82,6 +82,7 @@ dev-libs/openssl std-gnu99.conf
 dev-libs/rasqal std-gnu99.conf
 dev-libs/redland std-gnu99.conf
 dev-libs/wayland gnu-source.conf
+dev-util/wayland-scanner gnu-source.conf
 dev-libs/zziplib gnu-source.conf
 dev-libs/m17n-lib gnu-source.conf
 dev-libs/capstone gnu-source.conf
