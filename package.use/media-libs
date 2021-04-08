@@ -2,7 +2,7 @@ media-libs/alsa-lib alisp
 media-libs/aalib X
 media-libs/freeimage jpeg jpeg2k mng -openexr png raw tiff webp
 media-libs/gd fontconfig jpeg png truetype zlib tiff webp xpm
-media-libs/gd png fontconfig jpeg truetype
+media-libs/gd png fontconfig jpeg truetype -avif
 media-libs/gegl cairo ffmpeg jpeg2k -openexr pdf raw svg tiff webp zlib
 media-libs/imlib2 X bzip2 gif jpeg mp3 png shm tiff zlib
 media-libs/jasper opengl jpeg
