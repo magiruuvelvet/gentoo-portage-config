@@ -2,6 +2,8 @@
 
 source /etc/portage/hooks/functions/check-env.sh
 
+# THIS HOOK IS OBSOLETE AS I DON'T HAVE A CUSTOM ENVIRONMENT ANYMORE
+
 # remove the obtrusive and shitty Gentoo ruby gems default
 # which conflict and break with my /opt/ruby/gems setup
 # causing major fuckups and breakage
@@ -10,13 +12,13 @@ source /etc/portage/hooks/functions/check-env.sh
 # *reeeeeeeeeeee*
 # thanks Gentoo
 
-instprep() {
+instprep_disabled() {
     # FIXME: hardcoded ruby target version
     rm -f "$ED/usr/lib64/ruby/site_ruby/2.6.0/rubygems/defaults/operating_system.rb"
     rm -f "$ED/usr/lib64/ruby/site_ruby/2.7.0/rubygems/defaults/operating_system.rb"
 }
 
 case "$1" in
-    instprep) instprep ;;
+    instprep) : ;;
     *) : ;;
 esac
