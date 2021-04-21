@@ -122,7 +122,7 @@ dev-util/radare2 std-gnu99.conf
 dev-util/scanmem gnu-source.conf
 dev-util/colm gnu-source.conf
 dev-util/unicorn std-gnu99.conf gnu-source.conf
-dev-util/rizin gnu-source.conf
+#dev-util/rizin gnu-source.conf
 gnome-base/dconf std-gnu99.conf
 # clang is stuck in an infinite loop when building with optimizations and eventually gets killed by the OEM killer
 games-emulation/mupen64plus-core no-optimizations.conf gnu-source.conf
