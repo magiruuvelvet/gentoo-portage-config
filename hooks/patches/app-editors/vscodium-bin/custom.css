@@ -234,6 +234,11 @@
     margin-right: 0;
 }
 
+/* hide SCM status, there is no setting to remove this from the status bar without disabling the entire plugin :( */
+.part.statusbar .items-container.left-items .statusbar-item[id="status.scm"] {
+    display: none !important;
+}
+
 
 /* reduce size of editor scrollbars */
 [id="workbench.parts.editor"] .split-view-view .editor-container .monaco-scrollable-element.editor-scrollable canvas.decorationsOverviewRuler,
@@ -280,4 +285,11 @@
     background-repeat: no-repeat;
     /*opacity: 0.8;*/
     /*animation: background_image_fade 2s;*/
+}
+
+
+
+
+.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"] .codicon.codicon-debug-pause {
+    color: inherit !important;
 }

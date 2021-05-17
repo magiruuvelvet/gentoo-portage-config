@@ -67,12 +67,12 @@ sys-libs/binutils-libs::gentoo
 >=sys-devel/clang-11.1.0
 >=sys-devel/clang-common-11.1.0
 >=sys-devel/clang-runtime-11.1.0
->=sys-libs/libcxx-11.1.0
->=sys-libs/libcxxabi-11.1.0
->=sys-libs/llvm-libunwind-11.1.0
+>=sys-libs/libcxx-13
+>=sys-libs/libcxxabi-13
+>=sys-libs/llvm-libunwind-13
 >=dev-util/lldb-11.1.0
 >=sys-devel/lld-11.1.0
->=sys-libs/libomp-11.1.0
+>=sys-libs/libomp-13
 >=sys-libs/compiler-rt-11.1.0
 >=dev-python/lit-11.1.0
 

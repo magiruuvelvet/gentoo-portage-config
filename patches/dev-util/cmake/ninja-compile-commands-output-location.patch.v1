@@ -1,0 +1,13 @@
+diff --git a/Source/cmGlobalNinjaGenerator.cxx b/Source/cmGlobalNinjaGenerator.cxx
+index c502fb85..796476a3 100644
+--- a/Source/cmGlobalNinjaGenerator.cxx
++++ b/Source/cmGlobalNinjaGenerator.cxx
+@@ -1099,7 +1099,7 @@ void cmGlobalNinjaGenerator::AddCXXCompileCommand(
+     this->GetCMakeInstance()->GetHomeOutputDirectory();
+   if (!this->CompileCommandsStream) {
+     std::string buildFilePath =
+-      cmStrCat(buildFileDir, "/compile_commands.json");
++      cmStrCat("/caches/cmake/", std::to_string(geteuid()), '/', buildFileDir, "/compile_commands.json");
+     if (this->ComputingUnknownDependencies) {
+       this->CombinedBuildOutputs.insert(
+         this->NinjaOutputPath("compile_commands.json"));

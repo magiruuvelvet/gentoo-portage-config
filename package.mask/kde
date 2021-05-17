@@ -372,3 +372,6 @@
 >=kde-apps/umbrello-20.12
 >=kde-apps/yakuake-20.12
 >=kde-apps/zeroconf-ioslave-20.12
+
+>net-libs/libktorrent-20.12.3
+>net-p2p/ktorrent-20.12.3

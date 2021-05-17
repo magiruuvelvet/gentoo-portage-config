@@ -2,138 +2,28 @@
 
 source /etc/portage/hooks/functions/check-env.sh
 
-install_helper() {
-    local split_arg1=($1)
-    local libname="${split_arg1[0]}"
-    split_arg1=("${split_arg1[@]:1}")
-    local source="$2"
-
-    # copy library from nvidia dist
-    cp "${source}/${libname}" "${libname}"
-
-    # create symbolic links
-    for name in "${split_arg1[@]}"; do
-        ln -s "${libname}" "${name}"
-    done
-
-    # create base link
-    ln -s "${libname}" "${libname%%.*}.so"
-}
-
-install_32() {
-    # 32-bit directories
-    local nv_libdir="${S}/32"
-    local target="${D}/usr/lib/opengl/nvidia/lib"
-
-    # 32-bit libraries
-    local NV_GLX_LIBRARIES=(
-        "libEGL.so.1.1.0                    libEGL.so.1"
-        "libEGL_nvidia.so.${NV_SOVER}       libEGL_nvidia.so.0"
-        "libGL.so.1.7.0                     libGL.so.1"
-        "libGLESv1_CM.so.1.2.0              libGLESv1_CM.so.1"
-        "libGLESv1_CM_nvidia.so.${NV_SOVER} libGLESv1_CM_nvidia.so.1"
-        "libGLESv2.so.2.1.0                 libGLESv2.so.2"
-        "libGLESv2_nvidia.so.${NV_SOVER}    libGLESv2_nvidia.so.2"
-        "libGLX.so.0"
-        "libGLX_nvidia.so.${NV_SOVER}       libGLX_nvidia.so.0"
-        "libGLdispatch.so.0"
-        "libOpenGL.so.0"
-    )
-
-    mkdir -p "${target}"
-
-    pushd "${target}"
-    for NV_LIB in "${NV_GLX_LIBRARIES[@]}"; do
-        install_helper "${NV_LIB}" "${nv_libdir}"
-    done
-    popd
-}
-
-install_64() {
-    # 64-bit directories
-    local nv_libdir="${S}"
-    local target="${D}/usr/lib64/opengl/nvidia/lib"
-
-    # 64-bit libraries
-    local NV_GLX_LIBRARIES=(
-        "libEGL.so.1.1.0                    libEGL.so.1"
-        "libEGL_nvidia.so.${NV_SOVER}       libEGL_nvidia.so.0"
-        "libGL.so.1.7.0                     libGL.so.1"
-        "libGLESv1_CM.so.1.2.0              libGLESv1_CM.so.1"
-        "libGLESv1_CM_nvidia.so.${NV_SOVER} libGLESv1_CM_nvidia.so.1"
-        "libGLESv2.so.2.1.0                 libGLESv2.so.2"
-        "libGLESv2_nvidia.so.${NV_SOVER}    libGLESv2_nvidia.so.2"
-        "libGLX.so.0"
-        "libGLX_nvidia.so.${NV_SOVER}       libGLX_nvidia.so.0"
-        "libGLdispatch.so.0"
-        "libOpenGL.so.0"
-    )
-
-    mkdir -p "${target}"
-
-    pushd "${target}"
-    for NV_LIB in "${NV_GLX_LIBRARIES[@]}"; do
-        install_helper "${NV_LIB}" "${nv_libdir}"
-    done
-    popd
-}
-
-# install non-GLVND libraries into the old directory for bumblebee/primus compatibility
-instprep_old() {
-    echo -e "installing bumblebee/primus compatibility libraries..."
-
-    cd "${S}"
-    mkdir -p "${D}"
-
-    export NV_SOVER=${PV}
-
-    echo -e "installing 64-bit non-GLVND libraries..."
-    install_64
-
-    echo -e "installing 32-bit non-GLVND libraries..."
-    install_32
-
-    echo -e "installing bumblebee/primusrun env fix..."
-    mkdir -p "${D}/etc/env.d"
-    cp /etc/portage/patches/x11-drivers/nvidia-drivers/99glvnd-custom "${D}/etc/env.d/99glvnd-custom"
-
-    echo -e "done!"
-
-    # optimus cleanup
-    echo -e "cleaning up nvidia package..."
-
-    # remove systemd unit files
-    rm -r "${D}/lib/systemd"
-
-    # remove documentation
-    rm -r "${D}/usr/share/doc"
-
-    # remove useless binaries and scripts
-    rm "${D}/usr/bin/nvidia-bug-report.sh"
-    rm "${D}/usr/bin/nvidia-sleep.sh"
-    rm "${D}/opt/bin/nvidia-xconfig"
-    rm "${D}/opt/bin/nvidia-persistenced"
-}
-
 instprep() {
 
-    rm "${D}/usr/bin/nvidia-bug-report.sh"
-    rm "${D}/opt/bin/nvidia-xconfig"
-    rm "${D}/opt/bin/nvidia-persistenced"
+    rm -f "${D}/usr/bin/nvidia-bug-report.sh" || true
+    rm -f "${D}/opt/bin/nvidia-xconfig" || true
+    rm -f "${D}/opt/bin/nvidia-persistenced" || true
 
-    rm "${D}/etc/conf.d/nvidia-persistenced"
-    rm "${D}/etc/init.d/nvidia-persistenced"
-    rm "${D}/etc/nvidia/nvidia-application-profiles-rc"
-    rm -r "${D}/etc/X11/xinit"
+    rm -f "${D}/usr/bin/nvidia-xconfig" || true
+    rm -f "${D}/usr/bin/nvidia-persistenced" || true
 
-    rm -r "${D}/usr/share/applications"
-    rm -r "${D}/usr/share/pixmaps"
-    rm -r "${D}/usr/share/nvidia"
+    rm -f "${D}/etc/conf.d/nvidia-persistenced" || true
+    rm -f "${D}/etc/init.d/nvidia-persistenced" || true
+    rm -f "${D}/etc/nvidia/nvidia-application-profiles-rc" || true
+    rm -rf "${D}/etc/X11/xinit" || true
 
-    rm -r "${D}/usr/share/doc"
+    rm -rf "${D}/usr/share/applications" || true
+    rm -rf "${D}/usr/share/pixmaps" || true
+    #rm -rf "${D}/usr/share/nvidia" || true
 
-    mkdir -p "${D}/opt/nvidia-tools"
-    mv "${D}/usr/bin/nvidia-settings" "${D}/opt/nvidia-tools/"
+    rm -rf "${D}/usr/share/doc" || true
+
+    #mkdir -p "${D}/opt/nvidia-tools"
+    #mv "${D}/usr/bin/nvidia-settings" "${D}/opt/nvidia-tools/"
 }
 
 case "$1" in

@@ -1,0 +1,36 @@
+diff --git a/Source/cmGlobalNinjaGenerator.cxx b/Source/cmGlobalNinjaGenerator.cxx
+index c502fb85..2c7306ae 100644
+--- a/Source/cmGlobalNinjaGenerator.cxx
++++ b/Source/cmGlobalNinjaGenerator.cxx
+@@ -1091,6 +1091,14 @@ void cmGlobalNinjaGenerator::AddAdditionalCleanFile(std::string fileName,
+   this->Configs[config].AdditionalCleanFiles.emplace(std::move(fileName));
+ }
+ 
++namespace {
++    inline static bool CheckEnv(const char *var)
++    {
++        const auto res = ::getenv(var);
++        return res ? true : false;
++    }
++}
++
+ void cmGlobalNinjaGenerator::AddCXXCompileCommand(
+   const std::string& commandLine, const std::string& sourceFile)
+ {
+@@ -1098,8 +1106,14 @@ void cmGlobalNinjaGenerator::AddCXXCompileCommand(
+   std::string buildFileDir =
+     this->GetCMakeInstance()->GetHomeOutputDirectory();
+   if (!this->CompileCommandsStream) {
+-    std::string buildFilePath =
+-      cmStrCat(buildFileDir, "/compile_commands.json");
++    std::string buildFilePath{};
++    if (CheckEnv("CMAKE_USE_GLOBAL_COMPILE_COMMANDS_STORAGE")) {
++      buildFilePath =
++        cmStrCat("/caches/cmake/", std::to_string(geteuid()), '/', buildFileDir, "/compile_commands.json");
++    } else {
++      buildFilePath =
++        cmStrCat(buildFileDir, "/compile_commands.json");
++    }
+     if (this->ComputingUnknownDependencies) {
+       this->CombinedBuildOutputs.insert(
+         this->NinjaOutputPath("compile_commands.json"));
