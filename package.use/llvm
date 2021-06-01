@@ -28,3 +28,6 @@ dev-util/lldb python lzma -libedit
 
 # OpenMP runtime library for LLVM/clang compiler
 sys-libs/libomp abi_x86_32
+
+sys-devel/clang PYTHON_SINGLE_TARGET: -* python3_7
+dev-util/lldb PYTHON_SINGLE_TARGET: -* python3_7

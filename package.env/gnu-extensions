@@ -247,6 +247,7 @@ net-libs/bzrtp gnu-source.conf
 net-mail/dovecot std-gnu99.conf
 net-mail/mailutils std-gnu99.conf
 net-misc/freerdp gnu-source.conf
+net-misc/rdesktop gnu-source.conf
 net-misc/memcached std-gnu99.conf
 net-misc/modemmanager std-gnu99.conf
 net-misc/ofono gnu-source.conf
