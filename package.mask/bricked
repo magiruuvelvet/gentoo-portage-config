@@ -4,6 +4,3 @@
 # is generating non-functional initramfs for me (fails to boot)
 # v050 with the exact same configuration works, weird
 =sys-kernel/dracut-051-r1
-
-# doesn't compile anymore
-#=dev-libs/ell-0.39

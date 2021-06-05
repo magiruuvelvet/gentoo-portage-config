@@ -1,3 +1,0 @@
-# requires sys-libs/libunwind which conflicts with sys-libs/llvm-libunwind
-# nice job guys for not supporting llvm-based userlands
-net-fs/samba

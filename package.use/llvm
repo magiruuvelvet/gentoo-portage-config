@@ -31,3 +31,4 @@ sys-libs/libomp abi_x86_32
 
 sys-devel/clang PYTHON_SINGLE_TARGET: -* python3_7
 dev-util/lldb PYTHON_SINGLE_TARGET: -* python3_7
+dev-python/six python_targets_python3_7 python_targets_python3_9

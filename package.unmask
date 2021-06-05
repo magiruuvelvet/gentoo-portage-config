@@ -59,6 +59,3 @@ dev-cpp/libcutl::nest
 dev-db/soci::nest
 dev-util/cli::nest
 dev-python/pystache::nest
-
-# tmp
-=net-fs/samba-4.13.4
