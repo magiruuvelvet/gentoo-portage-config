@@ -76,6 +76,21 @@ sys-libs/binutils-libs::gentoo
 >=sys-libs/compiler-rt-11.1.0
 >=dev-python/lit-11.1.0
 
+# also don't attempt to downgrade
+<=sys-devel/llvm-10.0.1
+<=sys-devel/llvm-common-10.0.1
+<=sys-devel/clang-10.0.1
+<=sys-devel/clang-common-10.0.1
+<=sys-devel/clang-runtime-10.0.1
+<=sys-libs/libcxx-10.0.1
+<=sys-libs/libcxxabi-10.0.1
+<=sys-libs/llvm-libunwind-10.0.1
+<=dev-util/lldb-10.0.1
+<=sys-devel/lld-10.0.1
+<=sys-libs/libomp-10.0.1
+<=sys-libs/compiler-rt-10.0.1
+<=dev-python/lit-10.0.1
+
 # use custom version
 sys-libs/musl::gentoo
 

@@ -3,11 +3,3 @@ dev-python/cryptography idna
 dev-python/ipython matplotlib
 dev-python/pillow zlib jpeg jpeg2k lcms tiff truetype webp
 dev-python/requests socks5
-
-# python 3.9 migration process
-dev-python/setuptools python_targets_python3_7 python_targets_python3_9
-dev-python/setuptools_scm python_targets_python3_7 python_targets_python3_9
-dev-python/certifi python_targets_python3_7 python_targets_python3_9
-dev-python/toml python_targets_python3_7 python_targets_python3_9
-dev-lang/python-exec python_targets_python3_7 python_targets_python3_9
-dev-lang/python-exec-conf python_targets_python3_7 python_targets_python3_9
