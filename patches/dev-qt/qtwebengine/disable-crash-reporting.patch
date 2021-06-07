@@ -1,8 +1,8 @@
 diff --git a/src/3rdparty/chromium/content/public/common/content_features.cc b/src/3rdparty/chromium/content/public/common/content_features.cc
-index 3f56cdcd8..8121509ce 100644
+index b7e601a77..c2c85d20f 100644
 --- a/src/3rdparty/chromium/content/public/common/content_features.cc
 +++ b/src/3rdparty/chromium/content/public/common/content_features.cc
-@@ -121,12 +121,7 @@ const base::Feature kCookieDeprecationMessages{
+@@ -172,12 +172,7 @@ const base::Feature kCooperativeScheduling{"CooperativeScheduling",
  // Enables crash reporting via Reporting API.
  // https://www.w3.org/TR/reporting/#crash-report
  const base::Feature kCrashReporting{"CrashReporting",

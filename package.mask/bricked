@@ -4,3 +4,6 @@
 # is generating non-functional initramfs for me (fails to boot)
 # v050 with the exact same configuration works, weird
 =sys-kernel/dracut-051-r1
+
+# makes some gtk apps sad (waterfox, ...)
+=x11-libs/pango-1.48.5

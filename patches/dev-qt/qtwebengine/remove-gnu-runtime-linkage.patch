@@ -1,5 +1,5 @@
 diff --git a/src/3rdparty/chromium/build/config/chromecast/BUILD.gn b/src/3rdparty/chromium/build/config/chromecast/BUILD.gn
-index c8b2989c4..f88f71112 100644
+index 0c3b2cbeb..2eb93d844 100644
 --- a/src/3rdparty/chromium/build/config/chromecast/BUILD.gn
 +++ b/src/3rdparty/chromium/build/config/chromecast/BUILD.gn
 @@ -14,15 +14,6 @@ config("static_config") {
@@ -19,10 +19,10 @@ index c8b2989c4..f88f71112 100644
  }
  
 diff --git a/src/3rdparty/gn/build/gen.py b/src/3rdparty/gn/build/gen.py
-index 8acf9706d..a3f32d5cd 100755
+index 8c646be8b..19c3b62cb 100755
 --- a/src/3rdparty/gn/build/gen.py
 +++ b/src/3rdparty/gn/build/gen.py
-@@ -359,9 +359,6 @@ def WriteGNNinja(path, platform, host, options):
+@@ -361,9 +361,6 @@ def WriteGNNinja(path, platform, host, options):
      if platform.is_linux():
        ldflags.append('-Wl,--as-needed')
  

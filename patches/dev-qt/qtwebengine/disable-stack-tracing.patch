@@ -1,5 +1,5 @@
 diff --git a/src/3rdparty/chromium/base/debug/stack_trace_posix.cc b/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
-index f4ddf9c1e..aca5a6856 100644
+index 6a1531e13..90ed35bc8 100644
 --- a/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
 +++ b/src/3rdparty/chromium/base/debug/stack_trace_posix.cc
 @@ -488,7 +488,6 @@ void WarmUpBacktrace() {
@@ -42,12 +42,12 @@ index f4ddf9c1e..aca5a6856 100644
 -  success &= (sigaction(SIGBUS, &action, nullptr) == 0);
 -  success &= (sigaction(SIGSEGV, &action, nullptr) == 0);
 -// On Linux, SIGSYS is reserved by the kernel for seccomp-bpf sandboxing.
--#if !defined(OS_LINUX)
+-#if !defined(OS_LINUX) && !defined(OS_CHROMEOS)
 -  success &= (sigaction(SIGSYS, &action, nullptr) == 0);
--#endif  // !defined(OS_LINUX)
+-#endif  // !defined(OS_LINUX) && !defined(OS_CHROMEOS)
 -
 -  return success;
-+    return true;
++  return true;
  }
  
  #if !defined(OS_NACL)

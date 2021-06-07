@@ -1,18 +1,3 @@
-# ~~`qtwebengine-QTBUG-75265-v5.12.3.patch`~~
-
-~~Fails to build in Release mode with optimizations due to a bug~~
-~~in the build system. This patch enables release builds.~~
-
-Fixed in Qt 5.14
-
-# ~~`add-missing-header-in-webrtc-lib.patch`~~
-
-~~Fails to find a specific declaration since the installation~~
-~~of Linux Headers 5.2 (worked with 5.1). Add the missing header~~
-~~files to allow compilation.~~
-
-Patch no longer required as of 5.13.2
-
 # `disable-stack-tracing.patch`
 
 Stack tracing is broken when compiled against a pure LLVM runtime.
