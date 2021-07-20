@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const getCss = (number, index) => {
         return `
             [id="workbench.parts.editor"] .split-view-view:nth-child(${index}) .editor-container .editor-instance > .monaco-editor .overflow-guard > .monaco-scrollable-element::before {
-                background-image: url(file:///opt/vscodium/resources/app/out/vs/workbench/vscodium-assets/image${number}.png) !important;
+                background-image: url(https://codium-assets.local/resources/app/out/vs/workbench/vscodium-assets/image${number}.png) !important;
             }
             [id="workbench.parts.editor"] .split-view-view:nth-child(${index}) .empty::before {
-                background-image: url(file:///opt/vscodium/resources/app/out/vs/workbench/vscodium-assets/image${number}.png) !important;
+                background-image: url(https://codium-assets.local/resources/app/out/vs/workbench/vscodium-assets/image${number}.png) !important;
             }
         `;
     };

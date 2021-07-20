@@ -5,6 +5,6 @@
  	<!-- Startup via workbench.js -->
  	<script src="workbench.js"></script>
 +
-+	<link rel="stylesheet" type="text/css" href="file:///opt/vscodium/resources/app/out/vs/workbench/custom.css">
-+	<script src="file:///opt/vscodium/resources/app/out/vs/workbench/custom.js"></script>
++	<link rel="stylesheet" type="text/css" href="https://codium-assets.local/custom.css">
++	<script src="https://codium-assets.local/custom.js"></script>
  </html>
