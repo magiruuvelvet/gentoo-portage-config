@@ -1,8 +1,8 @@
 diff --git a/builtin/commit.c b/builtin/commit.c
-index 646e845..6253c21 100644
+index 190d215..a6636f4 100644
 --- a/builtin/commit.c
 +++ b/builtin/commit.c
-@@ -1643,17 +1643,6 @@ int cmd_commit(int argc, const char **argv, const char *prefix)
+@@ -1767,17 +1767,6 @@ int cmd_commit(int argc, const char **argv, const char *prefix)
  
  	cleanup_message(&sb, cleanup_mode, verbose);
  
@@ -17,6 +17,6 @@ index 646e845..6253c21 100644
 -		exit(1);
 -	}
 -
- 	if (amend) {
- 		const char *exclude_gpgsig[2] = { "gpgsig", NULL };
- 		extra = read_commit_extra_headers(current_head, exclude_gpgsig);
+ 	if (fixup_message && starts_with(sb.buf, "amend! ") &&
+ 	    !allow_empty_message) {
+ 		struct strbuf body = STRBUF_INIT;
