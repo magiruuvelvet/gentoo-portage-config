@@ -1,0 +1,23 @@
+diff --git a/src/server/speechd.c b/src/server/speechd.c
+index 8d3c1de..5b84331 100644
+--- a/src/server/speechd.c
++++ b/src/server/speechd.c
+@@ -946,17 +946,7 @@ gboolean client_process_incoming (gint          fd,
+ 
+ void check_client_count(void)
+ {
+-	if (client_count <= 0
+-	    && SpeechdOptions.server_timeout > 0) {
+-		MSG(4, "Currently no clients connected, enabling shutdown timer.");
+-		server_timeout_source = 
+-		                        g_timeout_add_seconds(
+-		                        SpeechdOptions.server_timeout,
+-		                        speechd_quit, NULL);
+-	} else {
+-	MSG(4, "Clients connected, disabling shutdown timer.");
+-		g_source_remove(server_timeout_source);
+-	}
++    g_source_remove(server_timeout_source);
+ }
+ 
+ /* --- MAIN --- */

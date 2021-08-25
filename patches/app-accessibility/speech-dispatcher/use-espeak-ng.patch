@@ -1,0 +1,39 @@
+diff --git a/configure b/configure
+index 3ebce80..6239acb 100755
+--- a/configure
++++ b/configure
+@@ -20950,7 +20950,7 @@ if ${ac_cv_lib_espeak_espeak_Synth+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lespeak $EXTRA_ESPEAK_LIBS $LIBS"
++LIBS="-lespeak-ng $EXTRA_ESPEAK_LIBS $LIBS"
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
+diff --git a/src/modules/Makefile.am b/src/modules/Makefile.am
+index 2c9e2aa..5dad6d3 100644
+--- a/src/modules/Makefile.am
++++ b/src/modules/Makefile.am
+@@ -95,7 +95,7 @@ modulebin_PROGRAMS += sd_espeak
+ sd_espeak_SOURCES = espeak.c $(audio_SOURCES) $(common_SOURCES)
+ sd_espeak_LDADD = $(top_builddir)/src/common/libcommon.la \
+ 	$(audio_dlopen_modules) \
+-	-lespeak $(EXTRA_ESPEAK_LIBS) \
++	-lespeak-ng $(EXTRA_ESPEAK_LIBS) \
+ 	$(common_LDADD)
+ endif
+ 
+diff --git a/src/modules/Makefile.in b/src/modules/Makefile.in
+index 07946bd..ddd2959 100644
+--- a/src/modules/Makefile.in
++++ b/src/modules/Makefile.in
+@@ -670,7 +670,7 @@ sd_cicero_LDADD = $(top_builddir)/src/common/libcommon.la \
+ @espeak_support_TRUE@sd_espeak_SOURCES = espeak.c $(audio_SOURCES) $(common_SOURCES)
+ @espeak_support_TRUE@sd_espeak_LDADD = $(top_builddir)/src/common/libcommon.la \
+ @espeak_support_TRUE@	$(audio_dlopen_modules) \
+-@espeak_support_TRUE@	-lespeak $(EXTRA_ESPEAK_LIBS) \
++@espeak_support_TRUE@	-lespeak-ng $(EXTRA_ESPEAK_LIBS) \
+ @espeak_support_TRUE@	$(common_LDADD)
+ 
+ @espeak_ng_support_TRUE@sd_espeak_ng_SOURCES = espeak-ng.c $(audio_SOURCES) $(common_SOURCES)

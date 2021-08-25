@@ -1,0 +1,14 @@
+#!/bin/sh
+
+source /etc/portage/hooks/functions/check-env.sh
+
+instprep() {
+    cd "${ED}"
+
+    rm -r "${ED}/etc/xdg/autostart"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

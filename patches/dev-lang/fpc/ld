@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# remove GNU exclusive linker arguments
+args=()
+for var in "$@"; do
+  if [[ "$var" == "-b" ]]; then
+    continue
+  elif [[ "$var" == "-m" ]]; then
+    continue
+  elif [[ "$var" == "elf64-x86-64" ]]; then
+    continue
+  elif [[ "$var" == "elf_x86_64" ]]; then
+    continue
+  else
+    args+=("$var")
+  fi
+done
+
+# print to see what it is doing
+echo -e "\e[1m${args[@]}\e[0m"
+
+# invoke LLVM LLD
+exec /usr/bin/ld "${args[@]}"

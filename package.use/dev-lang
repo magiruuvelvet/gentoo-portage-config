@@ -5,6 +5,7 @@ dev-lang/ruby -berkdb -gdbm ssl jemalloc socks5 jit rdoc -doc
 # system llvm is not compatible because its too new and contains custom patches
 dev-lang/rust rustfmt -system-llvm -system-bootstrap rls
 dev-lang/perl ithreads
+dev-lang/fpc source
 
 # note: sysvipc causes random segfaults in LLVM/libomp.so from time to time
 dev-lang/php acl -berkdb bzip2 cjk cli ctype fileinfo filter -gdbm hash iconv ipv6 json nls opcache phar posix

@@ -104,6 +104,7 @@ dev-libs/json-c gnu-source.conf
 dev-libs/libxdg-basedir gnu-source.conf
 dev-libs/liblinphone gnu-source.conf
 dev-libs/xxhash gnu-source.conf
+dev-libs/tomsfastmath std-gnu99.conf
 dev-cpp/libcutl gnu-source.conf
 dev-php/igbinary gnu-source.conf
 dev-php/pecl-memcached gnu-source.conf
@@ -185,6 +186,7 @@ media-libs/virglrenderer gnu-source.conf
 media-libs/openal gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libv4l std-gnu99.conf
 media-libs/mediastreamer2 gnu-source.conf
+media-libs/pcaudiolib std-gnu99.conf
 media-plugins/alsa-plugins std-gnu99.conf
 media-plugins/frei0r-plugins gnu-source.conf c++11.conf
 media-plugins/calf std-gnu11.conf
@@ -355,7 +357,8 @@ x11-libs/gtk+ gnu-source.conf
 x11-libs/libwnck gnu-source.conf
 x11-misc/i3lock std-gnu99.conf
 x11-misc/alltray gnu-source.conf
-x11-misc/xrestop gnu-source.conf
+# move x11-misc/xrestop x11-apps/xrestop
+x11-apps/xrestop gnu-source.conf
 app-laptop/laptop-mode-tools gnu-source.conf
 dev-tcltk/blt gnu-source.conf
 dev-tcltk/tix gnu-source.conf
@@ -369,6 +372,8 @@ net-im/coturn gnu-source.conf
 media-tv/kodi gnu-source.conf
 media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
 dev-ruby/redcarpet gnu-source.conf
+
+app-antivirus/clamav gnu-source.conf
 
 # error: cannot specify -o when generating multiple output files
 # this package is hardcoded to assume everyone uses gcc
@@ -385,3 +390,8 @@ dev-libs/elfutils gnu-gcc.conf static-gnu-runtime.conf
 # TODO: mariadb straight out doesn't work at all without GNU *rage*
 # backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
 dev-db/mariadb gnu-gcc.conf static-gnu-runtime.conf
+
+
+# figure out why this compiler can't handle a pure LLVM toolchain (linker)
+# i figured it out :)
+#dev-lang/fpc gnu-gcc.conf static-gnu-runtime.conf

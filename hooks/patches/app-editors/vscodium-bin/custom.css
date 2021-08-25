@@ -63,21 +63,24 @@
 
 /* move cmake tools build button to activity bar (mimic Qt Creator) */
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"],
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"],
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] {
     position: absolute !important;
     bottom: 42px !important;
     width: 48px !important;
     height: 48px !important;
 }
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] a,
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] a {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] a,
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] a {
     margin: 0 !important;
     padding: 0 !important;
     width: 48px !important;
     height: 48px !important;
 }
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] span::before,
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] span::before {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] span::before,
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] span::before {
     content: '\eb6d' !important;
     display: block !important;
     width: 48px !important;
@@ -236,6 +239,11 @@
 
 /* hide SCM status, there is no setting to remove this from the status bar without disabling the entire plugin :( */
 .part.statusbar .items-container.left-items .statusbar-item[id="status.scm"] {
+    display: none !important;
+}
+
+/* hide number of tasks from the task button list */
+.part.statusbar .items-container.left-items .statusbar-item[id="spencerwmiles.vscode-task-buttons"] .disabled {
     display: none !important;
 }
 

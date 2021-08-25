@@ -1,0 +1,233 @@
+diff --git a/compiler/systems/t_linux.pas b/compiler/systems/t_linux.pas
+index ac7c74d8..c85193e8 100644
+--- a/compiler/systems/t_linux.pas
++++ b/compiler/systems/t_linux.pas
+@@ -323,22 +323,7 @@ procedure TLinkerLinux.SetDefaultInfo;
+ }
+ 
+ const
+-{$ifdef i386}      platform_select='-b elf32-i386 -m elf_i386';{$endif}
+-{$ifdef x86_64}    platform_select='-b elf64-x86-64 -m elf_x86_64';{$endif}
+-{$ifdef powerpc}   platform_select='-b elf32-powerpc -m elf32ppclinux';{$endif}
+-{$ifdef POWERPC64} platform_select='';{$endif}
+-{$ifdef sparc}     platform_select='-b elf32-sparc -m elf32_sparc';{$endif}
+-{$ifdef sparc64}   platform_select='-b elf64-sparc -m elf64_sparc';{$endif}
+-{$ifdef arm}       platform_select='';{$endif} {unknown :( }
+-{$ifdef aarch64}   platform_select='';{$endif} {unknown :( }
+-{$ifdef m68k}      platform_select='';{$endif} {unknown :( }
+-{$ifdef mips}
+-  {$ifdef mipsel}
+-                   platform_select='-EL';
+-  {$else}
+-                   platform_select='-EB';
+-  {$endif}
+-{$endif}
++    platform_select='';
+ 
+ var
+   platformopt: string;
+@@ -502,23 +487,23 @@ begin
+          { then the crtbegin* }
+          if cs_create_pic in current_settings.moduleswitches then
+            begin
+-             if librarysearchpath.FindFile('crtbeginS.o',false,s) then
++             if librarysearchpath.FindFile('clang_rt.crtbegin-x86_64.o',false,s) then
+                AddFileName(s)
+              else
+-               Message1(exec_w_init_file_not_found,'crtbeginS.o');
++               Message1(exec_w_init_file_not_found,'clang_rt.crtbegin-x86_64.o');
+            end
+          else
+            if (cs_link_staticflag in current_settings.globalswitches) then
+              begin
+-               if librarysearchpath.FindFile('crtbeginT.o',false,s) then
++               if librarysearchpath.FindFile('clang_rt.crtbegin-x86_64.o',false,s) then
+                  AddFileName(s)
+                else
+-                 Message1(exec_w_init_file_not_found,'crtbeginT.o');
++                 Message1(exec_w_init_file_not_found,'clang_rt.crtbegin-x86_64.o');
+              end
+-           else if librarysearchpath.FindFile('crtbegin.o',false,s) then
++           else if librarysearchpath.FindFile('clang_rt.crtbegin-x86_64.o',false,s) then
+              AddFileName(s)
+            else
+-             Message1(exec_w_init_file_not_found,'crtbegin.o');
++             Message1(exec_w_init_file_not_found,'clang_rt.crtbegin-x86_64.o');
+        end;
+       { main objectfiles }
+       while not ObjectFiles.Empty do
+@@ -606,15 +591,15 @@ begin
+        begin
+          if cs_create_pic in current_settings.moduleswitches then
+            begin
+-             found1:=librarysearchpath.FindFile('crtendS.o',false,s1);
++             found1:=librarysearchpath.FindFile('clang_rt.crtend-x86_64.o',false,s1);
+              if not(found1) then
+-               Message1(exec_w_init_file_not_found,'crtendS.o');
++               Message1(exec_w_init_file_not_found,'clang_rt.crtend-x86_64.o');
+            end
+          else
+            begin
+-             found1:=librarysearchpath.FindFile('crtend.o',false,s1);
++             found1:=librarysearchpath.FindFile('clang_rt.crtend-x86_64.o',false,s1);
+              if not(found1) then
+-               Message1(exec_w_init_file_not_found,'crtend.o');
++               Message1(exec_w_init_file_not_found,'clang_rt.crtend-x86_64.o');
+            end;
+ 
+          found2:=librarysearchpath.FindFile('crtn.o',false,s2);
+@@ -888,42 +873,42 @@ begin
+           add('  {');
+           add('    PROVIDE_HIDDEN (__init_array_start = .);');
+           add('    KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))');
+-          add('    KEEP (*(.init_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))');
++          add('    KEEP (*(.init_array EXCLUDE_FILE (*clang_rt.crtbegin-x86_64.o *crtbegin?.o *clang_rt.crtend-x86_64.o *crtend?.o ) .ctors))');
+           add('    PROVIDE_HIDDEN (__init_array_end = .);');
+           add('  }');
+           add('  .fini_array     :');
+           add('  {');
+           add('    PROVIDE_HIDDEN (__fini_array_start = .);');
+           add('    KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))');
+-          add('    KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))');
++          add('    KEEP (*(.fini_array EXCLUDE_FILE (*clang_rt.crtbegin-x86_64.o *crtbegin?.o *clang_rt.crtend-x86_64.o *crtend?.o ) .dtors))');
+           add('    PROVIDE_HIDDEN (__fini_array_end = .);');
+           add('  }');
+           add('  .ctors          :');
+           add('  {');
+-          add('    /* gcc uses crtbegin.o to find the start of');
++          add('    /* gcc uses clang_rt.crtbegin-x86_64.o to find the start of');
+           add('       the constructors, so we make sure it is');
+           add('       first.  Because this is a wildcard, it');
+           add('       doesn''t matter if the user does not');
+-          add('       actually link against crtbegin.o; the');
++          add('       actually link against clang_rt.crtbegin-x86_64.o; the');
+           add('       linker won''t look for a file to match a');
+           add('       wildcard.  The wildcard also means that it');
+-          add('       doesn''t matter which directory crtbegin.o');
++          add('       doesn''t matter which directory clang_rt.crtbegin-x86_64.o');
+           add('       is in.  */');
+-          add('    KEEP (*crtbegin.o(.ctors))');
++          add('    KEEP (*clang_rt.crtbegin-x86_64.o(.ctors))');
+           add('    KEEP (*crtbegin?.o(.ctors))');
+           add('    /* We don''t want to include the .ctor section from');
+-          add('       the crtend.o file until after the sorted ctors.');
++          add('       the clang_rt.crtend-x86_64.o file until after the sorted ctors.');
+           add('       The .ctor section from the crtend file contains the');
+           add('       end of ctors marker and it must be last */');
+-          add('    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))');
++          add('    KEEP (*(EXCLUDE_FILE (*clang_rt.crtend-x86_64.o *crtend?.o ) .ctors))');
+           add('    KEEP (*(SORT(.ctors.*)))');
+           add('    KEEP (*(.ctors))');
+           add('  }');
+           add('  .dtors          :');
+           add('  {');
+-          add('    KEEP (*crtbegin.o(.dtors))');
++          add('    KEEP (*clang_rt.crtbegin-x86_64.o(.dtors))');
+           add('    KEEP (*crtbegin?.o(.dtors))');
+-          add('    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .dtors))');
++          add('    KEEP (*(EXCLUDE_FILE (*clang_rt.crtend-x86_64.o *crtend?.o ) .dtors))');
+           add('    KEEP (*(SORT(.dtors.*)))');
+           add('    KEEP (*(.dtors))');
+           add('  }');
+@@ -1124,30 +1109,30 @@ begin
+               add('  }');
+               add('  .ctors          :');
+               add('  {');
+-              add('    /* gcc uses crtbegin.o to find the start of');
++              add('    /* gcc uses clang_rt.crtbegin-x86_64.o to find the start of');
+               add('       the constructors, so we make sure it is');
+               add('       first.  Because this is a wildcard, it');
+               add('       doesn''t matter if the user does not');
+-              add('       actually link against crtbegin.o; the');
++              add('       actually link against clang_rt.crtbegin-x86_64.o; the');
+               add('       linker won''t look for a file to match a');
+               add('       wildcard.  The wildcard also means that it');
+-              add('       doesn''t matter which directory crtbegin.o');
++              add('       doesn''t matter which directory clang_rt.crtbegin-x86_64.o');
+               add('       is in.  */');
+-              add('    KEEP (*crtbegin.o(.ctors))');
++              add('    KEEP (*clang_rt.crtbegin-x86_64.o(.ctors))');
+               add('    KEEP (*crtbegin?.o(.ctors))');
+               add('    /* We don''t want to include the .ctor section from');
+-              add('       the crtend.o file until after the sorted ctors.');
++              add('       the clang_rt.crtend-x86_64.o file until after the sorted ctors.');
+               add('       The .ctor section from the crtend file contains the');
+               add('       end of ctors marker and it must be last */');
+-              add('    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))');
++              add('    KEEP (*(EXCLUDE_FILE (*clang_rt.crtend-x86_64.o *crtend?.o ) .ctors))');
+               add('    KEEP (*(SORT(.ctors.*)))');
+               add('    KEEP (*(.ctors))');
+               add('  }');
+               add('  .dtors          :');
+               add('  {');
+-              add('    KEEP (*crtbegin.o(.dtors))');
++              add('    KEEP (*clang_rt.crtbegin-x86_64.o(.dtors))');
+               add('    KEEP (*crtbegin?.o(.dtors))');
+-              add('    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .dtors))');
++              add('    KEEP (*(EXCLUDE_FILE (*clang_rt.crtend-x86_64.o *crtend?.o ) .dtors))');
+               add('    KEEP (*(SORT(.dtors.*)))');
+               add('    KEEP (*(.dtors))');
+               add('  }');
+@@ -1595,7 +1580,7 @@ begin
+         if (cs_link_staticflag in current_settings.globalswitches) and
+           librarysearchpath.FindFile('crtbeginT.o',false,s) then
+           LinkScript.Concat('READOBJECT '+maybequoted(s))
+-        else if librarysearchpath.FindFile('crtbegin.o',false,s) then
++        else if librarysearchpath.FindFile('clang_rt.crtbegin-x86_64.o',false,s) then
+           LinkScript.Concat('READOBJECT '+maybequoted(s));
+     end;
+ 
+@@ -1645,7 +1630,7 @@ begin
+       if cs_create_pic in current_settings.moduleswitches then
+         found1:=librarysearchpath.FindFile('crtendS.o',false,s1)
+       else
+-        found1:=librarysearchpath.FindFile('crtend.o',false,s1);
++        found1:=librarysearchpath.FindFile('clang_rt.crtend-x86_64.o',false,s1);
+       found2:=librarysearchpath.FindFile('crtn.o',false,s2);
+       if found1 then
+         LinkScript.Concat('READOBJECT '+maybequoted(s1));
+@@ -1755,14 +1740,14 @@ begin
+       { why the hell .ctors are both here and exesection .ctors below?? }
+       //  KEEP ( *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
+       Concat('  OBJSECTION .init_array');
+-      //  KEEP ( *(EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))
++      //  KEEP ( *(EXCLUDE_FILE (*clang_rt.crtbegin-x86_64.o *crtbegin?.o *clang_rt.crtend-x86_64.o *crtend?.o ) .ctors))
+       Concat('PROVIDE __init_array_end');
+       Concat('ENDEXESECTION');
+       Concat('EXESECTION .fini_array');
+       Concat('  PROVIDE __fini_array_start');
+       //  KEEP ( *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
+       Concat('  OBJSECTION .fini_array');
+-      //  KEEP ( *(EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
++      //  KEEP ( *(EXCLUDE_FILE (*clang_rt.crtbegin-x86_64.o *crtbegin?.o *clang_rt.crtend-x86_64.o *crtend?.o ) .dtors))
+       Concat('  PROVIDE __fini_array_end');
+       Concat('ENDEXESECTION');
+ 
+diff --git a/packages/fpmkunit/src/fpmkunit.pp b/packages/fpmkunit/src/fpmkunit.pp
+index bfbeb222..215f8531 100644
+--- a/packages/fpmkunit/src/fpmkunit.pp
++++ b/packages/fpmkunit/src/fpmkunit.pp
+@@ -2775,21 +2775,11 @@ function GetDefaultLibGCCDir(CPU : TCPU;OS: TOS; var ErrorMessage: string): stri
+       GccExecutable: string;
+   begin
+     result := '';
+-    GccExecutable := ExeSearch(AddProgramExtension('gcc', OS),Sysutils.GetEnvironmentVariable('PATH'));
++    GccExecutable := ExeSearch(AddProgramExtension('clang', OS),Sysutils.GetEnvironmentVariable('PATH'));
+     if FileExists(GccExecutable) then
+       begin
+ {$ifdef HAS_UNIT_PROCESS}
+-      ExecResult:=GetCompilerInfo(GccExecutable,'-v '+GCCParams, True);
+-      libgccFilename:=Get4thWord(ExecResult);
+-      // Use IsRelativePath to check if the 4th word is an (absolute) path.
+-      // This depends on the language settings. In English the 4th word is
+-      // empty, if this particular gcc version does not return the libgcc-
+-      // filename on -v. But in other languages (e.g. Dutch) it may be another
+-      // word.
+-      if IsRelativePath(libgccFilename) then
+-        libgccFilename:='';
+-      if libgccFilename='' then
+-        libgccFilename:=GetCompilerInfo(GccExecutable,'--print-libgcc-file-name '+GCCParams, False);
++      libgccFilename:=GetCompilerInfo(GccExecutable,'--print-libgcc-file-name '+GCCParams, False);
+       result := ExtractFileDir(libgccFilename);
+ {$else HAS_UNIT_PROCESS}
+       ErrorMessage := SWarnNoFCLProcessSupport;

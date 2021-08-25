@@ -65,6 +65,7 @@ x11-libs/libxkbcommon abi_x86_32
 x11-misc/mangohud abi_x86_32
 
 # required for now as I don't want to nuke everything 32-bit just yet
+sys-libs/libxcrypt abi_x86_32
 sys-apps/systemd abi_x86_32
 sys-apps/dbus abi_x86_32
 sys-apps/util-linux abi_x86_32
@@ -82,6 +83,7 @@ dev-libs/libgcrypt abi_x86_32
 dev-libs/libgpg-error abi_x86_32
 dev-libs/expat abi_x86_32
 dev-libs/libbsd abi_x86_32
+app-crypt/libmd abi_x86_32
 dev-libs/libffi abi_x86_32
 sys-libs/pam abi_x86_32
 sys-libs/zlib abi_x86_32

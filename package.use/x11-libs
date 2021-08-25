@@ -12,3 +12,4 @@ x11-libs/pango introspection
 x11-libs/gdk-pixbuf introspection
 x11-libs/gtksourceview introspection
 x11-libs/wxGTK X opengl gstreamer libnotify sdl tiff
+x11-libs/libwnck introspection
