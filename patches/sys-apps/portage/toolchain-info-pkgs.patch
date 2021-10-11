@@ -1,18 +1,23 @@
 diff --git a/lib/_emerge/actions.py b/lib/_emerge/actions.py
-index 705a3ff..813c4cd 100644
+index 05a1152..1aa31e6 100644
 --- a/lib/_emerge/actions.py
 +++ b/lib/_emerge/actions.py
-@@ -1763,8 +1763,12 @@ def action_info(settings, trees, myopts, myfiles):
- 		append(ccache_str)
- 
- 	myvars  = ["sys-devel/autoconf", "sys-devel/automake", "virtual/os-headers",
--	           "sys-devel/binutils", "sys-devel/libtool",  "dev-lang/python"]
-+	           "sys-devel/libtool",  "dev-lang/python",    "sys-libs/compiler-rt",
-+	           "sys-devel/llvm",     "sys-devel/clang",    "sys-devel/lld"]
- 	myvars += portage.util.grabfile(settings["PORTDIR"]+"/profiles/info_pkgs")
-+	myvars.remove("sys-devel/binutils");
-+	myvars.remove("sys-devel/gcc");
-+	myvars.remove("sys-devel/gcc-config");
- 	atoms = []
- 	for x in myvars:
- 		try:
+@@ -2030,11 +2030,17 @@ def action_info(settings, trees, myopts, myfiles):
+         "sys-devel/autoconf",
+         "sys-devel/automake",
+         "virtual/os-headers",
+-        "sys-devel/binutils",
+         "sys-devel/libtool",
+         "dev-lang/python",
++        "sys-libs/compiler-rt",
++        "sys-devel/llvm",
++        "sys-devel/clang",
++        "sys-devel/lld",
+     ]
+     myvars += portage.util.grabfile(settings["PORTDIR"] + "/profiles/info_pkgs")
++    myvars.remove("sys-devel/binutils");
++    myvars.remove("sys-devel/gcc");
++    myvars.remove("sys-devel/gcc-config");
+     atoms = []
+     for x in myvars:
+         try:

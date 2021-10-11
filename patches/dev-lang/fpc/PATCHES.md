@@ -6,6 +6,8 @@
 
  - remove linker options which are only available in GNU
  - use compiler-rt from LLVM instead of libgcc (including crt files)
+ - remove GNU ABI tag to advertise that this is a LLVM powered FreePascal compiler
+   producing ELF files without the usage of any GNU software
 
 ## Breakage caused by above patches
 

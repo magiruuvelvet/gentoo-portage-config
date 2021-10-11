@@ -6,4 +6,4 @@
 =sys-kernel/dracut-051-r1
 
 # makes some gtk apps sad (waterfox, ...)
->=x11-libs/pango-1.48
+#>=x11-libs/pango-1.48

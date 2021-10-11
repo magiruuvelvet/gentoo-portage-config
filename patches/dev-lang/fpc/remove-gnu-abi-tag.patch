@@ -1,0 +1,13 @@
+diff --git a/rtl/linux/x86_64/abitag.as b/rtl/linux/x86_64/abitag.as
+index 9098ca77..aeb694a7 100644
+--- a/rtl/linux/x86_64/abitag.as
++++ b/rtl/linux/x86_64/abitag.as
+@@ -19,7 +19,7 @@
+         .long 1f - 0f
+         .long 3f - 2f
+         .long  1
+-0:      .asciz "GNU"
++0:      .asciz "   "
+ 1:      .align 4
+ 2:      .long 0
+         .long 2,4,0

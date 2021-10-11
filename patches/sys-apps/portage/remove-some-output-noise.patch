@@ -1,17 +1,17 @@
 diff --git a/lib/portage/util/_info_files.py b/lib/portage/util/_info_files.py
-index fabf74b..2bd86b6 100644
+index 528b273..9fb1d00 100644
 --- a/lib/portage/util/_info_files.py
 +++ b/lib/portage/util/_info_files.py
 @@ -29,12 +29,8 @@ def chk_updated_info_files(root, infodirs, prev_mtimes):
  
- 		if not regen_infodirs:
- 			portage.util.writemsg_stdout("\n")
--			if portage.util.noiselimit >= 0:
--				out.einfo("GNU info directory index is up-to-date.")
- 		else:
- 			portage.util.writemsg_stdout("\n")
--			if portage.util.noiselimit >= 0:
--				out.einfo("Regenerating GNU info directory index...")
+         if not regen_infodirs:
+             portage.util.writemsg_stdout("\n")
+-            if portage.util.noiselimit >= 0:
+-                out.einfo("GNU info directory index is up-to-date.")
+         else:
+             portage.util.writemsg_stdout("\n")
+-            if portage.util.noiselimit >= 0:
+-                out.einfo("Regenerating GNU info directory index...")
  
- 			dir_extensions = ("", ".gz", ".bz2")
- 			icount = 0
+             dir_extensions = ("", ".gz", ".bz2")
+             icount = 0

@@ -37,7 +37,7 @@ media-libs/libsamplerate sndfile
 media-libs/phonon pulseaudio gstreamer -vlc
 media-libs/phonon-gstreamer network alsa
 media-libs/mesa pic vaapi vdpau vulkan vulkan-overlay wayland lm-sensors xa -llvm
-media-libs/freetype -infinality png utils
+media-libs/freetype -infinality png utils harfbuzz
 media-libs/harfbuzz icu introspection
 media-libs/libglvnd X
 media-libs/vulkan-loader X wayland layers
@@ -48,3 +48,4 @@ media-libs/x264 pic
 media-libs/x265 pic
 media-libs/mediastreamer2 alsa pulseaudio ffmpeg gsm opus -v4l zrtp srtp jpeg speex vpx
 media-libs/libheif aom libde265 -rav1e x265
+media-libs/libsixel jpeg png gd curl

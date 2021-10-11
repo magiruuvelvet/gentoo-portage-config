@@ -1,1 +1,2 @@
-x11-terms/xterm unicode truetype xinerama
+x11-terms/xterm unicode truetype xinerama sixel
+x11-terms/mlterm cairo fcitx harfbuzz xft

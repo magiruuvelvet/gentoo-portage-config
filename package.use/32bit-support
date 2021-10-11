@@ -31,7 +31,6 @@ x11-drivers/nvidia-drivers abi_x86_32
 x11-libs/libICE abi_x86_32
 x11-libs/libSM abi_x86_32
 x11-libs/libX11 abi_x86_32
-x11-libs/libXScrnSaver abi_x86_32
 x11-libs/libXau abi_x86_32
 x11-libs/libXcomposite abi_x86_32
 x11-libs/libXcursor abi_x86_32
@@ -39,7 +38,6 @@ x11-libs/libXdamage abi_x86_32
 x11-libs/libXdmcp abi_x86_32
 x11-libs/libXext abi_x86_32
 x11-libs/libXfixes abi_x86_32
-x11-libs/libXft abi_x86_32
 x11-libs/libXi abi_x86_32
 x11-libs/libXinerama abi_x86_32
 x11-libs/libXrandr abi_x86_32
@@ -73,8 +71,6 @@ app-arch/bzip2 abi_x86_32
 app-arch/lz4 abi_x86_32
 app-arch/xz-utils abi_x86_32
 app-arch/zstd abi_x86_32
-media-libs/freetype abi_x86_32
-media-libs/fontconfig abi_x86_32
 media-libs/libpng abi_x86_32
 dev-libs/libxml2 abi_x86_32
 dev-libs/libxslt abi_x86_32

@@ -72,6 +72,7 @@ media-sound/cantata ld-force-lib64.conf
 dev-libs/boost ld-force-lib64.conf
 media-video/subtitlecomposer ld-force-lib64.conf
 dev-libs/glib ld-fix-libs.conf
+media-libs/libsixel ld-force-lib64.conf
 
 # TODO: weird or faulty runtime behavior in those packages without the applied fixes
 dev-lang/luajit libunwind.conf gnu-source.conf
