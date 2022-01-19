@@ -64,7 +64,8 @@
 /* move cmake tools build button to activity bar (mimic Qt Creator) */
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"],
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"],
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"],
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build, Build the selected target: [all]"] {
     position: absolute !important;
     bottom: 42px !important;
     width: 48px !important;
@@ -72,7 +73,8 @@
 }
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] a,
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] a,
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] a {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] a,
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build, Build the selected target: [all]"] a {
     margin: 0 !important;
     padding: 0 !important;
     width: 48px !important;
@@ -80,7 +82,8 @@
 }
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear ビルド"] span::before,
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear Build"] span::before,
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] span::before {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build"] span::before,
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build, Build the selected target: [all]"] span::before {
     content: '\eb6d' !important;
     display: block !important;
     width: 48px !important;
@@ -90,19 +93,22 @@
 }
 
 /* move cmake tools run button to activity bar (mimic Qt Creator) */
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"],
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play, Launch the selected target in the terminal window"] {
     position: absolute !important;
     bottom: calc(42px + 42px + 10px) !important;
     width: 48px !important;
     height: 48px !important;
 }
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] a {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] a,
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play, Launch the selected target in the terminal window"] a {
     margin: 0 !important;
     padding: 0 !important;
     width: 48px !important;
     height: 48px !important;
 }
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] span::before {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play"] span::before,
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play, Launch the selected target in the terminal window"] span::before {
     display: block !important;
     width: 48px !important;
     height: 48px !important;

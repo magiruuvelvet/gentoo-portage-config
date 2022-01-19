@@ -105,6 +105,7 @@ dev-libs/libxdg-basedir gnu-source.conf
 dev-libs/liblinphone gnu-source.conf
 dev-libs/xxhash gnu-source.conf
 dev-libs/tomsfastmath std-gnu99.conf
+dev-libs/libappindicator gnu-source.conf
 dev-cpp/libcutl gnu-source.conf
 dev-php/igbinary gnu-source.conf
 dev-php/pecl-memcached gnu-source.conf
