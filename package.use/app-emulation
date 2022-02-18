@@ -1,6 +1,6 @@
-app-emulation/containerd -btrfs
-app-emulation/docker -btrfs aufs overlay
-app-emulation/docker-compose
+app-containers/containerd -btrfs
+app-containers/docker -btrfs aufs overlay
+app-containers/docker-compose
 app-emulation/libvirt caps dbus fuse libssh libvirtd macvtap -numa policykit qemu udev vepa virt-network -zfs
 app-emulation/libvirt-glib introspection
 app-emulation/qemu aio bzip2 caps curl fdt filecaps gnutls jpeg lzo zstd numa opengl png seccomp snappy spice ssh usb
