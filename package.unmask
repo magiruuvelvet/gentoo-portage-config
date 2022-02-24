@@ -38,6 +38,7 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
+sys-devel/gdb::localrepo
 
 
 # linphone voip client

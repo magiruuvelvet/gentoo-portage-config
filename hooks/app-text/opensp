@@ -4,7 +4,7 @@ source /etc/portage/hooks/functions/check-env.sh
 
 configure() {
     cd "$S"
-    patch -p1 < /etc/portage/patches/app-text/opensp/register-storage-type-fix.patch
+    #patch -p1 < /etc/portage/patches/app-text/opensp/register-storage-type-fix.patch
 }
 
 case "$1" in

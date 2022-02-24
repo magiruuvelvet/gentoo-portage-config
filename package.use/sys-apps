@@ -13,6 +13,6 @@ sys-apps/smartmontools -daemon
 sys-apps/gsmartcontrol
 sys-apps/firejail -contrib -globalcfg x11
 sys-apps/man-db -gdbm berkdb
-sys-apps/flatpak seccomp policykit -gnome -gtk kde
+sys-apps/flatpak X seccomp policykit -gnome -gtk kde
 sys-apps/debianutils -installkernel
 sys-apps/kmod zstd
