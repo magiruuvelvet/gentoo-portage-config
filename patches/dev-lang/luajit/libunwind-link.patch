@@ -1,0 +1,13 @@
+diff --git a/src/Makefile b/src/Makefile
+index 30d64be..996fcfb 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -347,7 +347,7 @@ else
+     endif
+   endif
+   ifeq (Linux,$(TARGET_SYS))
+-    TARGET_XLIBS+= -ldl
++    TARGET_XLIBS+= -ldl -lunwind
+   endif
+   ifeq (GNU/kFreeBSD,$(TARGET_SYS))
+     TARGET_XLIBS+= -ldl

@@ -4,7 +4,8 @@ source /etc/portage/hooks/functions/check-env.sh
 
 prepare() {
     # remove version file (conflicts with LLVM/libc++)
-    rm "../work/${P}/version"
+    #rm "../work/${P}/version"
+    :
 }
 
 case "$1" in

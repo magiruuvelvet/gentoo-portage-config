@@ -7,7 +7,7 @@ prepare() {
     rm -r "../work/${P}/tests"
 
     # remove version file (conflicts with LLVM/libc++)
-    rm "../work/${P}/version"
+    #rm "../work/${P}/version"
 }
 
 case "$1" in

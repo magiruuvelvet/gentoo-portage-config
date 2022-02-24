@@ -11,7 +11,7 @@ media-video/ffmpeg vulkan cuda video_cards_nvidia
 media-video/ffmpeg chromium
 media-video/ffmpeg-chromium cpudetection vulkan vaapi vdpau
 
-media-video/mkvtoolnix qt5 pch
+media-video/mkvtoolnix qt5 pch gui
 media-video/subtitlecomposer unicode mpv
 media-video/mpv X alsa jack archive bluray -cdda cli cplugins drm dvd egl iconv javascript libass -libcaca
 media-video/mpv libmpv lua luajit lua_single_target_luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland -lua_single_target_lua5-1
