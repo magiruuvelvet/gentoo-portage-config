@@ -269,10 +269,10 @@ net-wireless/wpa_supplicant std-gnu99.conf
 net-wireless/bluez gnu-source.conf
 net-wireless/bluez-tools gnu-source.conf
 net-wireless/bluez-hcidump std-gnu99.conf
-net-dialup/ppp std-gnu11.conf gnu-source.conf
+net-dialup/ppp gnu-gcc.conf static-gnu-runtime.conf
 sci-mathematics/lpsolve std-gnu99.conf
 sys-apps/man gnu-source.conf
-sys-apps/diffutils std-gnu99.conf
+sys-apps/diffutils std-gnu11.conf
 sys-apps/dmapi gnu-source.conf
 sys-apps/fakeroot gnu-source.conf
 sys-apps/firejail std-gnu99.conf
