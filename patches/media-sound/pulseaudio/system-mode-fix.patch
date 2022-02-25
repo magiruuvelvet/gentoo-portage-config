@@ -1,8 +1,8 @@
 diff --git a/src/pulsecore/core-util.c b/src/pulsecore/core-util.c
-index 64e9f21..e9be0c9 100644
+index c383a61..b85853b 100644
 --- a/src/pulsecore/core-util.c
 +++ b/src/pulsecore/core-util.c
-@@ -1841,12 +1841,6 @@ char *pa_get_runtime_dir(void) {
+@@ -1772,12 +1772,6 @@ char *pa_get_runtime_dir(void) {
      /* Use the explicitly configured value if it is set */
      d = getenv("PULSE_RUNTIME_PATH");
      if (d) {

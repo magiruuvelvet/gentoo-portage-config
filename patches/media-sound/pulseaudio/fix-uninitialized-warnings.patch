@@ -1,8 +1,8 @@
 diff --git a/src/pulsecore/sink.c b/src/pulsecore/sink.c
-index 55e9af3..83bce23 100644
+index 905e1db..0fdfb6b 100644
 --- a/src/pulsecore/sink.c
 +++ b/src/pulsecore/sink.c
-@@ -2330,7 +2330,7 @@ bool pa_sink_get_mute(pa_sink *s, bool force_refresh) {
+@@ -2349,7 +2349,7 @@ bool pa_sink_get_mute(pa_sink *s, bool force_refresh) {
      pa_assert(PA_SINK_IS_LINKED(s->state));
  
      if ((s->refresh_muted || force_refresh) && s->get_mute) {
@@ -11,7 +11,7 @@ index 55e9af3..83bce23 100644
  
          if (s->flags & PA_SINK_DEFERRED_VOLUME) {
              if (pa_asyncmsgq_send(s->asyncmsgq, PA_MSGOBJECT(s), PA_SINK_MESSAGE_GET_MUTE, &mute, 0, NULL) >= 0)
-@@ -3363,7 +3363,7 @@ void pa_sink_set_port_latency_offset(pa_sink *s, int64_t offset) {
+@@ -3382,7 +3382,7 @@ void pa_sink_set_port_latency_offset(pa_sink *s, int64_t offset) {
  
  /* Called from main context */
  size_t pa_sink_get_max_rewind(pa_sink *s) {
@@ -20,7 +20,7 @@ index 55e9af3..83bce23 100644
      pa_assert_ctl_context();
      pa_sink_assert_ref(s);
  
-@@ -3377,7 +3377,7 @@ size_t pa_sink_get_max_rewind(pa_sink *s) {
+@@ -3396,7 +3396,7 @@ size_t pa_sink_get_max_rewind(pa_sink *s) {
  
  /* Called from main context */
  size_t pa_sink_get_max_request(pa_sink *s) {
@@ -30,10 +30,10 @@ index 55e9af3..83bce23 100644
      pa_assert_ctl_context();
  
 diff --git a/src/pulsecore/source.c b/src/pulsecore/source.c
-index 855d3de..19362fa 100644
+index 99d8dde..e17e796 100644
 --- a/src/pulsecore/source.c
 +++ b/src/pulsecore/source.c
-@@ -1140,7 +1140,7 @@ unsuspend:
+@@ -1157,7 +1157,7 @@ unsuspend:
  
  /* Called from main thread */
  pa_usec_t pa_source_get_latency(pa_source *s) {
@@ -42,7 +42,7 @@ index 855d3de..19362fa 100644
  
      pa_source_assert_ref(s);
      pa_assert_ctl_context();
-@@ -1903,7 +1903,7 @@ bool pa_source_get_mute(pa_source *s, bool force_refresh) {
+@@ -1920,7 +1920,7 @@ bool pa_source_get_mute(pa_source *s, bool force_refresh) {
      pa_assert(PA_SOURCE_IS_LINKED(s->state));
  
      if ((s->refresh_muted || force_refresh) && s->get_mute) {
@@ -51,7 +51,7 @@ index 855d3de..19362fa 100644
  
          if (s->flags & PA_SOURCE_DEFERRED_VOLUME) {
              if (pa_asyncmsgq_send(s->asyncmsgq, PA_MSGOBJECT(s), PA_SOURCE_MESSAGE_GET_MUTE, &mute, 0, NULL) >= 0)
-@@ -2644,7 +2644,7 @@ void pa_source_set_port_latency_offset(pa_source *s, int64_t offset) {
+@@ -2661,7 +2661,7 @@ void pa_source_set_port_latency_offset(pa_source *s, int64_t offset) {
  
  /* Called from main thread */
  size_t pa_source_get_max_rewind(pa_source *s) {

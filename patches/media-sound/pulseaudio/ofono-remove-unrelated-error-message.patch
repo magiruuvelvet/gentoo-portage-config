@@ -1,8 +1,8 @@
 diff --git a/src/modules/bluetooth/backend-ofono.c b/src/modules/bluetooth/backend-ofono.c
-index 0e5bbe8..3a0c9c4 100644
+index 85dec44..7698830 100644
 --- a/src/modules/bluetooth/backend-ofono.c
 +++ b/src/modules/bluetooth/backend-ofono.c
-@@ -452,8 +452,6 @@ static void hf_audio_agent_register_reply(DBusPendingCall *pending, void *userda
+@@ -518,8 +518,6 @@ static void hf_audio_agent_register_reply(DBusPendingCall *pending, void *userda
      pa_assert_se(r = dbus_pending_call_steal_reply(pending));
  
      if (dbus_message_get_type(r) == DBUS_MESSAGE_TYPE_ERROR) {
