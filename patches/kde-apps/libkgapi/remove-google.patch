@@ -12,10 +12,10 @@ index 9029f8e..ae6362b 100644
      auto commentBasePath(const QString &blogId,
                           const QString &postId = QString(),
 diff --git a/src/calendar/calendarservice.cpp b/src/calendar/calendarservice.cpp
-index 2df675b..c9bfc72 100644
+index 6de7a57..dfbb953 100644
 --- a/src/calendar/calendarservice.cpp
 +++ b/src/calendar/calendarservice.cpp
-@@ -60,9 +60,9 @@ ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString
+@@ -59,9 +59,9 @@ ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString
   */
  QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
  
@@ -28,7 +28,7 @@ index 2df675b..c9bfc72 100644
  }
  
  QNetworkRequest prepareRequest(const QUrl &url)
-@@ -77,51 +77,37 @@ QNetworkRequest prepareRequest(const QUrl &url)
+@@ -76,51 +76,37 @@ QNetworkRequest prepareRequest(const QUrl &url)
  
  QUrl fetchCalendarsUrl()
  {
@@ -87,7 +87,7 @@ index 2df675b..c9bfc72 100644
  }
  
  namespace {
-@@ -380,7 +366,6 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
+@@ -389,7 +375,6 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
      QJsonParseError error;
      QJsonDocument document = QJsonDocument::fromJson(jsonData, &error);
      if (error.error != QJsonParseError::NoError) {
@@ -112,10 +112,10 @@ index 19ae86a..56b9241 100644
      }
  
 diff --git a/src/contacts/contactsservice.cpp b/src/contacts/contactsservice.cpp
-index c296f23..14c087a 100644
+index b3c6cf9..d2ba920 100644
 --- a/src/contacts/contactsservice.cpp
 +++ b/src/contacts/contactsservice.cpp
-@@ -35,208 +35,81 @@ namespace Private
+@@ -36,208 +36,81 @@ namespace Private
      ObjectPtr JSONToContactsGroup(const QVariantMap &map);
      ObjectPtr JSONToContact(const QVariantMap& map);
  
@@ -128,7 +128,7 @@ index c296f23..14c087a 100644
 +    static const QString ContactsGroupBasePath;
 +    static const QString PhotoBasePath;
  
-     QByteArray addRelSchema(const QByteArray &rel)
+     static QByteArray addRelSchema(const QByteArray &rel)
      {
 -        if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
 -            return "http://schemas.google.com/g/2005#" + rel;
@@ -343,7 +343,7 @@ index c296f23..14c087a 100644
  
  
 diff --git a/src/core/accountinfo/accountinfofetchjob.cpp b/src/core/accountinfo/accountinfofetchjob.cpp
-index d12cc65..4522a6e 100644
+index 3f5f47c..4522a6e 100644
 --- a/src/core/accountinfo/accountinfofetchjob.cpp
 +++ b/src/core/accountinfo/accountinfofetchjob.cpp
 @@ -35,34 +35,11 @@ AccountInfoFetchJob::~AccountInfoFetchJob()
@@ -356,7 +356,7 @@ index d12cc65..4522a6e 100644
 -    QStringList headers;
 -    const auto rawHeaderList = request.rawHeaderList();
 -    headers.reserve(rawHeaderList.size());
--    for (const QByteArray &str : qAsConst(rawHeaderList)) {
+-    for (const QByteArray &str : std::as_const(rawHeaderList)) {
 -        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
 -    }
 -
@@ -383,63 +383,36 @@ index d12cc65..4522a6e 100644
  
  #include "moc_accountinfofetchjob.cpp"
 diff --git a/src/core/authjob.cpp b/src/core/authjob.cpp
-index 7c63045..64fa2ed 100644
+index c331528..3757276 100644
 --- a/src/core/authjob.cpp
 +++ b/src/core/authjob.cpp
-@@ -77,22 +77,6 @@ QWidget* AuthJob::Private::fullAuthentication()
+@@ -88,24 +88,5 @@ void AuthJob::dispatchRequest(QNetworkAccessManager* /*accessManager*/, const QN
  
- void AuthJob::Private::refreshTokens()
+ void AuthJob::start()
  {
--    static_cast<Job*>(q)->d->accessManager->setCookieJar(new QNetworkCookieJar);
+-    if (d->account->refreshToken().isEmpty() || (d->account->m_scopesChanged == true)) {
 -
--    QNetworkRequest request;
+-        d->account->addScope(Account::accountInfoEmailScopeUrl());
 -
--    request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
--    request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+-        auto *job = new FullAuthenticationJob(d->account, d->apiKey, d->secretKey, this);
+-        job->setUsername(d->username);
+-        job->setServerPort(kgapiTcpAuthServerPort);
+-        connect(job, &Job::finished, this, [this](Job *job) { d->jobFinished<FullAuthenticationJob>(job); });
+-    } else {
+-       if (d->account->accountName().isEmpty()) {
+-            setError(KGAPI2::InvalidAccount);
+-            setErrorString(tr("Account name is empty"));
+-            emitFinished();
+-            return;
+-        }
 -
--    QUrlQuery params;
--    params.addQueryItem(QStringLiteral("client_id"), apiKey);
--    params.addQueryItem(QStringLiteral("client_secret"), secretKey);
--    params.addQueryItem(QStringLiteral("refresh_token"), account->refreshToken());
--    params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
--
--    qCDebug(KGAPIDebug) << "Requesting token refresh.";
--
--    q->enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
- }
- 
- void AuthJob::Private::_k_fullAuthenticationFailed(Error errorCode, const QString &errorMessage)
-@@ -160,28 +144,6 @@ void AuthJob::setPassword(const QString& password)
- 
- void AuthJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
- {
--    Q_UNUSED(reply);
--
--    QJsonDocument document = QJsonDocument::fromJson(rawData);
--    if (document.isNull()) {
--        setError(KGAPI2::InvalidResponse);
--        setErrorString(tr("Failed to parse newly fetched tokens"));
--        emitFinished();
--        return;
+-        auto *job = new RefreshTokensJob(d->account, d->apiKey, d->secretKey, this);
+-        connect(job, &Job::finished, this, [this](Job *job) { d->jobFinished<RefreshTokensJob>(job); });
 -    }
--
--    QVariantMap map = document.toVariant().toMap();
--
--    /* Expected structure:
--     * {
--     *  "access_token": "the_access_token",
--     *  "token_type":"Bearer",
--     *  "expires_in":3600
--     * }
--     */
--    const qlonglong expiresIn = map.value(QStringLiteral("expires_in")).toLongLong();
--    d->account->setExpireDateTime(QDateTime::currentDateTime().addSecs(expiresIn));
--    d->account->setAccessToken(map.value(QStringLiteral("access_token")).toString());
-     emitFinished();
  }
  
 diff --git a/src/core/job.cpp b/src/core/job.cpp
-index de5fa39..5241132 100644
+index 4d5db03..889843f 100644
 --- a/src/core/job.cpp
 +++ b/src/core/job.cpp
 @@ -52,34 +52,10 @@ FileLogger *FileLogger::self()
@@ -478,10 +451,10 @@ index de5fa39..5241132 100644
  
  
 diff --git a/src/core/private/newtokensfetchjob.cpp b/src/core/private/newtokensfetchjob.cpp
-index 2936876..e19bccc 100644
+index d95ea21..4f422f8 100644
 --- a/src/core/private/newtokensfetchjob.cpp
 +++ b/src/core/private/newtokensfetchjob.cpp
-@@ -83,19 +83,6 @@ qulonglong NewTokensFetchJob::expiresIn() const
+@@ -77,19 +77,6 @@ qulonglong NewTokensFetchJob::expiresIn() const
  
  void NewTokensFetchJob::start()
  {
@@ -501,11 +474,11 @@ index 2936876..e19bccc 100644
  }
  
  void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType)
-@@ -107,23 +94,6 @@ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, co
+@@ -101,23 +88,6 @@ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, co
  
  void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
  {
--    Q_UNUSED(reply);
+-    Q_UNUSED(reply)
 -
 -    QJsonDocument document = QJsonDocument::fromJson(rawData);
 -    if (document.isNull()) {
@@ -549,7 +522,7 @@ index c63a557..5187eea 100644
  
  namespace DriveService
 diff --git a/src/latitude/latitudeservice.cpp b/src/latitude/latitudeservice.cpp
-index 2ba1c80..045383c 100644
+index 7298425..2ef4474 100644
 --- a/src/latitude/latitudeservice.cpp
 +++ b/src/latitude/latitudeservice.cpp
 @@ -21,9 +21,9 @@ namespace Private
@@ -566,10 +539,10 @@ index 2ba1c80..045383c 100644
  
  LocationPtr JSONToLocation(const QByteArray & jsonData)
 diff --git a/src/latitude/locationcreatejob.cpp b/src/latitude/locationcreatejob.cpp
-index fddd705..8a26013 100644
+index a9c6974..3c24137 100644
 --- a/src/latitude/locationcreatejob.cpp
 +++ b/src/latitude/locationcreatejob.cpp
-@@ -48,26 +48,6 @@ LocationCreateJob::~LocationCreateJob()
+@@ -47,26 +47,6 @@ LocationCreateJob::~LocationCreateJob()
  
  void LocationCreateJob::start()
  {
@@ -588,7 +561,7 @@ index fddd705..8a26013 100644
 -    QStringList headers;
 -    const auto rawHeaderList = request.rawHeaderList();
 -    headers.reserve(rawHeaderList.size());
--    for (const QByteArray &str : qAsConst(rawHeaderList)) {
+-    for (const QByteArray &str : std::as_const(rawHeaderList)) {
 -        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
 -    }
 -
@@ -597,10 +570,10 @@ index fddd705..8a26013 100644
  
  ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
 diff --git a/src/latitude/locationdeletejob.cpp b/src/latitude/locationdeletejob.cpp
-index 952fcc0..85f4a20 100644
+index eb75346..990ef0d 100644
 --- a/src/latitude/locationdeletejob.cpp
 +++ b/src/latitude/locationdeletejob.cpp
-@@ -62,30 +62,6 @@ LocationDeleteJob::~LocationDeleteJob()
+@@ -60,30 +60,6 @@ LocationDeleteJob::~LocationDeleteJob()
  
  void LocationDeleteJob::start()
  {
@@ -622,7 +595,7 @@ index 952fcc0..85f4a20 100644
 -    QStringList headers;
 -    const auto rawHeaderList = request.rawHeaderList();
 -    headers.reserve(rawHeaderList.size());
--    for (const QByteArray &str : qAsConst(rawHeaderList)) {
+-    for (const QByteArray &str : std::as_const(rawHeaderList)) {
 -        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
 -    }
 -
@@ -632,10 +605,10 @@ index 952fcc0..85f4a20 100644
  
  
 diff --git a/src/latitude/locationfetchhistoryjob.cpp b/src/latitude/locationfetchhistoryjob.cpp
-index 20e12db..7c8c31f 100644
+index b4287db..37e481d 100644
 --- a/src/latitude/locationfetchhistoryjob.cpp
 +++ b/src/latitude/locationfetchhistoryjob.cpp
-@@ -45,10 +45,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
+@@ -41,10 +41,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
  
  QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl& url)
  {
@@ -647,7 +620,7 @@ index 20e12db..7c8c31f 100644
  }
  
  
-@@ -117,10 +114,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
+@@ -113,10 +110,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
  
  void LocationFetchHistoryJob::start()
  {
@@ -658,7 +631,7 @@ index 20e12db..7c8c31f 100644
  }
  
  ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
-@@ -138,8 +131,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
+@@ -134,8 +127,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
      }
  
      if (feedData.nextPageUrl.isValid()) {
@@ -668,10 +641,10 @@ index 20e12db..7c8c31f 100644
  
      return items;
 diff --git a/src/latitude/locationfetchjob.cpp b/src/latitude/locationfetchjob.cpp
-index e8045a7..098ae2c 100644
+index 33bc392..3c8f4ae 100644
 --- a/src/latitude/locationfetchjob.cpp
 +++ b/src/latitude/locationfetchjob.cpp
-@@ -73,10 +73,6 @@ void LocationFetchJob::start()
+@@ -71,10 +71,6 @@ void LocationFetchJob::start()
      } else {
          url = LatitudeService::retrieveLocationUrl(d->timestamp, d->granularity);
      }
@@ -683,7 +656,7 @@ index e8045a7..098ae2c 100644
  
  ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
 diff --git a/src/tasks/tasksservice.cpp b/src/tasks/tasksservice.cpp
-index 030abf7..57d33f1 100644
+index 7e88cc9..6f7fddb 100644
 --- a/src/tasks/tasksservice.cpp
 +++ b/src/tasks/tasksservice.cpp
 @@ -56,9 +56,9 @@ namespace Private

@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d806872..9b4a038 100644
+index c1584bf..43e7054 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -216,7 +216,7 @@ include(CTest)  # Calls enable_testing().
+@@ -251,7 +251,7 @@ include(CTest)  # Calls enable_testing().
  include(CTestConfig.cmake)
  
  if(NOT DEFINED DATABASE_BACKEND)
@@ -11,13 +11,13 @@ index d806872..9b4a038 100644
  endif()
  
  ############### CTest options ###############
-@@ -232,18 +232,18 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake ${CMAKE_CURRENT_BIN
+@@ -267,13 +267,12 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake ${CMAKE_CURRENT_BIN
  macro(SET_DEFAULT_DB_BACKEND)
      set(_backend ${ARGV0})
      if("${_backend}" STREQUAL "SQLITE")
 -        set(AKONADI_DATABASE_BACKEND QSQLITE3)
+-        set(AKONADI_BUILD_QSQLITE TRUE)
 +        set(AKONADI_DATABASE_BACKEND QPSQL)
-         set(AKONADI_BUILD_QSQLITE TRUE)
      else()
          if("${_backend}" STREQUAL "POSTGRES")
            set(AKONADI_DATABASE_BACKEND QPSQL)
@@ -27,9 +27,3 @@ index d806872..9b4a038 100644
          endif()
      endif()
  
-     message(STATUS "Using default db backend ${AKONADI_DATABASE_BACKEND}")
--    add_definitions(-DAKONADI_DATABASE_BACKEND="${AKONADI_DATABASE_BACKEND}")
-+    add_definitions(-DAKONADI_DATABASE_BACKEND="QPSQL")
- endmacro()
- 
- #### DB BACKEND DEFAULT ####

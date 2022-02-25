@@ -1,8 +1,8 @@
 diff --git a/resources/imap/settingspasswordrequester.cpp b/resources/imap/settingspasswordrequester.cpp
-index 6dfc2df..fc98c91 100644
+index f7727b1..adfb1ff 100644
 --- a/resources/imap/settingspasswordrequester.cpp
 +++ b/resources/imap/settingspasswordrequester.cpp
-@@ -59,38 +59,11 @@ void SettingsPasswordRequester::requestPassword(RequestType request, const QStri
+@@ -43,38 +43,11 @@ void SettingsPasswordRequester::requestPassword(RequestType request, const QStri
  
  void SettingsPasswordRequester::askUserInput(const QString &serverError)
  {
@@ -12,13 +12,16 @@ index 6dfc2df..fc98c91 100644
 -        return;
 -    }
 -    QWidget *parent = QWidget::find(m_resource->winIdForDialogs());
--    QString text = i18n("The server for account \"%2\" refused the supplied username and password.\n"
--                        "Do you want to go to the settings, have another attempt "
--                        "at logging in, or do nothing?\n\n"
--                        "%1", serverError, m_resource->name());
--    QDialog *dialog = new QDialog(parent, Qt::Dialog);
+-    const QString text = i18n(
+-        "The server for account \"%2\" refused the supplied username and password.\n"
+-        "Do you want to go to the settings, have another attempt "
+-        "at logging in, or do nothing?\n\n"
+-        "%1",
+-        serverError,
+-        m_resource->name());
+-    auto dialog = new QDialog(parent, Qt::Dialog);
 -    dialog->setWindowTitle(i18nc("@title:window", "Could Not Authenticate"));
--    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::No | QDialogButtonBox::Yes, dialog);
+-    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::No | QDialogButtonBox::Yes, dialog);
 -    buttonBox->button(QDialogButtonBox::Yes)->setDefault(true);
 -
 -    buttonBox->button(QDialogButtonBox::Yes)->setText(i18n("Account Settings"));
@@ -33,10 +36,7 @@ index 6dfc2df..fc98c91 100644
 -    dialog->setAttribute(Qt::WA_NativeWindow, true);
 -    KWindowSystem::setMainWindow(dialog->windowHandle(), m_resource->winIdForDialogs());
 -    bool checkboxResult = false;
--    KMessageBox::createKMessageBox(dialog, buttonBox, QMessageBox::Information,
--                                   text, QStringList(),
--                                   QString(),
--                                   &checkboxResult, KMessageBox::NoExec);
+-    KMessageBox::createKMessageBox(dialog, buttonBox, QMessageBox::Information, text, QStringList(), QString(), &checkboxResult, KMessageBox::NoExec);
 -    dialog->show();
 +    // just silently try again with the current password
 +    // because the password can't suddenly change for no reason

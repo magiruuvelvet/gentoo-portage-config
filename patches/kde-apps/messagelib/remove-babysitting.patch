@@ -1,15 +1,15 @@
 diff --git a/messageviewer/src/widgets/attachmentdialog.cpp b/messageviewer/src/widgets/attachmentdialog.cpp
-index 47d8846..d16e5e6 100644
+index e9b4371..4c68b90 100644
 --- a/messageviewer/src/widgets/attachmentdialog.cpp
 +++ b/messageviewer/src/widgets/attachmentdialog.cpp
-@@ -34,9 +34,7 @@ using namespace MessageViewer;
- AttachmentDialog::AttachmentDialog(QWidget *parent, const QString &filenameText, const KService::Ptr &offer, const QString &dontAskAgainName)
-     : dontAskName(dontAskAgainName)
+@@ -24,9 +24,7 @@ AttachmentDialog::AttachmentDialog(QWidget *parent, const QString &filenameText,
+     , dialog(new QDialog(parent))
  {
--    text = xi18nc("@info", "Open attachment <filename>%1</filename>?<nl/>"
--                           "Note that opening an attachment may compromise "
--                           "your system's security.",
-+    text = xi18nc("@info", "Open attachment <filename>%1</filename>?",
+     text = xi18nc("@info",
+-                  "Open attachment <filename>%1</filename>?<nl/>"
+-                  "Note that opening an attachment may compromise "
+-                  "your system's security.",
++                  "Open attachment <filename>%1</filename>?",
                    filenameText);
  
-     dialog = new QDialog(parent);
+     dialog->setWindowTitle(i18nc("@title:window", "Open Attachment?"));

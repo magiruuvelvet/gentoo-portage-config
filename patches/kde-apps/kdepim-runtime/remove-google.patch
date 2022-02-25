@@ -1,8 +1,8 @@
 diff --git a/resources/google-groupware/calendarhandler.cpp b/resources/google-groupware/calendarhandler.cpp
-index e0edfc1..5dbe292 100644
+index a0b44cd..9571ae5 100644
 --- a/resources/google-groupware/calendarhandler.cpp
 +++ b/resources/google-groupware/calendarhandler.cpp
-@@ -381,7 +381,7 @@ void FreeBusyHandler::retrieveFreeBusy(const QString &email, const QDateTime &st
+@@ -360,7 +360,7 @@ void FreeBusyHandler::retrieveFreeBusy(const QString &email, const QDateTime &st
          }
  
          KCalendarCore::FreeBusy::Ptr fb(new KCalendarCore::FreeBusy);
@@ -12,23 +12,24 @@ index e0edfc1..5dbe292 100644
          fb->addAttendee(KCalendarCore::Attendee(QString(), queryJob->id()));
          // FIXME: is it really sort?
 diff --git a/resources/google-groupware/contacthandler.cpp b/resources/google-groupware/contacthandler.cpp
-index a56b42b..a7ba5f9 100644
+index 203c7ca..f6422f4 100644
 --- a/resources/google-groupware/contacthandler.cpp
 +++ b/resources/google-groupware/contacthandler.cpp
-@@ -69,7 +69,7 @@ bool ContactHandler::canPerformTask(const Item::List &items)
+@@ -58,8 +58,7 @@ bool ContactHandler::canPerformTask(const Item::List &items)
  
  QString ContactHandler::myContactsRemoteId() const
  {
--    return QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6").arg(QString::fromLatin1(QUrl::toPercentEncoding(m_settings->accountPtr()->accountName())));
+-    return QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6")
+-        .arg(QString::fromLatin1(QUrl::toPercentEncoding(m_settings->accountPtr()->accountName())));
 +    return {};
  }
  
  void ContactHandler::setupCollection(Collection &collection, const ContactsGroupPtr &group)
 diff --git a/resources/google-groupware/googleresource.cpp b/resources/google-groupware/googleresource.cpp
-index 8c2af27..281492c 100644
+index 62b08fa..c730379 100644
 --- a/resources/google-groupware/googleresource.cpp
 +++ b/resources/google-groupware/googleresource.cpp
-@@ -138,7 +138,6 @@ void GoogleResource::configure(WId windowId)
+@@ -144,7 +144,6 @@ void GoogleResource::configure(WId windowId)
          Q_EMIT configurationDialogAccepted();
  
          if (m_settings->accountPtr().isNull()) {
@@ -36,7 +37,7 @@ index 8c2af27..281492c 100644
              m_isConfiguring = false;
              return;
          }
-@@ -164,18 +163,10 @@ QList<QUrl> GoogleResource::scopes() const
+@@ -174,18 +173,10 @@ QList<QUrl> GoogleResource::scopes() const
  
  void GoogleResource::updateResourceName()
  {
@@ -55,7 +56,7 @@ index 8c2af27..281492c 100644
  }
  
  bool GoogleResource::handleError(KGAPI2::Job *job, bool _cancelTask)
-@@ -207,13 +198,7 @@ bool GoogleResource::handleError(KGAPI2::Job *job, bool _cancelTask)
+@@ -254,13 +245,7 @@ void GoogleResource::requestAuthenticationFromUser(const KGAPI2::AccountPtr &acc
  
  bool GoogleResource::canPerformTask()
  {
@@ -71,10 +72,10 @@ index 8c2af27..281492c 100644
  
  void GoogleResource::slotAuthJobFinished(KGAPI2::Job *job)
 diff --git a/resources/google-groupware/googlesettings.cpp b/resources/google-groupware/googlesettings.cpp
-index f07950b..17d4b5c 100644
+index e8fb183..1e6b7fa 100644
 --- a/resources/google-groupware/googlesettings.cpp
 +++ b/resources/google-groupware/googlesettings.cpp
-@@ -153,17 +153,17 @@ void GoogleSettings::addTaskList(const QString &taskList)
+@@ -131,17 +131,17 @@ void GoogleSettings::addTaskList(const QString &taskList)
  
  QString GoogleSettings::clientId() const
  {
@@ -96,12 +97,12 @@ index f07950b..17d4b5c 100644
  
  AccountPtr GoogleSettings::accountPtr()
 diff --git a/resources/imap/gmailpasswordrequester.cpp b/resources/imap/gmailpasswordrequester.cpp
-index dd7baed..7761f57 100644
+index 8d7db8e..9cfa764 100644
 --- a/resources/imap/gmailpasswordrequester.cpp
 +++ b/resources/imap/gmailpasswordrequester.cpp
-@@ -26,8 +26,8 @@
- #include <KGAPI/AuthJob>
+@@ -13,8 +13,8 @@
  #include <KGAPI/AccountManager>
+ #include <KGAPI/AuthJob>
  
 -#define GOOGLE_API_KEY QStringLiteral("554041944266.apps.googleusercontent.com")
 -#define GOOGLE_API_SECRET QStringLiteral("mdT1DjzohxN3npUUzkENT0gO")
