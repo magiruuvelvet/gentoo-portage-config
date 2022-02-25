@@ -1,0 +1,13 @@
+diff --git a/configure b/configure
+index ad0cb3d..15bbdba 100755
+--- a/configure
++++ b/configure
+@@ -17483,7 +17483,7 @@ esac
+ ac_fn_check_decl "$LINENO" "__GLIBC__" "ac_cv_have_decl___GLIBC__" "$ac_includes_default" "$ac_c_undeclared_builtin_options" "CFLAGS"
+ if test "x$ac_cv_have_decl___GLIBC__" = xyes
+ then :
+-  JSON_SYMVER_LDFLAGS=-Wl,--default-symver
++  JSON_SYMVER_LDFLAGS=
+ fi
+ 
+ 
