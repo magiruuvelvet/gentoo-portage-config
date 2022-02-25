@@ -29,8 +29,10 @@ www-servers/caddy::chaoslab
 # media
 media-video/mpv::vapoursynth
 
+# glibc version history, currently installed last
 #=sys-libs/glibc-2.29-r4
-=sys-libs/glibc-2.31-r7
+#=sys-libs/glibc-2.31-r7
+=sys-libs/glibc-2.33-r7
 
 # stubs for gcc and binutils
 sys-devel/gcc::localrepo

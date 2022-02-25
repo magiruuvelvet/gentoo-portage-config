@@ -1,4 +1,4 @@
-# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf CFLAGS="-v" CXXFLAGS="-v" ebuild /usr/portage/sys-libs/glibc/glibc-2.31-r7.ebuild clean install
+# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf STRIP=strip RANLIB=ranlib STRINGS=strings CFLAGS="" CXXFLAGS="" ebuild /usr/portage/sys-libs/glibc/glibc-2.33-r7.ebuild clean install
 
 export PATH="/sucks/gnu/bin:$PATH"
 
@@ -7,8 +7,8 @@ export PATH="/sucks/gnu/bin:$PATH"
 # when making wrapper scripts pay attention to not make an infinite exec loop :^)
 
 # remove clang specific compiler flags as they are causing trouble with gcc and especially building glibc
-export CFLAGS="-v"
-export CXXFLAGS="-v"
+export CFLAGS=""
+export CXXFLAGS=""
 
 # after building glibc and installing into $ED is done
 # llvm-objcopy --remove-section=.comment all_elf_files
@@ -16,9 +16,13 @@ export CXXFLAGS="-v"
 # to remove traces from GCC so the compiler information
 # is not transferred by LLVM/lld into clang built binaries
 
+# patch usr/include/alloca.h
+# #if defined(__GNUC__) || defined(__clang__)
+# clang provides __builtin_alloca too
+
 # now its time to merge, be careful and make sure you know how to rescue yourself from disaster
 # use a statically linked busybox and keep an extracted glibc backup from quickpkg somewhere
-# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf CFLAGS="-v" CXXFLAGS="-v" ebuild /usr/portage/sys-libs/glibc/glibc-2.31-r7.ebuild merge
+# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf STRIP=strip RANLIB=ranlib STRINGS=strings CFLAGS="" CXXFLAGS="" ebuild /usr/portage/sys-libs/glibc/glibc-2.33-r7.ebuild merge
 
 # before doing anything check with one of the unit tests
 # and compiler-ident if GCC is popping up in the .comment

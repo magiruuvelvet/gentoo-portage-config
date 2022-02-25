@@ -6,3 +6,4 @@ sys-libs/libosinfo introspection
 sys-libs/zlib minizip
 sys-libs/timezone-data leaps-timezone
 sys-libs/ncurses -gpm
+sys-libs/libxcrypt static-libs

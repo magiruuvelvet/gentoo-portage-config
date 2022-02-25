@@ -11,7 +11,7 @@ sys-kernel/vanilla-kernel
 sys-kernel/gentoo-kernel
 sys-kernel/gentoo-kernel-bin
 media-video/mpv::gentoo
-dev-lang/rust-bin
+#dev-lang/rust-bin
 dev-java/openjdk-bin
 
 # blacklist legacy gtk2, i don't want this anymore
@@ -67,12 +67,12 @@ sys-libs/binutils-libs::gentoo
 >=sys-devel/clang-11.1.0
 >=sys-devel/clang-common-11.1.0
 >=sys-devel/clang-runtime-11.1.0
->=sys-libs/libcxx-13
->=sys-libs/libcxxabi-13
->=sys-libs/llvm-libunwind-13
+>=sys-libs/libcxx-13.0.0
+>=sys-libs/libcxxabi-13.0.0
+>=sys-libs/llvm-libunwind-13.0.0
 >=dev-util/lldb-11.1.0
 >=sys-devel/lld-11.1.0
->=sys-libs/libomp-13
+>=sys-libs/libomp-13.0.0
 >=sys-libs/compiler-rt-11.1.0
 >=dev-python/lit-11.1.0
 
@@ -94,8 +94,8 @@ sys-libs/binutils-libs::gentoo
 # use custom version
 sys-libs/musl::gentoo
 
-# need to fix my mess with 2 libc's installed in parallel
-# move this to /opt and not tracked by Portage
+# global glibc mask, only unmask currently installed version
+# track updates manually rather than using Portage
 sys-libs/glibc
 
 

@@ -3,3 +3,5 @@ virtual/ffmpeg encode X jpeg2k mp3 opus theora truetype vaapi vdpau x264 sdl -li
 virtual/linux-sources -firmware
 virtual/imagemagick-tools jpeg png svg tiff
 virtual/rubygems ruby_targets_ruby27
+virtual/libcrypt static-libs
+virtual/rust rustfmt
