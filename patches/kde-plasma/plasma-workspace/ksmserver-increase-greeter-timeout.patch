@@ -1,14 +1,14 @@
 diff --git a/ksmserver/logout.cpp b/ksmserver/logout.cpp
-index 0b45d2c..863386f 100644
+index fdf429d..1a9e04d 100644
 --- a/ksmserver/logout.cpp
 +++ b/ksmserver/logout.cpp
-@@ -398,7 +398,8 @@ void KSMServer::startProtection()
+@@ -371,7 +371,8 @@ void KSMServer::startProtection()
      config->reparseConfiguration(); // config may have changed in the KControl module
-     KConfigGroup cg( config, "General" );
+     KConfigGroup cg(config, "General");
  
--    int timeout = cg.readEntry( "clientShutdownTimeoutSecs", 15 ) * 1000;
+-    int timeout = cg.readEntry("clientShutdownTimeoutSecs", 15) * 1000;
 +    // PATCH FIXME: remove timeout feature and just wait forever until manual confirmation
 +    int timeout = 1440 * 1000; // 1 day
  
-     protectionTimer.setSingleShot( true );
-     protectionTimer.start( timeout );
+     protectionTimer.setSingleShot(true);
+     protectionTimer.start(timeout);

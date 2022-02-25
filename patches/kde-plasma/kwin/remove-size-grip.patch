@@ -1,8 +1,8 @@
-diff --git a/plugins/kdecorations/aurorae/src/aurorae.cpp b/plugins/kdecorations/aurorae/src/aurorae.cpp
-index 5242cb7..9675760 100644
---- a/plugins/kdecorations/aurorae/src/aurorae.cpp
-+++ b/plugins/kdecorations/aurorae/src/aurorae.cpp
-@@ -548,27 +548,7 @@ void Decoration::installTitleItem(QQuickItem *item)
+diff --git a/src/plugins/kdecorations/aurorae/src/aurorae.cpp b/src/plugins/kdecorations/aurorae/src/aurorae.cpp
+index 23426ae..7245015 100644
+--- a/src/plugins/kdecorations/aurorae/src/aurorae.cpp
++++ b/src/plugins/kdecorations/aurorae/src/aurorae.cpp
+@@ -546,27 +546,7 @@ void Decoration::installTitleItem(QQuickItem *item)
  
  void Decoration::updateExtendedBorders()
  {

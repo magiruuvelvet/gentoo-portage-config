@@ -1,10 +1,10 @@
 diff --git a/libnotificationmanager/notification.cpp b/libnotificationmanager/notification.cpp
-index 6e5b009..e366faf 100644
+index 45645fb..4e2367c 100644
 --- a/libnotificationmanager/notification.cpp
 +++ b/libnotificationmanager/notification.cpp
-@@ -364,22 +364,7 @@ void Notification::Private::processHints(const QVariantMap &hints)
- 
+@@ -350,22 +350,7 @@ void Notification::Private::processHints(const QVariantMap &hints)
      eventId = hints.value(QStringLiteral("x-kde-eventId")).toString();
+     xdgTokenAppId = hints.value(QStringLiteral("x-kde-xdgTokenAppId")).toString();
  
 -    bool ok;
 -    const int urgency = hints.value(QStringLiteral("urgency")).toInt(&ok); // DBus type is actually "byte"
@@ -24,5 +24,5 @@ index 6e5b009..e366faf 100644
 -    }
 +    setUrgency(Notifications::LowUrgency);
  
-     userActionFeedback = hints.value(QStringLiteral("x-kde-user-action-feedback")).toBool();
-     if (userActionFeedback) {
+     resident = hints.value(QStringLiteral("resident")).toBool();
+     transient = hints.value(QStringLiteral("transient")).toBool();

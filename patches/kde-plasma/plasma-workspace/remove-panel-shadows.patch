@@ -1,8 +1,8 @@
 diff --git a/shell/panelshadows.cpp b/shell/panelshadows.cpp
-index e1a7252..c6aaf6f 100644
+index 5cec447..da5be35 100644
 --- a/shell/panelshadows.cpp
 +++ b/shell/panelshadows.cpp
-@@ -123,24 +123,6 @@ void PanelShadows::setEnabledBorders(QWindow *window, Plasma::FrameSvg::EnabledB
+@@ -112,24 +112,6 @@ void PanelShadows::setEnabledBorders(QWindow *window, Plasma::FrameSvg::EnabledB
  
  void PanelShadows::Private::updateShadows()
  {
@@ -27,7 +27,7 @@ index e1a7252..c6aaf6f 100644
  }
  
  void PanelShadows::Private::initTile(const QString &element)
-@@ -156,15 +138,6 @@ void PanelShadows::Private::initTile(const QString &element)
+@@ -145,15 +127,6 @@ void PanelShadows::Private::initTile(const QString &element)
  void PanelShadows::Private::setupTiles()
  {
      clearTiles();
@@ -43,7 +43,7 @@ index e1a7252..c6aaf6f 100644
  }
  
  void PanelShadows::Private::clearTiles()
-@@ -174,120 +147,6 @@ void PanelShadows::Private::clearTiles()
+@@ -163,116 +136,6 @@ void PanelShadows::Private::clearTiles()
  
  void PanelShadows::Private::updateShadow(QWindow *window, Plasma::FrameSvg::EnabledBorders enabledBorders)
  {
@@ -71,8 +71,7 @@ index e1a7252..c6aaf6f 100644
 -        shadow->setTopTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::TopBorder &&
--        enabledBorders & Plasma::FrameSvg::RightBorder) {
+-    if (enabledBorders & Plasma::FrameSvg::TopBorder && enabledBorders & Plasma::FrameSvg::RightBorder) {
 -        shadow->setTopRightTile(m_tiles.at(1));
 -    } else {
 -        shadow->setTopRightTile(nullptr);
@@ -84,8 +83,7 @@ index e1a7252..c6aaf6f 100644
 -        shadow->setRightTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::BottomBorder &&
--        enabledBorders & Plasma::FrameSvg::RightBorder) {
+-    if (enabledBorders & Plasma::FrameSvg::BottomBorder && enabledBorders & Plasma::FrameSvg::RightBorder) {
 -        shadow->setBottomRightTile(m_tiles.at(3));
 -    } else {
 -        shadow->setBottomRightTile(nullptr);
@@ -97,8 +95,7 @@ index e1a7252..c6aaf6f 100644
 -        shadow->setBottomTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::BottomBorder &&
--        enabledBorders & Plasma::FrameSvg::LeftBorder) {
+-    if (enabledBorders & Plasma::FrameSvg::BottomBorder && enabledBorders & Plasma::FrameSvg::LeftBorder) {
 -        shadow->setBottomLeftTile(m_tiles.at(5));
 -    } else {
 -        shadow->setBottomLeftTile(nullptr);
@@ -110,8 +107,7 @@ index e1a7252..c6aaf6f 100644
 -        shadow->setLeftTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::TopBorder &&
--        enabledBorders & Plasma::FrameSvg::LeftBorder) {
+-    if (enabledBorders & Plasma::FrameSvg::TopBorder && enabledBorders & Plasma::FrameSvg::LeftBorder) {
 -        shadow->setTopLeftTile(m_tiles.at(7));
 -    } else {
 -        shadow->setTopLeftTile(nullptr);

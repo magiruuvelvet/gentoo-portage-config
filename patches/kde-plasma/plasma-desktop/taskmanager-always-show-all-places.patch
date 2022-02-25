@@ -1,8 +1,8 @@
 diff --git a/applets/taskmanager/package/contents/ui/ContextMenu.qml b/applets/taskmanager/package/contents/ui/ContextMenu.qml
-index 5bb4c00..36fd72b 100644
+index 5a87986..ae7675b 100644
 --- a/applets/taskmanager/package/contents/ui/ContextMenu.qml
 +++ b/applets/taskmanager/package/contents/ui/ContextMenu.qml
-@@ -98,7 +98,7 @@ PlasmaComponents.ContextMenu {
+@@ -91,7 +91,7 @@ PlasmaComponents.ContextMenu {
              {
                  title:   i18n("Places"),
                  group:   "places",

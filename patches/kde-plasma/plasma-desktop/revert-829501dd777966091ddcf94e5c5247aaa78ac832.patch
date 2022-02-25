@@ -1,17 +1,17 @@
 diff --git a/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp b/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp
-index 31f0caf..7ec314b 100644
+index 251d41f..687eb38 100644
 --- a/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp
 +++ b/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp
-@@ -86,24 +86,14 @@ void valueWriterPart<bool>(bool val, Atom valAtom, Display *dpy)
+@@ -71,23 +71,13 @@ void valueWriterPart<bool>(bool val, Atom valAtom, Display *dpy)
+         QScopedArrayPointer<unsigned char, ScopedXDeleter> data(_data);
          _data = nullptr;
- 
  
 -        if (type_return != XA_INTEGER || !data || format_return != 8) {
 +        if (type_return != XA_INTEGER || !data || format_return != 8 || num_items_return != 1) {
              return;
          }
  
--        unsigned char sendVal[2] = { 0 };
+-        unsigned char sendVal[2] = {0};
 -        if (num_items_return == 1) {
 -            sendVal[0] = val;
 -        } else {
@@ -24,9 +24,8 @@ index 31f0caf..7ec314b 100644
 -        }
 +        unsigned char sendVal = val ? 1 : 0;
  
-         XIChangeProperty(dpy, deviceid, valAtom, XA_INTEGER,
--                         8, XIPropModeReplace, sendVal, num_items_return);
-+                         8, XIPropModeReplace, &sendVal, 1);
- 
+-        XIChangeProperty(dpy, deviceid, valAtom, XA_INTEGER, 8, XIPropModeReplace, sendVal, num_items_return);
++        XIChangeProperty(dpy, deviceid, valAtom, XA_INTEGER, 8, XIPropModeReplace, &sendVal, 1);
      });
  }
+ 
