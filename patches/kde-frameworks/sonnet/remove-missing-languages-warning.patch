@@ -1,10 +1,10 @@
 diff --git a/src/core/guesslanguage.cpp b/src/core/guesslanguage.cpp
-index 4b6195e..357d8dc 100644
+index 152a399..f5d752a 100644
 --- a/src/core/guesslanguage.cpp
 +++ b/src/core/guesslanguage.cpp
-@@ -664,9 +664,6 @@ void GuessLanguagePrivate::loadModels()
-     QSet<QString> knownLanguages(s_scriptLanguages.values().toSet());
- #endif
+@@ -649,9 +649,6 @@ void GuessLanguagePrivate::loadModels()
+     }
+     QSet<QString> knownLanguages(s_scriptLanguages.constBegin(), s_scriptLanguages.constEnd());
      knownLanguages.subtract(availableLanguages);
 -    if (!knownLanguages.isEmpty()) {
 -        qCDebug(SONNET_LOG_CORE) << "Missing trigrams for languages:" << knownLanguages;

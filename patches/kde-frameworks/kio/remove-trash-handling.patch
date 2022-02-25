@@ -1,13 +1,13 @@
 diff --git a/src/core/copyjob.cpp b/src/core/copyjob.cpp
-index 02b0892..4845861 100644
+index 8643efc..834dbae 100644
 --- a/src/core/copyjob.cpp
 +++ b/src/core/copyjob.cpp
-@@ -777,14 +777,6 @@ void CopyJobPrivate::addCopyInfoFromUDSEntry(const UDSEntry &entry, const QUrl &
- QUrl CopyJobPrivate::finalDestUrl(const QUrl& src, const QUrl &dest) const
+@@ -913,14 +913,6 @@ void CopyJobPrivate::addCopyInfoFromUDSEntry(const UDSEntry &entry, const QUrl &
+ QUrl CopyJobPrivate::finalDestUrl(const QUrl &src, const QUrl &dest) const
  {
      Q_Q(const CopyJob);
 -    if (dest.scheme() == QLatin1String("trash")) {
--        const QMap<QString, QString>& metaData = q->metaData();
+-        const QMap<QString, QString> &metaData = q->metaData();
 -        QMap<QString, QString>::ConstIterator it = metaData.find(QLatin1String("trashURL-") + src.path());
 -        if (it != metaData.constEnd()) {
 -            qCDebug(KIO_COPYJOB_DEBUG) << "finalDestUrl=" << it.value();
@@ -17,10 +17,10 @@ index 02b0892..4845861 100644
      return dest;
  }
  
-@@ -1606,10 +1598,6 @@ KIO::Job *CopyJobPrivate::linkNextFile(const QUrl &uSource, const QUrl &uDest, J
+@@ -1886,10 +1878,6 @@ KIO::Job *CopyJobPrivate::linkNextFile(const QUrl &uSource, const QUrl &uDest, J
                      config.writeEntry("Icon", QStringLiteral("text-x-texinfo"));
                  } else if (protocol == QLatin1String("mailto")) { // sven:
-                     config.writeEntry("Icon", QStringLiteral("internet-mail"));    // added mailto: support
+                     config.writeEntry("Icon", QStringLiteral("internet-mail")); // added mailto: support
 -                } else if (protocol == QLatin1String("trash") && url.path().length() <= 1) { // trash:/ link
 -                    config.writeEntry("Name", i18n("Trash"));
 -                    config.writeEntry("Icon", QStringLiteral("user-trash-full"));
@@ -29,10 +29,10 @@ index 02b0892..4845861 100644
                      config.writeEntry("Icon", QStringLiteral("unknown"));
                  }
 diff --git a/src/core/global.cpp b/src/core/global.cpp
-index 730fcd8..af93ab6 100644
+index d4493b1..9c16108 100644
 --- a/src/core/global.cpp
 +++ b/src/core/global.cpp
-@@ -250,17 +250,6 @@ QString KIO::iconNameForUrl(const QUrl &url)
+@@ -238,16 +238,6 @@ QString KIO::iconNameForUrl(const QUrl &url)
              iconName = favIconForUrl(url);
          }
  
@@ -40,21 +40,20 @@ index 730fcd8..af93ab6 100644
 -        else if (url.scheme() == QLatin1String("trash")) {
 -            if (url.path().length() <= 1) { // trash:/ itself
 -                KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
--                iconName = trashConfig.group("Status").readEntry("Empty", true) ?
--                           QStringLiteral("user-trash") : QStringLiteral("user-trash-full");
+-                iconName = trashConfig.group("Status").readEntry("Empty", true) ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full");
 -            } else { // url.path().length() > 1, it's a file/folder under trash:/
 -                iconName = mt.iconName();
 -            }
 -        }
 -
          // and other protocols
-         if (iconName.isEmpty()) {
+         if (iconName.isEmpty() && (mt.isDefault() || url.path().size() <= 1)) {
              iconName = KProtocolInfo::icon(url.scheme());
 diff --git a/src/core/kfileitem.cpp b/src/core/kfileitem.cpp
-index 1f56763..1c8714c 100644
+index 8e6b125..d4ba162 100644
 --- a/src/core/kfileitem.cpp
 +++ b/src/core/kfileitem.cpp
-@@ -948,14 +948,6 @@ static QString iconFromDesktopFile(const QString &path)
+@@ -1012,14 +1012,6 @@ static QString iconFromDesktopFile(const QString &path)
          if (!emptyIcon.isEmpty()) {
              const QString u = cfg.readUrl();
              const QUrl url(u);

@@ -1,20 +1,19 @@
 diff --git a/holidays/plan2/holiday_at_de b/holidays/plan2/holiday_at_de
-index 6294ef8..af28c01 100644
+index 061210a..e5eab8a 100644
 --- a/holidays/plan2/holiday_at_de
 +++ b/holidays/plan2/holiday_at_de
-@@ -3,100 +3,28 @@
+@@ -3,100 +3,29 @@
  ::
  :: Language: German
  ::
 -:: Author:   Friedrich Leisch <Friedrich.Leisch@ci.tuwien.ac.at>
 -::           John Layt <john@layt.net>
 -::
--:: Updated:  2010-09-22
--::
+ :: Updated:  2010-09-22
+ ::
 -:: Source:   http://www.austria.info/uk/practical-information/public-holidays-daylight-savings-time-1138825.html
 -::           http://en.wikipedia.org/wiki/Culture_of_Austria#Public_holidays
-+:: Updated:  2019-10-30
- ::
+-::
  
  :: Metadata
  country     "AT"
@@ -36,6 +35,7 @@ index 6294ef8..af28c01 100644
 -: Corpus Christi
 -"Fronleichnam"              public on easter plus 60 days
 -: National Holiday / Labour Day
++"Feiertag"                  public on january 6
 +"Feiertag"                  public on easter plus  1 day
 +"Feiertag"                  public on easter plus 39 days
 +"Feiertag"                  public on easter plus 50 days
@@ -108,8 +108,8 @@ index 6294ef8..af28c01 100644
 -:: School
 -
 -:: Daylight Saving
--"Sommerzeit"                seasonal on last sunday in march
--"Winterzeit"                seasonal on last sunday in october
+-"Beginn der Sommerzeit"     seasonal on last sunday in march
+-"Ende der Sommerzeit"       seasonal on last sunday in october
 -
 -:: Seasons
 -

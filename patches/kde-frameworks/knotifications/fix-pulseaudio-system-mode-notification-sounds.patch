@@ -1,8 +1,8 @@
 diff --git a/src/notifybyaudio_phonon.cpp b/src/notifybyaudio_phonon.cpp
-index c130bbd..2db9a21 100644
+index 1663b7d..a866335 100644
 --- a/src/notifybyaudio_phonon.cpp
 +++ b/src/notifybyaudio_phonon.cpp
-@@ -48,7 +48,7 @@ NotifyByAudio::~NotifyByAudio()
+@@ -34,7 +34,7 @@ NotifyByAudio::~NotifyByAudio()
  void NotifyByAudio::notify(KNotification *notification, KNotifyConfig *config)
  {
      if (!m_audioOutput) {
