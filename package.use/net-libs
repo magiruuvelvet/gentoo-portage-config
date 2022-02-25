@@ -6,7 +6,7 @@ net-libs/mbedtls threads
 net-libs/webkit-gtk -* X opengl introspection
 net-libs/zeromq -unwind drafts
 net-libs/gtk-vnc introspection
-net-libs/nodejs npm ssl icu inspector
+net-libs/nodejs npm ssl icu inspector -system-icu
 net-libs/libvncserver zlib lzo jpeg png threads
 net-libs/libpcap bluetooth dbus netlink usb
 net-libs/libmbim udev

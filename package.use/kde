@@ -21,11 +21,12 @@ kde-frameworks/kinit caps
 kde-frameworks/kwallet gpg
 kde-frameworks/kauth policykit
 kde-frameworks/knotifications dbus phonon
-kde-frameworks/kconfig dbus
+kde-frameworks/kconfig dbus qml
 kde-frameworks/purpose -kaccounts -dolphin -bluetooth
 kde-frameworks/kitemmodels qml
 kde-frameworks/prison qml
 kde-frameworks/ktexteditor -editorconfig
+kde-frameworks/sonnet qml
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw

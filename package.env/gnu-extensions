@@ -54,6 +54,7 @@ app-text/dvipng gnu-source.conf
 dev-tex/bibtexu gnu-source.conf
 app-text/texlive-core gnu-source.conf
 app-text/sloccount gnu-source.conf
+app-text/htmltidy std-gnu11.conf
 app-editors/hexcurse gnu-source.conf
 app-shells/zsh gnu-source.conf
 app-shells/quoter gnu-source.conf

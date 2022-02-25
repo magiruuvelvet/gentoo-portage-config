@@ -2,13 +2,22 @@
 
 source /etc/portage/hooks/functions/check-env.sh
 
-instprep() {
+instprep_old() {
     if [ ! -z "${D}" ]; then
         #echo -e "Setting up VPN Namespace by default for Steam..."
         echo -e "Creating custom laucher..."
         mv "${D}/usr/bin/steam" "${D}/usr/lib/steam/steam"
         #echo -e '#!/bin/bash'"\nexport DISABLE_VK_LAYER_VALVE_steam_overlay_1=1\nexport DISABLE_VK_LAYER_VALVE_steam_fossilize_1=1\nexec vpn-run /usr/lib/steam/steam "'"$@"' > "${D}/usr/bin/steam"
         echo -e '#!/bin/bash'"\nexport DISABLE_VK_LAYER_VALVE_steam_overlay_1=1\nexport DISABLE_VK_LAYER_VALVE_steam_fossilize_1=1\nexec /usr/lib/steam/steam "'"$@"' > "${D}/usr/bin/steam"
+        chmod +x "${D}/usr/bin/steam"
+    fi
+}
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo -e "Creating custom laucher..."
+        mv "${D}/usr/bin/steam" "${D}/usr/lib/steam/steam"
+        cp /etc/portage/patches/games-util/steam-launcher/steam.sh "${D}/usr/bin/steam"
         chmod +x "${D}/usr/bin/steam"
     fi
 }

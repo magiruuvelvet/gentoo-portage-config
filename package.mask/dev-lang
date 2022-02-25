@@ -1,8 +1,11 @@
 # mask ruby 3.0 for now (compatibility with native extensions)
 >=dev-lang/ruby-3.0
 
-# skip python 3.8
+# python
 dev-lang/python:3.8
+dev-lang/python:3.11
 
 # skip alpha versions...
 dev-lang/python:3.10
+
+dev-lang/php:8.1

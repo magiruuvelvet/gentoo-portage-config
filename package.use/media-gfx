@@ -9,3 +9,4 @@ media-gfx/graphicsmagick -X bzip2 cxx fpx jbig jpeg jpeg2k lcms lzma -openmp png
 media-gfx/graphicsmagick webp wmf zlib -imagemagick
 media-gfx/fontforge readline unicode cairo jpeg png tiff svg -X -gtk -python
 media-gfx/pngquant -openmp
+media-gfx/qrencode png
