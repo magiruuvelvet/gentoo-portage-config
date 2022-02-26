@@ -8,7 +8,7 @@ kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager 
 kde-plasma/plasma-desktop fontconfig touchpad mouse -kaccounts
 kde-plasma/plasma-workspace calendar qalculate qrcode
 
-kde-plasma/kwin multimedia
+kde-plasma/kwin multimedia plasma
 kde-plasma/kde-cli-tools kdesu
 kde-plasma/kscreenlocker pam seccomp
 kde-plasma/plasma-vault networkmanager
@@ -20,13 +20,15 @@ kde-frameworks/kio acl kwallet
 kde-frameworks/kinit caps
 kde-frameworks/kwallet gpg
 kde-frameworks/kauth policykit
-kde-frameworks/knotifications dbus phonon
+kde-frameworks/knotifications dbus phonon qml
 kde-frameworks/kconfig dbus qml
 kde-frameworks/purpose -kaccounts -dolphin -bluetooth
 kde-frameworks/kitemmodels qml
 kde-frameworks/prison qml
 kde-frameworks/ktexteditor -editorconfig
 kde-frameworks/sonnet qml
+kde-frameworks/kimageformats heif
+kde-frameworks/karchive zstd
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw

@@ -7,3 +7,6 @@
 
 # makes some gtk apps sad (waterfox, ...)
 #>=x11-libs/pango-1.48
+
+# need to debug this later
+>=dev-ruby/rubygems-3.2

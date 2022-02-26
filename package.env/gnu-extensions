@@ -360,6 +360,7 @@ sys-auth/rtkit gnu-source.conf
 sys-auth/passwdqc gnu-source.conf
 x11-libs/gtk+ gnu-source.conf
 x11-libs/libwnck gnu-source.conf
+x11-libs/pixman std-gnu11.conf
 x11-misc/i3lock std-gnu99.conf
 x11-misc/alltray gnu-source.conf
 # move x11-misc/xrestop x11-apps/xrestop

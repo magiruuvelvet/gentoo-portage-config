@@ -1,22 +1,13 @@
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 6294cea..71454b7 100644
+index 549d2c7..0a7e488 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -81,7 +81,7 @@ ki18n_wrap_ui(libkleo_ui_common_SRCS
- set(kleo_LIB_SRCS ${libkleo_core_SRCS} ${libkleo_ui_SRCS}
-                                        ${libkleo_ui_common_SRCS})
+@@ -152,7 +152,7 @@ target_sources(KF5Libkleo PRIVATE    # make this a separate lib.
+     )
  
--set(kleo_LIB_LIBS PUBLIC QGpgme Gpgmepp PRIVATE Qt5::Widgets
-+set(kleo_LIB_LIBS PUBLIC QGpgme Gpgmepp "-lgpg-error" PRIVATE Qt5::Widgets
+ 
+-target_link_libraries(KF5Libkleo PUBLIC QGpgme Gpgmepp PRIVATE Qt::Widgets
++target_link_libraries(KF5Libkleo PUBLIC QGpgme Gpgmepp "-lgpg-error" PRIVATE Qt::Widgets
                                                  KF5::I18n
                                                  KF5::Completion
                                                  KF5::ConfigCore
-@@ -101,7 +101,7 @@ add_library(KF5::Libkleo ALIAS KF5Libkleo)
- if(WIN32)
- target_link_libraries(KF5Libkleo ${kleo_LIB_LIBS}  ${GPGME_VANILLA_LIBRARIES} )
- else()
--target_link_libraries(KF5Libkleo ${kleo_LIB_LIBS} )
-+target_link_libraries(KF5Libkleo ${kleo_LIB_LIBS} "-lgpg-error" )
- endif()
- 
- set_target_properties(KF5Libkleo PROPERTIES
