@@ -1,0 +1,12 @@
+diff --git a/src/gpu.cpp b/src/gpu.cpp
+index a519728..7569e2f 100644
+--- a/src/gpu.cpp
++++ b/src/gpu.cpp
+@@ -15,7 +15,6 @@
+ //#include "auth.h"
+ #include <xf86drm.h>
+ #include <libdrm/amdgpu_drm.h>
+-#include <libdrm/amdgpu.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+ #include "loaders/loader_libdrm.h"
