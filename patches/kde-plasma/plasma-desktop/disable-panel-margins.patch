@@ -1,0 +1,19 @@
+diff --git a/containments/panel/contents/ui/main.qml b/containments/panel/contents/ui/main.qml
+index 9b5656a..19b33cf 100644
+--- a/containments/panel/contents/ui/main.qml
++++ b/containments/panel/contents/ui/main.qml
+@@ -286,10 +286,10 @@ function checkLastSpacer() {
+                 return ((layout[side] || returnAllMargins) && !fillArea) ? Math.round(Math.min(spacingAtMinSize, (inThickArea ? thickPanelSvg.fixedMargins[side] : panelSvg.fixedMargins[side]))) : 0;
+             }
+ 
+-            Layout.topMargin: getMargins('top')
+-            Layout.bottomMargin: getMargins('bottom')
+-            Layout.leftMargin: getMargins('left')
+-            Layout.rightMargin: getMargins('right')
++            Layout.topMargin: 1
++            Layout.bottomMargin: 1
++            Layout.leftMargin: 0
++            Layout.rightMargin: 0
+ 
+             Layout.minimumWidth: (currentLayout.isLayoutHorizontal ? (applet && applet.Layout.minimumWidth > 0 ? applet.Layout.minimumWidth : root.height) : root.width) - Layout.leftMargin - Layout.rightMargin
+             Layout.minimumHeight: (!currentLayout.isLayoutHorizontal ? (applet && applet.Layout.minimumHeight > 0 ? applet.Layout.minimumHeight : root.width) : root.height) - Layout.bottomMargin - Layout.topMargin
