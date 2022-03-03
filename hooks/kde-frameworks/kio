@@ -11,6 +11,7 @@ instprep() {
         rm "${D}/usr/bin/ktrash5"
         rm "${D}/usr/lib64/qt5/plugins/kcm_trash.so"
         rm "${D}/usr/lib64/qt5/plugins/kf5/kio/trash.so"
+        rm "${D}/usr/lib64/qt5/plugins/kf5/kio/kio_trash.so"
         rm "${D}/usr/share/kservices5/kcmtrash.desktop"
     fi
 }

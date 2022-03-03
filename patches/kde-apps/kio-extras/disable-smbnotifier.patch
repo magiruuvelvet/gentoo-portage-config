@@ -1,0 +1,13 @@
+diff --git a/smb/kded/watcher.cpp b/smb/kded/watcher.cpp
+index f125a3d..e829e91 100644
+--- a/smb/kded/watcher.cpp
++++ b/smb/kded/watcher.cpp
+@@ -153,7 +153,7 @@ private:
+         case SMBURLTYPE_WORKGROUP_OR_SERVER:
+             return false;
+         case SMBURLTYPE_SHARE_OR_PATH:
+-            return true;
++            return false;
+         }
+         qCWarning(KIO_SMB_LOG) << "Unexpected url type" << url.getType() << url;
+         Q_UNREACHABLE();
