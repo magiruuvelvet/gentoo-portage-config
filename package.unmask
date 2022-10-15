@@ -62,3 +62,6 @@ dev-cpp/libcutl::nest
 dev-db/soci::nest
 dev-util/cli::nest
 dev-python/pystache::nest
+
+
+net-misc/ngrok-bin::nest

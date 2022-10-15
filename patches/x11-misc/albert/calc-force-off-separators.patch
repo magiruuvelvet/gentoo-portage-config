@@ -1,0 +1,19 @@
+Submodule plugins contains modified content
+diff --git a/plugins/calculator/src/extension.cpp b/plugins/calculator/src/extension.cpp
+index c42f775..244e240 100644
+--- a/plugins/calculator/src/extension.cpp
++++ b/plugins/calculator/src/extension.cpp
+@@ -58,10 +58,10 @@ Calculator::Extension::Extension()
+     d->parser->SetThousandsSep(d->locale.groupSeparator().toLatin1());
+     d->parser->SetArgSep(';');
+ 
+-    if (settings().value(CFG_SEPS, CFG_SEPS_DEF).toBool())
+-        setGroupSeparatorEnabled(true);
++    //if (settings().value(CFG_SEPS, CFG_SEPS_DEF).toBool())
++        setGroupSeparatorEnabled(false);
+ 
+-    if (settings().value(CFG_HEXP, CFG_HEXP_DEF).toBool())
++    //if (settings().value(CFG_HEXP, CFG_HEXP_DEF).toBool())
+         setIParserEnabled(true);
+ }
+ 

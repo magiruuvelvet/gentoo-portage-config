@@ -7,6 +7,6 @@ media-gfx/imagemagick -X bzip2 corefonts cxx djvu fontconfig fpx graphviz jbig j
 media-gfx/imagemagick postscript raw svg tiff truetype webp xml zlib pango wmf hdri
 media-gfx/graphicsmagick -X bzip2 cxx fpx jbig jpeg jpeg2k lcms lzma -openmp png postscript svg threads tiff truetype
 media-gfx/graphicsmagick webp wmf zlib -imagemagick
-media-gfx/fontforge readline unicode cairo jpeg png tiff svg -X -gtk -python
+media-gfx/fontforge readline unicode cairo jpeg png tiff svg -X -gtk python
 media-gfx/pngquant -openmp
 media-gfx/qrencode png

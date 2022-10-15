@@ -26,5 +26,8 @@ with open(file_path, "r") as f:
     config["extensionsGallery"]["cacheUrl"] = "https://vscode.blob.core.windows.net/gallery/index";
     config["extensionsGallery"]["itemUrl"] = "https://marketplace.visualstudio.com/items";
 
+    # also pretend that this is an official Microsoft build
+    config["nameLong"] = "Visual Studio Code";
+
 with open(file_path, "w") as f:
     json.dump(config, f, indent=2);

@@ -378,6 +378,7 @@ net-im/coturn gnu-source.conf
 media-tv/kodi gnu-source.conf
 media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
 dev-ruby/redcarpet gnu-source.conf
+x11-terms/kitty gnu-source-light.conf
 
 app-antivirus/clamav gnu-source.conf
 

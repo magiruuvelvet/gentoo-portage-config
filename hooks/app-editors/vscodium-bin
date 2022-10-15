@@ -11,7 +11,7 @@ instprep() {
     patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium-bin/gnu-runtime-libs.patch
 
     echo "Patching workbench.html to allow injecting custom CSS..."
-    cd "${ED}/opt/vscodium/resources/app/out/vs/code/electron-browser/workbench"
+    cd "${ED}/opt/vscodium/resources/app/out/vs/code/electron-sandbox/workbench"
     patch workbench.html < /etc/portage/hooks/patches/app-editors/vscodium-bin/workbench-custom-css.patch
 
     cp /etc/portage/hooks/patches/app-editors/vscodium-bin/custom.css \

@@ -1,0 +1,36 @@
+Submodule plugins contains modified content
+diff --git a/plugins/applications/src/extension.cpp b/plugins/applications/src/extension.cpp
+index 5a6b43a..4716b23 100644
+--- a/plugins/applications/src/extension.cpp
++++ b/plugins/applications/src/extension.cpp
+@@ -207,7 +207,7 @@ void Applications::Private::finishIndexing() {
+     // Finally update the watches (maybe folders changed)
+     if (!watcher.directories().isEmpty())
+         watcher.removePaths(watcher.directories());
+-    QStringList xdgAppDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
++    QStringList xdgAppDirs = { QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + '/' + "desktop" };
+     for (const QString &path : xdgAppDirs) {
+         if (QFile::exists(path)) {
+             watcher.addPath(path);
+@@ -234,8 +234,7 @@ vector<shared_ptr<StandardIndexItem>> Applications::Private::indexApplications()
+     vector<shared_ptr<StandardIndexItem>> desktopEntries;
+     QStringList xdg_current_desktop = QString(getenv("XDG_CURRENT_DESKTOP")).split(':',QString::SkipEmptyParts);
+     QLocale loc;
+-    QStringList xdgAppDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+-    xdgAppDirs.append(QStandardPaths::standardLocations(QStandardPaths::DesktopLocation));
++    QStringList xdgAppDirs = { QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + '/' + "desktop" };
+ 	
+     /*
+      * Create a list of desktop files to index (unique ids)
+@@ -490,10 +489,7 @@ Applications::Extension::Extension()
+ 
+     qunsetenv("DESKTOP_AUTOSTART_ID");
+ 
+-    d->indexedDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+-    if (QStandardPaths::standardLocations(QStandardPaths::DesktopLocation)
+-            != QStandardPaths::standardLocations(QStandardPaths::HomeLocation))  // Missing desktops fall back to ~
+-        d->indexedDirs << QStandardPaths::standardLocations(QStandardPaths::DesktopLocation);
++    d->indexedDirs = QStringList{ QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + '/' + "desktop" };
+ 
+     // Load settings
+     d->offlineIndex.setFuzzy(settings().value(CFG_FUZZY, DEF_FUZZY).toBool());

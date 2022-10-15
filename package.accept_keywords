@@ -11,6 +11,7 @@
 =kde-misc/plasma-applet-thermal-monitor-9999 **
 
 =media-video/mpv-9999::vapoursynth **
+=media-video/minitube-9999::localrepo **
 
 # localrepo
 =x11-misc/nvidia-xrun-9999 **
