@@ -348,6 +348,7 @@ sys-libs/slang gnu-source.conf
 sys-libs/zlib std-gnu99.conf
 sys-libs/cracklib gnu-source.conf
 sys-libs/liburing std-gnu99.conf
+sys-libs/gdbm std-gnu99.conf
 sys-power/acpid std-gnu99.conf
 sys-power/upower gnu-source.conf
 sys-process/criu std-gnu99.conf

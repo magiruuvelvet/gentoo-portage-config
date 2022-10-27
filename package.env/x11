@@ -18,8 +18,10 @@ x11-apps/iceauth gnu-source.conf
 x11-apps/smproxy gnu-source.conf
 x11-apps/setxkbmap gnu-source.conf
 x11-libs/libdrm std-gnu99.conf
-x11-libs/libva std-gnu99.conf
-x11-libs/libva-intel-driver gnu-gcc.conf static-gnu-runtime.conf
+# move x11-libs/libva media-libs/libva
+media-libs/libva std-gnu99.conf
+# move x11-libs/libva-intel-driver media-libs/libva-intel-driver
+media-libs/libva-intel-driver gnu-gcc.conf static-gnu-runtime.conf
 x11-libs/libva-vdpau-driver std-gnu99.conf gnu-source.conf
 x11-libs/libvdpau std-gnu99.conf
 x11-libs/libnotify gnu-source.conf

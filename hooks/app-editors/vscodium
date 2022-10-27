@@ -4,19 +4,19 @@ source /etc/portage/hooks/functions/check-env.sh
 
 instprep() {
     echo "Patching extension store to use marketplace.visualstudio.com"
-    python /etc/portage/hooks/app-editors/vscodium-bin.py
+    python /etc/portage/hooks/app-editors/vscodium.py
 
     echo "Injecting GCC runtime libraries into launcher script..."
     cd "${ED}/opt/vscodium/bin"
-    patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium-bin/gnu-runtime-libs.patch
+    patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/gnu-runtime-libs.patch
 
     echo "Patching workbench.html to allow injecting custom CSS..."
     cd "${ED}/opt/vscodium/resources/app/out/vs/code/electron-sandbox/workbench"
-    patch workbench.html < /etc/portage/hooks/patches/app-editors/vscodium-bin/workbench-custom-css.patch
+    patch workbench.html < /etc/portage/hooks/patches/app-editors/vscodium/workbench-custom-css.patch
 
-    cp /etc/portage/hooks/patches/app-editors/vscodium-bin/custom.css \
+    cp /etc/portage/hooks/patches/app-editors/vscodium/custom.css \
         "${ED}/opt/vscodium/custom.css"
-    cp /etc/portage/hooks/patches/app-editors/vscodium-bin/custom.js \
+    cp /etc/portage/hooks/patches/app-editors/vscodium/custom.js \
         "${ED}/opt/vscodium/custom.js"
 
    cd "${ED}/opt/vscodium/resources/app/out/vs/workbench"

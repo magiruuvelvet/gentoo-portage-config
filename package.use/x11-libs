@@ -1,6 +1,7 @@
 x11-libs/libnotify introspection
 x11-libs/* X
-x11-libs/libva X opengl utils vdpau wayland
+# move x11-libs/libva media-libs/libva
+media-libs/libva X opengl utils vdpau wayland
 x11-libs/cairo opengl xcb
 x11-libs/libXfont2 truetype
 x11-libs/libva-vdpau-driver opengl
