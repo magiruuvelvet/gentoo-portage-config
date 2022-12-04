@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
             [id="workbench.parts.editor"] .split-view-view:nth-child(${index}) .empty::before {
                 background-image: url(https://codium-assets.local/resources/app/out/vs/workbench/vscodium-assets/image${number}.png) !important;
             }
+            [id="workbench.parts.editor"] .split-view-view:nth-child(${index}) .editor-container .editor-instance .terminal-overflow-guard .terminal-wrapper::before {
+                background-image: url(https://codium-assets.local/resources/app/out/vs/workbench/vscodium-assets/image${number}.png) !important;
+            }
         `;
     };
 

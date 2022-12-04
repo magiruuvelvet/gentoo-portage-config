@@ -300,6 +300,18 @@
     /*opacity: 0.8;*/
     /*animation: background_image_fade 2s;*/
 }
+/* terminal window */
+[id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance .terminal-overflow-guard .terminal-wrapper::before {
+    content: "";
+    background-image: url(https://codium-assets.local/resources/app/out/vs/workbench/vscodium-assets/image1.png);
+    pointer-events: none;
+    position: absolute;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
 
 
 

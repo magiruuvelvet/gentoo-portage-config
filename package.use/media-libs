@@ -49,3 +49,4 @@ media-libs/x265 pic
 media-libs/mediastreamer2 alsa pulseaudio ffmpeg gsm opus -v4l zrtp srtp jpeg speex vpx
 media-libs/libheif aom libde265 -rav1e x265
 media-libs/libsixel jpeg png gd curl
+media-libs/libpulse dbus -X

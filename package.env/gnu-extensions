@@ -121,6 +121,7 @@ dev-python/pyzmq gnu-source.conf
 dev-python/sip gnu-source.conf
 dev-util/boost-build std-gnu17.conf
 dev-util/ctags gnu-source.conf
+dev-util/global gnu-source.conf
 dev-util/desktop-file-utils gnu-source.conf
 dev-util/radare2 std-gnu99.conf
 dev-util/scanmem gnu-source.conf
@@ -276,6 +277,7 @@ sys-apps/man gnu-source.conf
 sys-apps/diffutils std-gnu11.conf
 sys-apps/dmapi gnu-source.conf
 sys-apps/fakeroot gnu-source.conf
+sys-apps/fakechroot gnu-source-light.conf
 sys-apps/firejail std-gnu99.conf
 sys-apps/groff std-gnu11.conf
 sys-apps/iproute2 std-gnu99.conf
@@ -364,8 +366,9 @@ x11-libs/libwnck gnu-source.conf
 x11-libs/pixman std-gnu11.conf
 x11-misc/i3lock std-gnu99.conf
 x11-misc/alltray gnu-source.conf
-# move x11-misc/xrestop x11-apps/xrestop
 x11-apps/xrestop gnu-source.conf
+x11-apps/luit gnu-source.conf
+x11-apps/mesa-progs gnu-source-light.conf
 app-laptop/laptop-mode-tools gnu-source.conf
 dev-tcltk/blt gnu-source.conf
 dev-tcltk/tix gnu-source.conf
