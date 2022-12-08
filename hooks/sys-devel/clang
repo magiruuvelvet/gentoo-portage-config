@@ -7,10 +7,18 @@ source /etc/portage/hooks/functions/check-env.sh
 prepare() {
     remove_vcs git
 
-    # apply patches
+    # apply clang patches
     pushd "${S}"
     for PATCH in /etc/portage/hooks/patches/sys-devel/clang/*.patch; do
-        echo -e "\e[1m === Applying patch ${PATCH}...\e[0m"
+        echo -e "\e[1m === Applying clang patch ${PATCH}...\e[0m"
+        patch --verbose -p1 < "$PATCH"
+    done
+    popd
+
+    # apply clang-tools-extra patches
+    pushd "${S}/../clang-tools-extra"
+    for PATCH in /etc/portage/hooks/patches/sys-devel/clang/clangd/*.patch; do
+        echo -e "\e[1m === Applying clang-tools-extra patch ${PATCH}...\e[0m"
         patch --verbose -p1 < "$PATCH"
     done
     popd

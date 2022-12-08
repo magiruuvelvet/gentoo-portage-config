@@ -1,9 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bb4b801f01c8..c73687e64973 100644
+index e3bc4b468fb6..89e3dd45854c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -269,9 +269,9 @@ set(CLANG_SPAWN_CC1 OFF CACHE BOOL
-     "Whether clang should use a new process for the CC1 invocation")
+@@ -262,9 +262,9 @@ else()
+ endif()
  
  # TODO: verify the values against LangStandards.def?
 -set(CLANG_DEFAULT_STD_C "" CACHE STRING
@@ -15,19 +15,24 @@ index bb4b801f01c8..c73687e64973 100644
  
  set(CLANG_DEFAULT_LINKER "" CACHE STRING
 diff --git a/include/clang/Config/config.h.cmake b/include/clang/Config/config.h.cmake
-index 26e9d5c4eb4d..02b546e02bdd 100644
+index dfd2f757a185..5cf9a8e2d8eb 100644
 --- a/include/clang/Config/config.h.cmake
 +++ b/include/clang/Config/config.h.cmake
-@@ -12,10 +12,10 @@
+@@ -15,7 +15,7 @@
  #define CLANG_DEFAULT_LINKER "${CLANG_DEFAULT_LINKER}"
  
  /* Default C/ObjC standard to use. */
 -#cmakedefine CLANG_DEFAULT_STD_C LangStandard::lang_${CLANG_DEFAULT_STD_C}
 +#cmakedefine CLANG_DEFAULT_STD_C LangStandard::lang_c17
+ /* Always #define something so that missing the config.h #include at use sites
+  * becomes a compile error.
+  */
+@@ -24,7 +24,7 @@
+ #endif
  
  /* Default C++/ObjC++ standard to use. */
 -#cmakedefine CLANG_DEFAULT_STD_CXX LangStandard::lang_${CLANG_DEFAULT_STD_CXX}
 +#cmakedefine CLANG_DEFAULT_STD_CXX LangStandard::lang_cxx17
- 
- /* Default C++ stdlib to use. */
- #define CLANG_DEFAULT_CXX_STDLIB "${CLANG_DEFAULT_CXX_STDLIB}"
+ /* Always #define something so that missing the config.h #include at use sites
+  * becomes a compile error.
+  */

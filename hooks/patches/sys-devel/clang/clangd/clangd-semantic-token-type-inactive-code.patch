@@ -1,0 +1,13 @@
+diff --git a/clangd/SemanticHighlighting.cpp b/clangd/SemanticHighlighting.cpp
+index 63d01deb3370..0c1c538692ad 100644
+--- a/clangd/SemanticHighlighting.cpp
++++ b/clangd/SemanticHighlighting.cpp
+@@ -1048,7 +1048,7 @@ llvm::StringRef toSemanticTokenType(HighlightingKind Kind) {
+   case HighlightingKind::Macro:
+     return "macro";
+   case HighlightingKind::InactiveCode:
+-    return "comment";
++    return "inactiveCode";
+   }
+   llvm_unreachable("unhandled HighlightingKind");
+ }

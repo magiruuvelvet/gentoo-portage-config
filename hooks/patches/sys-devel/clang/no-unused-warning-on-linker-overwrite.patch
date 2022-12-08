@@ -1,13 +1,13 @@
 diff --git a/include/clang/Driver/Options.td b/include/clang/Driver/Options.td
-index 966cb907b7e2..c41bbe6706b2 100644
+index 3cab37b21aaf..5ead0f012e03 100644
 --- a/include/clang/Driver/Options.td
 +++ b/include/clang/Driver/Options.td
-@@ -3276,7 +3276,7 @@ defm : BooleanFFlag<"keep-inline-functions">, Group<clang_ignored_gcc_optimizati
- 
- def fprofile_dir : Joined<["-"], "fprofile-dir=">, Group<f_Group>;
- 
--def fuse_ld_EQ : Joined<["-"], "fuse-ld=">, Group<f_Group>, Flags<[CoreOption]>;
-+def fuse_ld_EQ : Joined<["-"], "fuse-ld=">, Group<f_Group>, Flags<[CoreOption,NoArgumentUnused]>;
+@@ -4700,7 +4700,7 @@ def fbinutils_version_EQ : Joined<["-"], "fbinutils-version=">,
+   "binutils version and newer. If -fno-integrated-as is specified, the "
+   "generated assembly will consider GNU as support. 'none' means that all ELF "
+   "features can be used, regardless of binutils support. Defaults to 2.26.">;
+-def fuse_ld_EQ : Joined<["-"], "fuse-ld=">, Group<f_Group>, Flags<[CoreOption, LinkOption]>;
++def fuse_ld_EQ : Joined<["-"], "fuse-ld=">, Group<f_Group>, Flags<[CoreOption, LinkOption, NoArgumentUnused]>;
+ def ld_path_EQ : Joined<["--"], "ld-path=">, Group<Link_Group>;
  
  defm align_labels : BooleanFFlag<"align-labels">, Group<clang_ignored_gcc_optimization_f_Group>;
- def falign_labels_EQ : Joined<["-"], "falign-labels=">, Group<clang_ignored_gcc_optimization_f_Group>;

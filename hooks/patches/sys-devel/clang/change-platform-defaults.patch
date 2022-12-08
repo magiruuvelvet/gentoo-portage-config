@@ -1,18 +1,14 @@
 diff --git a/lib/Driver/ToolChains/Linux.cpp b/lib/Driver/ToolChains/Linux.cpp
-index 180350476c38..62f61fd097b7 100644
+index ceb1a982c3a4..cc4245529a39 100644
 --- a/lib/Driver/ToolChains/Linux.cpp
 +++ b/lib/Driver/ToolChains/Linux.cpp
-@@ -354,9 +354,15 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
+@@ -319,9 +319,11 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
  }
  
- ToolChain::CXXStdlibType Linux::GetDefaultCXXStdlibType() const {
+ ToolChain::RuntimeLibType Linux::GetDefaultRuntimeLibType() const {
 -  if (getTriple().isAndroid())
--    return ToolChain::CST_Libcxx;
--  return ToolChain::CST_Libstdcxx;
-+  return ToolChain::CST_Libcxx;
-+}
-+
-+ToolChain::RuntimeLibType Linux::GetDefaultRuntimeLibType() const {
+-    return ToolChain::RLT_CompilerRT;
+-  return Generic_ELF::GetDefaultRuntimeLibType();
 +  return ToolChain::RLT_CompilerRT;
 +}
 +
@@ -20,17 +16,27 @@ index 180350476c38..62f61fd097b7 100644
 +  return ToolChain::UNW_CompilerRT;
  }
  
+ unsigned Linux::GetDefaultDwarfVersion() const {
+@@ -331,9 +333,7 @@ unsigned Linux::GetDefaultDwarfVersion() const {
+ }
+ 
+ ToolChain::CXXStdlibType Linux::GetDefaultCXXStdlibType() const {
+-  if (getTriple().isAndroid())
+-    return ToolChain::CST_Libcxx;
+-  return ToolChain::CST_Libstdcxx;
++  return ToolChain::CST_Libcxx;
+ }
+ 
  bool Linux::HasNativeLLVMSupport() const { return true; }
 diff --git a/lib/Driver/ToolChains/Linux.h b/lib/Driver/ToolChains/Linux.h
-index 6b16b0e64990..fca4643d5056 100644
+index 188cb1f09788..99d36deaa838 100644
 --- a/lib/Driver/ToolChains/Linux.h
 +++ b/lib/Driver/ToolChains/Linux.h
-@@ -36,6 +36,8 @@ public:
+@@ -42,6 +42,7 @@ public:
    void AddIAMCUIncludeArgs(const llvm::opt::ArgList &DriverArgs,
                             llvm::opt::ArgStringList &CC1Args) const override;
-   CXXStdlibType GetDefaultCXXStdlibType() const override;
-+  RuntimeLibType GetDefaultRuntimeLibType() const override;
+   RuntimeLibType GetDefaultRuntimeLibType() const override;
 +  UnwindLibType GetDefaultUnwindLibType() const override;
-   bool isPIEDefault() const override;
-   bool isNoExecStackDefault() const override;
-   bool IsMathErrnoDefault() const override;
+   unsigned GetDefaultDwarfVersion() const override;
+   CXXStdlibType GetDefaultCXXStdlibType() const override;
+   bool

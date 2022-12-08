@@ -15,7 +15,7 @@ sys-libs/libcxx abi_x86_32 libcxxabi libunwind static-libs test
 sys-libs/libcxxabi abi_x86_32 libunwind static-libs test
 
 sys-devel/llvm-common
-sys-devel/llvm -abi_x86_32 xml libffi -gold
+sys-devel/llvm -abi_x86_32 xml libffi -gold -binutils-plugin
 sys-devel/llvm LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 
 sys-devel/clang-common default-compiler-rt default-libcxx default-lld llvm-libunwind

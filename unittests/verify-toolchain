@@ -1,0 +1,18 @@
+#!/bin/sh
+
+compiler-ident() {
+    echo "$@"
+    llvm-readelf --string-dump=.comment "$@"
+    echo
+}
+
+compiler-ident /usr/lib64/libc++abi.so.1
+compiler-ident /usr/lib64/libc++.so.1
+compiler-ident /usr/lib64/libomp.so
+compiler-ident /usr/lib64/libunwind.so.1
+
+compiler-ident /usr/lib/clang/*/lib/linux/*.o
+
+compiler-ident /usr/lib/llvm/current/bin/clang
+compiler-ident /usr/lib/llvm/current/bin/llvm-readelf
+compiler-ident /usr/lib/llvm/current/bin/lld
