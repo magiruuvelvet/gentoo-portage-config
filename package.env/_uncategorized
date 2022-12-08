@@ -28,7 +28,7 @@ dev-libs/boehm-gc c++11.conf
 dev-libs/xapian c++11.conf
 dev-libs/libplatform c++11.conf
 dev-python/kiwisolver c++11.conf
-dev-python/matplotlib c++11.conf ld-force-lib64.conf
+dev-python/matplotlib c++11-force.conf ld-force-lib64.conf
 dev-util/gperf c++11.conf
 media-gfx/graphicsmagick ld-no-gnu.conf
 media-libs/glu c++11.conf

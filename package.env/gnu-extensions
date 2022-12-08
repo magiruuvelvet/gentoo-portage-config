@@ -265,6 +265,7 @@ net-misc/telnet-bsd gnu-source.conf
 net-misc/dhcp gnu-source.conf std-gnu99.conf
 net-misc/iputils gnu-source.conf
 net-misc/dhcping gnu-source.conf
+net-misc/curl gnu-source-light.conf
 net-wireless/hostapd std-gnu99.conf
 net-wireless/iw gnu-source.conf
 net-wireless/wpa_supplicant std-gnu99.conf

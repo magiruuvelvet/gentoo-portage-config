@@ -1,2 +1,2 @@
-app-admin/keepassxc autotype -network -browser -yubikey
+app-admin/keepassxc -autotype -network -browser -yubikey
 app-admin/sudo offensive gcrypt sendmail -ssl

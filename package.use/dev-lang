@@ -4,7 +4,7 @@ dev-lang/tk truetype
 dev-lang/ruby -berkdb -gdbm ssl jemalloc socks5 jit rdoc -doc
 # system llvm is not compatible because its too new and contains custom patches
 dev-lang/rust rustfmt -system-llvm -system-bootstrap rls
-dev-lang/rust-bin rustfmt -system-llvm -system-bootstrap rls
+dev-lang/rust-bin rustfmt -system-llvm -system-bootstrap rls rust-analyzer rust-src
 dev-lang/perl ithreads
 dev-lang/fpc source
 

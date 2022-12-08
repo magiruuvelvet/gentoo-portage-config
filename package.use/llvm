@@ -18,7 +18,7 @@ sys-devel/llvm-common
 sys-devel/llvm -abi_x86_32 xml libffi -gold
 sys-devel/llvm LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 
-sys-devel/clang-common
+sys-devel/clang-common default-compiler-rt default-libcxx default-lld llvm-libunwind
 sys-devel/clang-runtime -abi_x86_32 libcxx compiler-rt openmp -sanitize
 sys-devel/clang -abi_x86_32 xml default-compiler-rt default-libcxx default-lld
 sys-devel/clang LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF

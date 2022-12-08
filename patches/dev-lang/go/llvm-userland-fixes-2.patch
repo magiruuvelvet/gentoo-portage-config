@@ -1,0 +1,13 @@
+diff --git a/src/runtime/cgo/cgo.go b/src/runtime/cgo/cgo.go
+index 4b7046e..1375a38 100644
+--- a/src/runtime/cgo/cgo.go
++++ b/src/runtime/cgo/cgo.go
+@@ -25,7 +25,7 @@ package cgo
+ 
+ // We use -fno-stack-protector because internal linking won't find
+ // the support functions. See issues #52919 and #54313.
+-#cgo CFLAGS: -Wall -Werror -fno-stack-protector
++#cgo CFLAGS: -Wall -fno-stack-protector
+ 
+ #cgo solaris CPPFLAGS: -D_POSIX_PTHREAD_SEMANTICS
+ 

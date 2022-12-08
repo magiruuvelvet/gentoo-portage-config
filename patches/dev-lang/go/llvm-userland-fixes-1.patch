@@ -34,19 +34,6 @@ index 03d3f08..95a9540 100644
  #cgo linux LDFLAGS: -ldl
  #include <dlfcn.h>
  #include <limits.h>
-diff --git a/src/runtime/cgo/cgo.go b/src/runtime/cgo/cgo.go
-index 5a2b5e4..b741e38 100644
---- a/src/runtime/cgo/cgo.go
-+++ b/src/runtime/cgo/cgo.go
-@@ -23,7 +23,7 @@ package cgo
- #cgo aix LDFLAGS: -Wl,-berok
- #cgo solaris LDFLAGS: -lxnet
- 
--#cgo CFLAGS: -Wall -Werror
-+#cgo CFLAGS: -Wall
- 
- #cgo solaris CPPFLAGS: -D_POSIX_PTHREAD_SEMANTICS
- 
 diff --git a/src/runtime/cgo/gcc_setenv.c b/src/runtime/cgo/gcc_setenv.c
 index 88e92bf..df9abc1 100644
 --- a/src/runtime/cgo/gcc_setenv.c
