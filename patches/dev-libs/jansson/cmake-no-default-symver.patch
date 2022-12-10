@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 39b9ad3..c766511 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -309,7 +309,7 @@ if(JANSSON_BUILD_SHARED_LIBS)
+       src/jansson.def)
+ 
+ # check if linker support --default-symver
+-   list(APPEND CMAKE_REQUIRED_LIBRARIES "-Wl,--default-symver")
++   list(APPEND CMAKE_REQUIRED_LIBRARIES "")
+    check_c_source_compiles(
+    "
+    int main (void)
+@@ -319,10 +319,10 @@ if(JANSSON_BUILD_SHARED_LIBS)
+    "
+    DSYMVER_WORKS
+    )
+-   list(REMOVE_ITEM CMAKE_REQUIRED_LIBRARIES "-Wl,--default-symver")
++   list(REMOVE_ITEM CMAKE_REQUIRED_LIBRARIES "")
+ 
+    if (SYMVER_WORKS)
+-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--default-symver")
++      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ")
+    else()
+ # some linkers may only support --version-script
+       file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/jansson.sym" "JANSSON_${JANSSON_SOVERSION} {

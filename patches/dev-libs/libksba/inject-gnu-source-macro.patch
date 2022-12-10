@@ -1,0 +1,26 @@
+diff --git a/src/gen-help.c b/src/gen-help.c
+index 419f7e2..07e192a 100644
+--- a/src/gen-help.c
++++ b/src/gen-help.c
+@@ -17,6 +17,8 @@
+  * along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#define _GNU_SOURCE
++
+ /* No config.h - this file needs to build as plain ISO-C.  */
+ #include <stdio.h>
+ #include <stdlib.h>
+diff --git a/src/gen-help.h b/src/gen-help.h
+index 05641f9..212fa96 100644
+--- a/src/gen-help.h
++++ b/src/gen-help.h
+@@ -25,6 +25,8 @@
+ #ifndef GEN_HELP_H
+ #define GEN_HELP_H
+ 
++#define _GNU_SOURCE
++
+ #ifndef BUILD_GENTOOLS
+ #error file may only be used for build time tools
+ #endif

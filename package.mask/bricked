@@ -9,7 +9,7 @@
 #>=x11-libs/pango-1.48
 
 # need to debug this later
->=dev-ruby/rubygems-3.2
+#>=dev-ruby/rubygems-3.2
 
 # bluez 5.63 has issues with hibernation on my system
 =net-wireless/bluez-5.63

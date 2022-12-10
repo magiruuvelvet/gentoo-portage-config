@@ -6,8 +6,8 @@
 dev-lang/rust rust-clang.conf
 
 # allow usage of extensions for more modules
-dev-lang/python gnu-source.conf define-linux.conf
-dev-lang/php gnu-source.conf define-linux.conf
+dev-lang/python gnu-source-light.conf define-linux.conf
+dev-lang/php gnu-source-light.conf define-linux.conf
 
 # php 8.0 introduced GNU inline assembly and forgot to add -std=gnu
 # module in question: TSRM

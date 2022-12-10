@@ -12,6 +12,8 @@ dev-libs/libgcrypt no-optimizations.conf std-gnu99.conf
 media-video/ffmpeg ffmpeg.conf
 media-sound/mpd stdc-constant-macros.conf
 
+dev-util/vulkan-tools fpic.conf fpie.conf
+
 media-libs/x265 fpic.conf lld-text-relocations.conf std-gnu17.conf
 media-libs/x264 fpic.conf lld-text-relocations.conf
 media-libs/xvid fpic.conf lld-text-relocations.conf
@@ -40,7 +42,7 @@ media-libs/gexiv2 c++11.conf
 net-libs/libproxy c++11.conf
 x11-misc/virtualgl c++11.conf
 games-util/xboxdrv c++11.conf
-games-emulation/mupen64plus-video-rice c++11.conf gnu-source.conf
+games-emulation/mupen64plus-video-rice c++11.conf gnu-source-light.conf
 dev-games/irrlicht c++11.conf strict-ansi.conf
 dev-cpp/libxsd-frontend c++11.conf
 dev-cpp/xsd c++11.conf
@@ -75,7 +77,7 @@ dev-libs/glib ld-fix-libs.conf
 media-libs/libsixel ld-force-lib64.conf
 
 # TODO: weird or faulty runtime behavior in those packages without the applied fixes
-dev-lang/luajit libunwind.conf gnu-source.conf
+dev-lang/luajit libunwind.conf gnu-source-light.conf
 app-emulation/libvirt libunwind.conf std-gnu99.conf
 
 
