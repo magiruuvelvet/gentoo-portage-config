@@ -1,0 +1,13 @@
+diff --git a/deps/libcaption/src/caption.c b/deps/libcaption/src/caption.c
+index 734f28f..bfce3f4 100644
+--- a/deps/libcaption/src/caption.c
++++ b/deps/libcaption/src/caption.c
+@@ -27,6 +27,8 @@
+ #include "xds.h"
+ #include <stdio.h>
+ #include <string.h>
++#include <sys/types.h>
++#include <unistd.h>
+ ////////////////////////////////////////////////////////////////////////////////
+ void caption_frame_buffer_clear(caption_frame_buffer_t* buff)
+ {

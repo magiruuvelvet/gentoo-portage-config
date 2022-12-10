@@ -217,6 +217,7 @@ media-video/libva-utils gnu-source-light.conf
 media-video/mjpegtools std-gnu11.conf
 media-video/vlc std-gnu11.conf
 media-video/mkvtoolnix gnu-source-light.conf
+media-video/obs-studio gnu-source-light.conf
 net-analyzer/openbsd-netcat gnu-source-light.conf
 net-analyzer/fping gnu-source-light.conf
 net-analyzer/zabbix gnu-source-light.conf ld-force-lib64.conf
@@ -389,6 +390,8 @@ media-tv/kodi gnu-source-light.conf
 media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
 dev-ruby/redcarpet gnu-source-light.conf
 x11-terms/kitty gnu-source-light.conf
+
+gnustep-base/libobjc2 gnu-source-light.conf
 
 app-antivirus/clamav gnu-source-light.conf
 

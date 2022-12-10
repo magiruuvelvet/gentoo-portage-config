@@ -1,0 +1,14 @@
+diff --git a/setupext.py b/setupext.py
+index 0387223..67db8e1 100644
+--- a/setupext.py
++++ b/setupext.py
+@@ -456,7 +456,8 @@ class Matplotlib(SetupPackage):
+             "matplotlib._tri", [
+                 "src/tri/_tri.cpp",
+                 "src/tri/_tri_wrapper.cpp",
+-            ])
++            ],
++            extra_compile_args=['-std=c++11'])
+         add_numpy_flags(ext)
+         yield ext
+         # ttconv

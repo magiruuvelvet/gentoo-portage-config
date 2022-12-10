@@ -1,0 +1,13 @@
+diff --git a/UI/obs-app.cpp b/UI/obs-app.cpp
+index 1f43802..a2acfe3 100644
+--- a/UI/obs-app.cpp
++++ b/UI/obs-app.cpp
+@@ -2193,7 +2193,7 @@ static int run_program(fstream &logFile, int argc, char *argv[])
+ 	 * QPainter which can not be modifed. To avoid this the base style is
+ 	 * enforce to the Qt default style on Linux: Fusion. */
+ 
+-	setenv("QT_STYLE_OVERRIDE", "Fusion", false);
++	//setenv("QT_STYLE_OVERRIDE", "Fusion", false);
+ 
+ #if defined(ENABLE_WAYLAND) && defined(USE_XDG)
+ 	/* NOTE: Qt doesn't use the Wayland platform on GNOME, so we have to
