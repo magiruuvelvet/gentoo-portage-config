@@ -50,4 +50,4 @@ media-libs/mediastreamer2 alsa pulseaudio ffmpeg gsm opus -v4l zrtp srtp jpeg sp
 media-libs/libheif aom libde265 -rav1e x265
 media-libs/libsixel jpeg png gd curl
 media-libs/libpulse dbus -X
-media-libs/libplacebo llvm-libunwind unwind
+media-libs/libplacebo -llvm-libunwind -unwind

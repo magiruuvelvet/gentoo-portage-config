@@ -1,3 +1,4 @@
 x11-base/xorg-server glamor suid udev xorg xephyr xvfb kdrive wayland -unwind
 x11-base/xorg-drivers keyboard libinput mouse joystick synaptics wacom
 x11-base/xorg-drivers INPUT_DEVICES: keyboard libinput mouse joystick synaptics wacom
+x11-base/xorg-drivers VIDEO_CARDS: -intel -i915
