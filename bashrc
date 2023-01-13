@@ -38,8 +38,7 @@ if [[ "$EBUILD_PHASE" == "postinst" ]]; then
     notify-send "Installed <b>${CATEGORY}/${PN}</b>"
 fi
 
-# glibc configure script bad
-# lets just unset this for everything in case of other bad build systems
+# unset LD_LIBRARY_PATH and rely exclusively on ld.so.cache
 unset LD_LIBRARY_PATH
 
 # ninja progress status format

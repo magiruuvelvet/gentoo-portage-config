@@ -1,0 +1,12 @@
+diff --git a/lib/wrappers/linenoise/linenoise.c b/lib/wrappers/linenoise/linenoise.c
+index be792b9..2dde3d8 100644
+--- a/lib/wrappers/linenoise/linenoise.c
++++ b/lib/wrappers/linenoise/linenoise.c
+@@ -103,6 +103,7 @@
+  *
+  */
+ 
++#define _GNU_SOURCE
+ #include <termios.h>
+ #include <unistd.h>
+ #include <stdlib.h>

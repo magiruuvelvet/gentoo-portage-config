@@ -1,0 +1,9 @@
+diff --git a/dist/nimble/src/nimble.nim.cfg b/dist/nimble/src/nimble.nim.cfg
+index e459055..7813910 100644
+--- a/dist/nimble/src/nimble.nim.cfg
++++ b/dist/nimble/src/nimble.nim.cfg
+@@ -4,3 +4,4 @@
+ --path:"./vendor/nim"
+ -d:ssl
+ -d:nimcore # Enable 'gorge' in Nim's VM. See https://github.com/nim-lang/Nim/issues/8096
++--passL:"-ldl"

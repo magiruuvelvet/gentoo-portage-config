@@ -32,7 +32,8 @@ x11-libs/libxkbfile gnu-source-light.conf
 x11-libs/libfontenc gnu-source-light.conf
 x11-libs/libXfont2 std-gnu99.conf gnu-source-light.conf
 x11-libs/startup-notification gnu-source-light.conf
-x11-terms/xterm gnu-gcc.conf static-gnu-runtime.conf
+#x11-terms/xterm gnu-gcc.conf static-gnu-runtime.conf
+x11-terms/xterm gnu-source-light.conf
 x11-terms/mlterm gnu-gcc.conf static-gnu-runtime.conf
 x11-drivers/* std-gnu99.conf
 x11-wm/xpra Wno-error.conf
