@@ -1,0 +1,4 @@
+# disable google integration
+export MOZ_API_KEY_GOOGLE=""
+export MOZ_API_KEY_LOCATION=""
+export MOZ_API_KEY_MOZILLA=""

@@ -1,0 +1,14 @@
+diff --git a/code b/code
+index 49111bf..dff168f 100755
+--- a/code
++++ b/code
+@@ -3,6 +3,9 @@
+ # Copyright (c) Microsoft Corporation. All rights reserved.
+ # Licensed under the MIT License. See License.txt in the project root for license information.
+ 
++# vs code and native plugins require GCC runtime libraries
++export LD_LIBRARY_PATH="/sucks/gnu/runtime/64:$LD_LIBRARY_PATH"
++
+ # test that VSCode wasn't installed inside WSL
+ if grep -qi Microsoft /proc/version && [ -z "$DONT_PROMPT_WSL_INSTALL" ]; then
+ 	echo "To use Visual Studio Code with the Windows Subsystem for Linux, please install Visual Studio Code in Windows and uninstall the Linux version in WSL. You can then use the \`code\` command in a WSL terminal just as you would in a normal command prompt." 1>&2

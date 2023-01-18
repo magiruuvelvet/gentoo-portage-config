@@ -29,5 +29,8 @@ with open(file_path, "r") as f:
     # also pretend that this is an official Microsoft build
     config["nameLong"] = "Visual Studio Code";
 
+    # enable api proposals for GitHub Copilot
+    #config["extensionEnabledApiProposals"]["GitHub.copilot"] = ["inlineCompletions", "textDocumentNotebook", "inlineCompletionsAdditions"];
+
 with open(file_path, "w") as f:
     json.dump(config, f, indent=2);

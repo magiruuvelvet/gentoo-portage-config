@@ -1,0 +1,13 @@
+diff --git a/build/cargo-linker b/build/cargo-linker
+index e754636..76fcd17 100755
+--- a/build/cargo-linker
++++ b/build/cargo-linker
+@@ -54,6 +54,8 @@ for arg in sys.argv[1:]:
+             args.append(f"-fsanitize={SANITIZERS[suffix]}")
+             continue
+     args.append(arg)
++args = list(map(lambda x: x.replace("-lstdc++", "-lc++"), args))
++args = list(map(lambda x: x.replace("-lgcc_s", "-lunwind"), args))
+ 
+ wrap_ld = wrap_ld.split()
+ os.execvp(wrap_ld[0], wrap_ld + args)
