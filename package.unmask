@@ -2,12 +2,6 @@
 
 # TODO: convert to directory
 
-# telemetry free build of VS Code
-app-editors/vscodium-bin::jorgicio
-
-kde-misc/plasma-applet-places-widget::jorgicio
-kde-misc/plasma-applet-window-appmenu::jorgicio
-
 app-emulation/vmware-modules::stefantalpalaru
 app-emulation/vmware-workstation::stefantalpalaru
 

@@ -1,7 +1,7 @@
-kde-plasma/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
-kde-frameworks/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
-kde-apps/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
-kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
+kde-plasma/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-frameworks/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-apps/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
 
 kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
 
@@ -29,6 +29,9 @@ kde-frameworks/ktexteditor -editorconfig
 kde-frameworks/sonnet qml
 kde-frameworks/kimageformats heif
 kde-frameworks/karchive zstd
+kde-frameworks/kwindowsystem -wayland
+kde-frameworks/kguiaddons dbus
+kde-frameworks/kcoreaddons dbus
 
 kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
 kde-apps/thumbnailers raw
@@ -38,6 +41,7 @@ kde-apps/kdenlive semantic-desktop
 kde-apps/gwenview activities -mpris raw semantic-desktop share kipi
 kde-apps/spectacle kipi share
 kde-apps/kate -filebrowser -projects -snippets -plasma
+kde-apps/kate-addons -filebrowser -projects -snippets
 
 # random finding: the bluetooth feature of kdeconnect is constantly putting the adapter
 # into scan mode and adds random shit to the kde bluetooth applet which doesn't even belong to me

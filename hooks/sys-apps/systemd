@@ -2,12 +2,18 @@
 
 source /etc/portage/hooks/functions/check-env.sh
 
+# this is now a hard requirement for KDE to autostart things and can no longer be blindly removed without consequences,
+# because KDE now wants to use systemd instead of its own autostarter on Linux
+#
+# maybe I can use the BSD code path for autostarting /etc/xdg/autostart in Linux?
+
 instprep() {
-    if [ ! -z "${D}" ]; then
-        echo "remove xdg autostart generator..."
-        rm "${D}/usr/lib/systemd/user-generators/systemd-xdg-autostart-generator"
-        rm -r "${D}/usr/lib/systemd/user-generators"
-    fi
+    #if [ ! -z "${D}" ]; then
+    #    echo "remove xdg autostart generator..."
+    #    rm "${D}/usr/lib/systemd/user-generators/systemd-xdg-autostart-generator"
+    #    rm -r "${D}/usr/lib/systemd/user-generators"
+    #fi
+    :
 }
 
 case "$1" in

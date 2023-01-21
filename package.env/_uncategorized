@@ -1,8 +1,4 @@
 
-dev-qt/qtwebengine j2.conf
-#dev-qt/qt-creator j1.conf
-app-office/libreoffice j2.conf
-
 # only the 32-bit version depends on GNU/libatomic, the 64-bit version is GNU free and works with LLVM runtimes only
 media-libs/mesa libatomic-clang.conf
 
@@ -84,3 +80,5 @@ app-emulation/libvirt libunwind.conf std-gnu99.conf
 # bundled sha util uses GNU extension -> inline assembly
 games-action/minetest std-gnu11.conf
 
+
+kde-misc/plasma-applet-window-appmenu plasma-applet-window-appmenu.conf

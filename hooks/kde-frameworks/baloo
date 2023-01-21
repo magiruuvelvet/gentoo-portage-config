@@ -1,0 +1,15 @@
+#!/bin/sh
+
+source /etc/portage/hooks/functions/check-env.sh
+
+instprep() {
+    if [ ! -z "${D}" ]; then
+        echo "Remove xdg-autostart..."
+        rm -r "${D}/etc/xdg/autostart"
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
