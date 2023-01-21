@@ -1,11 +1,11 @@
 diff --git a/src/core/ksambashare.cpp b/src/core/ksambashare.cpp
-index 7022c44..f828648 100644
+index 9e315e4..85f10de 100644
 --- a/src/core/ksambashare.cpp
 +++ b/src/core/ksambashare.cpp
-@@ -148,27 +148,8 @@ QString KSambaSharePrivate::testparmParamValue(const QString &parameterName)
-             err.removeFirst();
-         }
-         if (err.count() > 0 && err.at(0).startsWith("WARNING: The 'netbios name' is too long (max. 15 chars).")) {
+@@ -159,27 +159,8 @@ QString KSambaSharePrivate::testparmParamValue(const QString &parameterName)
+ 
+         const int netbiosNameErrorIdx = errArray.indexOf("WARNING: The 'netbios name' is too long (max. 15 chars).");
+         if (netbiosNameErrorIdx >= 0) {
 -            // netbios name must be of at most 15 characters long
 -            // means either netbios name is badly configured
 -            // or not set and the default value is being used, it being "$(hostname)-W"
@@ -22,15 +22,15 @@ index 7022c44..f828648 100644
 -                qCDebug(KIO_CORE) << "Your samba 'netbios name' parameter was longer than the authorized 15 characters."
 -                                  << "Please define a 'netbios name' parameter in /etc/samba/smb.conf at most 15 characters long";
 -            }
-             err.removeFirst();
+             errArray.removeAt(netbiosNameErrorIdx);
          }
--        if (err.count() > 0) {
--            qCDebug(KIO_CORE) << "We got some errors while running testparm" << err.join("\n");
+-        if (errArray.size() > 0) {
+-            qCDebug(KIO_CORE) << "We got some errors while running testparm" << errArray.join("\n");
 -        }
      }
  
      if (!stdOut.isEmpty()) {
-@@ -199,12 +180,6 @@ QByteArray KSambaSharePrivate::getNetUserShareInfo()
+@@ -210,12 +191,6 @@ QByteArray KSambaSharePrivate::getNetUserShareInfo()
              skipUserShare = true;
          } else if (stdErr.contains("usershares are currently disabled")) {
              skipUserShare = true;
@@ -43,7 +43,7 @@ index 7022c44..f828648 100644
          }
      }
  
-@@ -356,14 +331,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::add(const KSambaShareData &s
+@@ -368,14 +343,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::add(const KSambaShareData &s
      QByteArray stdOut;
      int ret = runProcess(QStringLiteral("net"), args, stdOut, m_stdErr);
  
@@ -58,7 +58,7 @@ index 7022c44..f828648 100644
      if (ret == 0 && !data.contains(shareData.name())) {
          // It needs to be added in this function explicitly, otherwise another instance of
          // KSambaShareDataPrivate will be created and added to data when the share
-@@ -393,14 +360,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::remove(const KSambaShareData
+@@ -405,14 +372,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::remove(const KSambaShareData
      QByteArray stdOut;
      int ret = runProcess(QStringLiteral("net"), args, stdOut, m_stdErr);
  
@@ -73,7 +73,7 @@ index 7022c44..f828648 100644
      return (ret == 0) ? KSambaShareData::UserShareOk : KSambaShareData::UserShareSystemError;
  
      // NB: the share file gets deleted which leads us to reload and drop the ShareData, hence no explicit remove
-@@ -449,9 +408,6 @@ QMap<QString, KSambaShareData> KSambaSharePrivate::parse(const QByteArray &users
+@@ -457,9 +416,6 @@ QMap<QString, KSambaShareData> KSambaSharePrivate::parse(const QByteArray &users
                  shareData.dd->acl = value;
              } else if (key == QLatin1String("guest_ok")) {
                  shareData.dd->guestPermission = value;

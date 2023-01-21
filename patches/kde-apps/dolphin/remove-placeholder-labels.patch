@@ -1,19 +1,27 @@
 diff --git a/src/views/dolphinview.cpp b/src/views/dolphinview.cpp
-index 9a063d8..f666bfa 100644
+index c3ef4e0..c0a1235 100644
 --- a/src/views/dolphinview.cpp
 +++ b/src/views/dolphinview.cpp
-@@ -2114,27 +2114,5 @@ void DolphinView::updatePlaceholderLabel()
+@@ -2217,37 +2217,7 @@ void DolphinView::updatePlaceholderLabel()
          return;
      }
  
--    if (!nameFilter().isEmpty()) {
+-    if (m_loadingState == LoadingState::Canceled) {
+-        m_placeholderLabel->setText(i18n("Loading canceled"));
+-    } else if (!nameFilter().isEmpty()) {
 -        m_placeholderLabel->setText(i18n("No items matching the filter"));
 -    } else if (m_url.scheme() == QLatin1String("baloosearch") || m_url.scheme() == QLatin1String("filenamesearch")) {
 -        m_placeholderLabel->setText(i18n("No items matching the search"));
 -    } else if (m_url.scheme() == QLatin1String("trash") && m_url.path() == QLatin1String("/")) {
 -        m_placeholderLabel->setText(i18n("Trash is empty"));
 -    } else if (m_url.scheme() == QLatin1String("tags")) {
--        m_placeholderLabel->setText(i18n("No tags"));
+-        if (m_url.path() == QLatin1Char('/')) {
+-            m_placeholderLabel->setText(i18n("No tags"));
+-        } else {
+-            const QString tagName = m_url.path().mid(1); // Remove leading /
+-            m_placeholderLabel->setText(i18n("No files tagged with \"%1\"", tagName));
+-        }
+-
 -    } else if (m_url.scheme() == QLatin1String("recentlyused")) {
 -        m_placeholderLabel->setText(i18n("No recently used items"));
 -    } else if (m_url.scheme() == QLatin1String("smb")) {
@@ -31,3 +39,5 @@ index 9a063d8..f666bfa 100644
 -    m_placeholderLabel->setVisible(true);
 +    m_placeholderLabel->setVisible(false);
  }
+ 
+ void DolphinView::tryShowNameToolTip(QHelpEvent* event)

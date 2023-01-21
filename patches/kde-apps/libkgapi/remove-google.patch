@@ -1,23 +1,23 @@
 diff --git a/src/blogger/bloggerservice.cpp b/src/blogger/bloggerservice.cpp
-index 9029f8e..ae6362b 100644
+index 15708e4..8997e77 100644
 --- a/src/blogger/bloggerservice.cpp
 +++ b/src/blogger/bloggerservice.cpp
 @@ -19,7 +19,7 @@ namespace BloggerService
  {
  namespace Private
  {
--    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
-+    static const QUrl GoogleApisUrl;
+-static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
++static const QUrl GoogleApisUrl;
  
-     auto commentBasePath(const QString &blogId,
-                          const QString &postId = QString(),
+ auto commentBasePath(const QString &blogId, const QString &postId = QString(), const QString &commentId = QString()) -> QString
+ {
 diff --git a/src/calendar/calendarservice.cpp b/src/calendar/calendarservice.cpp
-index 6de7a57..dfbb953 100644
+index 93a362e..8dc1ea1 100644
 --- a/src/calendar/calendarservice.cpp
 +++ b/src/calendar/calendarservice.cpp
 @@ -59,9 +59,9 @@ ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString
   */
- QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
+ QString checkAndConverCDOTZID(const QString &tzid, const EventPtr &event);
  
 -static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 -static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
@@ -38,7 +38,7 @@ index 6de7a57..dfbb953 100644
 +    return {};
  }
  
- QUrl fetchCalendarUrl(const QString& calendarID)
+ QUrl fetchCalendarUrl(const QString &calendarID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::CalendarListBasePath % QLatin1Char('/') % calendarID);
@@ -62,7 +62,7 @@ index 6de7a57..dfbb953 100644
 +    return {};
  }
  
- QUrl removeCalendarUrl(const QString& calendarID)
+ QUrl removeCalendarUrl(const QString &calendarID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID);
@@ -70,7 +70,7 @@ index 6de7a57..dfbb953 100644
 +    return {};
  }
  
- QUrl fetchEventsUrl(const QString& calendarID)
+ QUrl fetchEventsUrl(const QString &calendarID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
@@ -78,7 +78,7 @@ index 6de7a57..dfbb953 100644
 +    return {};
  }
  
- QUrl fetchEventUrl(const QString& calendarID, const QString& eventID)
+ QUrl fetchEventUrl(const QString &calendarID, const QString &eventID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
@@ -86,8 +86,71 @@ index 6de7a57..dfbb953 100644
 +    return {};
  }
  
- namespace {
-@@ -389,7 +375,6 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
+ namespace
+@@ -145,56 +131,32 @@ static const QString destinationQueryParam = QStringLiteral("destination");
+ 
+ QUrl updateEventUrl(const QString &calendarID, const QString &eventID, SendUpdatesPolicy updatePolicy)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
+-    QUrlQuery query(url);
+-    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createEventUrl(const QString &calendarID, SendUpdatesPolicy updatePolicy)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl importEventUrl(const QString &calendarID, SendUpdatesPolicy updatePolicy)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events") % QLatin1String("/import"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl removeEventUrl(const QString &calendarID, const QString &eventID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
+-    return url;
++    return {};
+ }
+ 
+ QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID % QLatin1String("/move"));
+-    QUrlQuery query(url);
+-    query.addQueryItem(destinationQueryParam, destCalendar);
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl freeBusyQueryUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(QStringLiteral("/calendar/v3/freeBusy"));
+-    return url;
++    return {};
+ }
+ 
+ namespace
+@@ -390,7 +352,6 @@ EventPtr JSONToEvent(const QByteArray &jsonData)
      QJsonParseError error;
      QJsonDocument document = QJsonDocument::fromJson(jsonData, &error);
      if (error.error != QJsonParseError::NoError) {
@@ -96,10 +159,10 @@ index 6de7a57..dfbb953 100644
      QVariantMap data = document.toVariant().toMap();
      if (data.value(kindParam).toString() != eventKind) {
 diff --git a/src/calendar/event.cpp b/src/calendar/event.cpp
-index 19ae86a..56b9241 100644
+index 8e10520..01072bd 100644
 --- a/src/calendar/event.cpp
 +++ b/src/calendar/event.cpp
-@@ -55,11 +55,9 @@ bool Event::operator==(const Event &other) const
+@@ -57,11 +57,9 @@ bool Event::operator==(const Event &other) const
          return false;
      }
      if (d->deleted != other.d->deleted) {
@@ -112,34 +175,34 @@ index 19ae86a..56b9241 100644
      }
  
 diff --git a/src/contacts/contactsservice.cpp b/src/contacts/contactsservice.cpp
-index b3c6cf9..d2ba920 100644
+index 0b32f7b..0d7d55e 100644
 --- a/src/contacts/contactsservice.cpp
 +++ b/src/contacts/contactsservice.cpp
-@@ -36,208 +36,81 @@ namespace Private
-     ObjectPtr JSONToContactsGroup(const QVariantMap &map);
-     ObjectPtr JSONToContact(const QVariantMap& map);
+@@ -35,207 +35,80 @@ static QString stringFromXMLMap(const QVariantMap &map, const QString &key)
+ ObjectPtr JSONToContactsGroup(const QVariantMap &map);
+ ObjectPtr JSONToContact(const QVariantMap &map);
  
--    static const QUrl GoogleApisUrl(QStringLiteral("https://www.google.com"));
--    static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
--    static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
--    static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
-+    static const QUrl GoogleApisUrl;
-+    static const QString ContactsBasePath;
-+    static const QString ContactsGroupBasePath;
-+    static const QString PhotoBasePath;
+-static const QUrl GoogleApisUrl(QStringLiteral("https://www.google.com"));
+-static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
+-static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
+-static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
++static const QUrl GoogleApisUrl;
++static const QString ContactsBasePath;
++static const QString ContactsGroupBasePath;
++static const QString PhotoBasePath;
  
-     static QByteArray addRelSchema(const QByteArray &rel)
-     {
--        if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
--            return "http://schemas.google.com/g/2005#" + rel;
--        } else {
--            return rel;
--        }
-+        return {};
-     }
+ static QByteArray addRelSchema(const QByteArray &rel)
+ {
+-    if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
+-        return "http://schemas.google.com/g/2005#" + rel;
+-    } else {
+-        return rel;
+-    }
++    return {};
+ }
  }
  
- ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ ObjectsList parseJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
  {
 -    ObjectsList output;
 -    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
@@ -181,7 +244,7 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- QUrl fetchAllContactsUrl(const QString& user, bool showDeleted)
+ QUrl fetchAllContactsUrl(const QString &user, bool showDeleted)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
@@ -196,7 +259,7 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- QUrl fetchContactUrl(const QString& user, const QString& contactID)
+ QUrl fetchContactUrl(const QString &user, const QString &contactID)
  {
 -    QString id;
 -    if (contactID.contains(QLatin1Char('/'))) {
@@ -214,7 +277,7 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- QUrl createContactUrl(const QString& user)
+ QUrl createContactUrl(const QString &user)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
@@ -222,7 +285,7 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- QUrl updateContactUrl(const QString& user, const QString& contactID)
+ QUrl updateContactUrl(const QString &user, const QString &contactID)
  {
 -    QString id;
 -    if (contactID.contains(QLatin1Char('/'))) {
@@ -237,7 +300,7 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- QUrl removeContactUrl(const QString& user, const QString& contactID)
+ QUrl removeContactUrl(const QString &user, const QString &contactID)
  {
 -    QString id;
 -    if (contactID.contains(QLatin1Char('/'))) {
@@ -319,7 +382,7 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- QUrl photoUrl(const QString& user, const QString& contactID)
+ QUrl photoUrl(const QString &user, const QString &contactID)
  {
 -    QString id;
 -    if (contactID.contains(QLatin1Char('/'))) {
@@ -334,19 +397,18 @@ index b3c6cf9..d2ba920 100644
 +    return {};
  }
  
- 
  QString APIVersion()
  {
 -    return QStringLiteral("3.0");
 +    return {};
  }
  
- 
+ /*********************************** PRIVATE *************************************/
 diff --git a/src/core/accountinfo/accountinfofetchjob.cpp b/src/core/accountinfo/accountinfofetchjob.cpp
-index 3f5f47c..4522a6e 100644
+index 04c9edb..939e43d 100644
 --- a/src/core/accountinfo/accountinfofetchjob.cpp
 +++ b/src/core/accountinfo/accountinfofetchjob.cpp
-@@ -35,34 +35,11 @@ AccountInfoFetchJob::~AccountInfoFetchJob()
+@@ -34,34 +34,11 @@ AccountInfoFetchJob::~AccountInfoFetchJob()
  
  void AccountInfoFetchJob::start()
  {
@@ -363,7 +425,7 @@ index 3f5f47c..4522a6e 100644
 -    enqueueRequest(request);
  }
  
- ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
  {
 -    ObjectsList items;
 -
@@ -383,36 +445,38 @@ index 3f5f47c..4522a6e 100644
  
  #include "moc_accountinfofetchjob.cpp"
 diff --git a/src/core/authjob.cpp b/src/core/authjob.cpp
-index c331528..3757276 100644
+index 8206b75..96ed193 100644
 --- a/src/core/authjob.cpp
 +++ b/src/core/authjob.cpp
-@@ -88,24 +88,5 @@ void AuthJob::dispatchRequest(QNetworkAccessManager* /*accessManager*/, const QN
+@@ -90,26 +90,4 @@ void AuthJob::dispatchRequest(QNetworkAccessManager * /*accessManager*/,
  
  void AuthJob::start()
  {
 -    if (d->account->refreshToken().isEmpty() || (d->account->m_scopesChanged == true)) {
--
 -        d->account->addScope(Account::accountInfoEmailScopeUrl());
 -
--        auto *job = new FullAuthenticationJob(d->account, d->apiKey, d->secretKey, this);
+-        auto job = new FullAuthenticationJob(d->account, d->apiKey, d->secretKey, this);
 -        job->setUsername(d->username);
 -        job->setServerPort(kgapiTcpAuthServerPort);
--        connect(job, &Job::finished, this, [this](Job *job) { d->jobFinished<FullAuthenticationJob>(job); });
+-        connect(job, &Job::finished, this, [this](Job *job) {
+-            d->jobFinished<FullAuthenticationJob>(job);
+-        });
 -    } else {
--       if (d->account->accountName().isEmpty()) {
+-        if (d->account->accountName().isEmpty()) {
 -            setError(KGAPI2::InvalidAccount);
 -            setErrorString(tr("Account name is empty"));
 -            emitFinished();
 -            return;
 -        }
 -
--        auto *job = new RefreshTokensJob(d->account, d->apiKey, d->secretKey, this);
--        connect(job, &Job::finished, this, [this](Job *job) { d->jobFinished<RefreshTokensJob>(job); });
+-        auto job = new RefreshTokensJob(d->account, d->apiKey, d->secretKey, this);
+-        connect(job, &Job::finished, this, [this](Job *job) {
+-            d->jobFinished<RefreshTokensJob>(job);
+-        });
 -    }
  }
- 
 diff --git a/src/core/job.cpp b/src/core/job.cpp
-index 4d5db03..889843f 100644
+index 1d15a89..09a05cb 100644
 --- a/src/core/job.cpp
 +++ b/src/core/job.cpp
 @@ -52,34 +52,10 @@ FileLogger *FileLogger::self()
@@ -449,12 +513,12 @@ index 4d5db03..889843f 100644
 -    mFile->flush();
  }
  
- 
+ Job::Private::Private(Job *parent)
 diff --git a/src/core/private/newtokensfetchjob.cpp b/src/core/private/newtokensfetchjob.cpp
-index d95ea21..4f422f8 100644
+index a5ddc04..a173f49 100644
 --- a/src/core/private/newtokensfetchjob.cpp
 +++ b/src/core/private/newtokensfetchjob.cpp
-@@ -77,19 +77,6 @@ qulonglong NewTokensFetchJob::expiresIn() const
+@@ -77,20 +77,6 @@ qulonglong NewTokensFetchJob::expiresIn() const
  
  void NewTokensFetchJob::start()
  {
@@ -467,16 +531,17 @@ index d95ea21..4f422f8 100644
 -    params.addQueryItem(QStringLiteral("client_id"), d->apiKey);
 -    params.addQueryItem(QStringLiteral("client_secret"), d->secretKey);
 -    params.addQueryItem(QStringLiteral("code"), d->tmpToken);
--    params.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->localPort)); // we need to use the same URL as in AuthWidget
+-    params.addQueryItem(QStringLiteral("redirect_uri"),
+-                        QStringLiteral("http://127.0.0.1:%1").arg(d->localPort)); // we need to use the same URL as in AuthWidget
 -    params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
 -
 -    enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
  }
  
- void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType)
-@@ -101,23 +88,6 @@ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, co
+ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager *accessManager,
+@@ -105,21 +91,4 @@ void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager *accessManager,
  
- void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
+ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
  {
 -    Q_UNUSED(reply)
 -
@@ -496,53 +561,51 @@ index d95ea21..4f422f8 100644
 -    d->refreshToken = parsed_data.value(QStringLiteral("refresh_token")).toString();
 -    d->expiresIn = parsed_data.value(QStringLiteral("expires_in")).toULongLong();
  }
- 
- 
 diff --git a/src/drive/driveservice.cpp b/src/drive/driveservice.cpp
-index c63a557..5187eea 100644
+index f96ba42..ab9aedd 100644
 --- a/src/drive/driveservice.cpp
 +++ b/src/drive/driveservice.cpp
 @@ -16,12 +16,12 @@ namespace KGAPI2
  
  namespace Private
  {
--    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
--    static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
--    static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
--    static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
--    static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
--    static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
-+    static const QUrl GoogleApisUrl;
-+    static const QString AppsBasePath;
-+    static const QString FilesBasePath;
-+    static const QString ChangeBasePath;
-+    static const QString DrivesBasePath;
-+    static const QString TeamdriveBasePath;
+-static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
+-static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
+-static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
+-static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
+-static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
++static const QUrl GoogleApisUrl;
++static const QString AppsBasePath;
++static const QString FilesBasePath;
++static const QString ChangeBasePath;
++static const QString DrivesBasePath;
++static const QString TeamdriveBasePath;
  }
  
  namespace DriveService
 diff --git a/src/latitude/latitudeservice.cpp b/src/latitude/latitudeservice.cpp
-index 7298425..2ef4474 100644
+index b806b07..84876c3 100644
 --- a/src/latitude/latitudeservice.cpp
 +++ b/src/latitude/latitudeservice.cpp
-@@ -21,9 +21,9 @@ namespace Private
+@@ -22,9 +22,9 @@ namespace Private
  {
-     LocationPtr parseLocation(const QVariantMap &map);
+ LocationPtr parseLocation(const QVariantMap &map);
  
--    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
--    static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
--    static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
-+    static const QUrl GoogleApisUrl;
-+    static const QString LocationBasePath;
-+    static const QString CurrentLocationBasePath;
+-static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
+-static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
++static const QUrl GoogleApisUrl;
++static const QString LocationBasePath;
++static const QString CurrentLocationBasePath;
  }
  
- LocationPtr JSONToLocation(const QByteArray & jsonData)
+ LocationPtr JSONToLocation(const QByteArray &jsonData)
 diff --git a/src/latitude/locationcreatejob.cpp b/src/latitude/locationcreatejob.cpp
-index a9c6974..3c24137 100644
+index 73d0bee..39c1b73 100644
 --- a/src/latitude/locationcreatejob.cpp
 +++ b/src/latitude/locationcreatejob.cpp
-@@ -47,26 +47,6 @@ LocationCreateJob::~LocationCreateJob()
+@@ -46,26 +46,6 @@ LocationCreateJob::~LocationCreateJob()
  
  void LocationCreateJob::start()
  {
@@ -568,12 +631,12 @@ index a9c6974..3c24137 100644
 -    enqueueRequest(request, rawData, QStringLiteral("application/json"));
  }
  
- ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 diff --git a/src/latitude/locationdeletejob.cpp b/src/latitude/locationdeletejob.cpp
-index eb75346..990ef0d 100644
+index 2e69af8..90a0a38 100644
 --- a/src/latitude/locationdeletejob.cpp
 +++ b/src/latitude/locationdeletejob.cpp
-@@ -60,30 +60,6 @@ LocationDeleteJob::~LocationDeleteJob()
+@@ -57,28 +57,4 @@ LocationDeleteJob::~LocationDeleteJob()
  
  void LocationDeleteJob::start()
  {
@@ -602,15 +665,13 @@ index eb75346..990ef0d 100644
 -    enqueueRequest(request);
 -    d->finished = true;
  }
- 
- 
 diff --git a/src/latitude/locationfetchhistoryjob.cpp b/src/latitude/locationfetchhistoryjob.cpp
-index b4287db..37e481d 100644
+index 7b7b7e8..fb68e6b 100644
 --- a/src/latitude/locationfetchhistoryjob.cpp
 +++ b/src/latitude/locationfetchhistoryjob.cpp
-@@ -41,10 +41,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
+@@ -40,10 +40,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent)
  
- QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl& url)
+ QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl &url)
  {
 -    QNetworkRequest request(url);
 -    request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
@@ -619,8 +680,8 @@ index b4287db..37e481d 100644
 +    return QNetworkRequest(QUrl());
  }
  
- 
-@@ -113,10 +110,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
+ LocationFetchHistoryJob::LocationFetchHistoryJob(const AccountPtr &account, QObject *parent)
+@@ -111,10 +108,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
  
  void LocationFetchHistoryJob::start()
  {
@@ -630,8 +691,8 @@ index b4287db..37e481d 100644
 -    enqueueRequest(request);
  }
  
- ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
-@@ -134,8 +127,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
+ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
+@@ -132,8 +125,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
      }
  
      if (feedData.nextPageUrl.isValid()) {
@@ -641,10 +702,10 @@ index b4287db..37e481d 100644
  
      return items;
 diff --git a/src/latitude/locationfetchjob.cpp b/src/latitude/locationfetchjob.cpp
-index 33bc392..3c8f4ae 100644
+index 1b051c5..9cd16cc 100644
 --- a/src/latitude/locationfetchjob.cpp
 +++ b/src/latitude/locationfetchjob.cpp
-@@ -71,10 +71,6 @@ void LocationFetchJob::start()
+@@ -70,10 +70,6 @@ void LocationFetchJob::start()
      } else {
          url = LatitudeService::retrieveLocationUrl(d->timestamp, d->granularity);
      }
@@ -654,27 +715,68 @@ index 33bc392..3c8f4ae 100644
 -    enqueueRequest(request);
  }
  
- ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 diff --git a/src/tasks/tasksservice.cpp b/src/tasks/tasksservice.cpp
-index 7e88cc9..6f7fddb 100644
+index 53947f0..6ae830f 100644
 --- a/src/tasks/tasksservice.cpp
 +++ b/src/tasks/tasksservice.cpp
-@@ -56,9 +56,9 @@ namespace Private
-     ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
-     ObjectPtr JSONToTask(const QVariantMap &jsonData);
+@@ -57,128 +57,64 @@ ObjectsList parseTasksJSONFeed(const QVariantList &items);
+ ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
+ ObjectPtr JSONToTask(const QVariantMap &jsonData);
  
--    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
--    static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
--    static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
-+    static const QUrl GoogleApisUrl;
-+    static const QString TasksBasePath;
-+    static const QString TasksListsBasePath;
+-static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+-static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
+-static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
++static const QUrl GoogleApisUrl;
++static const QString TasksBasePath;
++static const QString TasksListsBasePath;
  }
  
- ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
-@@ -106,78 +106,52 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ ObjectsList parseJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
+ {
+-    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+-    if (document.isNull()) {
+-        return ObjectsList();
+-    }
+-
+-    ObjectsList list;
+-    const QVariantMap feed = document.toVariant().toMap();
+-
+-    if (feed.value(KindAttr).toString() == QLatin1String("tasks#taskLists")) {
+-        list = Private::parseTaskListJSONFeed(feed.value(ItemsAttr).toList());
+-
+-        if (feed.contains(NextPageTokenAttr)) {
+-            feedData.nextPageUrl = fetchTaskListsUrl();
+-            QUrlQuery query(feedData.nextPageUrl);
+-            query.addQueryItem(PageTokenParam, feed.value(NextPageTokenAttr).toString());
+-            if (query.queryItemValue(MaxResultsParam).isEmpty()) {
+-                query.addQueryItem(MaxResultsParam, MaxResultsParamValueDefault);
+-            }
+-            feedData.nextPageUrl.setQuery(query);
+-        }
+-
+-    } else if (feed.value(KindAttr).toString() == QLatin1String("tasks#tasks")) {
+-        list = Private::parseTasksJSONFeed(feed.value(ItemsAttr).toList());
+-
+-        if (feed.contains(NextPageTokenAttr)) {
+-            QString taskListId = feedData.requestUrl.toString().remove(QStringLiteral("https://www.googleapis.com/tasks/v1/lists/"));
+-            taskListId = taskListId.left(taskListId.indexOf(QLatin1Char('/')));
+-
+-            feedData.nextPageUrl = fetchAllTasksUrl(taskListId);
+-            QUrlQuery query(feedData.nextPageUrl);
+-            query.addQueryItem(PageTokenParam, feed.value(NextPageTokenAttr).toString());
+-            if (query.queryItemValue(MaxResultsParam).isEmpty()) {
+-                query.addQueryItem(MaxResultsParam, MaxResultsParamValueDefault);
+-            }
+-            feedData.nextPageUrl.setQuery(query);
+-        }
+-    }
+-
+-    return list;
++    return {};
+ }
  
- QUrl fetchAllTasksUrl(const QString& tasklistID)
+ QUrl fetchAllTasksUrl(const QString &tasklistID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart);
@@ -682,7 +784,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl fetchTaskUrl(const QString& tasklistID, const QString& taskID)
+ QUrl fetchTaskUrl(const QString &tasklistID, const QString &taskID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID);
@@ -690,7 +792,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl createTaskUrl(const QString& tasklistID)
+ QUrl createTaskUrl(const QString &tasklistID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart);
@@ -698,7 +800,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl updateTaskUrl(const QString& tasklistID, const QString& taskID)
+ QUrl updateTaskUrl(const QString &tasklistID, const QString &taskID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID);
@@ -706,7 +808,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl removeTaskUrl(const QString& tasklistID, const QString& taskID)
+ QUrl removeTaskUrl(const QString &tasklistID, const QString &taskID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID);
@@ -714,7 +816,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
+ QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID, const QString &newParent)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID % QLatin1String("/move"));
@@ -744,7 +846,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl updateTaskListUrl(const QString& tasklistID)
+ QUrl updateTaskListUrl(const QString &tasklistID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
@@ -752,7 +854,7 @@ index 7e88cc9..6f7fddb 100644
 +    return {};
  }
  
- QUrl removeTaskListUrl(const QString& tasklistID)
+ QUrl removeTaskListUrl(const QString &tasklistID)
  {
 -    QUrl url(Private::GoogleApisUrl);
 -    url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
@@ -761,7 +863,7 @@ index 7e88cc9..6f7fddb 100644
  }
  
  /******************************* PRIVATE ******************************/
-@@ -186,12 +160,6 @@ ObjectPtr Private::JSONToTaskList(const QVariantMap &jsonData)
+@@ -187,12 +123,6 @@ ObjectPtr Private::JSONToTaskList(const QVariantMap &jsonData)
  {
      TaskListPtr taskList(new TaskList());
  

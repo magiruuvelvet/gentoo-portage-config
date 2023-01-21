@@ -1,13 +1,13 @@
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 549d2c7..0a7e488 100644
+index cfaa253..83f3f58 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -152,7 +152,7 @@ target_sources(KF5Libkleo PRIVATE    # make this a separate lib.
-     )
+@@ -172,7 +172,7 @@ if(MINGW)
+     set_source_files_properties(utils/gnupg-registry.c PROPERTIES COMPILE_OPTIONS "-Wno-pointer-sign")
+ endif()
  
- 
--target_link_libraries(KF5Libkleo PUBLIC QGpgme Gpgmepp PRIVATE Qt::Widgets
-+target_link_libraries(KF5Libkleo PUBLIC QGpgme Gpgmepp "-lgpg-error" PRIVATE Qt::Widgets
+-target_link_libraries(KF5Libkleo PUBLIC Gpgmepp PRIVATE Qt::Widgets
++target_link_libraries(KF5Libkleo PUBLIC Gpgmepp "-lgpg-error" PRIVATE Qt::Widgets
                                                  KF5::I18n
                                                  KF5::Completion
                                                  KF5::ConfigCore

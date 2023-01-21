@@ -1,8 +1,0 @@
-# kde devs really want to kill kcmshell as it seems, why????????????????? i love standalone settings windows change my mind
-https://invent.kde.org/frameworks/kservice/-/merge_requests/16/diffs?commit_id=d701a695171ce2023a6206125aff5496459ecc82
-https://invent.kde.org/frameworks/kservice/-/merge_requests/16/commits
-> commit which reverts my revert xd (in new version the above patch must be reverted or both)
-https://invent.kde.org/plasma/plasma-workspace/-/merge_requests/385/commits
-
-UPDATE 2022:
- patch moved to kde-frameworks/kservice

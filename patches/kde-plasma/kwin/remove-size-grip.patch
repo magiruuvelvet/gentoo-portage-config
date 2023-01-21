@@ -1,8 +1,8 @@
 diff --git a/src/plugins/kdecorations/aurorae/src/aurorae.cpp b/src/plugins/kdecorations/aurorae/src/aurorae.cpp
-index 23426ae..7245015 100644
+index 1e91f3f..a799263 100644
 --- a/src/plugins/kdecorations/aurorae/src/aurorae.cpp
 +++ b/src/plugins/kdecorations/aurorae/src/aurorae.cpp
-@@ -546,27 +546,7 @@ void Decoration::installTitleItem(QQuickItem *item)
+@@ -549,27 +549,7 @@ void Decoration::installTitleItem(QQuickItem *item)
  
  void Decoration::updateExtendedBorders()
  {
@@ -21,7 +21,7 @@ index 23426ae..7245015 100644
 -            extBottom = qMax(m_extendedBorders->bottom(), extSize);
 -        }
 -
--    } else if (settings()->borderSize() == KDecoration2::BorderSize::NoSides && !clientPointer()->isMaximizedHorizontally() ) {
+-    } else if (settings()->borderSize() == KDecoration2::BorderSize::NoSides && !clientPointer()->isMaximizedHorizontally()) {
 -        extLeft = qMax(m_extendedBorders->left(), extSize);
 -        extRight = qMax(m_extendedBorders->right(), extSize);
 -    }
@@ -30,4 +30,4 @@ index 23426ae..7245015 100644
 +    setResizeOnlyBorders(QMargins(0, 0, 0, 0));
  }
  
- void Decoration::updateBuffer()
+ void Decoration::updateBlur()

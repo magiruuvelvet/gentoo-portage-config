@@ -1,16 +1,16 @@
 diff --git a/src/widgets/ldapclient.cpp b/src/widgets/ldapclient.cpp
-index cf94ea9..47b42ea 100644
+index a419458..1c7391a 100644
 --- a/src/widgets/ldapclient.cpp
 +++ b/src/widgets/ldapclient.cpp
 @@ -31,7 +31,6 @@ public:
  
      ~LdapClientPrivate()
      {
--        q->cancelQuery();
+-        cancelQuery();
      }
  
-     void startParseLDIF();
-@@ -43,7 +42,7 @@ public:
+     void cancelQuery();
+@@ -45,7 +44,7 @@ public:
      void slotInfoMessage(KJob *, const QString &info, const QString &);
      void slotDone();
  
@@ -19,7 +19,7 @@ index cf94ea9..47b42ea 100644
  
      KLDAP::LdapServer mServer;
      QString mScope;
-@@ -66,7 +65,7 @@ LdapClient::LdapClient(int clientNumber, QObject *parent)
+@@ -68,7 +67,7 @@ LdapClient::LdapClient(int clientNumber, QObject *parent)
      d->mCompletionWeight = 50 - d->mClientNumber;
  }
  

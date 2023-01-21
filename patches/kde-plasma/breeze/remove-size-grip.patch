@@ -1,5 +1,5 @@
 diff --git a/kdecoration/breezedecoration.cpp b/kdecoration/breezedecoration.cpp
-index 5e702fd..f3e5cbb 100644
+index d16dea9..bf49911 100644
 --- a/kdecoration/breezedecoration.cpp
 +++ b/kdecoration/breezedecoration.cpp
 @@ -14,7 +14,6 @@
@@ -10,138 +10,140 @@ index 5e702fd..f3e5cbb 100644
  
  #include "breezeboxshadowrenderer.h"
  
-@@ -159,9 +158,6 @@ namespace Breeze
-             // last deco destroyed, clean up shadow
-             g_sShadow.clear();
-         }
+@@ -152,8 +151,6 @@ Decoration::~Decoration()
+         // last deco destroyed, clean up shadow
+         g_sShadow.clear();
+     }
 -
+-    deleteSizeGrip();
+ }
+ 
+ //________________________________________________________________
+@@ -163,9 +160,6 @@ void Decoration::setOpacity(qreal value)
+         return;
+     m_opacity = value;
+     update();
+-
+-    if (m_sizeGrip)
+-        m_sizeGrip->update();
+ }
+ 
+ //________________________________________________________________
+@@ -329,10 +323,6 @@ void Decoration::updateAnimationState()
+ //________________________________________________________________
+ void Decoration::updateSizeGripVisibility()
+ {
+-    const auto c = client().toStrongRef();
+-    if (m_sizeGrip) {
+-        m_sizeGrip->setVisible(c->isResizeable() && !isMaximized() && !c->isShaded());
+-    }
+ }
+ 
+ //________________________________________________________________
+@@ -412,12 +402,6 @@ void Decoration::reconfigure()
+ 
+     // shadow
+     updateShadow();
+-
+-    // size grip
+-    if (hasNoBorders() && m_internalSettings->drawSizeGrip())
+-        createSizeGrip();
+-    else
 -        deleteSizeGrip();
--
-     }
+ }
  
-     //________________________________________________________________
-@@ -170,8 +166,6 @@ namespace Breeze
-         if( m_opacity == value ) return;
-         m_opacity = value;
-         update();
--
--        if( m_sizeGrip ) m_sizeGrip->update();
-     }
+ //________________________________________________________________
+@@ -450,20 +434,7 @@ void Decoration::recalculateBorders()
+     setBorders(QMargins(left, top, right, bottom));
  
-     //________________________________________________________________
-@@ -327,9 +321,6 @@ namespace Breeze
-     //________________________________________________________________
-     void Decoration::updateSizeGripVisibility()
-     {
--        const auto c = client().toStrongRef();
--        if( m_sizeGrip )
--        { m_sizeGrip->setVisible( c->isResizeable() && !isMaximized() && !c->isShaded() ); }
-     }
- 
-     //________________________________________________________________
-@@ -397,10 +388,6 @@ namespace Breeze
-         // shadow
-         updateShadow();
- 
--        // size grip
--        if( hasNoBorders() && m_internalSettings->drawSizeGrip() ) createSizeGrip();
--        else deleteSizeGrip();
--
-     }
- 
-     //________________________________________________________________
-@@ -434,21 +421,7 @@ namespace Breeze
-         setBorders(QMargins(left, top, right, bottom));
- 
-         // extended sizes
--        const int extSize = s->largeSpacing();
--        int extSides = 0;
--        int extBottom = 0;
--        if( hasNoBorders() )
--        {
--            if( !isMaximizedHorizontally() ) extSides = extSize;
--            if( !isMaximizedVertically() ) extBottom = extSize;
--
--        } else if( hasNoSideBorders() && !isMaximizedHorizontally() ) {
--
+     // extended sizes
+-    const int extSize = s->largeSpacing();
+-    int extSides = 0;
+-    int extBottom = 0;
+-    if (hasNoBorders()) {
+-        if (!isMaximizedHorizontally())
 -            extSides = extSize;
+-        if (!isMaximizedVertically())
+-            extBottom = extSize;
 -
--        }
+-    } else if (hasNoSideBorders() && !isMaximizedHorizontally()) {
+-        extSides = extSize;
+-    }
 -
--        setResizeOnlyBorders(QMargins(extSides, 0, extSides, extBottom));
-+        setResizeOnlyBorders(QMargins(0, 0, 0, 0));
-     }
+-    setResizeOnlyBorders(QMargins(extSides, 0, extSides, extBottom));
++    setResizeOnlyBorders(QMargins(0, 0, 0, 0));
+ }
  
-     //________________________________________________________________
-@@ -840,36 +813,11 @@ namespace Breeze
-     //_________________________________________________________________
-     void Decoration::createSizeGrip()
-     {
+ //________________________________________________________________
+@@ -832,35 +803,11 @@ QSharedPointer<KDecoration2::DecorationShadow> Decoration::createShadowObject(co
+ //_________________________________________________________________
+ void Decoration::createSizeGrip()
+ {
+-    // do nothing if size grip already exist
+-    if (m_sizeGrip)
+-        return;
 -
--        // do nothing if size grip already exist
--        if( m_sizeGrip ) return;
+-#if BREEZE_HAVE_X11
+-    if (!QX11Info::isPlatformX11())
+-        return;
 -
--        #if BREEZE_HAVE_X11
--        if( !QX11Info::isPlatformX11() ) return;
+-    // access client
+-    auto c = client().toStrongRef();
+-    if (!c)
+-        return;
 -
--        // access client
--        auto c = client().toStrongRef();
--        if( !c ) return;
--
--        if( c->windowId() != 0 )
--        {
--            m_sizeGrip = new SizeGrip( this );
--            connect( c.data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
--            connect( c.data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
--            connect( c.data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
--        }
--        #endif
--
-     }
+-    if (c->windowId() != 0) {
+-        m_sizeGrip = new SizeGrip(this);
+-        connect(c.data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility);
+-        connect(c.data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility);
+-        connect(c.data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility);
+-    }
+-#endif
+ }
  
-     //_________________________________________________________________
-     void Decoration::deleteSizeGrip()
-     {
--        if( m_sizeGrip )
--        {
--            m_sizeGrip->deleteLater();
--            m_sizeGrip = nullptr;
--        }
-     }
-     
-     void Decoration::setScaledCornerRadius()
+ //_________________________________________________________________
+ void Decoration::deleteSizeGrip()
+ {
+-    if (m_sizeGrip) {
+-        m_sizeGrip->deleteLater();
+-        m_sizeGrip = nullptr;
+-    }
+ }
+ 
+ void Decoration::setScaledCornerRadius()
 diff --git a/kdecoration/breezedecoration.h b/kdecoration/breezedecoration.h
-index 9a55b2b..200be6f 100644
+index 0abc3ac..d5c0094 100644
 --- a/kdecoration/breezedecoration.h
 +++ b/kdecoration/breezedecoration.h
-@@ -123,16 +123,13 @@ namespace Breeze
-         void createSizeGrip();
-         void deleteSizeGrip();
-         SizeGrip* sizeGrip() const
--        { return m_sizeGrip; }
-+        { return nullptr; }
-         //@}
+@@ -129,7 +129,7 @@ private:
+     void deleteSizeGrip();
+     SizeGrip *sizeGrip() const
+     {
+-        return m_sizeGrip;
++        return nullptr;
+     }
+     //@}
  
-         InternalSettingsPtr m_internalSettings;
-         KDecoration2::DecorationButtonGroup *m_leftButtons = nullptr;
-         KDecoration2::DecorationButtonGroup *m_rightButtons = nullptr;
+@@ -137,9 +137,6 @@ private:
+     KDecoration2::DecorationButtonGroup *m_leftButtons = nullptr;
+     KDecoration2::DecorationButtonGroup *m_rightButtons = nullptr;
  
--        //* size grip widget
--        SizeGrip *m_sizeGrip = nullptr;
+-    //* size grip widget
+-    SizeGrip *m_sizeGrip = nullptr;
 -
-         //* active state change animation
-         QVariantAnimation *m_animation;
-         QVariantAnimation *m_shadowAnimation;
+     //* active state change animation
+     QVariantAnimation *m_animation;
+     QVariantAnimation *m_shadowAnimation;
 diff --git a/kdecoration/breezesizegrip.h b/kdecoration/breezesizegrip.h
-index ff24046..41acab7 100644
+index 4d59916..e5234c1 100644
 --- a/kdecoration/breezesizegrip.h
 +++ b/kdecoration/breezesizegrip.h
-@@ -68,7 +68,7 @@ namespace Breeze
-         //* grip size
-         enum {
-             Offset = 0,
--            GripSize = 14,
-+            GripSize = 0,
-         };
+@@ -63,7 +63,7 @@ private:
+     //* grip size
+     enum {
+         Offset = 0,
+-        GripSize = 14,
++        GripSize = 0,
+     };
  
-         //* decoration
+     //* decoration

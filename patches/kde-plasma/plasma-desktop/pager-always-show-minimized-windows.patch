@@ -1,11 +1,11 @@
 diff --git a/applets/pager/package/contents/ui/main.qml b/applets/pager/package/contents/ui/main.qml
-index 4881f67..b73ff03 100644
+index e3391e5..0e8060d 100644
 --- a/applets/pager/package/contents/ui/main.qml
 +++ b/applets/pager/package/contents/ui/main.qml
-@@ -437,7 +437,7 @@ MouseArea {
-                             y: (geometry.y * pagerItemGrid.heightScaleFactor) - Math.round(PlasmaCore.Units.devicePixelRatio)
-                             width: geometry.width * pagerItemGrid.widthScaleFactor
-                             height: geometry.height * pagerItemGrid.heightScaleFactor
+@@ -493,7 +493,7 @@ MouseArea {
+                             y: Math.round(geometry.y * pagerItemGrid.heightScaleFactor) - Math.round(PlasmaCore.Units.devicePixelRatio)
+                             width: Math.round(geometry.width * pagerItemGrid.widthScaleFactor)
+                             height: Math.round(geometry.height * pagerItemGrid.heightScaleFactor)
 -                            visible: model.IsMinimized !== true
 +                            visible: true
                              color: {

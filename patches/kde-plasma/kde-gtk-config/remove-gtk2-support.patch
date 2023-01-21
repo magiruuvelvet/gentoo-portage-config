@@ -53,7 +53,7 @@ index a18f2f6..c55057b 100644
 -    return QString();
 -}
 diff --git a/kded/configeditor.cpp b/kded/configeditor.cpp
-index c3476b7..fb2120d 100644
+index 5a9fd76..5e08429 100644
 --- a/kded/configeditor.cpp
 +++ b/kded/configeditor.cpp
 @@ -103,20 +103,6 @@ void ConfigEditor::setGtk3ConfigValueXSettingsd(const QString &paramName, const
@@ -110,9 +110,9 @@ index c3476b7..fb2120d 100644
 -
  void ConfigEditor::saveWindowDecorationsToAssets(const QStringList &windowDecorationsButtonsImages)
  {
-     QDir assetsFolder{QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QStringLiteral("/gtk-3.0/assets")};
+     for (const auto &gtkVersionPath : gtkCssVersions) {
 diff --git a/kded/configeditor.h b/kded/configeditor.h
-index 72b525a..2bc3716 100644
+index 99a75da..715d55a 100644
 --- a/kded/configeditor.h
 +++ b/kded/configeditor.h
 @@ -17,8 +17,6 @@ namespace ConfigEditor
@@ -124,7 +124,7 @@ index 72b525a..2bc3716 100644
  void setGtkConfigValueGSettings(const QString &paramName, const QVariant &paramValue, const QString &category = QStringLiteral("org.gnome.desktop.interface"));
  void setGtkConfigValueGSettingsAsEnum(const QString &paramName, int paramValue, const QString &category = QStringLiteral("org.gnome.desktop.interface"));
  void setGtk3ConfigValueXSettingsd(const QString &paramName, const QVariant &paramValue);
-@@ -38,8 +36,6 @@ void setCustomClientSideDecorations(const QStringList &windowDecorationsButtonsI
+@@ -40,8 +38,6 @@ void setCustomClientSideDecorations(const QStringList &windowDecorationsButtonsI
  void disableCustomClientSideDecorations();
  void setGtk3Colors(const QMap<QString, QColor> &colorsDefinitions);
  

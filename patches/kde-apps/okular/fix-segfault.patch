@@ -1,8 +1,8 @@
 diff --git a/shell/shell.cpp b/shell/shell.cpp
-index 862b6d4..2d7d3a2 100644
+index 15485c0..8519639 100644
 --- a/shell/shell.cpp
 +++ b/shell/shell.cpp
-@@ -229,7 +229,7 @@ bool Shell::openDocument(const QUrl &url, const QString &serializedOptions)
+@@ -258,7 +258,7 @@ bool Shell::openDocument(const QUrl &url, const QString &serializedOptions)
      KParts::ReadWritePart *const part = m_tabs[0].part;
  
      // Return false if we can't open new tabs and the only part is occupied
@@ -11,12 +11,12 @@ index 862b6d4..2d7d3a2 100644
          return false;
      }
  
-@@ -249,7 +249,7 @@ bool Shell::canOpenDocs(int numDocs, int desktop)
-         return false;
+@@ -279,7 +279,7 @@ bool Shell::canOpenDocs(int numDocs, int desktop)
+     }
  
      KParts::ReadWritePart *const part = m_tabs[0].part;
 -    const bool allowTabs = qobject_cast<Okular::ViewerInterface *>(part)->openNewFilesInTabs();
 +    const bool allowTabs = false;
  
-     if (!allowTabs && (numDocs > 1 || !part->url().isEmpty()))
+     if (!allowTabs && (numDocs > 1 || !part->url().isEmpty())) {
          return false;

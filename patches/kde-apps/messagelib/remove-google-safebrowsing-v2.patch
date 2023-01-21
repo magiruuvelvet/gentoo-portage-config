@@ -1,8 +1,8 @@
 diff --git a/messageviewer/src/viewer/viewer_p.cpp b/messageviewer/src/viewer/viewer_p.cpp
-index fac2f81..3f41c83 100644
+index 88851e0..2d2db43 100644
 --- a/messageviewer/src/viewer/viewer_p.cpp
 +++ b/messageviewer/src/viewer/viewer_p.cpp
-@@ -1903,11 +1903,7 @@ void ViewerPrivate::slotUrlOpen(const QUrl &url)
+@@ -1929,11 +1929,7 @@ void ViewerPrivate::slotUrlOpen(const QUrl &url)
  
  void ViewerPrivate::checkPhishingUrl()
  {
@@ -15,7 +15,7 @@ index fac2f81..3f41c83 100644
  }
  
  void ViewerPrivate::executeRunner(const QUrl &url)
-@@ -1922,37 +1918,11 @@ void ViewerPrivate::executeRunner(const QUrl &url)
+@@ -1948,42 +1944,11 @@ void ViewerPrivate::executeRunner(const QUrl &url)
  
  void ViewerPrivate::slotCheckedUrlFinished(const QUrl &url, WebEngineViewer::CheckPhishingUrlUtil::UrlStatus status)
  {
@@ -42,19 +42,24 @@ index fac2f81..3f41c83 100644
  
  bool ViewerPrivate::urlIsAMalwareButContinue()
  {
+-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+-    if (KMessageBox::ButtonCode::SecondaryAction
+-        == KMessageBox::warningTwoActions(mMainWindow,
+-#else
 -    if (KMessageBox::No
 -        == KMessageBox::warningYesNo(mMainWindow,
--                                     i18n("This web site is a malware, do you want to continue to show it?"),
--                                     i18n("Malware"),
--                                     KStandardGuiItem::cont(),
--                                     KStandardGuiItem::cancel())) {
+-#endif
+-                                          i18n("This web site is a malware, do you want to continue to show it?"),
+-                                          i18n("Malware"),
+-                                          KStandardGuiItem::cont(),
+-                                          KStandardGuiItem::cancel())) {
 -        return false;
 -    }
      return true;
  }
  
 diff --git a/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp b/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp
-index 34ed106..3ee387a 100644
+index 78b84cd..935b4e7 100644
 --- a/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp
 +++ b/webengineviewer/src/checkphishingurl/backoffmodemanager.cpp
 @@ -45,18 +45,6 @@ public:
@@ -98,10 +103,10 @@ index 34ed106..3ee387a 100644
  
  int BackOffModeManagerPrivate::calculateBackModeTime() const
 diff --git a/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp b/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp
-index 7e172de..2bd1b66 100644
+index 467d98c..ae433ad 100644
 --- a/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp
 +++ b/webengineviewer/src/checkphishingurl/checkphishingurlcache.cpp
-@@ -60,65 +60,15 @@ void CheckPhishingUrlCachePrivate::clearCache()
+@@ -58,65 +58,15 @@ void CheckPhishingUrlCachePrivate::clearCache()
  
  void CheckPhishingUrlCachePrivate::load()
  {
@@ -169,10 +174,10 @@ index 7e172de..2bd1b66 100644
  
  void CheckPhishingUrlCachePrivate::addCheckPhishingUrlResult(const QUrl &url, bool correctUrl, uint verifyCacheAfterThisTime)
 diff --git a/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp b/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
-index 53ec753..661b996 100644
+index e4ff927..779e842 100644
 --- a/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
 +++ b/webengineviewer/src/checkphishingurl/checkphishingurljob.cpp
-@@ -43,48 +43,11 @@ CheckPhishingUrlJob::~CheckPhishingUrlJob() = default;
+@@ -40,48 +40,11 @@ CheckPhishingUrlJob::~CheckPhishingUrlJob() = default;
  
  void CheckPhishingUrlJob::slotSslErrors(QNetworkReply *reply, const QList<QSslError> &error)
  {
@@ -221,7 +226,7 @@ index 53ec753..661b996 100644
  }
  
  void CheckPhishingUrlJob::slotCheckUrlFinished(QNetworkReply *reply)
-@@ -96,76 +59,25 @@ void CheckPhishingUrlJob::slotCheckUrlFinished(QNetworkReply *reply)
+@@ -93,76 +56,25 @@ void CheckPhishingUrlJob::slotCheckUrlFinished(QNetworkReply *reply)
  
  void CheckPhishingUrlJob::setUrl(const QUrl &url)
  {
@@ -261,7 +266,7 @@ index 53ec753..661b996 100644
  
  void CheckPhishingUrlJob::start()
  {
--    if (!PimCommon::NetworkManager::self()->networkConfigureManager()->isOnline()) {
+-    if (!PimCommon::NetworkManager::self()->isOnline()) {
 -        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::BrokenNetwork, d->mUrl);
 -        deleteLater();
 -    } else if (canStart()) {
@@ -285,7 +290,7 @@ index 53ec753..661b996 100644
 -        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl, d->mUrl);
 -        deleteLater();
 -    }
-+    Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl, {});
++    Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::InvalidUrl, d->mUrl);
 +    deleteLater();
  }
  
@@ -303,7 +308,7 @@ index 53ec753..661b996 100644
 +    return false;
  }
 diff --git a/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp b/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp
-index 2410f5f..ba2e3fb 100644
+index 7aa5438..4fb3a92 100644
 --- a/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp
 +++ b/webengineviewer/src/checkphishingurl/checkphishingurlutil.cpp
 @@ -12,17 +12,17 @@
@@ -337,14 +342,14 @@ index 2410f5f..ba2e3fb 100644
  
  double CheckPhishingUrlUtil::convertToSecond(const QString &str)
 diff --git a/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp b/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
-index bf019eb..d078eb0 100644
+index 55bac5d..5a315a3 100644
 --- a/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
 +++ b/webengineviewer/src/checkphishingurl/createphishingurldatabasejob.cpp
-@@ -54,27 +54,8 @@ void CreatePhishingUrlDataBaseJob::slotSslErrors(QNetworkReply *reply, const QLi
+@@ -53,27 +53,8 @@ void CreatePhishingUrlDataBaseJob::slotSslErrors(QNetworkReply *reply, const QLi
  
  void CreatePhishingUrlDataBaseJob::start()
  {
--    if (!PimCommon::NetworkManager::self()->networkConfigureManager()->isOnline()) {
+-    if (!PimCommon::NetworkManager::self()->isOnline()) {
 -        Q_EMIT finished(UpdateDataBaseInfo(), BrokenNetwork);
 -        deleteLater();
 -    } else {
@@ -370,7 +375,7 @@ index bf019eb..d078eb0 100644
  }
  
  void CreatePhishingUrlDataBaseJob::setDataBaseState(const QString &value)
-@@ -92,78 +73,7 @@ void CreatePhishingUrlDataBaseJob::slotError(QNetworkReply::NetworkError error)
+@@ -91,78 +72,7 @@ void CreatePhishingUrlDataBaseJob::slotError(QNetworkReply::NetworkError error)
  
  QByteArray CreatePhishingUrlDataBaseJob::jsonRequest() const
  {
@@ -451,10 +456,10 @@ index bf019eb..d078eb0 100644
  
  void CreatePhishingUrlDataBaseJob::setDataBaseDownloadNeeded(CreatePhishingUrlDataBaseJob::DataBaseDownloadType type)
 diff --git a/webengineviewer/src/checkphishingurl/hashcachemanager.cpp b/webengineviewer/src/checkphishingurl/hashcachemanager.cpp
-index c659648..7c1f593 100644
+index 0d126ed..e5c9e00 100644
 --- a/webengineviewer/src/checkphishingurl/hashcachemanager.cpp
 +++ b/webengineviewer/src/checkphishingurl/hashcachemanager.cpp
-@@ -60,110 +60,20 @@ void HashCacheManagerPrivate::clearCache()
+@@ -58,110 +58,20 @@ void HashCacheManagerPrivate::clearCache()
  
  void HashCacheManagerPrivate::save()
  {
@@ -567,7 +572,7 @@ index c659648..7c1f593 100644
  
  HashCacheManager *HashCacheManager::self()
 diff --git a/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h b/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h
-index 34c999b..ba5af09 100644
+index effe783..f75d7e2 100644
 --- a/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h
 +++ b/webengineviewer/src/checkphishingurl/localdatabasemanager_p.h
 @@ -52,82 +52,22 @@ public:
@@ -654,10 +659,10 @@ index 34c999b..ba5af09 100644
  
      LocalDataBaseFile mFile;
 diff --git a/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp b/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
-index 21f8769..b9d43a3 100644
+index cdcab75..450ac05 100644
 --- a/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
 +++ b/webengineviewer/src/checkphishingurl/searchfullhashjob.cpp
-@@ -54,88 +54,6 @@ void SearchFullHashJob::slotSslErrors(QNetworkReply *reply, const QList<QSslErro
+@@ -51,91 +51,6 @@ void SearchFullHashJob::slotSslErrors(QNetworkReply *reply, const QList<QSslErro
  
  void SearchFullHashJob::parse(const QByteArray &replyStr)
  {
@@ -708,7 +713,8 @@ index 21f8769..b9d43a3 100644
 -            // const QString minimumWaitDuration = answer.value(QStringLiteral("minimumWaitDuration")).toString();
 -            // const QString negativeCacheDuration = answer.value(QStringLiteral("negativeCacheDuration")).toString();
 -            // Implement multi match ?
--            if (info.count() == 1) {
+-            const auto numberOfInfo{info.count()};
+-            if (numberOfInfo == 1) {
 -                const QVariantMap map = info.at(0).toMap();
 -                const QString threatTypeStr = map[QStringLiteral("threatType")].toString();
 -
@@ -737,6 +743,8 @@ index 21f8769..b9d43a3 100644
 -                } else {
 -                    qCWarning(WEBENGINEVIEWER_LOG) << " SearchFullHashJob::parse threatTypeStr : " << threatTypeStr;
 -                }
+-            } else if (numberOfInfo == 0) {
+-                Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Ok, d->mUrl);
 -            } else {
 -                qCWarning(WEBENGINEVIEWER_LOG) << " SearchFullHashJob::parse matches multi element : " << info.count();
 -                Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::Unknown, d->mUrl);
@@ -746,7 +754,7 @@ index 21f8769..b9d43a3 100644
      deleteLater();
  }
  
-@@ -163,95 +81,11 @@ void SearchFullHashJob::setSearchHashs(const QHash<QByteArray, QByteArray> &hash
+@@ -163,95 +78,11 @@ void SearchFullHashJob::setSearchHashs(const QHash<QByteArray, QByteArray> &hash
  
  QByteArray SearchFullHashJob::jsonRequest() const
  {
@@ -820,7 +828,7 @@ index 21f8769..b9d43a3 100644
  
  void SearchFullHashJob::start()
  {
--    if (!PimCommon::NetworkManager::self()->networkConfigureManager()->isOnline()) {
+-    if (!PimCommon::NetworkManager::self()->isOnline()) {
 -        Q_EMIT result(WebEngineViewer::CheckPhishingUrlUtil::BrokenNetwork, d->mUrl);
 -        deleteLater();
 -    } else if (canStart()) {
@@ -843,7 +851,7 @@ index 21f8769..b9d43a3 100644
  }
  
  void SearchFullHashJob::slotError(QNetworkReply::NetworkError error)
-@@ -264,7 +98,7 @@ void SearchFullHashJob::slotError(QNetworkReply::NetworkError error)
+@@ -264,7 +95,7 @@ void SearchFullHashJob::slotError(QNetworkReply::NetworkError error)
  
  bool SearchFullHashJob::canStart() const
  {
@@ -853,10 +861,10 @@ index 21f8769..b9d43a3 100644
  
  void SearchFullHashJob::setDatabaseState(const QStringList &hash)
 diff --git a/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp b/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp
-index 6e16b23..9af5d43 100644
+index 8ba74ef..082f0c3 100644
 --- a/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp
 +++ b/webengineviewer/src/checkphishingurl/tests/webengineviewwithsafebrowsingsupport.cpp
-@@ -45,36 +45,11 @@ WebEngineViewWithSafeBrowsingSupport::~WebEngineViewWithSafeBrowsingSupport()
+@@ -43,36 +43,11 @@ WebEngineViewWithSafeBrowsingSupport::~WebEngineViewWithSafeBrowsingSupport() =
  
  void WebEngineViewWithSafeBrowsingSupport::slotUrlClicked(const QUrl &url)
  {
