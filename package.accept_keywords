@@ -6,7 +6,7 @@
 =games-emulation/pcsx2-9999 **
 =games-emulation/dolphin-9999 **
 
-=kde-misc/plasma-applet-window-title-9999 **
+#=kde-misc/plasma-applet-window-title-9999 **
 =kde-misc/plasma-applet-window-buttons-9999 **
 =kde-misc/plasma-applet-window-appmenu-9999 **
 =kde-misc/plasma-applet-thermal-monitor-9999 **
