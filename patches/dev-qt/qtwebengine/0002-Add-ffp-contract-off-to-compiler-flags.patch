@@ -1,0 +1,17 @@
+diff --git a/src/3rdparty/chromium/build/config/compiler/BUILD.gn b/src/3rdparty/chromium/build/config/compiler/BUILD.gn
+--- a/src/3rdparty/chromium/build/config/compiler/BUILD.gn
++++ b/src/3rdparty/chromium/build/config/compiler/BUILD.gn
+@@ -477,6 +477,13 @@
+     # but for now it looks like our build might rely on it
+     # (https://crbug.com/829795).
+     cflags += [ "-fmerge-all-constants" ]
++
++    # TODO(crbug.com/1235145): Investigate why/if this should be needed.
++    if (is_win) {
++      cflags += [ "/clang:-ffp-contract=off" ]
++    } else {
++      cflags += [ "-ffp-contract=off" ]
++    }
+   }
+ 
+   if (use_lld) {

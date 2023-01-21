@@ -1,0 +1,39 @@
+diff --git a/src/3rdparty/chromium/base/memory/weak_ptr.h b/src/3rdparty/chromium/base/memory/weak_ptr.h
+index dbfdabe72f56b..888290f4599ee 100644
+--- a/src/3rdparty/chromium/base/memory/weak_ptr.h
++++ b/src/3rdparty/chromium/base/memory/weak_ptr.h
+@@ -74,6 +74,7 @@
+ 
+ #include "base/base_export.h"
+ #include "base/check.h"
++#include "base/compiler_specific.h"
+ #include "base/macros.h"
+ #include "base/memory/ref_counted.h"
+ #include "base/sequence_checker.h"
+@@ -88,7 +89,7 @@ namespace internal {
+ // These classes are part of the WeakPtr implementation.
+ // DO NOT USE THESE CLASSES DIRECTLY YOURSELF.
+ 
+-class BASE_EXPORT WeakReference {
++class BASE_EXPORT TRIVIAL_ABI WeakReference {
+  public:
+   // Although Flag is bound to a specific SequencedTaskRunner, it may be
+   // deleted from another via base::WeakPtr::~WeakPtr().
+@@ -151,7 +152,7 @@ class BASE_EXPORT WeakReferenceOwner {
+ // constructor by avoiding the need for a public accessor for ref_.  A
+ // WeakPtr<T> cannot access the private members of WeakPtr<U>, so this
+ // base class gives us a way to access ref_ in a protected fashion.
+-class BASE_EXPORT WeakPtrBase {
++class BASE_EXPORT TRIVIAL_ABI WeakPtrBase {
+  public:
+   WeakPtrBase();
+   ~WeakPtrBase();
+@@ -225,7 +226,7 @@ template <typename T> class WeakPtrFactory;
+ //     foo->method();
+ //
+ template <typename T>
+-class WeakPtr : public internal::WeakPtrBase {
++class TRIVIAL_ABI WeakPtr : public internal::WeakPtrBase {
+  public:
+   WeakPtr() = default;
+   WeakPtr(std::nullptr_t) {}

@@ -1,0 +1,26 @@
+diff --git a/src/3rdparty/chromium/base/threading/thread_local_internal.h b/src/3rdparty/chromium/base/threading/thread_local_internal.h
+index 184b2d3..b2f1a2a 100644
+--- a/src/3rdparty/chromium/base/threading/thread_local_internal.h
++++ b/src/3rdparty/chromium/base/threading/thread_local_internal.h
+@@ -70,7 +70,7 @@ class CheckedThreadLocalOwnedPointer {
+ 
+   std::atomic_int num_assigned_threads_{0};
+ 
+-  DISALLOW_COPY_AND_ASSIGN(CheckedThreadLocalOwnedPointer<T>);
++  //DISALLOW_COPY_AND_ASSIGN(CheckedThreadLocalOwnedPointer<T>);
+ };
+ 
+ }  // namespace internal
+diff --git a/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator_icu.cc b/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator_icu.cc
+index 4fc5bdd..5bc61a3 100644
+--- a/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator_icu.cc
++++ b/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator_icu.cc
+@@ -121,7 +121,7 @@ enum TextContext { kNoContext, kPriorContext, kPrimaryContext };
+ const int kTextBufferCapacity = 16;
+ 
+ struct UTextWithBuffer {
+-  DISALLOW_NEW();
++  //DISALLOW_NEW(); (would be useful to prevent "new", but doesn't work with C linkage)
+   UText text;
+   UChar buffer[kTextBufferCapacity];
+ };

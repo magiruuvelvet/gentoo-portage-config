@@ -1,0 +1,26 @@
+--- a/src/3rdparty/chromium/build/config/compiler/BUILD.gn	2022-04-06 19:15:14.306015793 -0600
++++ b/src/3rdparty/chromium/build/config/compiler/BUILD.gn	2022-04-06 19:16:50.969022744 -0600
+@@ -266,6 +266,23 @@
+     ":compiler_deterministic",
+   ]
+ 
++  # Here we enable -fno-delete-null-pointer-checks, which makes various nullptr
++  # operations (e.g. dereferencing) into defined behavior. This avoids deletion
++  # of some security-critical code: see https://crbug.com/1139129.
++  # Nacl does not support the flag. And, we still want UBSAN to catch undefined
++  # behavior related to nullptrs, so do not add this flag if UBSAN is enabled.
++  # GCC seems to have some bugs compiling constexpr code when this is defined,
++  # so only enable it if using_clang. See: https://gcc.gnu.org/PR97913
++  # TODO(mpdenton): remove is_clang once GCC bug is fixed.
++  if (!is_nacl && !is_ubsan && is_clang) {
++    if (is_win) {
++      # TODO(thakis): Remove this branch once chromium's clang has https://github.com/llvm/llvm-project/commit/3109ce5
++      cflags += [ "/clang:-fno-delete-null-pointer-checks" ]
++    } else {
++      cflags += [ "-fno-delete-null-pointer-checks" ]
++    }
++  }
++
+   # In general, Windows is totally different, but all the other builds share
+   # some common GCC configuration.
+   if (!is_win) {

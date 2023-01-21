@@ -1,0 +1,13 @@
+diff --git a/src/3rdparty/chromium/base/memory/ref_counted_delete_on_sequence.h b/src/3rdparty/chromium/base/memory/ref_counted_delete_on_sequence.h
+index f5f53c022b992..dcdef4863e4b4 100644
+--- a/src/3rdparty/chromium/base/memory/ref_counted_delete_on_sequence.h
++++ b/src/3rdparty/chromium/base/memory/ref_counted_delete_on_sequence.h
+@@ -38,7 +38,7 @@ class RefCountedDeleteOnSequence : public subtle::RefCountedThreadSafeBase {
+ 
+   // A SequencedTaskRunner for the current sequence can be acquired by calling
+   // SequencedTaskRunnerHandle::Get().
+-  RefCountedDeleteOnSequence(
++  explicit RefCountedDeleteOnSequence(
+       scoped_refptr<SequencedTaskRunner> owning_task_runner)
+       : subtle::RefCountedThreadSafeBase(T::kRefCountPreference),
+         owning_task_runner_(std::move(owning_task_runner)) {

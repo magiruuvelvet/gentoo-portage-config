@@ -1,0 +1,18 @@
+diff --git a/src/3rdparty/chromium/base/memory/weak_ptr.h b/src/3rdparty/chromium/base/memory/weak_ptr.h
+index 5526a915b9a94..dbfdabe72f56b 100644
+--- a/src/3rdparty/chromium/base/memory/weak_ptr.h
++++ b/src/3rdparty/chromium/base/memory/weak_ptr.h
+@@ -254,11 +254,11 @@ class WeakPtr : public internal::WeakPtrBase {
+ 
+   T& operator*() const {
+     CHECK(ref_.IsValid());
+-    return *get();
++    return *reinterpret_cast<T*>(ptr_);
+   }
+   T* operator->() const {
+     CHECK(ref_.IsValid());
+-    return get();
++    return reinterpret_cast<T*>(ptr_);
+   }
+ 
+   // Allow conditionals to test validity, e.g. if (weak_ptr) {...};

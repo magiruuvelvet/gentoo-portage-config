@@ -1,17 +1,16 @@
-# `disable-stack-tracing.patch`
+# Patches by me
 
-Stack tracing is broken when compiled against a pure LLVM runtime.
-Chrome sneaks in a libgcc_s using some dlopen hack and than crashes
-because of obvious incompatibility with LLVM and libunwind.
+Various build and segmentation fault fixes on a pure LLVM userland with absent GNU libraries. Chromium <3 GNU (joke)
 
-Disable stack tracing entirely to avoid crashes.
+ - `disable-stack-tracing.patch`
+ - `disable-crash-reporting.patch`
+ - `remove-gnu-runtime-linkage.patch`
 
-# `disable-crash-reporting.patch`
+# Other patches
 
-Broken and crashes with a pure LLVM runtime without GCC stuff.
+ - `OpenMandrivaAssociation-qt5-qtwebengine-cfd17f1ecf4068ef84df2019e965518ae33ad5b2.patch`
+   https://github.com/OpenMandrivaAssociation/qt5-qtwebengine/commit/cfd17f1ecf4068ef84df2019e965518ae33ad5b2
+   addressing runtime problems when compiled with clang 14+
 
-# `remove-gnu-runtime-linkage.patch`
-
-This can't work with a pure LLVM based userland, because the GNU runtime
-doesn't exist there. Linking non existent libraries makes the LLD linker
-unhappy :(
+ - all other files: https://bugs.gentoo.org/836604 attachment 769283
+   addressing runtime problems when compiled with clang 14+
