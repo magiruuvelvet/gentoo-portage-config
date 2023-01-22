@@ -1,0 +1,70 @@
+diff --git a/apps/lib/katemainwindow.cpp b/apps/lib/katemainwindow.cpp
+index d1435c3..47b972c 100644
+--- a/apps/lib/katemainwindow.cpp
++++ b/apps/lib/katemainwindow.cpp
+@@ -855,19 +855,6 @@ void KateMainWindow::slotDropEvent(QDropEvent *event)
+     if (event->mimeData()->hasUrls()) {
+         QList<QUrl> textlist = event->mimeData()->urls();
+ 
+-        // Try to get the KTextEditor::View that sent this, and activate it, so that the file opens in the
+-        // view where it was dropped
+-        KTextEditor::View *kVsender = qobject_cast<KTextEditor::View *>(QObject::sender());
+-        if (kVsender != nullptr) {
+-            QWidget *parent = kVsender->parentWidget();
+-            if (parent != nullptr) {
+-                KateViewSpace *vs = qobject_cast<KateViewSpace *>(parent->parentWidget());
+-                if (vs != nullptr) {
+-                    m_viewManager->setActiveSpace(vs);
+-                }
+-            }
+-        }
+-
+         for (const QUrl &url : qAsConst(textlist)) {
+             // if url has no file component, try and recursively scan dir
+             KFileItem kitem(url);
+@@ -893,7 +880,7 @@ void KateMainWindow::slotDropEvent(QDropEvent *event)
+                     connect(list_job, &KIO::ListJob::entries, this, &KateMainWindow::slotListRecursiveEntries);
+                 }
+             } else {
+-                m_viewManager->openUrl(url);
++                m_viewManager->openUrlInNewWindow(url);
+             }
+         }
+     }
+diff --git a/apps/lib/kateviewmanager.cpp b/apps/lib/kateviewmanager.cpp
+index 1a91a2b..f2bdca3 100644
+--- a/apps/lib/kateviewmanager.cpp
++++ b/apps/lib/kateviewmanager.cpp
+@@ -37,6 +37,7 @@
+ 
+ #include <QFileDialog>
+ #include <QTimer>
++#include <QProcess>
+ 
+ // END Includes
+ 
+@@ -448,6 +449,12 @@ void KateViewManager::openUrl(const QUrl &url)
+     openUrl(url, QString());
+ }
+ 
++void KateViewManager::openUrlInNewWindow(const QUrl &url)
++{
++    // HACK: just force a new instance to make absolutely sure a new window is opened
++    QProcess::startDetached(QStringLiteral("/usr/bin/kwrite"), {url.toString()}, QDir::currentPath());
++}
++
+ void KateViewManager::openUrlOrProject(const QUrl &url)
+ {
+     if (!url.isLocalFile()) {
+diff --git a/apps/lib/kateviewmanager.h b/apps/lib/kateviewmanager.h
+index ce5ddf0..36982c0 100644
+--- a/apps/lib/kateviewmanager.h
++++ b/apps/lib/kateviewmanager.h
+@@ -82,6 +82,7 @@ public:
+ 
+ public Q_SLOTS:
+     void openUrl(const QUrl &url);
++    void openUrlInNewWindow(const QUrl &url);
+     void openUrlOrProject(const QUrl &url);
+     void addPositionToHistory(const QUrl &url, KTextEditor::Cursor pos);
+ 
