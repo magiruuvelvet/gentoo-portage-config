@@ -1,0 +1,4 @@
+# by default ~(unstable) is enabled globally
+# install stable versions of the below packages instead
+net-misc/networkmanager -* *
+net-misc/modemmanager -* *

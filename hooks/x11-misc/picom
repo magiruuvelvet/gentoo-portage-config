@@ -9,8 +9,8 @@ instprep() {
     remove_desktop_files
 
     echo -e ">>> Removing compton legacy compat symlinks..."
-    rm "${ED}/usr/bin/compton"
-    rm "${ED}/usr/bin/compton-trans"
+    rm -f "${ED}/usr/bin/compton"
+    rm -f "${ED}/usr/bin/compton-trans"
 }
 
 case "$1" in
