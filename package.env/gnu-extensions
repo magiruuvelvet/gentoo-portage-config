@@ -411,7 +411,7 @@ dev-libs/elfutils gnu-gcc.conf static-gnu-runtime.conf
 
 # TODO: mariadb straight out doesn't work at all without GNU *rage*
 # backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
-dev-db/mariadb gnu-gcc.conf static-gnu-runtime.conf
+#dev-db/mariadb gnu-gcc.conf static-gnu-runtime.conf
 
 
 # figure out why this compiler can't handle a pure LLVM toolchain (linker)

@@ -1,2 +1,4 @@
 =sys-kernel/dracut-053-r1
 =sys-kernel/dracut-055-r4
+
+>=x11-libs/libX11-1.8.2

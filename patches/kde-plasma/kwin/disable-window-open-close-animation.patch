@@ -1,0 +1,92 @@
+diff --git a/src/effects/fade/package/contents/code/main.js b/src/effects/fade/package/contents/code/main.js
+index ce0d7a6..29b17f3 100644
+--- a/src/effects/fade/package/contents/code/main.js
++++ b/src/effects/fade/package/contents/code/main.js
+@@ -35,83 +35,19 @@ class FadeEffect {
+     }
+ 
+     static isFadeWindow(w) {
+-        if (blacklist.indexOf(w.windowClass) != -1) {
+-            return false;
+-        }
+-        if (w.popupWindow) {
+-            return false;
+-        }
+-        if (!w.managed) {
+-            return false;
+-        }
+-        if (!w.visible) {
+-            return false;
+-        }
+-        if (w.outline) {
+-            return false;
+-        }
+-        if (w.deleted && effect.isGrabbed(w, Effect.WindowClosedGrabRole)) {
+-            return false;
+-        } else if (!w.deleted && effect.isGrabbed(w, Effect.WindowAddedGrabRole)) {
+-            return false;
+-        }
+-        return w.normalWindow || w.dialog;
++        return false;
+     }
+ 
+     onWindowAdded(window) {
+-        if (effects.hasActiveFullScreenEffect) {
+-            return;
+-        }
+-        if (!this.fadeWindows || !FadeEffect.isFadeWindow(window)) {
+-            return;
+-        }
+-        if (window.fadeOutAnimation) {
+-            cancel(window.fadeOutAnimation);
+-            delete window.fadeOutAnimation;
+-        }
+-        window.fadeInAnimation = effect.animate({
+-            window,
+-            duration: this.fadeInTime,
+-            type: Effect.Opacity,
+-            to: 1.0,
+-            from: 0.0
+-        });
++        return;
+     }
+ 
+     onWindowClosed(window) {
+-        if (effects.hasActiveFullScreenEffect) {
+-            return;
+-        }
+-        if (!this.fadeWindows || window.skipsCloseAnimation || !FadeEffect.isFadeWindow(window)) {
+-            return;
+-        }
+-        window.fadeOutAnimation = animate({
+-            window,
+-            duration: this.fadeOutTime,
+-            animations: [{
+-                type: Effect.Opacity,
+-                curve: QEasingCurve.OutQuart,
+-                to: 0.0
+-            }]
+-        });
++        return;
+     }
+ 
+     onWindowDataChanged(window, role) {
+-        if (role == Effect.WindowAddedGrabRole) {
+-            if (effect.isGrabbed(window, Effect.WindowAddedGrabRole)) {
+-                if (window.fadeInAnimation) {
+-                    cancel(window.fadeInAnimation);
+-                    delete window.fadeInAnimation;
+-                }
+-            }
+-        } else if (role == Effect.WindowClosedGrabRole) {
+-            if (effect.isGrabbed(window, Effect.WindowClosedGrabRole)) {
+-                if (window.fadeOutAnimation) {
+-                    cancel(window.fadeOutAnimation);
+-                    delete window.fadeOutAnimation;
+-                }
+-            }
+-        }
++        return;
+     }
+ }
+ 
