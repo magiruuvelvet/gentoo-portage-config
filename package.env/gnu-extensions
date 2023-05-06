@@ -56,6 +56,7 @@ app-text/texlive-core gnu-source-light.conf
 app-text/sloccount gnu-source-light.conf
 app-text/htmltidy std-gnu11.conf
 app-editors/hexcurse gnu-source-light.conf
+app-editors/vim-core std-gnu99.conf
 app-shells/zsh gnu-source-light.conf
 app-shells/quoter gnu-source-light.conf
 dev-db/lmdb std-gnu99.conf

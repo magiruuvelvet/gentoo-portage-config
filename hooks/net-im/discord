@@ -1,0 +1,17 @@
+#!/bin/sh
+
+source /etc/portage/hooks/functions/check-env.sh
+
+instprep() {
+    if [ ! -z "${ED}" ]; then
+        echo "Create launcher script..."
+        cd "${ED}/usr/bin"
+        rm discord
+        cp /etc/portage/hooks/patches/net-im/discord-bin/discord.sh discord
+    fi
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac

@@ -8,7 +8,7 @@ media-sound/pulseaudio bluetooth daemon dbus realtime webrtc-aec orc -libsampler
 media-sound/pulseaudio alsa alsa-plugin asyncns caps glib ssl tcpd udev -jack -native-headset gstreamer
 media-sound/pulseaudio-daemon bluetooth daemon dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/pulseaudio-daemon alsa alsa-plugin asyncns caps glib ssl tcpd udev -jack -native-headset gstreamer
-media-sound/pulseaudio-daemon aptx
+media-sound/pulseaudio-daemon aptx ldac sox
 media-sound/pulseaudio-modules-bt fdk ffmpeg ldac native-headset
 media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame
 media-sound/spotify libnotify

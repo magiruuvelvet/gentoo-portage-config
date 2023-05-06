@@ -45,6 +45,7 @@ dev-cpp/xsd c++11.conf
 x11-libs/wxGTK c++11.conf
 app-text/mecab c++11.conf ld-no-gnu.conf
 dev-ruby/mecab-ruby c++11.conf
+net-libs/libtorrent c++11.conf
 
 app-i18n/kcm-fcitx no-c++11-narrowing-error.conf
 dev-cpp/clucene no-c++11-narrowing-error.conf

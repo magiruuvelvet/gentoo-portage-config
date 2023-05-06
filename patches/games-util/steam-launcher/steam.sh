@@ -11,4 +11,7 @@ export __VK_LAYER_NV_optimus=NVIDIA_only
 unset __EGL_VENDOR_LIBRARY_FILENAMES
 unset VK_ICD_FILENAMES
 
+export __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
+export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+
 exec /usr/lib/steam/steam "$@"
