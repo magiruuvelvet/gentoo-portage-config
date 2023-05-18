@@ -1,2 +1,2 @@
-sys-apps/portage PYTHON_TARGETS: -* python3_9 PYTHON_SINGLE_TARGET: -* python3_9
-app-portage/* PYTHON_TARGETS: -* python3_9 PYTHON_SINGLE_TARGET: -* python3_9
+sys-apps/portage PYTHON_TARGETS: -* python3_11 PYTHON_SINGLE_TARGET: -* python3_11
+app-portage/* PYTHON_TARGETS: -* python3_11 PYTHON_SINGLE_TARGET: -* python3_11

@@ -1,8 +1,5 @@
 # python
-dev-lang/python:3.8
-dev-lang/python:3.11
-
-# skip alpha versions...
 dev-lang/python:3.10
+>=dev-lang/python-3.12
 
 dev-lang/php:8.1

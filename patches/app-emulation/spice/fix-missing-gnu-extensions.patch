@@ -1,0 +1,22 @@
+diff --git a/meson.build b/meson.build
+index ab05fa5..007741d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -189,7 +189,7 @@ glib_encoded_version = 'GLIB_VERSION_@0@'.format(glib_version.underscorify())
+ spice_server_global_cflags += ['-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_encoded_version),
+                                '-DGLIB_VERSION_MAX_ALLOWED=@0@'.format(glib_encoded_version)]
+ 
+-add_project_arguments(compiler.get_supported_arguments(spice_server_global_cflags),
++add_project_arguments(compiler.get_supported_arguments(spice_server_global_cflags + ['-std=gnu11']),
+                       language : 'c')
+ 
+ spice_server_global_cxxflags = spice_server_global_cflags
+@@ -204,7 +204,7 @@ spice_server_global_cxxflags += [
+   '-Wno-deprecated-declarations',
+   '-Wshadow',
+ ]
+-add_project_arguments(cxx_compiler.get_supported_arguments(spice_server_global_cxxflags),
++add_project_arguments(cxx_compiler.get_supported_arguments(spice_server_global_cxxflags + ['-std=gnu++11']),
+                       language : 'cpp')
+ 
+ #

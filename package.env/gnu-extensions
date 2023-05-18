@@ -24,7 +24,7 @@ app-crypt/libb2 gnu-source-light.conf
 app-crypt/seahorse gnu-source-light.conf
 app-crypt/gcr gnu-source-light.conf
 app-crypt/libsecret gnu-source-light.conf
-app-emulation/spice std-gnu11.conf
+#app-emulation/spice std-gnu11.conf
 app-i18n/libhangul gnu-source-light.conf
 app-i18n/fbterm std-gnu99.conf
 app-misc/jq gnu-source-light.conf
