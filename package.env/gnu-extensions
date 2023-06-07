@@ -109,6 +109,7 @@ dev-libs/liblinphone gnu-source-light.conf
 dev-libs/xxhash gnu-source-light.conf
 dev-libs/tomsfastmath std-gnu99.conf
 dev-libs/libappindicator gnu-source-light.conf
+dev-libs/ios-webkit-debug-proxy std-gnu99.conf
 dev-cpp/libcutl gnu-source-light.conf
 dev-php/igbinary gnu-source-light.conf
 dev-php/pecl-memcached gnu-source-light.conf
