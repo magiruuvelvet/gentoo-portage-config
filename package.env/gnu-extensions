@@ -244,6 +244,7 @@ net-libs/libnsl gnu-source-light.conf
 net-libs/libsmi gnu-source-light.conf
 net-libs/libnatpmp gnu-source-light.conf
 net-libs/libssh gnu-source-light.conf
+net-libs/libssh2 gnu-source-light.conf
 net-libs/c-client std-gnu99.conf
 net-libs/libnetfilter_conntrack std-gnu99.conf
 net-libs/libnfnetlink std-gnu99.conf

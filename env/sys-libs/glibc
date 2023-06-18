@@ -1,4 +1,4 @@
-# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf STRIP=strip RANLIB=ranlib STRINGS=strings CFLAGS="" CXXFLAGS="" ebuild /usr/portage/sys-libs/glibc/glibc-2.33-r7.ebuild clean install
+# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf STRIP=strip RANLIB=ranlib STRINGS=strings CFLAGS="" CXXFLAGS="" ebuild /usr/portage/sys-libs/glibc/glibc-2.36-r8.ebuild clean install
 
 export PATH="/sucks/gnu/bin:$PATH"
 
@@ -22,7 +22,7 @@ export CXXFLAGS=""
 
 # now its time to merge, be careful and make sure you know how to rescue yourself from disaster
 # use a statically linked busybox and keep an extracted glibc backup from quickpkg somewhere
-# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf STRIP=strip RANLIB=ranlib STRINGS=strings CFLAGS="" CXXFLAGS="" ebuild /usr/portage/sys-libs/glibc/glibc-2.33-r7.ebuild merge
+# PATH="/tmp/glibc:/sucks/gnu/bin:$PATH" CC=gcc CXX=g++ CPP=cpp AS=as-divide LD=ld AR=ar NM=nm OBJCOPY=objcopy OBJDUMP=objdump READELF=readelf STRIP=strip RANLIB=ranlib STRINGS=strings CFLAGS="" CXXFLAGS="" ebuild /usr/portage/sys-libs/glibc/glibc-2.36-r8.ebuild merge
 
 # before doing anything check with one of the unit tests
 # and compiler-ident if GCC is popping up in the .comment
