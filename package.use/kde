@@ -33,7 +33,7 @@ kde-frameworks/kwindowsystem -wayland
 kde-frameworks/kguiaddons dbus
 kde-frameworks/kcoreaddons dbus
 
-kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp
+kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp ios
 kde-apps/thumbnailers raw
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff

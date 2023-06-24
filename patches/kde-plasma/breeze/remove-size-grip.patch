@@ -1,59 +1,8 @@
 diff --git a/kdecoration/breezedecoration.cpp b/kdecoration/breezedecoration.cpp
-index d16dea9..bf49911 100644
+index cc5bb75..522009a 100644
 --- a/kdecoration/breezedecoration.cpp
 +++ b/kdecoration/breezedecoration.cpp
-@@ -14,7 +14,6 @@
- #include "config/breezeconfigwidget.h"
- 
- #include "breezebutton.h"
--#include "breezesizegrip.h"
- 
- #include "breezeboxshadowrenderer.h"
- 
-@@ -152,8 +151,6 @@ Decoration::~Decoration()
-         // last deco destroyed, clean up shadow
-         g_sShadow.clear();
-     }
--
--    deleteSizeGrip();
- }
- 
- //________________________________________________________________
-@@ -163,9 +160,6 @@ void Decoration::setOpacity(qreal value)
-         return;
-     m_opacity = value;
-     update();
--
--    if (m_sizeGrip)
--        m_sizeGrip->update();
- }
- 
- //________________________________________________________________
-@@ -329,10 +323,6 @@ void Decoration::updateAnimationState()
- //________________________________________________________________
- void Decoration::updateSizeGripVisibility()
- {
--    const auto c = client().toStrongRef();
--    if (m_sizeGrip) {
--        m_sizeGrip->setVisible(c->isResizeable() && !isMaximized() && !c->isShaded());
--    }
- }
- 
- //________________________________________________________________
-@@ -412,12 +402,6 @@ void Decoration::reconfigure()
- 
-     // shadow
-     updateShadow();
--
--    // size grip
--    if (hasNoBorders() && m_internalSettings->drawSizeGrip())
--        createSizeGrip();
--    else
--        deleteSizeGrip();
- }
- 
- //________________________________________________________________
-@@ -450,20 +434,7 @@ void Decoration::recalculateBorders()
+@@ -428,22 +428,7 @@ void Decoration::recalculateBorders()
      setBorders(QMargins(left, top, right, bottom));
  
      // extended sizes
@@ -61,10 +10,12 @@ index d16dea9..bf49911 100644
 -    int extSides = 0;
 -    int extBottom = 0;
 -    if (hasNoBorders()) {
--        if (!isMaximizedHorizontally())
+-        if (!isMaximizedHorizontally()) {
 -            extSides = extSize;
--        if (!isMaximizedVertically())
+-        }
+-        if (!isMaximizedVertically()) {
 -            extBottom = extSize;
+-        }
 -
 -    } else if (hasNoSideBorders() && !isMaximizedHorizontally()) {
 -        extSides = extSize;
@@ -72,78 +23,6 @@ index d16dea9..bf49911 100644
 -
 -    setResizeOnlyBorders(QMargins(extSides, 0, extSides, extBottom));
 +    setResizeOnlyBorders(QMargins(0, 0, 0, 0));
- }
  
- //________________________________________________________________
-@@ -832,35 +803,11 @@ QSharedPointer<KDecoration2::DecorationShadow> Decoration::createShadowObject(co
- //_________________________________________________________________
- void Decoration::createSizeGrip()
- {
--    // do nothing if size grip already exist
--    if (m_sizeGrip)
--        return;
--
--#if BREEZE_HAVE_X11
--    if (!QX11Info::isPlatformX11())
--        return;
--
--    // access client
--    auto c = client().toStrongRef();
--    if (!c)
--        return;
--
--    if (c->windowId() != 0) {
--        m_sizeGrip = new SizeGrip(this);
--        connect(c.data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility);
--        connect(c.data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility);
--        connect(c.data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility);
--    }
--#endif
- }
- 
- //_________________________________________________________________
- void Decoration::deleteSizeGrip()
- {
--    if (m_sizeGrip) {
--        m_sizeGrip->deleteLater();
--        m_sizeGrip = nullptr;
--    }
- }
- 
- void Decoration::setScaledCornerRadius()
-diff --git a/kdecoration/breezedecoration.h b/kdecoration/breezedecoration.h
-index 0abc3ac..d5c0094 100644
---- a/kdecoration/breezedecoration.h
-+++ b/kdecoration/breezedecoration.h
-@@ -129,7 +129,7 @@ private:
-     void deleteSizeGrip();
-     SizeGrip *sizeGrip() const
-     {
--        return m_sizeGrip;
-+        return nullptr;
-     }
-     //@}
- 
-@@ -137,9 +137,6 @@ private:
-     KDecoration2::DecorationButtonGroup *m_leftButtons = nullptr;
-     KDecoration2::DecorationButtonGroup *m_rightButtons = nullptr;
- 
--    //* size grip widget
--    SizeGrip *m_sizeGrip = nullptr;
--
-     //* active state change animation
-     QVariantAnimation *m_animation;
-     QVariantAnimation *m_shadowAnimation;
-diff --git a/kdecoration/breezesizegrip.h b/kdecoration/breezesizegrip.h
-index 4d59916..e5234c1 100644
---- a/kdecoration/breezesizegrip.h
-+++ b/kdecoration/breezesizegrip.h
-@@ -63,7 +63,7 @@ private:
-     //* grip size
-     enum {
-         Offset = 0,
--        GripSize = 14,
-+        GripSize = 0,
-     };
- 
-     //* decoration
+     // Update shadows and clear outline to make sure outline changes when borders are changed
+     updateShadow();

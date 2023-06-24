@@ -11,22 +11,8 @@ index f306829..70eede4 100644
          fb->setOrganizer(job->account()->accountName());
          fb->addAttendee(KCalendarCore::Attendee(QString(), queryJob->id()));
          // FIXME: is it really sort?
-diff --git a/resources/google-groupware/contacthandler.cpp b/resources/google-groupware/contacthandler.cpp
-index ba62f45..da26139 100644
---- a/resources/google-groupware/contacthandler.cpp
-+++ b/resources/google-groupware/contacthandler.cpp
-@@ -57,8 +57,7 @@ bool ContactHandler::canPerformTask(const Item::List &items)
- 
- QString ContactHandler::myContactsRemoteId() const
- {
--    return QStringLiteral("http://www.google.com/m8/feeds/groups/%1/base/6")
--        .arg(QString::fromLatin1(QUrl::toPercentEncoding(m_settings->accountPtr()->accountName())));
-+    return {};
- }
- 
- void ContactHandler::setupCollection(Collection &collection, const ContactsGroupPtr &group)
 diff --git a/resources/google-groupware/googleresource.cpp b/resources/google-groupware/googleresource.cpp
-index f9f78e7..7d5e1d8 100644
+index d9e9d95..5383620 100644
 --- a/resources/google-groupware/googleresource.cpp
 +++ b/resources/google-groupware/googleresource.cpp
 @@ -147,7 +147,6 @@ void GoogleResource::configure(WId windowId)

@@ -1,8 +1,8 @@
 diff --git a/src/plugins/kdecorations/aurorae/src/aurorae.cpp b/src/plugins/kdecorations/aurorae/src/aurorae.cpp
-index 1e91f3f..a799263 100644
+index f504e09..f33b7e7 100644
 --- a/src/plugins/kdecorations/aurorae/src/aurorae.cpp
 +++ b/src/plugins/kdecorations/aurorae/src/aurorae.cpp
-@@ -549,27 +549,7 @@ void Decoration::installTitleItem(QQuickItem *item)
+@@ -559,27 +559,7 @@ void Decoration::installTitleItem(QQuickItem *item)
  
  void Decoration::updateExtendedBorders()
  {
@@ -14,16 +14,16 @@ index 1e91f3f..a799263 100644
 -
 -    if (settings()->borderSize() == KDecoration2::BorderSize::None) {
 -        if (!clientPointer()->isMaximizedHorizontally()) {
--            extLeft = qMax(m_extendedBorders->left(), extSize);
--            extRight = qMax(m_extendedBorders->right(), extSize);
+-            extLeft = std::max(m_extendedBorders->left(), extSize);
+-            extRight = std::max(m_extendedBorders->right(), extSize);
 -        }
 -        if (!clientPointer()->isMaximizedVertically()) {
--            extBottom = qMax(m_extendedBorders->bottom(), extSize);
+-            extBottom = std::max(m_extendedBorders->bottom(), extSize);
 -        }
 -
 -    } else if (settings()->borderSize() == KDecoration2::BorderSize::NoSides && !clientPointer()->isMaximizedHorizontally()) {
--        extLeft = qMax(m_extendedBorders->left(), extSize);
--        extRight = qMax(m_extendedBorders->right(), extSize);
+-        extLeft = std::max(m_extendedBorders->left(), extSize);
+-        extRight = std::max(m_extendedBorders->right(), extSize);
 -    }
 -
 -    setResizeOnlyBorders(QMargins(extLeft, 0, extRight, extBottom));

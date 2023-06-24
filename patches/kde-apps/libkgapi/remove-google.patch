@@ -12,7 +12,7 @@ index 15708e4..8997e77 100644
  auto commentBasePath(const QString &blogId, const QString &postId = QString(), const QString &commentId = QString()) -> QString
  {
 diff --git a/src/calendar/calendarservice.cpp b/src/calendar/calendarservice.cpp
-index 93a362e..8dc1ea1 100644
+index 7a4ad0c..2b62428 100644
 --- a/src/calendar/calendarservice.cpp
 +++ b/src/calendar/calendarservice.cpp
 @@ -59,9 +59,9 @@ ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString
@@ -174,236 +174,6 @@ index 8e10520..01072bd 100644
          return false;
      }
  
-diff --git a/src/contacts/contactsservice.cpp b/src/contacts/contactsservice.cpp
-index 0b32f7b..0d7d55e 100644
---- a/src/contacts/contactsservice.cpp
-+++ b/src/contacts/contactsservice.cpp
-@@ -35,207 +35,80 @@ static QString stringFromXMLMap(const QVariantMap &map, const QString &key)
- ObjectPtr JSONToContactsGroup(const QVariantMap &map);
- ObjectPtr JSONToContact(const QVariantMap &map);
- 
--static const QUrl GoogleApisUrl(QStringLiteral("https://www.google.com"));
--static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
--static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
--static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
-+static const QUrl GoogleApisUrl;
-+static const QString ContactsBasePath;
-+static const QString ContactsGroupBasePath;
-+static const QString PhotoBasePath;
- 
- static QByteArray addRelSchema(const QByteArray &rel)
- {
--    if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
--        return "http://schemas.google.com/g/2005#" + rel;
--    } else {
--        return rel;
--    }
-+    return {};
- }
- }
- 
- ObjectsList parseJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
- {
--    ObjectsList output;
--    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
--    const QVariantMap head = document.toVariant().toMap();
--    const QVariantMap feed = head.value(QStringLiteral("feed")).toMap();
--    const QVariantList categories = feed.value(QStringLiteral("category")).toList();
--    for (const QVariant &c : categories) {
--        const QVariantMap category = c.toMap();
--        bool groups = false;
--
--        if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#group")) {
--            groups = true;
--        }
--
--        const QVariantList entries = feed.value(QStringLiteral("entry")).toList();
--        for (const QVariant &e : entries) {
--            if (groups) {
--                output << Private::JSONToContactsGroup(e.toMap());
--            } else {
--                output << Private::JSONToContact(e.toMap());
--            }
--        }
--    }
--
--    const QVariantList links = feed.value(QStringLiteral("link")).toList();
--    for (const QVariant &l : links) {
--        const QVariantMap link = l.toMap();
--        if (link.value(QStringLiteral("rel")).toString() == QLatin1String("next")) {
--            feedData.nextPageUrl = QUrl(link.value(QStringLiteral("href")).toString());
--            break;
--        }
--    }
--
--    feedData.totalResults = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$totalResults")).toInt();
--    feedData.startIndex = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$startIndex")).toInt();
--    feedData.itemsPerPage = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$itemsPerPage")).toInt();
--
--    return output;
-+    return {};
- }
- 
- QUrl fetchAllContactsUrl(const QString &user, bool showDeleted)
- {
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
--    QUrlQuery query(url);
--    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
--    if (showDeleted) {
--        query.addQueryItem(QStringLiteral("showdeleted"), QStringLiteral("true"));
--    }
--    url.setQuery(query);
--
--    return url;
-+    return {};
- }
- 
- QUrl fetchContactUrl(const QString &user, const QString &contactID)
- {
--    QString id;
--    if (contactID.contains(QLatin1Char('/'))) {
--        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = contactID;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
--    QUrlQuery query(url);
--    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
--    url.setQuery(query);
--    return url;
-+    return {};
- }
- 
- QUrl createContactUrl(const QString &user)
- {
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
--    return url;
-+    return {};
- }
- 
- QUrl updateContactUrl(const QString &user, const QString &contactID)
- {
--    QString id;
--    if (contactID.contains(QLatin1Char('/'))) {
--        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = contactID;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
--    return url;
-+    return {};
- }
- 
- QUrl removeContactUrl(const QString &user, const QString &contactID)
- {
--    QString id;
--    if (contactID.contains(QLatin1Char('/'))) {
--        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = contactID;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
--    return url;
-+    return {};
- }
- 
- QUrl fetchAllGroupsUrl(const QString &user)
- {
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
--    QUrlQuery query(url);
--    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
--    url.setQuery(query);
--    return url;
-+    return {};
- }
- 
- QUrl fetchGroupUrl(const QString &user, const QString &groupId)
- {
--    QString id;
--    if (groupId.contains(QLatin1Char('/'))) {
--        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = groupId;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/base/") % id);
--    QUrlQuery query(url);
--    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
--    url.setQuery(query);
--    return url;
-+    return {};
- }
- 
- QUrl createGroupUrl(const QString &user)
- {
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
--    return url;
-+    return {};
- }
- 
- QUrl updateGroupUrl(const QString &user, const QString &groupId)
- {
--    QString id;
--    if (groupId.contains(QLatin1Char('/'))) {
--        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = groupId;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
--    return url;
-+    return {};
- }
- 
- QUrl removeGroupUrl(const QString &user, const QString &groupId)
- {
--    QString id;
--    if (groupId.contains(QLatin1Char('/'))) {
--        id = groupId.mid(groupId.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = groupId;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
--    return url;
-+    return {};
- }
- 
- QUrl photoUrl(const QString &user, const QString &contactID)
- {
--    QString id;
--    if (contactID.contains(QLatin1Char('/'))) {
--        id = contactID.mid(contactID.lastIndexOf(QLatin1Char('/')) + 1);
--    } else {
--        id = contactID;
--    }
--
--    QUrl url(Private::GoogleApisUrl);
--    url.setPath(Private::PhotoBasePath % QLatin1Char('/') % user % QLatin1Char('/') % id);
--    return url;
-+    return {};
- }
- 
- QString APIVersion()
- {
--    return QStringLiteral("3.0");
-+    return {};
- }
- 
- /*********************************** PRIVATE *************************************/
 diff --git a/src/core/accountinfo/accountinfofetchjob.cpp b/src/core/accountinfo/accountinfofetchjob.cpp
 index 04c9edb..939e43d 100644
 --- a/src/core/accountinfo/accountinfofetchjob.cpp
@@ -633,10 +403,10 @@ index 73d0bee..39c1b73 100644
  
  ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 diff --git a/src/latitude/locationdeletejob.cpp b/src/latitude/locationdeletejob.cpp
-index 2e69af8..90a0a38 100644
+index 2814675..fac2cd5 100644
 --- a/src/latitude/locationdeletejob.cpp
 +++ b/src/latitude/locationdeletejob.cpp
-@@ -57,28 +57,4 @@ LocationDeleteJob::~LocationDeleteJob()
+@@ -54,28 +54,4 @@ LocationDeleteJob::~LocationDeleteJob()
  
  void LocationDeleteJob::start()
  {
@@ -666,10 +436,10 @@ index 2e69af8..90a0a38 100644
 -    d->finished = true;
  }
 diff --git a/src/latitude/locationfetchhistoryjob.cpp b/src/latitude/locationfetchhistoryjob.cpp
-index 7b7b7e8..fb68e6b 100644
+index 48c856e..17a4488 100644
 --- a/src/latitude/locationfetchhistoryjob.cpp
 +++ b/src/latitude/locationfetchhistoryjob.cpp
-@@ -40,10 +40,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent)
+@@ -38,10 +38,7 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent)
  
  QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl &url)
  {
@@ -681,7 +451,7 @@ index 7b7b7e8..fb68e6b 100644
  }
  
  LocationFetchHistoryJob::LocationFetchHistoryJob(const AccountPtr &account, QObject *parent)
-@@ -111,10 +108,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
+@@ -109,10 +106,6 @@ void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
  
  void LocationFetchHistoryJob::start()
  {
@@ -692,7 +462,7 @@ index 7b7b7e8..fb68e6b 100644
  }
  
  ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
-@@ -132,8 +125,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
+@@ -130,8 +123,6 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
      }
  
      if (feedData.nextPageUrl.isValid()) {
@@ -716,6 +486,223 @@ index 1b051c5..9cd16cc 100644
  }
  
  ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
+diff --git a/src/people/peopleservice.cpp b/src/people/peopleservice.cpp
+index a7317ee..e0d7e9b 100644
+--- a/src/people/peopleservice.cpp
++++ b/src/people/peopleservice.cpp
+@@ -31,10 +31,10 @@ enum FetchType {
+     ContactGroupFetch
+ };
+ 
+-static const QUrl GoogleApisUrl(QStringLiteral("https://people.googleapis.com"));
+-static const auto PeopleV1Path = QStringLiteral("/v1/");
+-static const auto PeopleBasePath = QString(PeopleV1Path % QStringLiteral("people"));
+-static const auto ContactGroupsBasePath = QString(PeopleV1Path % QStringLiteral("contactGroups"));
++static const QUrl GoogleApisUrl;
++static const QString PeopleV1Path;
++static const QString PeopleBasePath;
++static const QString ContactGroupsBasePath;
+ 
+ static const auto AllPersonFields = QStringLiteral("addresses,"
+                                                    "ageRanges,"
+@@ -157,183 +157,74 @@ ObjectPtr JSONToPerson(const QByteArray &jsonData)
+ 
+ QUrl fetchAllContactsUrl(const QString &syncToken)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    const QString path = Private::PeopleBasePath % QStringLiteral("/me/connections");
+-    url.setPath(path);
+-
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("personFields"), Private::AllPersonFields);
+-    query.addQueryItem(QStringLiteral("requestSyncToken"), QStringLiteral("true"));
+-
+-    if (!syncToken.isEmpty()) {
+-        query.addQueryItem(QStringLiteral("syncToken"), syncToken);
+-    }
+-
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ // https://developers.google.com/people/api/rest/v1/people/searchContacts
+ QUrl fetchContactUrl(const QString &resourceName)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    const QString path = Private::PeopleV1Path % resourceName;
+-    url.setPath(path);
+-
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("personFields"), Private::AllPersonFields);
+-
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createContactUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    const QString path = Private::PeopleBasePath % QStringLiteral(":createContact");
+-    url.setPath(path);
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateContactUrl(const QString &resourceName, const QString &personFields)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PeopleV1Path % resourceName % QStringLiteral(":updateContact"));
+-
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("updatePersonFields"), personFields);
+-
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl deleteContactUrl(const QString &resourceName)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PeopleV1Path % resourceName % QStringLiteral(":deleteContact"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl fetchAllContactGroupsUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactGroupsBasePath);
+-
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("groupFields"), Private::AllGroupFields);
+-
+-    url.setQuery(query);
+-
+-    return url;
++    return {};
+ }
+ 
+ // https://developers.google.com/people/api/rest/v1/contactGroups/get
+ QUrl fetchContactGroupUrl(const QString &resourceName)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    const QString path = Private::PeopleV1Path % resourceName;
+-    url.setPath(path);
+-
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("groupFields"), Private::AllGroupFields);
+-
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl createContactGroupUrl()
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::ContactGroupsBasePath);
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateContactGroupUrl(const QString &resourceName)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    const QString path = Private::PeopleV1Path % resourceName;
+-    url.setPath(path);
+-    return url;
++    return {};
+ }
+ 
+ QUrl deleteContactGroupUrl(const QString &resourceName, const bool deleteContacts)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PeopleV1Path % resourceName);
+-
+-    const auto deleteContactsString = deleteContacts ? QStringLiteral("true") : QStringLiteral("false");
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("deleteContacts"), deleteContactsString);
+-
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ QUrl updateContactPhotoUrl(const QString &resourceName)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PeopleV1Path % resourceName % QStringLiteral(":updateContactPhoto"));
+-    return url;
++    return {};
+ }
+ 
+ QUrl deleteContactPhotoUrl(const QString &resourceName, const QString &personFields)
+ {
+-    QUrl url(Private::GoogleApisUrl);
+-    url.setPath(Private::PeopleV1Path % resourceName % QStringLiteral(":deleteContactPhoto"));
+-
+-    QUrlQuery query(url);
+-    query.addQueryItem(QStringLiteral("personFields"), personFields);
+-
+-    url.setQuery(query);
+-    return url;
++    return {};
+ }
+ 
+ ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed, const QString &syncToken)
+ {
+-    const auto document = QJsonDocument::fromJson(jsonFeed);
+-
+-    if (!document.isObject()) {
+-        return {};
+-    }
+-
+-    ObjectsList output;
+-
+-    const auto rootObject = document.object();
+-    const auto connections = rootObject.value(QStringLiteral("connections")).toArray();
+-    for(const auto &connection : connections) {
+-        output.append(People::Person::fromJSON(connection.toObject()));
+-    }
+-
+-    feedData.totalResults = rootObject.value(QStringLiteral("totalItems")).toInt();
+-
+-    Private::writeNextPageDataQuery(Private::PersonFetch, feedData, rootObject, syncToken);
+-    feedData.syncToken = rootObject.value(QStringLiteral("nextSyncToken")).toString();
+-
+-    return output;
++    return {};
+ }
+ 
+ ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed)
+ {
+-    // qDebug() << jsonFeed;
+-    const auto document = QJsonDocument::fromJson(jsonFeed);
+-
+-    if (!document.isObject()) {
+-        return {};
+-    }
+-
+-    ObjectsList output;
+-
+-    const auto rootObject = document.object();
+-    const auto contactGroups = rootObject.value(QStringLiteral("contactGroups")).toArray();
+-    for(const auto &contactGroup : contactGroups) {
+-        output.append(People::ContactGroup::fromJSON(contactGroup.toObject()));
+-    }
+-
+-    feedData.totalResults = rootObject.value(QStringLiteral("totalItems")).toInt();
+-
+-    Private::writeNextPageDataQuery(Private::ContactGroupFetch, feedData, rootObject);
+-
+-    return output;
++    return {};
+ }
+ 
+ }
 diff --git a/src/tasks/tasksservice.cpp b/src/tasks/tasksservice.cpp
 index 53947f0..6ae830f 100644
 --- a/src/tasks/tasksservice.cpp

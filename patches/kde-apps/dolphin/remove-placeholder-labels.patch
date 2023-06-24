@@ -1,8 +1,8 @@
 diff --git a/src/views/dolphinview.cpp b/src/views/dolphinview.cpp
-index c3ef4e0..c0a1235 100644
+index 8d4a765..bc0a855 100644
 --- a/src/views/dolphinview.cpp
 +++ b/src/views/dolphinview.cpp
-@@ -2217,37 +2217,7 @@ void DolphinView::updatePlaceholderLabel()
+@@ -2292,39 +2292,7 @@ void DolphinView::updatePlaceholderLabel()
          return;
      }
  
@@ -30,6 +30,8 @@ index c3ef4e0..c0a1235 100644
 -        m_placeholderLabel->setText(i18n("No relevant network resources found"));
 -    } else if (m_url.scheme() == QLatin1String("mtp") && m_url.path() == QLatin1String("/")) {
 -        m_placeholderLabel->setText(i18n("No MTP-compatible devices found"));
+-    } else if (m_url.scheme() == QLatin1String("afc") && m_url.path() == QLatin1String("/")) {
+-        m_placeholderLabel->setText(i18n("No Apple devices found"));
 -    } else if (m_url.scheme() == QLatin1String("bluetooth")) {
 -        m_placeholderLabel->setText(i18n("No Bluetooth devices found"));
 -    } else {
@@ -40,4 +42,4 @@ index c3ef4e0..c0a1235 100644
 +    m_placeholderLabel->setVisible(false);
  }
  
- void DolphinView::tryShowNameToolTip(QHelpEvent* event)
+ bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
