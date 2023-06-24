@@ -16,6 +16,7 @@ app-arch/zip std-gnu99.conf
 app-arch/p7zip gnu-source-light.conf
 app-arch/lzop gnu-source-light.conf
 app-arch/brotli gnu-source-light.conf
+app-arch/ncompress gnu-source-light.conf
 app-crypt/gnupg std-gnu99.conf
 app-crypt/heimdal gnu-source-light.conf
 app-crypt/mit-krb5 std-gnu11.conf
@@ -24,6 +25,7 @@ app-crypt/libb2 gnu-source-light.conf
 app-crypt/seahorse gnu-source-light.conf
 app-crypt/gcr gnu-source-light.conf
 app-crypt/libsecret gnu-source-light.conf
+app-crypt/swtpm gnu-source-light.conf
 #app-emulation/spice std-gnu11.conf
 app-i18n/libhangul gnu-source-light.conf
 app-i18n/fbterm std-gnu99.conf
@@ -110,6 +112,7 @@ dev-libs/xxhash gnu-source-light.conf
 dev-libs/tomsfastmath std-gnu99.conf
 dev-libs/libappindicator gnu-source-light.conf
 dev-libs/ios-webkit-debug-proxy std-gnu99.conf
+dev-libs/libtpms gnu-source-light.conf
 dev-cpp/libcutl gnu-source-light.conf
 dev-php/igbinary gnu-source-light.conf
 dev-php/pecl-memcached gnu-source-light.conf

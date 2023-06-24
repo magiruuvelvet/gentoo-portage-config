@@ -13,3 +13,4 @@ net-libs/libmbim udev
 net-libs/nghttp2 cxx
 net-libs/bzrtp sqlite
 net-libs/ortp srtp
+net-libs/gnutls tools pkcs11
