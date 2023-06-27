@@ -1,7 +1,1 @@
 dev-ruby/rubygems server
-
-dev-ruby/rugged -ruby_targets_ruby30
-dev-ruby/pry -ruby_targets_ruby30
-
-dev-ruby/capistrano-bundler -ruby_targets_ruby31
-dev-ruby/capistrano-rails -ruby_targets_ruby31

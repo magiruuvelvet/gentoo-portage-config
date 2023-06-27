@@ -167,6 +167,7 @@ media-libs/imlib2 std-gnu99.conf
 media-libs/jbig2dec gnu-source-light.conf
 media-libs/jbigkit gnu-source-light.conf
 media-libs/ladspa-sdk std-gnu99.conf libdl.conf
+media-libs/lcms gnu-source-light.conf
 media-libs/lsp-plugins gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libcaca std-gnu17.conf
 media-libs/libuninameslist gnu-source-light.conf
