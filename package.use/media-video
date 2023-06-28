@@ -17,6 +17,6 @@ media-video/mpv X alsa -jack archive bluray -cdda cli cplugins drm dvd egl iconv
 media-video/mpv libmpv lua luajit lua_single_target_luajit opengl pulseaudio uchardet vaapi vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland -lua_single_target_lua5-1
 media-video/obs-studio alsa pulseaudio -jack fdk lua luajit lua_single_target_luajit speex truetype ssl v4l nvenc
 
-# TODO: enable sound-server/pipewire-alsa/jack-sdk/systemd/system-service, migrate from PulseAudio system mode to PipeWire system mode
-media-video/pipewire -X -udev bluetooth dbus ffmpeg extra gstreamer -sound-server -system-service -systemd -jack-sdk -pipewire-alsa
-media-video/wireplumber -system-service -systemd
+# TODO: enable sound-server/pipewire-alsa/systemd/system-service, migrate from PulseAudio system mode to PipeWire system mode
+media-video/pipewire -X -udev bluetooth liblc3 dbus ffmpeg extra gstreamer -sound-server -system-service -systemd jack-sdk -pipewire-alsa
+media-video/wireplumber system-service systemd

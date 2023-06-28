@@ -1,0 +1,16 @@
+#!/bin/sh
+
+source /etc/portage/hooks/functions/check-env.sh
+
+instprep() {
+    echo -e ">>> [${PN}] Preparing ${PN} for system mode..."
+
+    echo -e ">>> [${PN}] Deleting unnecessary and conflicting files..."
+    rm -f "${ED}/etc/xdg/autostart/pipewire.desktop"
+    rm -f "${ED}/usr/bin/gentoo-pipewire-launcher"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
