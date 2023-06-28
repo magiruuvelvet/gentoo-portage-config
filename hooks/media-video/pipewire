@@ -8,6 +8,10 @@ instprep() {
     echo -e ">>> [${PN}] Deleting unnecessary and conflicting files..."
     rm -f "${ED}/etc/xdg/autostart/pipewire.desktop"
     rm -f "${ED}/usr/bin/gentoo-pipewire-launcher"
+
+    # remove those files, just to be sure
+    echo -e ">>> [${PN}] Deleting systemd user units..."
+    rm -f "${ED}/usr/lib/systemd/user/"*
 }
 
 case "$1" in

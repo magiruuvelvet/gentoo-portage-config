@@ -1,0 +1,11 @@
+[Unit]
+Description=PulseAudio Daemon
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=false
+ExecStart=/usr/bin/pulseaudio --system --disallow-exit
+Environment="LD_LIBRARY_PATH=/usr/local/lib64:$LD_LIBRARY_PATH"

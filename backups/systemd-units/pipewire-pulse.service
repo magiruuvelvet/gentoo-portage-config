@@ -1,0 +1,25 @@
+[Unit]
+Description=PipeWire Multimedia Service (Pulse)
+Requires=pipewire.socket
+After=pipewire.service
+
+[Service]
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+RestrictNamespaces=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+Type=simple
+AmbientCapabilities=CAP_SYS_NICE
+ExecStart=/usr/bin/pipewire-pulse
+Restart=on-failure
+RuntimeDirectory=pipewire
+RuntimeDirectoryPreserve=yes
+User=pipewire
+Environment=PIPEWIRE_RUNTIME_DIR=%t/pipewire
+Environment=PULSE_RUNTIME_PATH=%t/pipewire
+
+[Install]
+Also=pipewire.socket
+WantedBy=default.target

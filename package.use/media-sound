@@ -4,7 +4,7 @@ media-sound/bluez-alsa aac ldac ofono hcitop
 media-sound/cantata -cdda -cddb -cdio -http-server -mtp -musicbrainz -replaygain -streaming taglib -udisks -zeroconf
 media-sound/kid3 taglib kde flac -mp3 mp4 vorbis -mpris
 media-sound/mpd alsa audiofile bzip2 cue curl dbus faad ffmpeg flac icu pulseaudio sqlite unicode wavpack zip zlib
-media-sound/pulseaudio bluetooth daemon dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
+media-sound/pulseaudio bluetooth -daemon dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/pulseaudio alsa alsa-plugin asyncns caps glib ssl tcpd udev -jack -native-headset gstreamer
 media-sound/pulseaudio-daemon bluetooth daemon dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/pulseaudio-daemon alsa alsa-plugin asyncns caps glib ssl tcpd udev -jack -native-headset gstreamer
