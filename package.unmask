@@ -16,6 +16,7 @@ www-servers/caddy::chaoslab
 # installed kernels
 =sys-kernel/gentoo-kernel-bin-5.8.14
 =sys-kernel/gentoo-kernel-bin-5.10.16
+=sys-kernel/gentoo-kernel-bin-5.15.119
 
 # installed grub version
 =sys-boot/grub-2.04-r1

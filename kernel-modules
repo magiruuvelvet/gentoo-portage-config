@@ -1,4 +1,4 @@
 x11-drivers/nvidia-drivers
 sys-power/bbswitch
-x11-drivers/nvidia-drivers
 app-emulation/vmware-modules
+media-video/v4l2loopback
