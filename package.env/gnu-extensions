@@ -133,6 +133,7 @@ dev-util/radare2 std-gnu99.conf
 dev-util/scanmem gnu-source-light.conf
 dev-util/colm gnu-source-light.conf
 dev-util/unicorn std-gnu99.conf gnu-source-light.conf
+dev-util/unifdef gnu-source-light.conf
 #dev-util/rizin gnu-source-light.conf
 gnome-base/dconf std-gnu99.conf
 gnome-base/gnome-keyring gnu-source-light.conf
