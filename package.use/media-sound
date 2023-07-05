@@ -15,9 +15,10 @@ media-sound/pulseaudio-daemon-noconflict alsa alsa-plugin asyncns caps glib ssl 
 media-sound/pulseaudio-daemon-noconflict aptx ldac sox
 
 media-sound/pulseaudio-modules-bt fdk ffmpeg ldac native-headset
-media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame
+media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame magic
 media-sound/spotify libnotify
 media-sound/pasystray libnotify
 media-sound/pulseeffects bs2b mda-lv2 rubberband
 media-sound/jack2 alsa -dbus metadata opus pam sndfile -tools -systemd
 media-sound/qjackctl dbus
+media-sound/baudline jack

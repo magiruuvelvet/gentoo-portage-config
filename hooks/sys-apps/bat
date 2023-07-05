@@ -1,0 +1,17 @@
+#!/bin/sh
+
+source /etc/portage/hooks/functions/check-env.sh
+
+compile() {
+    echo -e ">>> Patching dependencies to fix compilation errors..."
+
+    pushd ../work
+    patch -p1 < /etc/portage/hooks/patches/sys-apps/bat/sys-info-missing-gnu-extensions.patch
+    patch -p1 < /etc/portage/hooks/patches/sys-apps/bat/libgit2-missing-gnu-extensions.patch
+    popd
+}
+
+case "$1" in
+    compile) compile ;;
+    *) : ;;
+esac

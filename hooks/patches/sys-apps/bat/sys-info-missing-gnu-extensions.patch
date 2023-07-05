@@ -1,0 +1,9 @@
+diff --git a/cargo_home/gentoo/sys-info-0.9.1/c/linux.c b/cargo_home/gentoo/sys-info-0.9.1/c/linux.c
+index 4cd1589..86299ab 100644
+--- a/cargo_home/gentoo/sys-info-0.9.1/c/linux.c
++++ b/cargo_home/gentoo/sys-info-0.9.1/c/linux.c
+@@ -1,3 +1,4 @@
++#define _GNU_SOURCE
+ #include <stdlib.h>
+ #include <string.h>
+ #include <stdio.h>
