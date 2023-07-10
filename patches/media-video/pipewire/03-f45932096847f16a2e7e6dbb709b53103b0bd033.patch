@@ -1,0 +1,30 @@
+From f45932096847f16a2e7e6dbb709b53103b0bd033 Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Mon, 10 Jul 2023 11:15:53 +0200
+Subject: [PATCH] impl-node: first remove, then add ourselves
+
+First remove ourself from the old driver, then add ourself to the
+new driver.
+
+This got changed as a possible error in b8fe832188168d3950d364a5a9bcc22aff31779f
+---
+ src/pipewire/impl-node.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/pipewire/impl-node.c b/src/pipewire/impl-node.c
+index d7b8f330b..da40adf75 100644
+--- a/src/pipewire/impl-node.c
++++ b/src/pipewire/impl-node.c
+@@ -901,8 +901,8 @@ int pw_impl_node_set_driver(struct pw_impl_node *node, struct pw_impl_node *driv
+ 
+ 	pw_impl_node_emit_driver_changed(node, old, driver);
+ 
+-	pw_impl_node_emit_peer_added(driver, node);
+ 	pw_impl_node_emit_peer_removed(old, node);
++	pw_impl_node_emit_peer_added(driver, node);
+ 
+ 	return 0;
+ }
+-- 
+GitLab
+

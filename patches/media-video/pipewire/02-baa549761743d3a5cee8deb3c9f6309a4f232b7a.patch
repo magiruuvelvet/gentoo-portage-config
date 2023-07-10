@@ -1,0 +1,81 @@
+From baa549761743d3a5cee8deb3c9f6309a4f232b7a Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Fri, 7 Jul 2023 12:11:02 +0200
+Subject: [PATCH] spa: warn out of buffers
+
+Running out of buffers is pretty bad and warrants a warning because it
+can cause loss of audio.
+
+See #3316
+---
+ spa/plugins/audioconvert/audioconvert.c | 5 +++--
+ spa/plugins/audiomixer/audiomixer.c     | 5 +++--
+ spa/plugins/audiomixer/mixer-dsp.c      | 4 +++-
+ spa/plugins/control/mixer.c             | 4 +++-
+ 4 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/spa/plugins/audioconvert/audioconvert.c b/spa/plugins/audioconvert/audioconvert.c
+index 5aeae6f9f1..853b219baf 100644
+--- a/spa/plugins/audioconvert/audioconvert.c
++++ b/spa/plugins/audioconvert/audioconvert.c
+@@ -2298,8 +2298,9 @@ static inline struct buffer *peek_buffer(struct impl *this, struct port *port)
+ 	struct buffer *b;
+ 
+ 	if (spa_list_is_empty(&port->queue)) {
+-		spa_log_trace_fp(this->log, "%p: out of buffers on port %d %d",
+-			this, port->id, port->n_buffers);
++		if (port->n_buffers > 0)
++			spa_log_warn(this->log, "%p: out of buffers on port %d %d",
++				this, port->id, port->n_buffers);
+ 		return NULL;
+ 	}
+ 
+diff --git a/spa/plugins/audiomixer/audiomixer.c b/spa/plugins/audiomixer/audiomixer.c
+index 5e40f4dca4..fbe4c795cc 100644
+--- a/spa/plugins/audiomixer/audiomixer.c
++++ b/spa/plugins/audiomixer/audiomixer.c
+@@ -786,8 +786,9 @@ static int impl_node_process(void *object)
+ 
+ 	outb = dequeue_buffer(this, outport);
+         if (SPA_UNLIKELY(outb == NULL)) {
+-                spa_log_trace(this->log, "%p: out of buffers (%d)", this,
+-				outport->n_buffers);
++		if (outport->n_buffers > 0)
++			spa_log_warn(this->log, "%p: out of buffers (%d)", this,
++					outport->n_buffers);
+                 return -EPIPE;
+         }
+ 
+diff --git a/spa/plugins/audiomixer/mixer-dsp.c b/spa/plugins/audiomixer/mixer-dsp.c
+index f4a1af334c..7d7ef91c20 100644
+--- a/spa/plugins/audiomixer/mixer-dsp.c
++++ b/spa/plugins/audiomixer/mixer-dsp.c
+@@ -722,7 +722,9 @@ static int impl_node_process(void *object)
+ 
+ 	outb = dequeue_buffer(this, outport);
+ 	if (SPA_UNLIKELY(outb == NULL)) {
+-		spa_log_trace(this->log, "%p: out of buffers", this);
++		if (outport->n_buffers > 0)
++			spa_log_warn(this->log, "%p: out of buffers (%d)", this,
++					outport->n_buffers);
+ 		return -EPIPE;
+ 	}
+ 
+diff --git a/spa/plugins/control/mixer.c b/spa/plugins/control/mixer.c
+index 76e22d4945..96a670e643 100644
+--- a/spa/plugins/control/mixer.c
++++ b/spa/plugins/control/mixer.c
+@@ -623,7 +623,9 @@ static int impl_node_process(void *object)
+ 
+ 	/* get output buffer */
+ 	if ((outb = dequeue_buffer(this, outport)) == NULL) {
+-                spa_log_trace(this->log, NAME " %p: out of buffers", this);
++		if (outport->n_buffers > 0)
++	                spa_log_warn(this->log, NAME " %p: out of buffers (%d)",
++					this, outport->n_buffers);
+                 return -EPIPE;
+         }
+ 
+-- 
+GitLab
+
