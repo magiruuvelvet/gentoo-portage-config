@@ -1,0 +1,40 @@
+From 3e0050d1cdcb6b08aa93416d7868a9a9e02b8a8b Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Mon, 10 Jul 2023 16:55:05 +0200
+Subject: [PATCH] client-node: clear resource after freeing mem
+
+Some of the mem unref might send a message to the client.
+
+This is not actually the case right now but just to be safe for the
+future.
+---
+ src/modules/module-client-node/client-node.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/modules/module-client-node/client-node.c b/src/modules/module-client-node/client-node.c
+index cb863e225..4125e4fac 100644
+--- a/src/modules/module-client-node/client-node.c
++++ b/src/modules/module-client-node/client-node.c
+@@ -1346,9 +1346,6 @@ static void node_free(void *data)
+ 	while ((mm = pw_mempool_find_tag(impl->client->pool, tag, sizeof(uint32_t))) != NULL)
+ 		pw_memmap_free(mm);
+ 
+-	if (impl->resource)
+-		pw_resource_destroy(impl->resource);
+-
+ 	if (impl->activation)
+ 		pw_memblock_free(impl->activation);
+ 
+@@ -1358,6 +1355,9 @@ static void node_free(void *data)
+ 	}
+ 	pw_array_clear(&impl->io_areas);
+ 
++	if (impl->resource)
++		pw_resource_destroy(impl->resource);
++
+ 	pw_map_clear(&impl->ports[0]);
+ 	pw_map_clear(&impl->ports[1]);
+ 	pw_map_clear(&impl->io_map);
+-- 
+GitLab
+

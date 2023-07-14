@@ -1,0 +1,97 @@
+From a966d4806b8e8144f298baed07ed140ab5b6907e Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Mon, 10 Jul 2023 16:52:39 +0200
+Subject: [PATCH] improve debug
+
+---
+ src/modules/module-client-node/client-node.c |  4 ++--
+ src/modules/module-client-node/remote-node.c | 14 +++++++++-----
+ src/pipewire/impl-port.c                     | 10 +++++-----
+ 3 files changed, 16 insertions(+), 12 deletions(-)
+
+diff --git a/src/modules/module-client-node/client-node.c b/src/modules/module-client-node/client-node.c
+index c2bad3e17..cb863e225 100644
+--- a/src/modules/module-client-node/client-node.c
++++ b/src/modules/module-client-node/client-node.c
+@@ -1207,8 +1207,8 @@ static void node_peer_added(void *data, struct pw_impl_node *peer)
+ 		return;
+ 	}
+ 
+-	pw_log_debug("%p: peer %p/%p id:%u added mem_id:%u", impl, peer,
+-			impl->this.node, peer->info.id, m->id);
++	pw_log_debug("%p: peer %p/%p id:%u added mem_id:%u %p %d", impl, peer,
++			impl->this.node, peer->info.id, m->id, m, m->ref);
+ 
+ 	if (impl->resource == NULL)
+ 		return;
+diff --git a/src/modules/module-client-node/remote-node.c b/src/modules/module-client-node/remote-node.c
+index a4fe878e2..10aad0140 100644
+--- a/src/modules/module-client-node/remote-node.c
++++ b/src/modules/module-client-node/remote-node.c
+@@ -864,18 +864,22 @@ client_node_set_activation(void *_data,
+ 		pw_loop_invoke(data->data_loop,
+                        do_activate_link, SPA_ID_INVALID, NULL, 0, false, link);
+ 
+-		pw_log_debug("node %p: link %p: fd:%d id:%u state %p required %d, pending %d",
+-				node, link, signalfd,
+-				link->target.activation->position.clock.id,
++		pw_log_debug("node %p: add link %p: memid:%u fd:%d id:%u state:%p pending:%d/%d",
++				node, link, memid, signalfd, node_id,
+ 				&link->target.activation->state[0],
+-				link->target.activation->state[0].required,
+-				link->target.activation->state[0].pending);
++				link->target.activation->state[0].pending,
++				link->target.activation->state[0].required);
+ 	} else {
+ 		link = find_activation(&data->links, node_id);
+ 		if (link == NULL) {
+ 			res = -ENOENT;
+ 			goto error_exit;
+ 		}
++		pw_log_debug("node %p: remove link %p: id:%u state:%p pending:%d/%d",
++				node, link, node_id,
++				&link->target.activation->state[0],
++				link->target.activation->state[0].pending,
++				link->target.activation->state[0].required);
+ 		clear_link(data, link);
+ 	}
+ 	return res;
+diff --git a/src/pipewire/impl-port.c b/src/pipewire/impl-port.c
+index 1f7a29851..3f02379b1 100644
+--- a/src/pipewire/impl-port.c
++++ b/src/pipewire/impl-port.c
+@@ -298,9 +298,9 @@ int pw_impl_port_init_mix(struct pw_impl_port *port, struct pw_impl_port_mix *mi
+ 	spa_list_append(&port->mix_list, &mix->link);
+ 	port->n_mix++;
+ 
+-	pw_log_debug("%p: init mix n_mix:%d %d.%d io:%p: (%s)", port,
++	pw_log_debug("%p: init mix n_mix:%d %d.%d id:%d peer:%d io:%p: (%s)", port,
+ 			port->n_mix, port->port_id, mix->port.port_id,
+-			mix->io, spa_strerror(res));
++			mix->id, mix->peer_id, mix->io, spa_strerror(res));
+ 
+ 	if (port->n_mix == 1) {
+ 		pw_log_debug("%p: setting port io", port);
+@@ -329,6 +329,9 @@ int pw_impl_port_release_mix(struct pw_impl_port *port, struct pw_impl_port_mix
+ 	spa_list_remove(&mix->link);
+ 	port->n_mix--;
+ 
++	pw_log_debug("%p: release mix %d %d.%d", port,
++			port->n_mix, port->port_id, mix->port.port_id);
++
+ 	res = pw_impl_port_call_release_mix(port, mix);
+ 
+ 	if (port->destroying)
+@@ -338,9 +341,6 @@ int pw_impl_port_release_mix(struct pw_impl_port *port, struct pw_impl_port_mix
+ 	    res != -ENOTSUP)
+ 		pw_log_warn("can't remove mix port %d: %s", port_id, spa_strerror(res));
+ 
+-	pw_log_debug("%p: release mix %d %d.%d", port,
+-			port->n_mix, port->port_id, mix->port.port_id);
+-
+ 	if (port->n_mix == 0) {
+ 		pw_log_debug("%p: clearing port io", port);
+ 		spa_node_port_set_io(node->node,
+-- 
+GitLab
+
