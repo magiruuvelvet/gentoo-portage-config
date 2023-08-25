@@ -300,7 +300,7 @@ sys-apps/keyutils std-gnu99.conf
 sys-apps/kmscon std-gnu99.conf
 sys-apps/less std-gnu99.conf
 sys-apps/pciutils std-gnu99.conf chost.conf
-sys-apps/shadow gnu-source-light.conf
+sys-apps/shadow std-gnu99.conf
 sys-apps/tcp-wrappers gnu-source-light.conf undef-strings.conf
 sys-apps/tomoyo-tools std-gnu99.conf
 sys-apps/usb_modeswitch std-gnu99.conf

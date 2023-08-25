@@ -23,6 +23,9 @@ dev-qt/qt3d gamepad
 dev-qt/qtgamepad evdev
 dev-qt/qtsql sqlite mysql postgres
 
+dev-qt/qtbase egl opengl
+dev-qt/qtdeclarative:6 opengl
+
 dev-qt/qt-creator cmake cppcheck -git glsl help lsp -python scxml systemd valgrind webassembly webengine clang
 dev-qt/qt-creator -android -autotest -baremetal -beautifier -boot2qt -clearcase -ctfvisualizer -cvs -designer -doc
 dev-qt/qt-creator -ios -mcu -mercurial -modeling -nim -perforce -perfprofiler -qbs -qmldesigner -qmlprofiler -qnx
