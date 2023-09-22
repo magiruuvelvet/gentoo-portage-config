@@ -52,5 +52,9 @@ int main(void)
     print_macro("_GNU_SOURCE");
 #endif
 
+#ifdef __ATOMIC_ACQ_REL
+    print_macro("__ATOMIC_ACQ_REL");
+#endif
+
     return 0;
 }
