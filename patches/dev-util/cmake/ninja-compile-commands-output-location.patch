@@ -26,7 +26,7 @@ index c502fb85..2c7306ae 100644
 +    std::string buildFilePath{};
 +    if (CheckEnv("CMAKE_USE_GLOBAL_COMPILE_COMMANDS_STORAGE")) {
 +      buildFilePath =
-+        cmStrCat("/caches/cmake/", std::to_string(geteuid()), '/', buildFileDir, "/compile_commands.json");
++        cmStrCat("/caches/", std::to_string(geteuid()), "/cmake/", buildFileDir, "/compile_commands.json");
 +    } else {
 +      buildFilePath =
 +        cmStrCat(buildFileDir, "/compile_commands.json");
