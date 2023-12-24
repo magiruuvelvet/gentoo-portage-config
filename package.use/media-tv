@@ -1,1 +1,1 @@
-media-tv/v4l-utils -bpf opengl qt5
+media-tv/v4l-utils -bpf opengl -qt5

@@ -244,6 +244,7 @@ net-fs/cifs-utils std-gnu99.conf
 net-fs/smbnetfs std-gnu99.conf
 net-fs/sshfs std-gnu99.conf
 net-libs/neon gnu-source-light.conf
+net-libs/nghttp2 gnu-source-light.conf
 net-libs/libpsl gnu-source-light.conf
 net-libs/libnsl gnu-source-light.conf
 net-libs/libsmi gnu-source-light.conf

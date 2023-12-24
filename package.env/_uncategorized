@@ -77,6 +77,8 @@ media-libs/libsixel ld-force-lib64.conf
 dev-lang/luajit libunwind.conf gnu-source-light.conf
 app-emulation/libvirt libunwind.conf std-gnu99.conf
 
+dev-python/libvirt-python std-gnu99.conf
+
 
 # bundled sha util uses GNU extension -> inline assembly
 games-action/minetest std-gnu11.conf

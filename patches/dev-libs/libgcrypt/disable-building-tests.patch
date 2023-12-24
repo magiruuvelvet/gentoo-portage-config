@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 6bba2c8..fbd3a8e 100644
+index 87e8de6..ed0ace7 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -40,13 +40,13 @@ doc =
+@@ -41,13 +41,13 @@ doc =
  endif
  
  
@@ -11,19 +11,19 @@ index 6bba2c8..fbd3a8e 100644
 +DIST_SUBDIRS = m4 compat mpi cipher random src doc
 +SUBDIRS =         compat mpi cipher random src $(doc)
  
- EXTRA_DIST = autogen.sh autogen.rc README.GIT LICENSES      	           \
-              ChangeLog-2011 build-aux/ChangeLog-2011 doc/ChangeLog-2011    \
-              m4/ChangeLog-2011 cipher/ChangeLog-2011 src/ChangeLog-2011    \
--             random/ChangeLog-2011 tests/ChangeLog-2011 mpi/ChangeLog-2011 \
-+             random/ChangeLog-2011 mpi/ChangeLog-2011 \
-              build-aux/git-log-footer build-aux/git-log-fix VERSION
+ EXTRA_DIST = autogen.sh autogen.rc README.GIT LICENSES			   \
+ 	     ChangeLog-2011 build-aux/ChangeLog-2011 doc/ChangeLog-2011	   \
+ 	     m4/ChangeLog-2011 cipher/ChangeLog-2011 src/ChangeLog-2011	   \
+-	     random/ChangeLog-2011 tests/ChangeLog-2011 mpi/ChangeLog-2011 \
++	     random/ChangeLog-2011 mpi/ChangeLog-2011 \
+ 	     build-aux/libtool-patch.sed 				   \
+ 	     build-aux/git-log-footer build-aux/git-log-fix VERSION
  
- DISTCLEANFILES =
 diff --git a/Makefile.in b/Makefile.in
-index e0171ce..21802e2 100644
+index 43393fc..2e52c93 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -415,12 +415,12 @@ DISTCHECK_CONFIGURE_FLAGS = --disable-random-daemon --enable-doc \
+@@ -417,12 +417,12 @@ DISTCHECK_CONFIGURE_FLAGS = --disable-random-daemon --enable-doc \
  GITLOG_TO_CHANGELOG = gitlog-to-changelog
  @BUILD_DOC_FALSE@doc = 
  @BUILD_DOC_TRUE@doc = doc
@@ -31,11 +31,11 @@ index e0171ce..21802e2 100644
 -SUBDIRS = compat mpi cipher random src $(doc) tests
 +DIST_SUBDIRS = m4 compat mpi cipher random src doc
 +SUBDIRS = compat mpi cipher random src $(doc)
- EXTRA_DIST = autogen.sh autogen.rc README.GIT LICENSES      	           \
-              ChangeLog-2011 build-aux/ChangeLog-2011 doc/ChangeLog-2011    \
-              m4/ChangeLog-2011 cipher/ChangeLog-2011 src/ChangeLog-2011    \
--             random/ChangeLog-2011 tests/ChangeLog-2011 mpi/ChangeLog-2011 \
-+             random/ChangeLog-2011 mpi/ChangeLog-2011 \
-              build-aux/git-log-footer build-aux/git-log-fix VERSION
+ EXTRA_DIST = autogen.sh autogen.rc README.GIT LICENSES			   \
+ 	     ChangeLog-2011 build-aux/ChangeLog-2011 doc/ChangeLog-2011	   \
+ 	     m4/ChangeLog-2011 cipher/ChangeLog-2011 src/ChangeLog-2011	   \
+-	     random/ChangeLog-2011 tests/ChangeLog-2011 mpi/ChangeLog-2011 \
++	     random/ChangeLog-2011 mpi/ChangeLog-2011 \
+ 	     build-aux/libtool-patch.sed 				   \
+ 	     build-aux/git-log-footer build-aux/git-log-fix VERSION
  
- DISTCLEANFILES = 

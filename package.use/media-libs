@@ -43,7 +43,7 @@ media-libs/harfbuzz icu introspection
 media-libs/libglvnd X
 media-libs/vulkan-loader X wayland layers
 media-libs/vulkan-layers X wayland
-media-libs/libv4l jpeg
+media-libs/libv4l jpeg -qt5 -utils
 media-libs/opus custom-modes
 media-libs/x264 pic
 media-libs/x265 pic

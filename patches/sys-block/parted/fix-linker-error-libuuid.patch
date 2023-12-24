@@ -1,0 +1,11 @@
+diff --git a/libparted-fs-resize.pc.in b/libparted-fs-resize.pc.in
+index ed9b3d6..f58f071 100644
+--- a/libparted-fs-resize.pc.in
++++ b/libparted-fs-resize.pc.in
+@@ -6,5 +6,5 @@ includedir=@includedir@
+ Name: libparted-fs-resize
+ Description: The GNU Parted filesystem resize shared library
+ Version: @VERSION@
+-Libs: -L${libdir} -lparted-fs-resize
++Libs: -L${libdir} -lparted-fs-resize -luuid
+ Cflags: -I${includedir}

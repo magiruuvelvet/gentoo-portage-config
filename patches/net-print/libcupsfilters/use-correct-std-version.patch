@@ -1,0 +1,34 @@
+diff --git a/configure b/configure
+index 1050615..189ad6d 100755
+--- a/configure
++++ b/configure
+@@ -22926,7 +22926,7 @@ CFLAGS="$CFLAGS -D_GNU_SOURCE"
+ CXXFLAGS="$CXXFLAGS -D_GNU_SOURCE -DPOINTERHOLDER_TRANSITION=0"
+ #                                   ^^ Silence deprecation warnings of QPDF 11
+ #                                      See /usr/include/qpdf/PointerHolder.hh
+-CXXFLAGS="$CXXFLAGS -std=c++17"
++CXXFLAGS="$CXXFLAGS -std=c++14"
+ 
+ # =====================
+ # Prepare all .in files
+diff --git a/configure.ac b/configure.ac
+index bdba43d..7d440e5 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -399,14 +399,14 @@ AS_IF([test x"$enable_werror" = "xyes"], [
+ ])
+ AS_IF([test x"$GCC" = "xyes"], [
+ 	# Be tough with warnings and produce less careless code
+-	CFLAGS="$CFLAGS -Wall -std=gnu11"
++	CFLAGS="$CFLAGS -Wall -std=gnu11"
+ 	CXXFLAGS="$CXXFLAGS -Wall " # -Weffc++" # TODO: enable when it does not print 1MB of warnings
+ ])
+ CFLAGS="$CFLAGS -D_GNU_SOURCE"
+ CXXFLAGS="$CXXFLAGS -D_GNU_SOURCE -DPOINTERHOLDER_TRANSITION=0"
+ #                                   ^^ Silence deprecation warnings of QPDF 11
+ #                                      See /usr/include/qpdf/PointerHolder.hh
+-CXXFLAGS="$CXXFLAGS -std=c++17"
++CXXFLAGS="$CXXFLAGS -std=c++14"
+ 
+ # =====================
+ # Prepare all .in files
