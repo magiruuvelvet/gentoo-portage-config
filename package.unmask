@@ -14,11 +14,11 @@ www-servers/caddy::chaoslab
 =net-misc/nextcloud-client-2.6.5
 
 # installed kernels
-=sys-kernel/gentoo-kernel-bin-5.8.14
-=sys-kernel/gentoo-kernel-bin-5.10.16
 =sys-kernel/gentoo-kernel-bin-5.15.119
+=sys-kernel/gentoo-kernel-bin-5.15.142
 
 =sys-kernel/gentoo-sources-5.15.119
+=sys-kernel/gentoo-sources-5.15.142
 
 # installed grub version
 =sys-boot/grub-2.04-r1

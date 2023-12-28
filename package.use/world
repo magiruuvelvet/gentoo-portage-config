@@ -2,4 +2,4 @@
 */* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb
 */* PYTHON_TARGETS: -* python3_11 PYTHON_SINGLE_TARGET: -* python3_11
 */* RUBY_TARGETS: -* ruby31 RUBY_SINGLE_TARGET: -* ruby31
-*/* PHP_TARGETS: -* php8-0 PHP_SINGLE_TARGET: -* php8-0
+*/* PHP_TARGETS: -* php8-2 PHP_SINGLE_TARGET: -* php8-2

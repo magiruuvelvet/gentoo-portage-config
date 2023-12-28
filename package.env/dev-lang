@@ -11,7 +11,7 @@ dev-lang/php gnu-source-light.conf define-linux.conf
 
 # php 8.0 introduced GNU inline assembly and forgot to add -std=gnu
 # module in question: TSRM
-dev-lang/php:8.0 std-gnu11.conf
+dev-lang/php:8.2 std-gnu11.conf
 
 # define GNU_SOURCE during build
 dev-lang/erlang gnu-source-light.conf

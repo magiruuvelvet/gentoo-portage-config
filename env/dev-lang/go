@@ -1,0 +1,2 @@
+unset GOCACHE
+unset GOPATH

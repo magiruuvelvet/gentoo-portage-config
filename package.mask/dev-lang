@@ -3,3 +3,4 @@ dev-lang/python:3.10
 >=dev-lang/python-3.12
 
 dev-lang/php:8.1
+dev-lang/php:8.3

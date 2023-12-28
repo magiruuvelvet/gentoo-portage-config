@@ -1,5 +1,5 @@
 diff --git a/src/net/cgo_linux.go b/src/net/cgo_linux.go
-index 86d8f4d..a451429 100644
+index de6e87f..8a0872f 100644
 --- a/src/net/cgo_linux.go
 +++ b/src/net/cgo_linux.go
 @@ -7,6 +7,7 @@
@@ -11,10 +11,10 @@ index 86d8f4d..a451429 100644
  */
  import "C"
 diff --git a/src/os/user/getgrouplist_unix.go b/src/os/user/getgrouplist_unix.go
-index 9685414..bd79069 100644
+index fb482d3..66fbee5 100644
 --- a/src/os/user/getgrouplist_unix.go
 +++ b/src/os/user/getgrouplist_unix.go
-@@ -8,6 +8,7 @@
+@@ -7,6 +7,7 @@
  package user
  
  /*
@@ -23,7 +23,7 @@ index 9685414..bd79069 100644
  #include <sys/types.h>
  #include <grp.h>
 diff --git a/src/plugin/plugin_dlopen.go b/src/plugin/plugin_dlopen.go
-index 03d3f08..95a9540 100644
+index f6ae219..69d5e33 100644
 --- a/src/plugin/plugin_dlopen.go
 +++ b/src/plugin/plugin_dlopen.go
 @@ -7,6 +7,7 @@
@@ -35,12 +35,12 @@ index 03d3f08..95a9540 100644
  #include <dlfcn.h>
  #include <limits.h>
 diff --git a/src/runtime/cgo/gcc_setenv.c b/src/runtime/cgo/gcc_setenv.c
-index 88e92bf..df9abc1 100644
+index 47caa4b..5a96b2f 100644
 --- a/src/runtime/cgo/gcc_setenv.c
 +++ b/src/runtime/cgo/gcc_setenv.c
-@@ -5,6 +5,8 @@
- // +build cgo
- // +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
+@@ -4,6 +4,8 @@
+ 
+ //go:build unix
  
 +#define _GNU_SOURCE
 +
@@ -48,12 +48,12 @@ index 88e92bf..df9abc1 100644
  
  #include <stdlib.h>
 diff --git a/src/runtime/cgo/gcc_sigaction.c b/src/runtime/cgo/gcc_sigaction.c
-index e510e35..0950ac3 100644
+index 374909b..dffd47d 100644
 --- a/src/runtime/cgo/gcc_sigaction.c
 +++ b/src/runtime/cgo/gcc_sigaction.c
 @@ -4,6 +4,8 @@
  
- // +build linux,amd64 linux,arm64
+ //go:build linux && (amd64 || arm64 || ppc64le)
  
 +#define _GNU_SOURCE
 +
@@ -61,7 +61,7 @@ index e510e35..0950ac3 100644
  #include <stddef.h>
  #include <stdint.h>
 diff --git a/src/runtime/cgo/libcgo.h b/src/runtime/cgo/libcgo.h
-index aba500a..2dac895 100644
+index 04755f0..a892e31 100644
 --- a/src/runtime/cgo/libcgo.h
 +++ b/src/runtime/cgo/libcgo.h
 @@ -2,6 +2,8 @@
