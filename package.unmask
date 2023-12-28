@@ -40,6 +40,9 @@ sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
 sys-devel/gdb::localrepo
 
+# private stub packages
+sys-power/switcheroo-control::privaterepo
+sys-power/power-profiles-daemon::privaterepo
 
 # linphone voip client
 net-voip/linphone-desktop::nest

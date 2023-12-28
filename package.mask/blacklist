@@ -33,6 +33,10 @@ net-misc/nextcloud-client
 app-office/libreoffice::gentoo
 app-office/libreoffice-l10n::gentoo
 
+# use stub package in private repo instead
+sys-power/switcheroo-control
+sys-power/power-profiles-daemon
+
 # unable to build wine with my toolchain, use docker instead
 app-emulation/wine-gecko
 app-emulation/wine-mono
