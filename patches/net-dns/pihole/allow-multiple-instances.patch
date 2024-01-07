@@ -1,0 +1,230 @@
+diff --git a/src/config.c b/src/config.c
+index a00c31d..6d59dd6 100644
+--- a/src/config.c
++++ b/src/config.c
+@@ -230,6 +230,20 @@ void read_FTLconf(void)
+ 		logg("   DBFILE: Using %s (not storing queries)", FTLfiles.FTL_db);
+ 	}
+ 
++	// SHMEM_PREFIX
++	// defaults to: FTL
++	buffer = parse_FTLconf(fp, "SHMEM_PREFIX");
++	if(!(buffer != NULL && sscanf(buffer, "%127ms", &FTLfiles.SHMEM_PREFIX)))
++	{
++		FTLfiles.SHMEM_PREFIX = strdup("FTL");
++	}
++	if(FTLfiles.FTL_db != NULL && strlen(FTLfiles.SHMEM_PREFIX) > 0)
++		logg("   SHMEM_PREFIX: Using %s", FTLfiles.SHMEM_PREFIX);
++	else
++	{
++		FTLfiles.SHMEM_PREFIX = strdup("FTL");
++	}
++
+ 	// FTLPORT
+ 	// On which port should FTL be listening?
+ 	// defaults to: 4711
+diff --git a/src/config.h b/src/config.h
+index 356f00e..f730a66 100644
+--- a/src/config.h
++++ b/src/config.h
+@@ -102,6 +102,7 @@ typedef struct {
+ 	char* port;
+ 	char* socketfile;
+ 	char* FTL_db;
++	char* SHMEM_PREFIX;
+ 	char* gravity_db;
+ 	char* macvendor_db;
+ 	char* setupVars;
+diff --git a/src/procps.c b/src/procps.c
+index 5f75d3b..161e7fc 100644
+--- a/src/procps.c
++++ b/src/procps.c
+@@ -77,6 +77,8 @@ static bool get_process_creation_time(const pid_t pid, char timestr[84])
+ 
+ bool check_running_FTL(void)
+ {
++	return false;
++
+ 	DIR *dirPos;
+ 	struct dirent *entry;
+ 	const pid_t ourselves = getpid();
+diff --git a/src/shmem.c b/src/shmem.c
+index cb709ca..23e765a 100644
+--- a/src/shmem.c
++++ b/src/shmem.c
+@@ -36,17 +36,30 @@
+ 
+ /// The name of the shared memory. Use this when connecting to the shared memory.
+ #define SHMEM_PATH "/dev/shm"
+-#define SHARED_LOCK_NAME "FTL-lock"
+-#define SHARED_STRINGS_NAME "FTL-strings"
+-#define SHARED_COUNTERS_NAME "FTL-counters"
+-#define SHARED_DOMAINS_NAME "FTL-domains"
+-#define SHARED_CLIENTS_NAME "FTL-clients"
+-#define SHARED_QUERIES_NAME "FTL-queries"
+-#define SHARED_UPSTREAMS_NAME "FTL-upstreams"
+-#define SHARED_OVERTIME_NAME "FTL-overTime"
+-#define SHARED_SETTINGS_NAME "FTL-settings"
+-#define SHARED_DNS_CACHE "FTL-dns-cache"
+-#define SHARED_PER_CLIENT_REGEX "FTL-per-client-regex"
++#define SHARED_LOCK_NAME "-lock"
++#define SHARED_STRINGS_NAME "-strings"
++#define SHARED_COUNTERS_NAME "-counters"
++#define SHARED_DOMAINS_NAME "-domains"
++#define SHARED_CLIENTS_NAME "-clients"
++#define SHARED_QUERIES_NAME "-queries"
++#define SHARED_UPSTREAMS_NAME "-upstreams"
++#define SHARED_OVERTIME_NAME "-overTime"
++#define SHARED_SETTINGS_NAME "-settings"
++#define SHARED_DNS_CACHE "-dns-cache"
++#define SHARED_PER_CLIENT_REGEX "-per-client-regex"
++
++static const char *fast_concat(const char *str1, const char *str2)
++{
++	size_t len1 = strlen(str1);
++	size_t len2 = strlen(str2);
++
++	char *result = (char*)malloc(len1 + len2 + 1); // +1 for null terminator
++
++	strcpy(result, str1);
++	strcat(result, str2);
++
++	return result;
++}
+ 
+ // Allocation step for FTL-strings bucket. This is somewhat special as we use
+ // this as a general-purpose storage which should always be large enough. If,
+@@ -135,12 +148,14 @@ static int get_dev_shm_usage(char buffer[64])
+ // (while we initialized the shared memory objects)
+ static void verify_shmem_pid(void)
+ {
++	const char *shared_settings_name = fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_SETTINGS_NAME);
++
+ 	// Open shared memory settings object
+-	const int settingsfd = shm_open(SHARED_SETTINGS_NAME, O_RDONLY, S_IRUSR | S_IWUSR);
++	const int settingsfd = shm_open(shared_settings_name, O_RDONLY, S_IRUSR | S_IWUSR);
+ 	if(settingsfd == -1)
+ 	{
+ 		logg("FATAL: verify_shmem_pid(): Failed to open shared memory object \"%s\": %s",
+-			SHARED_SETTINGS_NAME, strerror(errno));
++			shared_settings_name, strerror(errno));
+ 		exit(EXIT_FAILURE);
+ 	}
+ 
+@@ -148,7 +163,7 @@ static void verify_shmem_pid(void)
+ 	if(read(settingsfd, &shms, sizeof(shms)) != sizeof(shms))
+ 	{
+ 		logg("FATAL: verify_shmem_pid(): Failed to read %zu bytes from shared memory object \"%s\": %s",
+-			sizeof(shms), SHARED_SETTINGS_NAME, strerror(errno));
++			sizeof(shms), shared_settings_name, strerror(errno));
+ 		exit(EXIT_FAILURE);
+ 	}
+ 
+@@ -474,7 +489,7 @@ bool init_shmem()
+ 
+ 	/****************************** shared memory lock ******************************/
+ 	// Try to create shared memory object
+-	shm_lock = create_shm(SHARED_LOCK_NAME, sizeof(ShmLock));
++	shm_lock = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_LOCK_NAME), sizeof(ShmLock));
+ 	if(shm_lock.ptr == NULL)
+ 		return false;
+ 
+@@ -484,7 +499,7 @@ bool init_shmem()
+ 
+ 	/****************************** shared counters struct ******************************/
+ 	// Try to create shared memory object
+-	shm_counters = create_shm(SHARED_COUNTERS_NAME, sizeof(countersStruct));
++	shm_counters = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_COUNTERS_NAME), sizeof(countersStruct));
+ 	if(shm_counters.ptr == NULL)
+ 		return false;
+ 
+@@ -492,7 +507,7 @@ bool init_shmem()
+ 
+ 	/****************************** shared settings struct ******************************/
+ 	// Try to create shared memory object
+-	shm_settings = create_shm(SHARED_SETTINGS_NAME, sizeof(ShmSettings));
++	shm_settings = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_SETTINGS_NAME), sizeof(ShmSettings));
+ 	if(shm_settings.ptr == NULL)
+ 		return false;
+ 
+@@ -503,7 +518,7 @@ bool init_shmem()
+ 
+ 	/****************************** shared strings buffer ******************************/
+ 	// Try to create shared memory object
+-	shm_strings = create_shm(SHARED_STRINGS_NAME, STRINGS_ALLOC_STEP);
++	shm_strings = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_STRINGS_NAME), STRINGS_ALLOC_STEP);
+ 	if(shm_strings.ptr == NULL)
+ 		return false;
+ 
+@@ -516,7 +531,7 @@ bool init_shmem()
+ 	/****************************** shared domains struct ******************************/
+ 	size_t size = get_optimal_object_size(sizeof(domainsData), 1);
+ 	// Try to create shared memory object
+-	shm_domains = create_shm(SHARED_DOMAINS_NAME, size*sizeof(domainsData));
++	shm_domains = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_DOMAINS_NAME), size*sizeof(domainsData));
+ 	if(shm_domains.ptr == NULL)
+ 		return false;
+ 
+@@ -526,7 +541,7 @@ bool init_shmem()
+ 	/****************************** shared clients struct ******************************/
+ 	size = get_optimal_object_size(sizeof(clientsData), 1);
+ 	// Try to create shared memory object
+-	shm_clients = create_shm(SHARED_CLIENTS_NAME, size*sizeof(clientsData));
++	shm_clients = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_CLIENTS_NAME), size*sizeof(clientsData));
+ 	if(shm_clients.ptr == NULL)
+ 		return false;
+ 
+@@ -536,7 +551,7 @@ bool init_shmem()
+ 	/****************************** shared upstreams struct ******************************/
+ 	size = get_optimal_object_size(sizeof(upstreamsData), 1);
+ 	// Try to create shared memory object
+-	shm_upstreams = create_shm(SHARED_UPSTREAMS_NAME, size*sizeof(upstreamsData));
++	shm_upstreams = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_UPSTREAMS_NAME), size*sizeof(upstreamsData));
+ 	if(shm_upstreams.ptr == NULL)
+ 		return false;
+ 	upstreams = (upstreamsData*)shm_upstreams.ptr;
+@@ -545,7 +560,7 @@ bool init_shmem()
+ 
+ 	/****************************** shared queries struct ******************************/
+ 	// Try to create shared memory object
+-	shm_queries = create_shm(SHARED_QUERIES_NAME, pagesize*sizeof(queriesData));
++	shm_queries = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_QUERIES_NAME), pagesize*sizeof(queriesData));
+ 	if(shm_queries.ptr == NULL)
+ 		return false;
+ 	queries = (queriesData*)shm_queries.ptr;
+@@ -555,7 +570,7 @@ bool init_shmem()
+ 	/****************************** shared overTime struct ******************************/
+ 	size = get_optimal_object_size(sizeof(overTimeData), OVERTIME_SLOTS);
+ 	// Try to create shared memory object
+-	shm_overTime = create_shm(SHARED_OVERTIME_NAME, size*sizeof(overTimeData));
++	shm_overTime = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_OVERTIME_NAME), size*sizeof(overTimeData));
+ 	if(shm_overTime.ptr == NULL)
+ 		return false;
+ 
+@@ -565,7 +580,7 @@ bool init_shmem()
+ 	/****************************** shared DNS cache struct ******************************/
+ 	size = get_optimal_object_size(sizeof(DNSCacheData), 1);
+ 	// Try to create shared memory object
+-	shm_dns_cache = create_shm(SHARED_DNS_CACHE, size*sizeof(DNSCacheData));
++	shm_dns_cache = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_DNS_CACHE), size*sizeof(DNSCacheData));
+ 	if(shm_dns_cache.ptr == NULL)
+ 		return false;
+ 
+@@ -575,7 +590,7 @@ bool init_shmem()
+ 	/****************************** shared per-client regex buffer ******************************/
+ 	size = pagesize; // Allocate one pagesize initially. This may be expanded later on
+ 	// Try to create shared memory object
+-	shm_per_client_regex = create_shm(SHARED_PER_CLIENT_REGEX, size);
++	shm_per_client_regex = create_shm(fast_concat(FTLfiles.SHMEM_PREFIX, SHARED_PER_CLIENT_REGEX), size);
+ 	if(shm_per_client_regex.ptr == NULL)
+ 		return false;
+ 
+@@ -636,7 +651,7 @@ static SharedMemory create_shm(const char *name, const size_t size)
+ 	// - O_CREAT: Create the shared memory object if it does not exist.
+ 	// - O_EXCL: Return an error if a shared memory object with the given name already exists.
+ 	errno = 0;
+-	const int fd = shm_open(sharedMemory.name, O_RDWR | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
++	const int fd = shm_open(sharedMemory.name, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+ 
+ 	// Check for `shm_open` error
+ 	if(fd == -1)
