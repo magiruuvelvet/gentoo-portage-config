@@ -28,6 +28,7 @@ dev-qt/qttools opengl zstd qtplugininfo qdbus qdoc
 dev-qt/qtdeclarative:6 opengl
 dev-qt/qtmultimedia:6 opengl vaapi
 dev-qt/qtquick3d:6 opengl
+dev-qt/qtwebengine:6 opengl vaapi
 
 dev-qt/qt-creator cmake cppcheck -git glsl help lsp -python scxml systemd valgrind webassembly webengine clang
 dev-qt/qt-creator -android -autotest -baremetal -beautifier -boot2qt -clearcase -ctfvisualizer -cvs -designer -doc
