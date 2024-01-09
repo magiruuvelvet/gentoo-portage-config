@@ -13,7 +13,7 @@ index a00c31d..6d59dd6 100644
 +	{
 +		FTLfiles.SHMEM_PREFIX = strdup("FTL");
 +	}
-+	if(FTLfiles.FTL_db != NULL && strlen(FTLfiles.SHMEM_PREFIX) > 0)
++	if(FTLfiles.SHMEM_PREFIX != NULL && strlen(FTLfiles.SHMEM_PREFIX) > 0)
 +		logg("   SHMEM_PREFIX: Using %s", FTLfiles.SHMEM_PREFIX);
 +	else
 +	{

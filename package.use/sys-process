@@ -1,3 +1,4 @@
 sys-process/cronie inotify pam
 sys-process/criu setproctitle
 sys-process/htop llvm-libunwind
+sys-process/bottom -zfs

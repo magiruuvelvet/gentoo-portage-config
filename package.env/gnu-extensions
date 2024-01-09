@@ -57,6 +57,7 @@ dev-tex/bibtexu gnu-source-light.conf
 app-text/texlive-core gnu-source-light.conf
 app-text/sloccount gnu-source-light.conf
 app-text/htmltidy std-gnu11.conf
+app-text/dictd gnu-source-light.conf
 app-editors/hexcurse gnu-source-light.conf
 app-editors/vim-core std-gnu99.conf
 app-shells/zsh gnu-source-light.conf
@@ -113,6 +114,7 @@ dev-libs/tomsfastmath std-gnu99.conf
 dev-libs/libappindicator gnu-source-light.conf
 dev-libs/ios-webkit-debug-proxy std-gnu99.conf
 dev-libs/libtpms gnu-source-light.conf
+dev-libs/libmaa gnu-source-light.conf
 dev-cpp/libcutl gnu-source-light.conf
 dev-php/igbinary gnu-source-light.conf
 dev-php/pecl-memcached gnu-source-light.conf
