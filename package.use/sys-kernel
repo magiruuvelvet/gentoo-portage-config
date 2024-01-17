@@ -4,5 +4,4 @@ sys-kernel/linux-firmware redistributable savedconfig unknown-license
 # managed manually by my update-initramfs script
 sys-kernel/gentoo-kernel-bin -initramfs
 sys-kernel/gentoo-kernel -initramfs
-sys-kernel/installkernel -dracut -systemd
-sys-kernel/installkernel-gentoo -dracut -grub -uki -ukify
+sys-kernel/installkernel -dracut -grub -uki -ukify
