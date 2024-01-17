@@ -59,8 +59,8 @@ gnome-base/librsvg libunwind.conf
 sys-apps/osinfo-db-tools libunwind.conf
 sys-libs/libosinfo libunwind.conf
 
-#dev-util/valgrind std-gnu17.conf libunwind.conf fpic.conf
-dev-util/valgrind gnu-gcc.conf static-gnu-runtime.conf
+#dev-debug/valgrind std-gnu17.conf libunwind.conf fpic.conf
+dev-debug/valgrind gnu-gcc.conf static-gnu-runtime.conf
 
 app-backup/borgbackup ld-force-lib64.conf
 dev-util/cutter ld-force-lib64.conf

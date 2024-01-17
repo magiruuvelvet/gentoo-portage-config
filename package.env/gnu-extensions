@@ -40,7 +40,7 @@ app-pda/libimobiledevice gnu-source-light.conf
 app-pda/libplist std-gnu17.conf
 app-pda/libusbmuxd gnu-source-light.conf
 app-pda/usbmuxd gnu-source-light.conf
-app-doc/doxygen gnu-source-light.conf
+app-text/doxygen gnu-source-light.conf
 app-text/antiword gnu-source-light.conf
 app-text/tidy-html5 std-gnu99.conf
 app-text/xmlto gnu-source-light.conf
@@ -325,10 +325,10 @@ sys-apps/i2c-tools gnu-source-light.conf
 sys-apps/ed gnu-source-light.conf
 sys-block/parted std-gnu99.conf
 sys-devel/bc std-gnu99.conf
-sys-devel/bmake std-gnu99.conf
+dev-build/bmake std-gnu99.conf
 sys-devel/flex gnu-source-light.conf
 sys-devel/gettext std-gnu17.conf
-sys-devel/make std-gnu99.conf
+dev-build/make std-gnu99.conf
 sys-fs/archivemount std-gnu99.conf
 sys-fs/cryptsetup std-gnu99.conf
 sys-fs/e2fsprogs std-gnu99.conf

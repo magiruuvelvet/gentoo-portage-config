@@ -1,1 +1,1 @@
-sys-devel/gdb python lzma client source-highlight xml -server
+dev-debug/gdb python lzma client source-highlight xml -server

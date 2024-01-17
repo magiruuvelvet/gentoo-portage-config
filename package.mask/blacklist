@@ -3,7 +3,7 @@
 dev-java/icedtea-bin
 dev-java/icedtea-sound
 dev-java/icedtea-web
-sys-devel/gdb
+dev-debug/gdb
 sys-libs/libunwind
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources
