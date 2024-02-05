@@ -1,7 +1,4 @@
 
-# only the 32-bit version depends on GNU/libatomic, the 64-bit version is GNU free and works with LLVM runtimes only
-media-libs/mesa libatomic-clang.conf
-
 # error when building with optimizations
 dev-libs/libgcrypt no-optimizations.conf std-gnu99.conf
 

@@ -6,7 +6,7 @@ _find_replace_literal() {
     FIND="$1" REPLACE="$2" ruby -p -i -e "gsub(ENV['FIND'], ENV['REPLACE'])" "$3"
 }
 
-compile() {
+_compile() {
     pushd "$T"
 
     # fix compiler
@@ -18,6 +18,10 @@ compile() {
     _find_replace_literal "cpp = ['clang++']"  "cpp = ['/etc/portage/compiler-wrapper/libatomic-clang++', '-m32']"  meson.i686-pc-linux.x86.ini
 
     popd
+}
+
+compile() {
+    :
 }
 
 case "$1" in
