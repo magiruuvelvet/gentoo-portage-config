@@ -369,6 +369,7 @@ sys-libs/cracklib gnu-source-light.conf
 sys-libs/liburing std-gnu99.conf
 sys-libs/gdbm std-gnu99.conf
 sys-power/acpid std-gnu99.conf
+sys-power/cpupower std-gnu99.conf
 sys-power/upower gnu-source-light.conf
 sys-process/criu std-gnu99.conf
 sys-process/cronie gnu-source-light.conf

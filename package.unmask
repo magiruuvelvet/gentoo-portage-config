@@ -38,7 +38,7 @@ sys-devel/binutils::localrepo
 sys-devel/gcc-config::localrepo
 sys-devel/binutils-config::localrepo
 sys-libs/binutils-libs::localrepo
-sys-devel/gdb::localrepo
+dev-debug/gdb::localrepo
 
 # private stub packages
 sys-power/switcheroo-control::privaterepo

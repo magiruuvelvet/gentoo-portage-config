@@ -8,6 +8,7 @@ dev-util/pkgconfig abi_x86_32
 dev-util/spirv-tools abi_x86_32
 dev-util/vulkan-tools abi_x86_32
 dev-util/vulkan-utility-libraries abi_x86_32
+dev-util/volk abi_x86_32
 media-libs/mesa abi_x86_32
 media-libs/vulkan-layers abi_x86_32
 media-libs/vulkan-loader abi_x86_32
