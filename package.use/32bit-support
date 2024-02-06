@@ -1,18 +1,21 @@
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# ONLY BARE 32-bit RUNTIME SUPPORT
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# use containers (lxc, flatpak, docker, podman, etc.) for random garbage in the future
+
 test/test abi_x86_32
 
 # part of glibc itself
 virtual/libintl abi_x86_32
 virtual/libiconv abi_x86_32
 
-# required for now as I don't want to nuke everything 32-bit just yet
-sys-libs/libcap abi_x86_32
+# crypt library which is usually expected alongside glibc
 sys-libs/libxcrypt abi_x86_32
-sys-apps/systemd abi_x86_32
-sys-apps/util-linux abi_x86_32
-app-arch/bzip2 abi_x86_32
-app-arch/lz4 abi_x86_32
-app-arch/xz-utils abi_x86_32
-app-arch/zstd abi_x86_32
-sys-libs/pam abi_x86_32
-sys-libs/zlib abi_x86_32
 virtual/libcrypt abi_x86_32
+
+# toolchain runtime
+sys-libs/llvm-libunwind abi_x86_32
+sys-libs/libcxx abi_x86_32
+sys-libs/libcxxabi abi_x86_32
+sys-libs/libomp abi_x86_32
