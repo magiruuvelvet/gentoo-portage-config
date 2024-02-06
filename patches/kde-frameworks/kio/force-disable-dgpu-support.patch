@@ -1,0 +1,120 @@
+diff --git a/src/gui/gpudetection.cpp b/src/gui/gpudetection.cpp
+index 5c4e1c6..584e36b 100644
+--- a/src/gui/gpudetection.cpp
++++ b/src/gui/gpudetection.cpp
+@@ -19,11 +19,6 @@
+ 
+ #include <KProcess>
+ 
+-static void checkGpu();
+-// Returns true if switcheroo present
+-static bool checkGpuWithSwitcheroo();
+-static void checkGpuWithSolid();
+-
+ // TODO: GPUs are hot-swappable, watch for changes using dbus PropertiesChanged
+ enum class GpuCheck {
+     NotChecked,
+@@ -33,6 +28,7 @@ enum class GpuCheck {
+ static GpuCheck s_gpuCheck = GpuCheck::NotChecked;
+ static QProcessEnvironment s_gpuEnv;
+ 
++#if 0
+ static void checkGpu()
+ {
+     if (s_gpuCheck == GpuCheck::NotChecked) {
+@@ -100,19 +96,18 @@ static void checkGpuWithSolid()
+     s_gpuCheck = GpuCheck::Absent;
+ #endif
+ }
++#endif
+ 
+ namespace KIO
+ {
+ 
+ bool hasDiscreteGpu()
+ {
+-    checkGpu();
+-    return s_gpuCheck == GpuCheck::Present;
++    return false;
+ }
+ 
+ QProcessEnvironment discreteGpuEnvironment()
+ {
+-    checkGpu();
+     return s_gpuEnv;
+ }
+ 
+diff --git a/src/gui/kprocessrunner.cpp b/src/gui/kprocessrunner.cpp
+index 3e0e30c..d124a4e 100644
+--- a/src/gui/kprocessrunner.cpp
++++ b/src/gui/kprocessrunner.cpp
+@@ -119,12 +119,6 @@ KProcessRunner *KProcessRunner::fromApplication(const KService::Ptr &service,
+     qCDebug(KIO_GUI) << "Starting process:" << args;
+     *instance->m_process << args;
+ 
+-#ifndef Q_OS_ANDROID
+-    if (service->runOnDiscreteGpu()) {
+-        modifyEnv(*instance->m_process, KIO::discreteGpuEnvironment());
+-    }
+-#endif
+-
+     QString workingDir(service->workingDirectory());
+     if (workingDir.isEmpty() && !urls.isEmpty() && urls.first().isLocalFile()) {
+         workingDir = urls.first().adjusted(QUrl::RemoveFilename).toLocalFile();
+diff --git a/src/widgets/kpropertiesdialog.cpp b/src/widgets/kpropertiesdialog.cpp
+index 2506182..beefec1 100644
+--- a/src/widgets/kpropertiesdialog.cpp
++++ b/src/widgets/kpropertiesdialog.cpp
+@@ -3344,13 +3344,7 @@ KDesktopPropsPlugin::KDesktopPropsPlugin(KPropertiesDialog *_props)
+     d->m_terminalOptionStr = config.readEntry("TerminalOptions");
+     d->m_suidBool = config.readEntry("X-KDE-SubstituteUID", false);
+     d->m_suidUserStr = config.readEntry("X-KDE-Username");
+-    if (KIO::hasDiscreteGpu()) {
+-        if (config.hasKey("PrefersNonDefaultGPU")) {
+-            d->m_runOnDiscreteGpuBool = config.readEntry("PrefersNonDefaultGPU", false);
+-        } else {
+-            d->m_runOnDiscreteGpuBool = config.readEntry("X-KDE-RunOnDiscreteGpu", false);
+-        }
+-    }
++    d->m_runOnDiscreteGpuBool = false;
+     if (config.hasKey("StartupNotify")) {
+         d->m_startupBool = config.readEntry("StartupNotify", true);
+     } else {
+@@ -3548,13 +3542,6 @@ void KDesktopPropsPlugin::applyChanges()
+     config.writeEntry("TerminalOptions", d->m_terminalOptionStr);
+     config.writeEntry("X-KDE-SubstituteUID", d->m_suidBool);
+     config.writeEntry("X-KDE-Username", d->m_suidUserStr);
+-    if (KIO::hasDiscreteGpu()) {
+-        if (config.hasKey("PrefersNonDefaultGPU")) {
+-            config.writeEntry("PrefersNonDefaultGPU", d->m_runOnDiscreteGpuBool);
+-        } else {
+-            config.writeEntry("X-KDE-RunOnDiscreteGpu", d->m_runOnDiscreteGpuBool);
+-        }
+-    }
+     config.writeEntry("StartupNotify", d->m_startupBool);
+     config.sync();
+ 
+@@ -3634,11 +3621,7 @@ void KDesktopPropsPlugin::slotAdvanced()
+     d->m_uiAdvanced->suidEdit->setEnabled(d->m_suidBool);
+     d->m_uiAdvanced->suidEditLabel->setEnabled(d->m_suidBool);
+ 
+-    if (KIO::hasDiscreteGpu()) {
+-        d->m_uiAdvanced->discreteGpuCheck->setChecked(d->m_runOnDiscreteGpuBool);
+-    } else {
+-        d->m_uiAdvanced->discreteGpuGroupBox->hide();
+-    }
++    d->m_uiAdvanced->discreteGpuGroupBox->hide();
+ 
+     d->m_uiAdvanced->startupInfoCheck->setChecked(d->m_startupBool);
+ 
+@@ -3667,9 +3650,7 @@ void KDesktopPropsPlugin::slotAdvanced()
+         d->m_terminalBool = d->m_uiAdvanced->terminalCheck->isChecked();
+         d->m_suidBool = d->m_uiAdvanced->suidCheck->isChecked();
+         d->m_suidUserStr = d->m_uiAdvanced->suidEdit->text().trimmed();
+-        if (KIO::hasDiscreteGpu()) {
+-            d->m_runOnDiscreteGpuBool = d->m_uiAdvanced->discreteGpuCheck->isChecked();
+-        }
++        d->m_runOnDiscreteGpuBool = false;
+         d->m_startupBool = d->m_uiAdvanced->startupInfoCheck->isChecked();
+ 
+         if (d->m_uiAdvanced->terminalCloseCheck->isChecked()) {

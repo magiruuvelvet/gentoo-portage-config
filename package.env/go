@@ -1,11 +1,7 @@
 # requires temporary patching of the ebuild to allow custom CFLAGS
 # the build system thinks extensions are available by default without additional compiler flags
 app-containers/docker go-posix.conf
-app-emulation/runc go-posix.conf
-#app-emulation/nvidia-container-runtime go-posix.conf
+app-containers/runc go-posix.conf
 
-#app-emulation/lxd std-gnu11.conf go-posix.conf
-#app-emulation/docker-proxy go-posix.conf
-#app-emulation/containerd go-posix.conf
-#app-misc/mkcert go-posix.conf
-#www-servers/caddy go-posix.conf
+app-containers/podman go-posix.conf
+app-containers/crun std-gnu99.conf

@@ -240,6 +240,7 @@ net-dns/bind-tools std-gnu99.conf ld-force-lib64.conf
 net-firewall/iptables std-gnu99.conf
 net-firewall/ebtables std-gnu99.conf
 net-firewall/xtables-addons std-gnu99.conf
+net-firewall/nftables std-gnu99.conf
 net-proxy/dante std-gnu99.conf gnu-source-light.conf
 net-proxy/privoxy gnu-source-light.conf undef-strip.conf
 net-fs/cifs-utils std-gnu99.conf
