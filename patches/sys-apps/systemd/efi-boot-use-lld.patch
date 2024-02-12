@@ -1,0 +1,48 @@
+diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
+index 9a60a57..28a762e 100644
+--- a/src/boot/efi/meson.build
++++ b/src/boot/efi/meson.build
+@@ -153,9 +153,9 @@ endif
+ efi_c_ld_args = [
+         # We only support bfd. gold is going away, lld has issues with LTO on x86
+         # and mold does not support linker scripts.
+-        '-fuse-ld=bfd',
++        #'-fuse-ld=bfd',
+ 
+-        '-lgcc',
++        '/usr/lib/clang/15.0.6/lib/linux/libclang_rt.builtins-x86_64.a',
+         '-nostdlib',
+         '-static-pie',
+         '-Wl,--entry=efi_main',
+@@ -217,14 +217,14 @@ efi_arch_c_args = {
+         'arm'     : ['-mgeneral-regs-only'],
+         # Pass -m64/32 explicitly to make building on x32 work.
+         'x86_64'  : ['-m64', '-march=x86-64', '-mno-red-zone', '-mgeneral-regs-only'],
+-        'x86'     : ['-m32', '-march=i686', '-mgeneral-regs-only', '-malign-double'],
++        #'x86'     : ['-m32', '-march=i686', '-mgeneral-regs-only', '-malign-double'],
+ }
+ efi_arch_c_ld_args = {
+         # libgcc is not compiled with -fshort-wchar, but it does not use it anyways,
+         # so it's fine to link against it.
+         'arm'    : ['-Wl,--no-wchar-size-warning'],
+         'x86_64' : ['-m64'],
+-        'x86'    : ['-m32'],
++        #'x86'    : ['-m32'],
+ }
+ 
+ ############################################################
+@@ -268,12 +268,12 @@ if get_option('b_sanitize') == 'undefined'
+         libefi_sources += files('ubsan.c')
+ endif
+ 
+-if host_machine.cpu_family() in ['x86', 'x86_64']
++if host_machine.cpu_family() in ['x86_64']
+         stub_sources += files('linux_x86.c')
+ endif
+ 
+ # BCD parser only makes sense on arches that Windows supports.
+-if host_machine.cpu_family() in ['aarch64', 'arm', 'x86_64', 'x86']
++if host_machine.cpu_family() in ['aarch64', 'arm', 'x86_64']
+         systemd_boot_sources += files('bcd.c')
+ endif
+ 

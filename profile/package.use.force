@@ -3,4 +3,4 @@
 sys-kernel/gentoo-kernel-bin -initramfs
 sys-kernel/gentoo-kernel -initramfs
 sys-kernel/installkernel -dracut -grub -uki -ukify -systemd
-sys-apps/systemd -kernel-install
+sys-apps/systemd kernel-install

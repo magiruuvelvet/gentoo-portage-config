@@ -12,7 +12,7 @@ media-libs/x264 fpic.conf lld-text-relocations.conf
 media-libs/xvid fpic.conf lld-text-relocations.conf
 media-libs/libass fpic.conf lld-text-relocations.conf
 media-libs/dav1d fpic.conf lld-text-relocations.conf
-net-libs/gnutls fpic.conf lld-text-relocations.conf
+#net-libs/gnutls fpic.conf lld-text-relocations.conf
 
 
 # C++11 section, mostly register storage type errors
