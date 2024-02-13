@@ -1,0 +1,13 @@
+diff --git a/src/pkgcore/ebuild/portage_conf.py b/src/pkgcore/ebuild/portage_conf.py
+index 84f39ce..af09805 100644
+--- a/src/pkgcore/ebuild/portage_conf.py
++++ b/src/pkgcore/ebuild/portage_conf.py
+@@ -563,7 +563,7 @@ class PortageConfig(DictMixin):
+         return path, False
+ 
+     def _add_profile(self, profile_override=None):
+-        profile, was_symlink = self._find_profile_path(profile_override)
++        profile, was_symlink = self._find_profile_path("/usr/portage/profiles/default/linux/amd64/17.1/systemd")
+         if was_symlink:
+             paths = profile.rsplit(os.path.sep, 1)
+         else:
