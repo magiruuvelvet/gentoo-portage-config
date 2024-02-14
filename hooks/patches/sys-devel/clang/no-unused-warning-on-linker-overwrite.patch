@@ -1,8 +1,8 @@
 diff --git a/include/clang/Driver/Options.td b/include/clang/Driver/Options.td
-index 3cab37b21aaf..5ead0f012e03 100644
+index 37e8c56b2d29..8a0f874770c9 100644
 --- a/include/clang/Driver/Options.td
 +++ b/include/clang/Driver/Options.td
-@@ -4700,7 +4700,7 @@ def fbinutils_version_EQ : Joined<["-"], "fbinutils-version=">,
+@@ -5139,7 +5139,7 @@ def fbinutils_version_EQ : Joined<["-"], "fbinutils-version=">,
    "binutils version and newer. If -fno-integrated-as is specified, the "
    "generated assembly will consider GNU as support. 'none' means that all ELF "
    "features can be used, regardless of binutils support. Defaults to 2.26.">;

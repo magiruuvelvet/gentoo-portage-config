@@ -1,8 +1,8 @@
 diff --git a/lib/Driver/ToolChains/Linux.cpp b/lib/Driver/ToolChains/Linux.cpp
-index ceb1a982c3a4..cc4245529a39 100644
+index 1ba222bf83b1..b123de5f2ad1 100644
 --- a/lib/Driver/ToolChains/Linux.cpp
 +++ b/lib/Driver/ToolChains/Linux.cpp
-@@ -319,9 +319,11 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
+@@ -337,9 +337,11 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
  }
  
  ToolChain::RuntimeLibType Linux::GetDefaultRuntimeLibType() const {
@@ -17,7 +17,7 @@ index ceb1a982c3a4..cc4245529a39 100644
  }
  
  unsigned Linux::GetDefaultDwarfVersion() const {
-@@ -331,9 +333,7 @@ unsigned Linux::GetDefaultDwarfVersion() const {
+@@ -349,9 +351,7 @@ unsigned Linux::GetDefaultDwarfVersion() const {
  }
  
  ToolChain::CXXStdlibType Linux::GetDefaultCXXStdlibType() const {
@@ -29,7 +29,7 @@ index ceb1a982c3a4..cc4245529a39 100644
  
  bool Linux::HasNativeLLVMSupport() const { return true; }
 diff --git a/lib/Driver/ToolChains/Linux.h b/lib/Driver/ToolChains/Linux.h
-index 188cb1f09788..99d36deaa838 100644
+index 524391743090..bd3349f7dda5 100644
 --- a/lib/Driver/ToolChains/Linux.h
 +++ b/lib/Driver/ToolChains/Linux.h
 @@ -42,6 +42,7 @@ public:

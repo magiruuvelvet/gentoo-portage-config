@@ -1,8 +1,8 @@
 diff --git a/include/clang/Driver/ToolChain.h b/include/clang/Driver/ToolChain.h
-index f20ab164531b..9bbc217c338d 100644
+index 2e74507f7126..29700115de70 100644
 --- a/include/clang/Driver/ToolChain.h
 +++ b/include/clang/Driver/ToolChain.h
-@@ -550,7 +550,7 @@ public:
+@@ -576,7 +576,7 @@ public:
  
    // Return the default debugger "tuning."
    virtual llvm::DebuggerKind getDefaultDebuggerTuning() const {
@@ -11,11 +11,11 @@ index f20ab164531b..9bbc217c338d 100644
    }
  
    /// Does this toolchain supports given debug info option or not.
-diff --git a/lib/Driver/ToolChains/Clang.cpp b/lib/Driver/ToolChains/Clang.cpp
-index 3704ed858668..6139eb736750 100644
+diff --git a/lib/Driver/ToolChains/Clang.cpp b/ib/Driver/ToolChains/Clang.cpp
+index 37a07b8f224d..164ed830c720 100644
 --- a/lib/Driver/ToolChains/Clang.cpp
 +++ b/lib/Driver/ToolChains/Clang.cpp
-@@ -4341,6 +4341,7 @@ static void renderDebugOptions(const ToolChain &TC, const Driver &D,
+@@ -4438,6 +4438,7 @@ renderDebugOptions(const ToolChain &TC, const Driver &D, const llvm::Triple &T,
        Args.getLastArg(options::OPT_ggnu_pubnames, options::OPT_gno_gnu_pubnames,
                        options::OPT_gpubnames, options::OPT_gno_pubnames);
    if (DwarfFission != DwarfFissionKind::None ||

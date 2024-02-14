@@ -9,7 +9,7 @@ sys-libs/llvm-libunwind static-libs test
 sys-libs/compiler-rt clang test
 sys-libs/compiler-rt-sanitizers clang test
 
-sys-devel/lld
+sys-devel/lld zstd
 
 sys-libs/libcxx libcxxabi libunwind static-libs test
 sys-libs/libcxxabi libunwind static-libs test

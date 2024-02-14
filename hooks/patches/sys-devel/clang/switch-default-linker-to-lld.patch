@@ -1,8 +1,8 @@
 diff --git a/include/clang/Driver/ToolChain.h b/include/clang/Driver/ToolChain.h
-index f20ab164531b..c71e9127d017 100644
+index 2e74507f7126..ee1b73679e09 100644
 --- a/include/clang/Driver/ToolChain.h
 +++ b/include/clang/Driver/ToolChain.h
-@@ -445,7 +445,7 @@ public:
+@@ -471,7 +471,7 @@ public:
    }
  
    /// GetDefaultLinker - Get the default linker to use.

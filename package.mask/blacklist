@@ -66,19 +66,19 @@ sys-libs/binutils-libs::gentoo
 #sys-libs/compiler-rt::gentoo
 
 # don't update for now, i recently updated my toolchain already
->=sys-devel/llvm-16.0.0
->=sys-devel/llvm-common-16.0.0
->=sys-devel/clang-16.0.0
->=sys-devel/clang-common-16.0.0
->=sys-devel/clang-runtime-16.0.0
->=sys-libs/libcxx-16.0.0
->=sys-libs/libcxxabi-16.0.0
->=sys-libs/llvm-libunwind-16.0.0
->=dev-util/lldb-16.0.0
->=sys-devel/lld-16.0.0
->=sys-libs/libomp-16.0.0
->=sys-libs/compiler-rt-16.0.0
->=dev-python/lit-16.0.0
+>=sys-devel/llvm-18.0.0
+>=sys-devel/llvm-common-18.0.0
+>=sys-devel/clang-18.0.0
+>=sys-devel/clang-common-18.0.0
+>=sys-devel/clang-runtime-18.0.0
+>=sys-libs/libcxx-18.0.0
+>=sys-libs/libcxxabi-18.0.0
+>=sys-libs/llvm-libunwind-18.0.0
+>=dev-util/lldb-18.0.0
+>=sys-devel/lld-18.0.0
+>=sys-libs/libomp-18.0.0
+>=sys-libs/compiler-rt-18.0.0
+>=dev-python/lit-18.0.0
 
 # use custom version
 sys-libs/musl::gentoo

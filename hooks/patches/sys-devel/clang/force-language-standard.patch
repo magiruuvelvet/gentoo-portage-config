@@ -1,38 +1,22 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e3bc4b468fb6..89e3dd45854c 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -262,9 +262,9 @@ else()
- endif()
- 
- # TODO: verify the values against LangStandards.def?
--set(CLANG_DEFAULT_STD_C "" CACHE STRING
-+set(CLANG_DEFAULT_STD_C "c17" CACHE STRING
-   "Default standard to use for C/ObjC code (IDENT from LangStandards.def, empty for platform default)")
--set(CLANG_DEFAULT_STD_CXX "" CACHE STRING
-+set(CLANG_DEFAULT_STD_CXX "cxx17" CACHE STRING
-   "Default standard to use for C++/ObjC++ code (IDENT from LangStandards.def, empty for platform default)")
- 
- set(CLANG_DEFAULT_LINKER "" CACHE STRING
-diff --git a/include/clang/Config/config.h.cmake b/include/clang/Config/config.h.cmake
-index dfd2f757a185..5cf9a8e2d8eb 100644
---- a/include/clang/Config/config.h.cmake
-+++ b/include/clang/Config/config.h.cmake
-@@ -15,7 +15,7 @@
- #define CLANG_DEFAULT_LINKER "${CLANG_DEFAULT_LINKER}"
- 
- /* Default C/ObjC standard to use. */
--#cmakedefine CLANG_DEFAULT_STD_C LangStandard::lang_${CLANG_DEFAULT_STD_C}
-+#cmakedefine CLANG_DEFAULT_STD_C LangStandard::lang_c17
- /* Always #define something so that missing the config.h #include at use sites
-  * becomes a compile error.
-  */
-@@ -24,7 +24,7 @@
- #endif
- 
- /* Default C++/ObjC++ standard to use. */
--#cmakedefine CLANG_DEFAULT_STD_CXX LangStandard::lang_${CLANG_DEFAULT_STD_CXX}
-+#cmakedefine CLANG_DEFAULT_STD_CXX LangStandard::lang_cxx17
- /* Always #define something so that missing the config.h #include at use sites
-  * becomes a compile error.
-  */
+diff --git a/lib/Basic/LangStandards.cpp b/lib/Basic/LangStandards.cpp
+index af9cf4f27392..c1891bd4e7db 100644
+--- a/lib/Basic/LangStandards.cpp
++++ b/lib/Basic/LangStandards.cpp
+@@ -59,14 +59,14 @@ LangStandard::Kind clang::getDefaultLanguageStandard(clang::Language Lang,
+     // The PS4 uses C99 as the default C standard.
+     if (T.isPS4())
+       return LangStandard::lang_gnu99;
+-    return LangStandard::lang_gnu17;
++    return LangStandard::lang_c17;
+   case Language::ObjC:
+-    return LangStandard::lang_gnu11;
++    return LangStandard::lang_c11;
+   case Language::CXX:
+   case Language::ObjCXX:
+   case Language::CUDA:
+   case Language::HIP:
+-    return LangStandard::lang_gnucxx17;
++    return LangStandard::lang_cxx17;
+   case Language::RenderScript:
+     return LangStandard::lang_c99;
+   case Language::HLSL:
