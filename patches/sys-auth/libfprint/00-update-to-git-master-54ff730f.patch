@@ -1,0 +1,5342 @@
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index fd03751e..71f55825 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -22,7 +22,6 @@ variables:
+   FDO_DISTRIBUTION_VERSION: rawhide
+   FDO_UPSTREAM_REPO: "libfprint/$CI_PROJECT_NAME"
+   FEDORA_IMAGE: "$CI_REGISTRY/libfprint/$CI_PROJECT_NAME/fedora/$FDO_DISTRIBUTION_VERSION:$FDO_DISTRIBUTION_TAG"
+-  BUNDLE: "org.freedesktop.libfprint.Demo.flatpak"
+   LAST_ABI_BREAK: "056ea541ddc97f5806cffbd99a12dc87e4da3546"
+ 
+ workflow:
+@@ -125,17 +124,19 @@ test_installed:
+   script:
+     - meson setup _build --prefix=/usr -Ddrivers=all
+     - meson install -C _build
++    - mv _build _build_dir
++    - rm -rf tests
+     - gnome-desktop-testing-runner --list libfprint-2
+     - gnome-desktop-testing-runner libfprint-2
+-        --report-directory=_build/installed-tests-report/failed/
+-        --log-directory=_build/installed-tests-report/logs/
++        --report-directory=_installed-tests-report/failed/
++        --log-directory=_installed-tests-report/logs/
+         --parallel=0
+   artifacts:
+     expose_as: 'GNOME Tests Runner logs'
+     when: always
+     paths:
+-      - _build/meson-logs
+-      - _build/installed-tests-report
++      - _build_dir/meson-logs
++      - _installed-tests-report
+     expire_in: 1 week
+ 
+ 
+@@ -151,6 +152,7 @@ test_scan_build:
+     - SCANBUILD=$CI_PROJECT_DIR/.gitlab-ci/scan-build
+       ninja -C _build scan-build
+   artifacts:
++    when: on_failure
+     paths:
+       - _build/meson-logs
+     expire_in: 1 week
+@@ -176,27 +178,35 @@ test_unsupported_list:
+ 
+ flatpak:
+   stage: flatpak
+-  extends: .flatpak
+-  # From https://gitlab.gnome.org/GNOME/gnome-runtime-images/container_registry
+-  image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:42
++  extends: .flatpak@x86_64
+   variables:
+     MANIFEST_PATH: "demo/org.freedesktop.libfprint.Demo.json"
+     FLATPAK_MODULE: "libfprint"
+     APP_ID: "org.freedesktop.libfprint.Demo"
++    BUNDLE: "org.freedesktop.libfprint.Demo.flatpak"
++    RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
++  # Build with any builder
++  tags: []
+   rules:
+     - if: '$CI_PROJECT_PATH != "libfprint/libfprint"'
+-      when: never
++      when: manual
++      allow_failure: true
+     - if: '$CI_PIPELINE_SOURCE == "schedule"'
+       when: never
+     - if: '$CI_COMMIT_BRANCH == "master"'
++      allow_failure: true
+       when: always
+     - if: '$CI_COMMIT_TAG'
++      allow_failure: true
+       when: always
+     # For any other (commit), allow manual run.
+     # This excludes MRs which would create a duplicate pipeline
+     - if: '$CI_COMMIT_BRANCH'
+       when: manual
+       allow_failure: true
++    - if: '$CI_MERGE_REQUEST_ID'
++      when: manual
++      allow_failure: true
+ 
+ # CONTAINERS creation stage
+ .container_fedora_build_base:
+diff --git a/NEWS b/NEWS
+index 1b87665e..103740f6 100644
+--- a/NEWS
++++ b/NEWS
+@@ -357,7 +357,7 @@ tests of the drivers using umockdev.
+   - Mark fp_dscv_print functions as deprecated
+ 
+ * Udev rules:
+-  - Add some unsupported devices to the whitelist
++  - Add some unsupported devices to the allowlist
+ 
+ 2017-05-14: v0.7.0 release
+ * Drivers:
+@@ -407,7 +407,7 @@ tests of the drivers using umockdev.
+   - Fix possible race condition, and cancellation in uru4000 driver
+ 
+ * Udev rules:
+-  - Add Microsoft keyboard to the suspend blacklist
++  - Add Microsoft keyboard to the suspend denylist
+ 
+ * Plenty of build fixes
+ 
+diff --git a/data/autosuspend.hwdb b/data/autosuspend.hwdb
+index 603c5c1f..215a96b3 100644
+--- a/data/autosuspend.hwdb
++++ b/data/autosuspend.hwdb
+@@ -158,6 +158,13 @@ usb:v1C7Ap0603*
+  ID_AUTOSUSPEND=1
+  ID_PERSIST=0
+ 
++# Supported by libfprint driver focaltech_moc
++usb:v2808p9E48*
++usb:v2808pD979*
++usb:v2808pA959*
++ ID_AUTOSUSPEND=1
++ ID_PERSIST=0
++
+ # Supported by libfprint driver fpcmoc
+ usb:v10A5pFFE0*
+ usb:v10A5pA305*
+@@ -186,6 +193,7 @@ usb:v27C6p63AC*
+ usb:v27C6p63BC*
+ usb:v27C6p63CC*
+ usb:v27C6p6496*
++usb:v27C6p6582*
+ usb:v27C6p6584*
+ usb:v27C6p658C*
+ usb:v27C6p6592*
+@@ -201,6 +209,11 @@ usb:v298Dp1010*
+  ID_AUTOSUSPEND=1
+  ID_PERSIST=0
+ 
++# Supported by libfprint driver realtek
++usb:v0BDAp5813*
++ ID_AUTOSUSPEND=1
++ ID_PERSIST=0
++
+ # Supported by libfprint driver synaptics
+ usb:v06CBp00BD*
+ usb:v06CBp00DF*
+@@ -211,11 +224,14 @@ usb:v06CBp0100*
+ usb:v06CBp00F0*
+ usb:v06CBp0103*
+ usb:v06CBp0123*
++usb:v06CBp0124*
+ usb:v06CBp0126*
+ usb:v06CBp0129*
+ usb:v06CBp0168*
+ usb:v06CBp015F*
+ usb:v06CBp0104*
++usb:v06CBp0173*
++usb:v06CBp0106*
+  ID_AUTOSUSPEND=1
+  ID_PERSIST=0
+ 
+@@ -284,6 +300,7 @@ usb:v138Ap0091*
+  ID_PERSIST=0
+ 
+ # Known unsupported devices
++usb:v047Dp00F2*
+ usb:v04E8p730B*
+ usb:v04F3p036B*
+ usb:v04F3p0C00*
+@@ -291,12 +308,16 @@ usb:v04F3p0C4C*
+ usb:v04F3p0C57*
+ usb:v04F3p0C5E*
+ usb:v04F3p0C5A*
++usb:v04F3p0C6C*
+ usb:v04F3p0C70*
+ usb:v04F3p0C72*
++usb:v04F3p0C77*
+ usb:v04F3p2706*
++usb:v04F3p3032*
+ usb:v04F3p3057*
+ usb:v04F3p3104*
+ usb:v04F3p310D*
++usb:v04F3p3128*
+ usb:v06CBp0081*
+ usb:v06CBp0088*
+ usb:v06CBp008A*
+@@ -330,6 +351,7 @@ usb:v0BDAp5812*
+ usb:v10A5p0007*
+ usb:v10A5p9200*
+ usb:v10A5p9800*
++usb:v10A5pE340*
+ usb:v1188p9545*
+ usb:v138Ap0007*
+ usb:v138Ap003A*
+@@ -342,12 +364,16 @@ usb:v138Ap0094*
+ usb:v138Ap0097*
+ usb:v138Ap009D*
+ usb:v138Ap00AB*
++usb:v138Ap00A6*
+ usb:v147Ep1002*
+ usb:v1491p0088*
+ usb:v16D1p1027*
+ usb:v1C7Ap0300*
+ usb:v1C7Ap0575*
+ usb:v1C7Ap0576*
++usb:v1C7Ap0577*
++usb:v1C7Ap0582*
++usb:v1C7Ap05A1*
+ usb:v27C6p5042*
+ usb:v27C6p5110*
+ usb:v27C6p5117*
+@@ -375,6 +401,8 @@ usb:v27C6p55B4*
+ usb:v27C6p5740*
+ usb:v27C6p5E0A*
+ usb:v27C6p581A*
++usb:v27C6p589A*
++usb:v27C6p6382*
+ usb:v2808p9338*
+ usb:v2808p93A9*
+ usb:v298Dp2020*
+diff --git a/demo/org.freedesktop.libfprint.Demo.json b/demo/org.freedesktop.libfprint.Demo.json
+index 8fd52f56..55e6a278 100644
+--- a/demo/org.freedesktop.libfprint.Demo.json
++++ b/demo/org.freedesktop.libfprint.Demo.json
+@@ -1,7 +1,7 @@
+ {
+     "app-id": "org.freedesktop.libfprint.Demo",
+     "runtime": "org.gnome.Platform",
+-    "runtime-version": "42",
++    "runtime-version": "master",
+     "sdk": "org.gnome.Sdk",
+     "command": "gtk-libfprint-test",
+     "finish-args": [
+@@ -38,24 +38,24 @@
+         {
+             "name": "libgusb",
+             "buildsystem": "meson",
+-            "config-opts": [ "-Dtests=false", "-Dvapi=false", "-Ddocs=false", "-Dintrospection=false" ],
++            "config-opts": [ "-Dtests=false", "-Dvapi=false", "-Ddocs=false" ],
+             "sources": [
+                 {
+                     "type": "archive",
+-                    "url": "https://github.com/hughsie/libgusb/archive/0.3.0.tar.gz",
+-                    "sha256": "b36310f8405d5fd68f6caf4a829f7ab4c627b38fd3d02a139d411fce0f3a49f1"
++                    "url": "https://github.com/hughsie/libgusb/releases/download/0.4.6/libgusb-0.4.6.tar.xz",
++                    "sha256": "1b0422bdcd72183272ac42eec9398c5a0bc48a02f618fa3242c468cbbd003049"
+                 }
+             ]
+         },
+         {
+             "name": "gudev",
+             "buildsystem": "meson",
+-            "config-opts": [ "-Dtests=disabled", "-Dintrospection=disabled" ],
++            "config-opts": [ "-Dtests=disabled", "-Dintrospection=disabled", "-Dvapi=disabled" ],
+             "sources": [
+                 {
+                     "type": "archive",
+-                    "url": "https://download.gnome.org/sources/libgudev/236/libgudev-236.tar.xz",
+-                    "sha256": "e50369d06d594bae615eb7aeb787de304ebaad07a26d1043cef8e9c7ab7c9524"
++                    "url": "https://download.gnome.org/sources/libgudev/238/libgudev-238.tar.xz",
++                    "sha256": "61266ab1afc9d73dbc60a8b2af73e99d2fdff47d99544d085760e4fa667b5dd1"
+                 }
+             ]
+         },
+diff --git a/libfprint/drivers/focaltech_moc/focaltech_moc.c b/libfprint/drivers/focaltech_moc/focaltech_moc.c
+new file mode 100644
+index 00000000..190ab436
+--- /dev/null
++++ b/libfprint/drivers/focaltech_moc/focaltech_moc.c
+@@ -0,0 +1,1875 @@
++/*
++ * Copyright (C) 2022 FocalTech Electronics Inc
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ */
++
++#include "focaltech_moc.h"
++
++#include <ctype.h>
++
++#define FP_COMPONENT "focaltech_moc"
++
++#include "drivers_api.h"
++
++G_DEFINE_TYPE (FpiDeviceFocaltechMoc, fpi_device_focaltech_moc, FP_TYPE_DEVICE)
++
++static const FpIdEntry id_table[] = {
++  { .vid = 0x2808,  .pid = 0x9e48,  },
++  { .vid = 0x2808,  .pid = 0xd979,  },
++  { .vid = 0x2808,  .pid = 0xa959,  },
++  { .vid = 0,  .pid = 0,  .driver_data = 0 },   /* terminating entry */
++};
++
++typedef void (*SynCmdMsgCallback) (FpiDeviceFocaltechMoc *self,
++                                   uint8_t               *buffer_in,
++                                   gsize                  length_in,
++                                   GError                *error);
++
++typedef struct
++{
++  SynCmdMsgCallback callback;
++} CommandData;
++
++typedef struct
++{
++  uint8_t h;
++  uint8_t l;
++} FpCmdLen;
++
++typedef struct
++{
++  uint8_t  magic;
++  FpCmdLen len;
++} FpCmdHeader;
++
++typedef struct
++{
++  FpCmdHeader header;
++  uint8_t     code;
++  uint8_t     payload[0];
++} FpCmd;
++
++typedef struct
++{
++#if (G_BYTE_ORDER == G_LITTLE_ENDIAN)
++  uint8_t b0;
++  uint8_t b1;
++#else
++  uint8_t b1;
++  uint8_t b0;
++#endif
++} u16_bytes_t;
++
++typedef union
++{
++  u16_bytes_t s;
++  uint16_t    v;
++} u_u16_bytes_t;
++
++static inline uint16_t
++get_u16_from_u8_lh (uint8_t l, uint8_t h)
++{
++  u_u16_bytes_t u_u16_bytes;
++
++  u_u16_bytes.v = 0;
++  u_u16_bytes.s.b0 = l;
++  u_u16_bytes.s.b1 = h;
++
++  return u_u16_bytes.v;
++}
++
++static inline uint8_t
++get_u8_l_from_u16 (uint16_t v)
++{
++  u_u16_bytes_t u_u16_bytes;
++
++  u_u16_bytes.v = v;
++
++  return u_u16_bytes.s.b0;
++}
++
++static inline uint8_t
++get_u8_h_from_u16 (uint16_t v)
++{
++  u_u16_bytes_t u_u16_bytes;
++
++  u_u16_bytes.v = v;
++
++  return u_u16_bytes.s.b1;
++}
++
++static uint8_t
++fp_cmd_bcc (uint8_t *data, uint16_t len)
++{
++  int i;
++  uint8_t bcc = 0;
++
++  for (i = 0; i < len; i++)
++    bcc ^= data[i];
++
++  return bcc;
++}
++
++static uint8_t *
++focaltech_moc_compose_cmd (uint8_t cmd, const uint8_t *data, uint16_t len)
++{
++  g_autofree char *cmd_buf = NULL;
++  FpCmd *fp_cmd = NULL;
++  uint8_t *bcc = NULL;
++  uint16_t header_len = len + sizeof (*bcc);
++
++  cmd_buf = g_malloc0 (sizeof (FpCmd) + header_len);
++
++  fp_cmd = (FpCmd *) cmd_buf;
++
++  fp_cmd->header.magic = 0x02;
++  fp_cmd->header.len.l = get_u8_l_from_u16 (header_len);
++  fp_cmd->header.len.h = get_u8_h_from_u16 (header_len);
++  fp_cmd->code = cmd;
++
++  if (data != NULL)
++    memcpy (fp_cmd->payload, data, len);
++
++  bcc = fp_cmd->payload + len;
++  *bcc = fp_cmd_bcc ((uint8_t *) &fp_cmd->header.len, bcc - (uint8_t *) &fp_cmd->header.len);
++
++  return g_steal_pointer (&cmd_buf);
++}
++
++static int
++focaltech_moc_check_cmd (uint8_t *response_buf, uint16_t len)
++{
++  int ret = -1;
++  FpCmd *fp_cmd = NULL;
++  uint8_t *bcc = NULL;
++  uint16_t header_len;
++  uint16_t data_len;
++
++  fp_cmd = (FpCmd *) response_buf;
++
++  if (len < sizeof (FpCmd) + sizeof (*bcc))
++    return ret;
++
++  if (fp_cmd->header.magic != 0x02)
++    return ret;
++
++  header_len = get_u16_from_u8_lh (fp_cmd->header.len.l, fp_cmd->header.len.h);
++
++  if (header_len < sizeof (*bcc))
++    return ret;
++
++  if ((sizeof (FpCmd) + header_len) > len)
++    return ret;
++
++  data_len = header_len - sizeof (*bcc);
++
++  bcc = fp_cmd->payload + data_len;
++
++  if (fp_cmd_bcc ((uint8_t *) &fp_cmd->header.len,
++                  bcc - (uint8_t *) &fp_cmd->header.len) != *bcc)
++    return ret;
++
++  ret = 0;
++  return ret;
++}
++
++static void
++fp_cmd_receive_cb (FpiUsbTransfer *transfer,
++                   FpDevice       *device,
++                   gpointer        userdata,
++                   GError         *error)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  CommandData *data = userdata;
++  int ssm_state = 0;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (transfer->ssm, g_steal_pointer (&error));
++      return;
++    }
++
++  if (data == NULL)
++    {
++      fpi_ssm_mark_failed (transfer->ssm,
++                           fpi_device_error_new (FP_DEVICE_ERROR_GENERAL));
++      return;
++    }
++
++  ssm_state = fpi_ssm_get_cur_state (transfer->ssm);
++
++  /* skip zero length package */
++  if (transfer->actual_length == 0)
++    {
++      fpi_ssm_jump_to_state (transfer->ssm, ssm_state);
++      return;
++    }
++
++  if (focaltech_moc_check_cmd (transfer->buffer, transfer->actual_length) != 0)
++    {
++      fpi_ssm_mark_failed (transfer->ssm,
++                           fpi_device_error_new (FP_DEVICE_ERROR_GENERAL));
++      return;
++    }
++
++  if (data->callback)
++    data->callback (self, transfer->buffer, transfer->actual_length, NULL);
++
++  fpi_ssm_mark_completed (transfer->ssm);
++}
++
++typedef enum {
++  FP_CMD_SEND = 0,
++  FP_CMD_GET,
++  FP_CMD_NUM_STATES,
++} FpCmdState;
++
++static void
++fp_cmd_run_state (FpiSsm   *ssm,
++                  FpDevice *device)
++{
++  FpiUsbTransfer *transfer;
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case FP_CMD_SEND:
++      if (self->cmd_transfer)
++        {
++          self->cmd_transfer->ssm = ssm;
++          fpi_usb_transfer_submit (g_steal_pointer (&self->cmd_transfer),
++                                   FOCALTECH_MOC_CMD_TIMEOUT,
++                                   NULL,
++                                   fpi_ssm_usb_transfer_cb,
++                                   NULL);
++        }
++      else
++        {
++          fpi_ssm_next_state (ssm);
++        }
++
++      break;
++
++    case FP_CMD_GET:
++      if (self->cmd_len_in == 0)
++        {
++          CommandData *data = fpi_ssm_get_data (ssm);
++
++          if (data->callback)
++            data->callback (self, NULL, 0, 0);
++
++          fpi_ssm_mark_completed (ssm);
++          return;
++        }
++
++      transfer = fpi_usb_transfer_new (device);
++      transfer->ssm = ssm;
++      fpi_usb_transfer_fill_bulk (transfer, self->bulk_in_ep, self->cmd_len_in);
++      fpi_usb_transfer_submit (transfer,
++                               self->cmd_cancelable ? 0 : FOCALTECH_MOC_CMD_TIMEOUT,
++                               self->cmd_cancelable ? fpi_device_get_cancellable (device) : NULL,
++                               fp_cmd_receive_cb,
++                               fpi_ssm_get_data (ssm));
++      break;
++
++    }
++
++}
++
++static void
++fp_cmd_ssm_done (FpiSsm *ssm, FpDevice *device, GError *error)
++{
++  g_autoptr(GError) local_error = error;
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  CommandData *data = fpi_ssm_get_data (ssm);
++
++  self->cmd_ssm = NULL;
++
++  if (local_error && data->callback)
++    data->callback (self, NULL, 0, g_steal_pointer (&local_error));
++}
++
++static void
++fp_cmd_ssm_done_data_free (CommandData *data)
++{
++  g_free (data);
++}
++
++static void
++focaltech_moc_get_cmd (FpDevice *device, guint8 *buffer_out,
++                       gsize length_out, gsize length_in,
++                       gboolean can_be_cancelled,
++                       SynCmdMsgCallback callback)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  g_autoptr(FpiUsbTransfer) transfer = NULL;
++  CommandData *data = g_new0 (CommandData, 1);
++
++  transfer = fpi_usb_transfer_new (device);
++  transfer->short_is_error = TRUE;
++  fpi_usb_transfer_fill_bulk_full (transfer, self->bulk_out_ep, buffer_out,
++                                   length_out, g_free);
++  data->callback = callback;
++
++  self->cmd_transfer = g_steal_pointer (&transfer);
++  self->cmd_len_in = length_in + 1;
++  self->cmd_cancelable = can_be_cancelled;
++
++  self->cmd_ssm = fpi_ssm_new (FP_DEVICE (self),
++                               fp_cmd_run_state,
++                               FP_CMD_NUM_STATES);
++
++  fpi_ssm_set_data (self->cmd_ssm, data, (GDestroyNotify) fp_cmd_ssm_done_data_free);
++
++  fpi_ssm_start (self->cmd_ssm, fp_cmd_ssm_done);
++}
++
++struct UserId
++{
++  uint8_t uid[32];
++};
++
++static void
++fprint_set_uid (FpPrint *print, uint8_t *uid, size_t size)
++{
++  GVariant *var_uid;
++  GVariant *var_data;
++
++  var_uid = g_variant_new_fixed_array (G_VARIANT_TYPE_BYTE, uid, size, 1);
++  var_data = g_variant_new ("(@ay)", var_uid);
++  fpi_print_set_type (print, FPI_PRINT_RAW);
++  fpi_print_set_device_stored (print, TRUE);
++  g_object_set (print, "fpi-data", var_data, NULL);
++}
++
++enum enroll_states {
++  ENROLL_RSP_RETRY,
++  ENROLL_RSP_ENROLL_REPORT,
++  ENROLL_RSP_ENROLL_OK,
++  ENROLL_RSP_ENROLL_CANCEL_REPORT,
++};
++
++static void
++enroll_status_report (FpiDeviceFocaltechMoc *self, int enroll_status_id,
++                      int data, GError *error)
++{
++  FpDevice *device = FP_DEVICE (self);
++
++  switch (enroll_status_id)
++    {
++    case ENROLL_RSP_RETRY:
++      {
++        fpi_device_enroll_progress (device, self->num_frames, NULL,
++                                    fpi_device_retry_new (FP_DEVICE_RETRY_CENTER_FINGER));
++        break;
++      }
++
++    case ENROLL_RSP_ENROLL_REPORT:
++      {
++        fpi_device_enroll_progress (device, self->num_frames, NULL, NULL);
++        break;
++      }
++
++    case ENROLL_RSP_ENROLL_OK:
++      {
++        FpPrint *print = NULL;
++        fp_info ("Enrollment was successful!");
++        fpi_device_get_enroll_data (device, &print);
++        fpi_device_enroll_complete (device, g_object_ref (print), NULL);
++        break;
++      }
++
++    case ENROLL_RSP_ENROLL_CANCEL_REPORT:
++      {
++        fpi_device_enroll_complete (device, NULL,
++                                    fpi_device_error_new_msg (FP_DEVICE_ERROR_GENERAL,
++                                                              "Enrollment failed (%d) (ENROLL_RSP_ENROLL_CANCEL_REPORT)",
++                                                              data));
++      }
++    }
++}
++
++static void
++task_ssm_done (FpiSsm *ssm, FpDevice *device, GError *error)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  self->num_frames = 0;
++  self->task_ssm = NULL;
++
++  if (error)
++    fpi_device_action_error (device, g_steal_pointer (&error));
++}
++
++static const char *
++get_g_usb_device_direction_des (GUsbDeviceDirection dir)
++{
++  switch (dir)
++    {
++    case G_USB_DEVICE_DIRECTION_DEVICE_TO_HOST:
++      return "G_USB_DEVICE_DIRECTION_DEVICE_TO_HOST";
++
++    case G_USB_DEVICE_DIRECTION_HOST_TO_DEVICE:
++      return "G_USB_DEVICE_DIRECTION_HOST_TO_DEVICE";
++
++    default:
++      return "unknown";
++    }
++}
++
++static int
++usb_claim_interface_probe (FpDevice *device, int claim, GError **error)
++{
++  g_autoptr(GPtrArray) interfaces = NULL;
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  int ret = -1;
++  int i;
++
++  interfaces = g_usb_device_get_interfaces (fpi_device_get_usb_device (device), error);
++
++  for (i = 0; i < interfaces->len; i++)
++    {
++      GUsbInterface *cur_iface = g_ptr_array_index (interfaces, i);
++      g_autoptr(GPtrArray) endpoints = g_usb_interface_get_endpoints (cur_iface);
++
++      fp_dbg ("class:%x, subclass:%x, protocol:%x",
++              g_usb_interface_get_class (cur_iface),
++              g_usb_interface_get_subclass (cur_iface),
++              g_usb_interface_get_protocol (cur_iface));
++
++      if (claim == 1)
++        {
++          int j;
++
++          for (j = 0; j < endpoints->len; j++)
++            {
++              GUsbEndpoint *endpoint = g_ptr_array_index (endpoints, j);
++              GBytes *bytes = g_usb_endpoint_get_extra (endpoint);
++
++              fp_dbg ("bytes size:%ld", g_bytes_get_size (bytes));
++
++              fp_dbg ("kind:%x, max packet size:%d, poll interval:%d, refresh:%x, "
++                      "sync address:%x, address:%x, number:%d, direction:%s",
++                      g_usb_endpoint_get_kind (endpoint),
++                      g_usb_endpoint_get_maximum_packet_size (endpoint),
++                      g_usb_endpoint_get_polling_interval (endpoint),
++                      g_usb_endpoint_get_refresh (endpoint),
++                      g_usb_endpoint_get_synch_address (endpoint),
++                      g_usb_endpoint_get_address (endpoint),
++                      g_usb_endpoint_get_number (endpoint),
++                      get_g_usb_device_direction_des (g_usb_endpoint_get_direction (endpoint)));
++
++              if (g_usb_endpoint_get_direction (endpoint) == G_USB_DEVICE_DIRECTION_DEVICE_TO_HOST)
++                self->bulk_in_ep = g_usb_endpoint_get_address (endpoint);
++              else
++                self->bulk_out_ep = g_usb_endpoint_get_address (endpoint);
++            }
++
++          if (!g_usb_device_claim_interface (fpi_device_get_usb_device (device),
++                                             g_usb_interface_get_number (cur_iface),
++                                             0, error))
++            return ret;
++        }
++      else if (!g_usb_device_release_interface (fpi_device_get_usb_device (device),
++                                                g_usb_interface_get_number (cur_iface),
++                                                0, error))
++        {
++          return ret;
++        }
++
++
++    }
++
++  ret = 0;
++
++  return ret;
++}
++
++static void
++task_ssm_init_done (FpiSsm *ssm, FpDevice *device, GError *error)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  if (error)
++    usb_claim_interface_probe (device, 0, &error);
++
++  fpi_device_open_complete (FP_DEVICE (self), g_steal_pointer (&error));
++}
++
++struct EnrollTimes
++{
++  uint8_t enroll_times;
++};
++
++static void
++focaltech_moc_get_enroll_times (FpiDeviceFocaltechMoc *self,
++                                uint8_t               *buffer_in,
++                                gsize                  length_in,
++                                GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct EnrollTimes *enroll_times = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  enroll_times = (struct EnrollTimes *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      fp_dbg ("focaltechmoc enroll_times: %d", enroll_times->enroll_times + 1);
++      fpi_device_set_nr_enroll_stages (FP_DEVICE (self), enroll_times->enroll_times + 1);
++      fpi_ssm_next_state (self->task_ssm);
++    }
++}
++
++static void
++focaltech_moc_release_finger (FpiDeviceFocaltechMoc *self,
++                              uint8_t               *buffer_in,
++                              gsize                  length_in,
++                              GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      fpi_ssm_next_state (self->task_ssm);
++    }
++}
++
++enum dev_init_states {
++  DEV_INIT_GET_ENROLL_TIMES,
++  DEV_INIT_RELEASE_FINGER,
++  DEV_INIT_STATES,
++};
++
++static void
++dev_init_handler (FpiSsm *ssm, FpDevice *device)
++{
++  guint8 *cmd_buf = NULL;
++  uint16_t cmd_len = 0;
++  uint16_t resp_len = 0;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case DEV_INIT_GET_ENROLL_TIMES:
++      cmd_len = 0;
++      resp_len = sizeof (struct EnrollTimes);
++      cmd_buf = focaltech_moc_compose_cmd (0xa5, NULL, cmd_len);
++      focaltech_moc_get_cmd (device, cmd_buf,
++                             sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                             sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                             1,
++                             focaltech_moc_get_enroll_times);
++      break;
++
++    case DEV_INIT_RELEASE_FINGER:
++      {
++        uint8_t d1 = 0x78;
++        cmd_len = sizeof (d1);
++        resp_len = 0;
++        cmd_buf = focaltech_moc_compose_cmd (0x82, &d1, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_release_finger);
++        break;
++      }
++    }
++}
++
++static void
++focaltech_moc_open (FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  GError *error = NULL;
++
++  if (!g_usb_device_reset (fpi_device_get_usb_device (device), &error))
++    {
++      fpi_device_open_complete (FP_DEVICE (self), g_steal_pointer (&error));
++      return;
++    }
++
++  if (usb_claim_interface_probe (device, 1, &error) != 0)
++    {
++      fpi_device_open_complete (FP_DEVICE (self), g_steal_pointer (&error));
++      return;
++    }
++
++  self->task_ssm = fpi_ssm_new (FP_DEVICE (self), dev_init_handler, DEV_INIT_STATES);
++  fpi_ssm_start (self->task_ssm, task_ssm_init_done);
++}
++
++static void
++task_ssm_exit_done (FpiSsm *ssm, FpDevice *device, GError *error)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  if (!error)
++    {
++      GError *local_error = NULL;
++
++      if (usb_claim_interface_probe (device, 0, &local_error) < 0)
++        g_propagate_error (&error, g_steal_pointer (&local_error));
++    }
++
++  fpi_device_close_complete (FP_DEVICE (self), error);
++  self->task_ssm = NULL;
++}
++
++enum dev_exit_states {
++  DEV_EXIT_START,
++  DEV_EXIT_STATES,
++};
++
++static void
++dev_exit_handler (FpiSsm *ssm, FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case DEV_EXIT_START:
++      fpi_ssm_next_state (self->task_ssm);
++      break;
++
++    default:
++      g_assert_not_reached ();
++    }
++}
++
++static void
++focaltech_moc_close (FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  fp_info ("Focaltechmoc dev_exit");
++  self->task_ssm = fpi_ssm_new (FP_DEVICE (self), dev_exit_handler, DEV_EXIT_STATES);
++  fpi_ssm_start (self->task_ssm, task_ssm_exit_done);
++}
++
++enum identify_states {
++  MOC_IDENTIFY_RELEASE_FINGER,
++  MOC_IDENTIFY_WAIT_FINGER,
++  MOC_IDENTIFY_WAIT_FINGER_DELAY,
++  MOC_IDENTIFY_CAPTURE,
++  MOC_IDENTIFY_MATCH,
++  MOC_IDENTIFY_NUM_STATES,
++};
++
++static void
++focaltech_moc_identify_wait_finger_cb (FpiDeviceFocaltechMoc *self,
++                                       uint8_t               *buffer_in,
++                                       gsize                  length_in,
++                                       GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  uint8_t *finger_status = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  finger_status = (uint8_t *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++
++      if (*finger_status == 0x01)
++        fpi_ssm_jump_to_state (self->task_ssm, MOC_IDENTIFY_CAPTURE);
++      else
++        fpi_ssm_jump_to_state (self->task_ssm, MOC_IDENTIFY_WAIT_FINGER_DELAY);
++    }
++}
++
++static void
++focaltech_moc_identify_wait_finger_delay (FpDevice *device,
++                                          void     *user_data)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  fpi_ssm_jump_to_state (self->task_ssm, MOC_IDENTIFY_WAIT_FINGER);
++}
++
++enum FprintError {
++  ERROR_NONE,
++  ERROR_QUALITY,
++  ERROR_SHORT,
++  ERROR_LEFT,
++  ERROR_RIGHT,
++  ERROR_NONFINGER,
++  ERROR_NOMOVE,
++  ERROR_OTHER,
++};
++
++struct CaptureResult
++{
++  uint8_t error;
++  uint8_t remain;
++};
++
++static void
++focaltech_moc_identify_capture_cb (FpiDeviceFocaltechMoc *self,
++                                   uint8_t               *buffer_in,
++                                   gsize                  length_in,
++                                   GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct CaptureResult *capture_result = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  capture_result = (struct CaptureResult *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      if (capture_result->error == ERROR_NONE)
++        {
++          fpi_ssm_next_state (self->task_ssm);
++        }
++      else
++        {
++          if (fpi_device_get_current_action (FP_DEVICE (self)) == FPI_DEVICE_ACTION_VERIFY)
++            {
++              fpi_device_verify_report (FP_DEVICE (self), FPI_MATCH_ERROR, NULL, error);
++              fpi_device_verify_complete (FP_DEVICE (self), NULL);
++            }
++          else
++            {
++              fpi_device_identify_report (FP_DEVICE (self), NULL, NULL, error);
++              fpi_device_identify_complete (FP_DEVICE (self), NULL);
++            }
++
++          fpi_ssm_mark_failed (self->task_ssm, fpi_device_retry_new (FP_DEVICE_RETRY_GENERAL));
++        }
++    }
++}
++
++static void
++identify_status_report (FpiDeviceFocaltechMoc *self, FpPrint *print, GError *error)
++{
++  FpDevice *device = FP_DEVICE (self);
++
++  if (print == NULL)
++    {
++      if (fpi_device_get_current_action (device) == FPI_DEVICE_ACTION_IDENTIFY)
++        {
++          fpi_device_identify_report (device, NULL, NULL, NULL);
++          fpi_device_identify_complete (device, NULL);
++        }
++      else
++        {
++          fpi_device_verify_report (device, FPI_MATCH_FAIL, NULL, NULL);
++          fpi_device_verify_complete (device, NULL);
++        }
++    }
++  else
++    {
++      if (fpi_device_get_current_action (device) == FPI_DEVICE_ACTION_IDENTIFY)
++        {
++          GPtrArray *prints;
++          gboolean found = FALSE;
++          guint index;
++
++          fpi_device_get_identify_data (device, &prints);
++          found = g_ptr_array_find_with_equal_func (prints,
++                                                    print,
++                                                    (GEqualFunc) fp_print_equal,
++                                                    &index);
++
++          if (found)
++            fpi_device_identify_report (device, g_ptr_array_index (prints, index), print, NULL);
++          else
++            fpi_device_identify_report (device, NULL, print, NULL);
++
++          fpi_device_identify_complete (device, NULL);
++        }
++      else
++        {
++          FpPrint *verify_print = NULL;
++          fpi_device_get_verify_data (device, &verify_print);
++
++          if (fp_print_equal (verify_print, print))
++            fpi_device_verify_report (device, FPI_MATCH_SUCCESS, print, NULL);
++          else
++            fpi_device_verify_report (device, FPI_MATCH_FAIL, print, NULL);
++
++          fpi_device_verify_complete (device, NULL);
++        }
++    }
++}
++
++static void
++focaltech_moc_identify_match_cb (FpiDeviceFocaltechMoc *self,
++                                 uint8_t               *buffer_in,
++                                 gsize                  length_in,
++                                 GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct UserId *user_id = NULL;
++  FpPrint *print = NULL;
++
++  fp_cmd = (FpCmd *) buffer_in;
++  user_id = (struct UserId *) (fp_cmd + 1);
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  if (fp_cmd->code == 0x04)
++    {
++      print = fp_print_new (FP_DEVICE (self));
++      fprint_set_uid (print, user_id->uid, sizeof (user_id->uid));
++    }
++
++  identify_status_report (self, print, error);
++
++  fpi_ssm_next_state (self->task_ssm);
++}
++
++static void
++focaltech_identify_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  guint8 *cmd_buf = NULL;
++  uint16_t cmd_len = 0;
++  uint16_t resp_len = 0;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case MOC_IDENTIFY_RELEASE_FINGER:
++      {
++        uint8_t d1 = 0x78;
++        cmd_len = sizeof (d1);
++        resp_len = 0;
++        cmd_buf = focaltech_moc_compose_cmd (0x82, &d1, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_release_finger);
++        break;
++      }
++
++    case MOC_IDENTIFY_WAIT_FINGER:
++      {
++        uint8_t data = 0x02;
++        cmd_len = sizeof (uint8_t);
++        resp_len = sizeof (uint8_t);
++        cmd_buf = focaltech_moc_compose_cmd (0x80, &data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_identify_wait_finger_cb);
++        break;
++      }
++
++    case MOC_IDENTIFY_WAIT_FINGER_DELAY:
++      fpi_device_add_timeout (device, 50,
++                              focaltech_moc_identify_wait_finger_delay,
++                              NULL, NULL);
++      break;
++
++    case MOC_IDENTIFY_CAPTURE:
++      cmd_len = 0;
++      resp_len = sizeof (struct CaptureResult);
++      cmd_buf = focaltech_moc_compose_cmd (0xa6, NULL, cmd_len);
++      focaltech_moc_get_cmd (device, cmd_buf,
++                             sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                             sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                             1,
++                             focaltech_moc_identify_capture_cb);
++      break;
++
++    case MOC_IDENTIFY_MATCH:
++      cmd_len = 0;
++      resp_len = sizeof (struct UserId);
++      cmd_buf = focaltech_moc_compose_cmd (0xaa, NULL, cmd_len);
++      focaltech_moc_get_cmd (device, cmd_buf,
++                             sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                             sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                             1,
++                             focaltech_moc_identify_match_cb);
++      break;
++    }
++}
++
++static void
++focaltech_moc_identify (FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  self->task_ssm = fpi_ssm_new (device,
++                                focaltech_identify_run_state,
++                                MOC_IDENTIFY_NUM_STATES);
++  fpi_ssm_start (self->task_ssm, task_ssm_done);
++}
++
++enum moc_enroll_states {
++  MOC_ENROLL_GET_ENROLLED_INFO,
++  MOC_ENROLL_GET_ENROLLED_LIST,
++  MOC_ENROLL_RELEASE_FINGER,
++  MOC_ENROLL_START_ENROLL,
++  MOC_ENROLL_WAIT_FINGER,
++  MOC_ENROLL_WAIT_FINGER_DELAY,
++  MOC_ENROLL_ENROLL_CAPTURE,
++  MOC_ENROLL_SET_ENROLLED_INFO,
++  MOC_ENROLL_COMMIT_RESULT,
++  MOC_ENROLL_NUM_STATES,
++};
++
++struct EnrolledInfoItem
++{
++  uint8_t uid[FOCALTECH_MOC_UID_PREFIX_LENGTH];
++  uint8_t user_id[FOCALTECH_MOC_USER_ID_LENGTH];
++};
++
++struct UserDes
++{
++  uint8_t finger;
++  char    username[FOCALTECH_MOC_USER_ID_LENGTH];
++};
++
++struct EnrolledInfo
++{
++  uint8_t                 actived[FOCALTECH_MOC_MAX_FINGERS];
++  struct EnrolledInfoItem items[FOCALTECH_MOC_MAX_FINGERS];
++  struct UserId           user_id[FOCALTECH_MOC_MAX_FINGERS];
++  struct UserDes          user_des[FOCALTECH_MOC_MAX_FINGERS];
++};
++
++typedef struct
++{
++  GPtrArray           *list_result;
++  struct EnrolledInfo *enrolled_info;
++} FpActionData;
++
++struct EnrolledInfoSetData
++{
++  uint8_t                 data;
++  struct EnrolledInfoItem items[FOCALTECH_MOC_MAX_FINGERS];
++};
++
++static void
++fp_action_ssm_done_data_free (FpActionData *data)
++{
++  g_clear_pointer (&data->list_result, g_ptr_array_unref);
++  g_clear_pointer (&data->enrolled_info, g_free);
++  g_free (data);
++}
++
++static void
++focaltech_moc_get_enrolled_info_cb (FpiDeviceFocaltechMoc *self,
++                                    uint8_t               *buffer_in,
++                                    gsize                  length_in,
++                                    GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct EnrolledInfoItem *items = NULL;
++  FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  items = (struct EnrolledInfoItem *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      memcpy (&data->enrolled_info->items[0], items,
++              FOCALTECH_MOC_MAX_FINGERS * sizeof (struct EnrolledInfoItem));
++      fpi_ssm_next_state (self->task_ssm);
++    }
++}
++
++struct UidList
++{
++  uint8_t       actived[FOCALTECH_MOC_MAX_FINGERS];
++  struct UserId uid[FOCALTECH_MOC_MAX_FINGERS];
++};
++
++static int
++focaltech_moc_get_enrolled_info_item (FpiDeviceFocaltechMoc *self,
++                                      uint8_t *uid,
++                                      struct EnrolledInfoItem **pitem, int *index)
++{
++  FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++  int ret = -1;
++  int i;
++
++  for (i = 0; i < FOCALTECH_MOC_MAX_FINGERS; i++)
++    {
++      struct EnrolledInfoItem *item = &data->enrolled_info->items[i];
++
++      if (memcmp (item->uid, uid, FOCALTECH_MOC_UID_PREFIX_LENGTH) == 0)
++        {
++          data->enrolled_info->actived[i] = 1;
++          *pitem = item;
++          *index = i;
++          ret = 0;
++          break;
++        }
++    }
++
++  return ret;
++}
++
++static void
++focaltech_moc_get_enrolled_list_cb (FpiDeviceFocaltechMoc *self,
++                                    uint8_t               *buffer_in,
++                                    gsize                  length_in,
++                                    GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct UidList *uid_list = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  uid_list = (struct UidList *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++      int i;
++
++      for (i = 0; i < FOCALTECH_MOC_MAX_FINGERS; i++)
++        {
++          if (uid_list->actived[i] != 0)
++            {
++              struct UserId *user_id = &uid_list->uid[i];
++              FpPrint *print = fp_print_new (FP_DEVICE (self));
++              struct EnrolledInfoItem *item = NULL;
++              int index;
++
++              fp_info ("focaltechmoc add slot: %d", i);
++
++              fprint_set_uid (print, user_id->uid, sizeof (user_id->uid));
++
++              if (focaltech_moc_get_enrolled_info_item (self, user_id->uid, &item, &index) == 0)
++                {
++                  g_autofree gchar *userid_safe = NULL;
++                  const gchar *username;
++                  userid_safe = g_strndup ((const char *) &item->user_id, FOCALTECH_MOC_USER_ID_LENGTH);
++                  fp_dbg ("%s", userid_safe);
++                  fpi_print_fill_from_user_id (print, userid_safe);
++                  memcpy (data->enrolled_info->user_id[index].uid, user_id->uid, 32);
++                  data->enrolled_info->user_des[index].finger = fp_print_get_finger (print);
++                  username = fp_print_get_username (print);
++
++                  if (username != NULL)
++                    strncpy (data->enrolled_info->user_des[index].username, username, 64);
++                }
++
++              g_ptr_array_add (data->list_result, g_object_ref_sink (print));
++            }
++        }
++
++      for (i = 0; i < FOCALTECH_MOC_MAX_FINGERS; i++)
++        {
++          struct EnrolledInfoItem *item = &data->enrolled_info->items[i];
++
++          if (data->enrolled_info->actived[i] == 0)
++            memset (item, 0, sizeof (struct EnrolledInfoItem));
++        }
++
++      fpi_ssm_next_state (self->task_ssm);
++    }
++}
++
++static void
++focaltech_moc_enroll_wait_finger_cb (FpiDeviceFocaltechMoc *self,
++                                     uint8_t               *buffer_in,
++                                     gsize                  length_in,
++                                     GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  uint8_t *finger_status = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  finger_status = (uint8_t *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_jump_to_state (self->task_ssm, MOC_ENROLL_WAIT_FINGER_DELAY);
++    }
++  else
++    {
++
++      if (*finger_status == 0x01)
++        fpi_ssm_jump_to_state (self->task_ssm, MOC_ENROLL_ENROLL_CAPTURE);
++      else
++        fpi_ssm_jump_to_state (self->task_ssm, MOC_ENROLL_WAIT_FINGER_DELAY);
++    }
++}
++
++static void
++focaltech_moc_enroll_wait_finger_delay (FpDevice *device,
++                                        void     *user_data
++                                       )
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++
++  fpi_ssm_jump_to_state (self->task_ssm, MOC_ENROLL_WAIT_FINGER);
++}
++
++static void
++focaltech_moc_start_enroll_cb (FpiDeviceFocaltechMoc *self,
++                               uint8_t               *buffer_in,
++                               gsize                  length_in,
++                               GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct UserId *user_id = NULL;
++  FpPrint *print = NULL;
++  struct EnrolledInfoItem *item = NULL;
++  int index;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  user_id = (struct UserId *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      if (fp_cmd->code == 0x05)
++        {
++          fpi_ssm_mark_failed (self->task_ssm,
++                               fpi_device_error_new_msg (FP_DEVICE_ERROR_DATA_FULL,
++                                                         "device data full!!"));
++        }
++      else
++        {
++          fpi_ssm_mark_failed (self->task_ssm,
++                               fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                         "Can't get response!!"));
++        }
++      return;
++    }
++
++  if (focaltech_moc_get_enrolled_info_item (self, user_id->uid, &item, &index) == 0)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "uid error!!"));
++    }
++  else
++    {
++      FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++      g_autofree gchar *userid_safe = NULL;
++      gsize userid_len;
++      uint8_t found = 0;
++      int i;
++      struct EnrolledInfoItem *free_item = NULL;
++
++      for (i = 0; i < FOCALTECH_MOC_MAX_FINGERS; i++)
++        {
++          item = &data->enrolled_info->items[i];
++
++          if (data->enrolled_info->actived[i] == 0)
++            {
++              found = 1;
++              free_item = item;
++              break;
++            }
++        }
++
++      if (found == 0)
++        {
++          fpi_ssm_mark_failed (self->task_ssm,
++                               fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                         "no uid slot!!"));
++        }
++      else
++        {
++          fpi_device_get_enroll_data (FP_DEVICE (self), &print);
++          fprint_set_uid (print, user_id->uid, sizeof (user_id->uid));
++          userid_safe = fpi_print_generate_user_id (print);
++          userid_len = strlen (userid_safe);
++          userid_len = MIN (FOCALTECH_MOC_USER_ID_LENGTH, userid_len);
++          fp_info ("focaltechmoc user id: %s", userid_safe);
++          memcpy (free_item->uid, user_id->uid, FOCALTECH_MOC_UID_PREFIX_LENGTH);
++          memcpy (free_item->user_id, userid_safe, userid_len);
++          fpi_ssm_next_state (self->task_ssm);
++        }
++    }
++}
++
++static void
++focaltech_moc_enroll_capture_cb (FpiDeviceFocaltechMoc *self,
++                                 uint8_t               *buffer_in,
++                                 gsize                  length_in,
++                                 GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++  struct CaptureResult *capture_result = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++  capture_result = (struct CaptureResult *) (fp_cmd + 1);
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      if (capture_result->error == ERROR_NONE)
++        {
++          self->num_frames += 1;
++          enroll_status_report (self, ENROLL_RSP_ENROLL_REPORT, self->num_frames, NULL);
++          fp_info ("focaltechmoc remain: %d", capture_result->remain);
++        }
++      else
++        {
++          enroll_status_report (self, ENROLL_RSP_RETRY, self->num_frames, NULL);
++        }
++
++      if (self->num_frames == fp_device_get_nr_enroll_stages (FP_DEVICE (self)))
++        fpi_ssm_next_state (self->task_ssm);
++      else
++        fpi_ssm_jump_to_state (self->task_ssm, MOC_ENROLL_WAIT_FINGER);
++    }
++}
++
++static void
++focaltech_moc_set_enrolled_info_cb (FpiDeviceFocaltechMoc *self,
++                                    uint8_t               *buffer_in,
++                                    gsize                  length_in,
++                                    GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++      return;
++    }
++
++  fpi_ssm_next_state (self->task_ssm);
++}
++
++static void
++focaltech_moc_commit_cb (FpiDeviceFocaltechMoc *self,
++                         uint8_t               *buffer_in,
++                         gsize                  length_in,
++                         GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      fp_info ("focaltech_moc_commit_cb success");
++      enroll_status_report (self, ENROLL_RSP_ENROLL_OK, self->num_frames, NULL);
++      fpi_ssm_next_state (self->task_ssm);
++    }
++}
++
++static void
++focaltech_enroll_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  guint8 *cmd_buf = NULL;
++  uint16_t cmd_len = 0;
++  uint16_t resp_len = 0;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case MOC_ENROLL_GET_ENROLLED_INFO:
++      {
++        uint8_t data = 0x00;
++        cmd_len = sizeof (uint8_t);
++        resp_len = sizeof (struct EnrolledInfoItem) * FOCALTECH_MOC_MAX_FINGERS;
++        cmd_buf = focaltech_moc_compose_cmd (0xaf, &data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_get_enrolled_info_cb);
++        break;
++      }
++
++    case MOC_ENROLL_GET_ENROLLED_LIST:
++      {
++        cmd_len = 0;
++        resp_len = sizeof (struct UidList);
++        cmd_buf = focaltech_moc_compose_cmd (0xab, NULL, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_get_enrolled_list_cb);
++        break;
++      }
++
++    case MOC_ENROLL_RELEASE_FINGER:
++      {
++        uint8_t d1 = 0x78;
++        cmd_len = sizeof (d1);
++        resp_len = 0;
++        cmd_buf = focaltech_moc_compose_cmd (0x82, &d1, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_release_finger);
++        break;
++      }
++
++    case MOC_ENROLL_START_ENROLL:
++      cmd_len = 0;
++      resp_len = sizeof (struct UserId);
++      cmd_buf = focaltech_moc_compose_cmd (0xa9, NULL, cmd_len);
++      focaltech_moc_get_cmd (device, cmd_buf,
++                             sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                             sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                             1,
++                             focaltech_moc_start_enroll_cb);
++      break;
++
++
++    case MOC_ENROLL_WAIT_FINGER:
++      {
++        uint8_t data = 0x02;
++        cmd_len = sizeof (uint8_t);
++        resp_len = sizeof (uint8_t);
++        cmd_buf = focaltech_moc_compose_cmd (0x80, &data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_enroll_wait_finger_cb);
++        break;
++      }
++
++    case MOC_ENROLL_WAIT_FINGER_DELAY:
++      fpi_device_add_timeout (device, 50,
++                              focaltech_moc_enroll_wait_finger_delay,
++                              NULL, NULL);
++      break;
++
++    case MOC_ENROLL_ENROLL_CAPTURE:
++      cmd_len = 0;
++      resp_len = sizeof (struct CaptureResult);
++      cmd_buf = focaltech_moc_compose_cmd (0xa6, NULL, cmd_len);
++      focaltech_moc_get_cmd (device, cmd_buf,
++                             sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                             sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                             1,
++                             focaltech_moc_enroll_capture_cb);
++      break;
++
++    case MOC_ENROLL_SET_ENROLLED_INFO:
++      {
++        g_autofree struct EnrolledInfoSetData *set_data = NULL;
++        FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++
++        cmd_len = sizeof (struct EnrolledInfoSetData);
++        resp_len = 0;
++        set_data = (struct EnrolledInfoSetData *) g_malloc0 (cmd_len);
++        set_data->data = 0x01;
++        memcpy (&set_data->items[0], &data->enrolled_info->items[0],
++                FOCALTECH_MOC_MAX_FINGERS * sizeof (struct EnrolledInfoItem));
++        cmd_buf = focaltech_moc_compose_cmd (0xaf, (const uint8_t *) set_data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_set_enrolled_info_cb);
++        break;
++      }
++
++    case MOC_ENROLL_COMMIT_RESULT:
++      {
++        FpPrint *print = NULL;
++        g_autoptr(GVariant) data = NULL;
++        g_autoptr(GVariant) user_id_var = NULL;
++        const guint8 *user_id;
++        gsize user_id_len = 0;
++
++        fpi_device_get_enroll_data (FP_DEVICE (self), &print);
++        g_object_get (print, "fpi-data", &data, NULL);
++
++        if (!g_variant_check_format_string (data, "(@ay)", FALSE))
++          {
++            fpi_ssm_mark_failed (ssm, fpi_device_error_new (FP_DEVICE_ERROR_DATA_INVALID));
++            return;
++          }
++
++        g_variant_get (data,
++                       "(@ay)",
++                       &user_id_var);
++        user_id = g_variant_get_fixed_array (user_id_var, &user_id_len, 1);
++
++        cmd_len = user_id_len;
++        resp_len = 0;
++        cmd_buf = focaltech_moc_compose_cmd (0xa3, user_id, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_commit_cb);
++        break;
++      }
++    }
++}
++
++static void
++focaltech_moc_enroll (FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  FpActionData *data = g_new0 (FpActionData, 1);
++
++  data->enrolled_info = g_new0 (struct EnrolledInfo, 1);
++  data->list_result = g_ptr_array_new_with_free_func (g_object_unref);
++
++  self->task_ssm = fpi_ssm_new (FP_DEVICE (self),
++                                focaltech_enroll_run_state,
++                                MOC_ENROLL_NUM_STATES);
++  fpi_ssm_set_data (self->task_ssm, data, (GDestroyNotify) fp_action_ssm_done_data_free);
++  fpi_ssm_start (self->task_ssm, task_ssm_done);
++}
++
++static void
++focaltech_moc_delete_cb (FpiDeviceFocaltechMoc *self,
++                         uint8_t               *buffer_in,
++                         gsize                  length_in,
++                         GError                *error)
++{
++  FpCmd *fp_cmd = NULL;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fp_cmd = (FpCmd *) buffer_in;
++
++  if (fp_cmd->code != 0x04)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Can't get response!!"));
++    }
++  else
++    {
++      FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++      int ssm_state;
++
++      if (self->delete_slot != -1)
++        {
++          fp_dbg ("delete slot %d", self->delete_slot);
++          data->enrolled_info->actived[self->delete_slot] = 0;
++          memset (&data->enrolled_info->items[self->delete_slot], 0, sizeof (struct EnrolledInfoItem));
++          memset (&data->enrolled_info->user_id[self->delete_slot], 0, sizeof (struct UserId));
++          memset (&data->enrolled_info->user_des[self->delete_slot], 0, sizeof (struct UserDes));
++        }
++
++      ssm_state = fpi_ssm_get_cur_state (self->task_ssm);
++      fpi_ssm_jump_to_state (self->task_ssm, ssm_state);
++    }
++}
++
++enum delete_states {
++  MOC_DELETE_GET_ENROLLED_INFO,
++  MOC_DELETE_GET_ENROLLED_LIST,
++  MOC_DELETE_SET_ENROLLED_INFO,
++  MOC_DELETE_BY_UID,
++  MOC_DELETE_BY_USER_INFO,
++  MOC_DELETE_NUM_STATES,
++};
++
++static void
++focaltech_delete_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  guint8 *cmd_buf = NULL;
++  uint16_t cmd_len = 0;
++  uint16_t resp_len = 0;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case MOC_DELETE_GET_ENROLLED_INFO:
++      {
++        uint8_t data = 0x00;
++        cmd_len = sizeof (uint8_t);
++        resp_len = sizeof (struct EnrolledInfoItem) * FOCALTECH_MOC_MAX_FINGERS;
++        cmd_buf = focaltech_moc_compose_cmd (0xaf, &data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_get_enrolled_info_cb);
++        break;
++      }
++
++    case MOC_DELETE_GET_ENROLLED_LIST:
++      {
++        cmd_len = 0;
++        resp_len = sizeof (struct UidList) + sizeof (struct UserId) * FOCALTECH_MOC_MAX_FINGERS;
++        cmd_buf = focaltech_moc_compose_cmd (0xab, NULL, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_get_enrolled_list_cb);
++        break;
++      }
++
++    case MOC_DELETE_SET_ENROLLED_INFO:
++      {
++        FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++        g_autofree struct EnrolledInfoSetData *set_data = NULL;
++        FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++
++        cmd_len = sizeof (struct EnrolledInfoSetData);
++        resp_len = 0;
++        set_data = (struct EnrolledInfoSetData *) g_malloc0 (cmd_len);
++        set_data->data = 0x01;
++        memcpy (&set_data->items[0], &data->enrolled_info->items[0], FOCALTECH_MOC_MAX_FINGERS * sizeof (struct EnrolledInfoItem));
++        cmd_buf = focaltech_moc_compose_cmd (0xaf, (const uint8_t *) set_data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_set_enrolled_info_cb);
++        break;
++      }
++
++    case MOC_DELETE_BY_UID:
++      {
++        FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++        FpPrint *print = NULL;
++        g_autoptr(GVariant) data = NULL;
++        g_autoptr(GVariant) user_id_var = NULL;
++        const guint8 *user_id;
++        gsize user_id_len = 0;
++        struct EnrolledInfoItem *item = NULL;
++        int index;
++
++        self->delete_slot = -1;
++        fpi_device_get_delete_data (device, &print);
++        g_object_get (print, "fpi-data", &data, NULL);
++
++        if (!g_variant_check_format_string (data, "(@ay)", FALSE))
++          {
++            fpi_device_delete_complete (device,
++                                        fpi_device_error_new (FP_DEVICE_ERROR_DATA_INVALID));
++            return;
++          }
++
++        g_variant_get (data, "(@ay)", &user_id_var);
++        user_id = g_variant_get_fixed_array (user_id_var, &user_id_len, 1);
++
++        if (focaltech_moc_get_enrolled_info_item (self, (uint8_t *) user_id, &item, &index) == 0)
++          self->delete_slot = index;
++
++        if (self->delete_slot != -1)
++          {
++            cmd_len = sizeof (struct UserId);
++            resp_len = 0;
++            cmd_buf = focaltech_moc_compose_cmd (0xa8, user_id, cmd_len);
++            focaltech_moc_get_cmd (device, cmd_buf,
++                                   sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                                   sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                                   1,
++                                   focaltech_moc_delete_cb);
++          }
++        else
++          {
++            fpi_ssm_next_state (self->task_ssm);
++          }
++
++        break;
++      }
++
++    case MOC_DELETE_BY_USER_INFO:
++      {
++        FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++        FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++        FpPrint *print = NULL;
++        const guint8 *user_id;
++        const gchar *username;
++        uint8_t finger;
++        int i;
++
++        self->delete_slot = -1;
++        fpi_device_get_delete_data (device, &print);
++        username = fp_print_get_username (print);
++        finger = fp_print_get_finger (print);
++
++        for (i = 0; i < FOCALTECH_MOC_MAX_FINGERS; i++)
++          {
++            struct UserDes *user_des = &data->enrolled_info->user_des[i];
++
++            if (username == NULL)
++              continue;
++
++            if (strncmp (user_des->username, username, FOCALTECH_MOC_USER_ID_LENGTH) != 0)
++              continue;
++
++            if (finger != user_des->finger)
++              continue;
++
++            self->delete_slot = i;
++          }
++
++        if (self->delete_slot != -1)
++          {
++            user_id = (const guint8 *) &data->enrolled_info->user_id[self->delete_slot].uid[0];
++            cmd_len = sizeof (struct UserId);
++            resp_len = 0;
++            cmd_buf = focaltech_moc_compose_cmd (0xa8, user_id, cmd_len);
++            focaltech_moc_get_cmd (device, cmd_buf,
++                                   sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                                   sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                                   1,
++                                   focaltech_moc_delete_cb);
++          }
++        else
++          {
++            fpi_device_delete_complete (FP_DEVICE (self), NULL);
++            fpi_ssm_next_state (self->task_ssm);
++          }
++
++        break;
++      }
++    }
++}
++
++static void
++focaltech_moc_delete_print (FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  FpActionData *data = g_new0 (FpActionData, 1);
++
++  data->enrolled_info = g_new0 (struct EnrolledInfo, 1);
++  data->list_result = g_ptr_array_new_with_free_func (g_object_unref);
++
++  self->task_ssm = fpi_ssm_new (device,
++                                focaltech_delete_run_state,
++                                MOC_DELETE_NUM_STATES);
++  fpi_ssm_set_data (self->task_ssm, data, (GDestroyNotify) fp_action_ssm_done_data_free);
++  fpi_ssm_start (self->task_ssm, task_ssm_done);
++}
++
++enum moc_list_states {
++  MOC_LIST_GET_ENROLLED_INFO,
++  MOC_LIST_GET_ENROLLED_LIST,
++  MOC_LIST_REPORT,
++  MOC_LIST_NUM_STATES,
++};
++
++static void
++focaltech_list_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  guint8 *cmd_buf = NULL;
++  uint16_t cmd_len = 0;
++  uint16_t resp_len = 0;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case MOC_LIST_GET_ENROLLED_INFO:
++      {
++        uint8_t data = 0x00;
++        cmd_len = sizeof (uint8_t);
++        resp_len = sizeof (struct EnrolledInfoItem) * FOCALTECH_MOC_MAX_FINGERS;
++        cmd_buf = focaltech_moc_compose_cmd (0xaf, &data, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_get_enrolled_info_cb);
++        break;
++      }
++
++    case MOC_LIST_GET_ENROLLED_LIST:
++      {
++        cmd_len = 0;
++        resp_len = sizeof (struct UidList) + sizeof (struct UserId) * FOCALTECH_MOC_MAX_FINGERS;
++        cmd_buf = focaltech_moc_compose_cmd (0xab, NULL, cmd_len);
++        focaltech_moc_get_cmd (device, cmd_buf,
++                               sizeof (FpCmd) + cmd_len + sizeof (uint8_t),
++                               sizeof (FpCmd) + resp_len + sizeof (uint8_t),
++                               1,
++                               focaltech_moc_get_enrolled_list_cb);
++        break;
++      }
++
++    case MOC_LIST_REPORT:
++      {
++        FpActionData *data = fpi_ssm_get_data (self->task_ssm);
++        fpi_device_list_complete (FP_DEVICE (self), g_steal_pointer (&data->list_result), NULL);
++        fpi_ssm_next_state (self->task_ssm);
++        break;
++      }
++    }
++}
++
++static void
++focaltech_moc_list (FpDevice *device)
++{
++  FpiDeviceFocaltechMoc *self = FPI_DEVICE_FOCALTECH_MOC (device);
++  FpActionData *data = g_new0 (FpActionData, 1);
++
++  data->enrolled_info = g_new0 (struct EnrolledInfo, 1);
++  data->list_result = g_ptr_array_new_with_free_func (g_object_unref);
++  self->task_ssm = fpi_ssm_new (device,
++                                focaltech_list_run_state,
++                                MOC_LIST_NUM_STATES);
++  fpi_ssm_set_data (self->task_ssm, data, (GDestroyNotify) fp_action_ssm_done_data_free);
++  fpi_ssm_start (self->task_ssm, task_ssm_done);
++}
++
++static void
++fpi_device_focaltech_moc_init (FpiDeviceFocaltechMoc *self)
++{
++  G_DEBUG_HERE ();
++}
++
++static void
++fpi_device_focaltech_moc_class_init (FpiDeviceFocaltechMocClass *klass)
++{
++  FpDeviceClass *dev_class = FP_DEVICE_CLASS (klass);
++
++  dev_class->id = FP_COMPONENT;
++  dev_class->full_name = FOCALTECH_MOC_DRIVER_FULLNAME;
++
++  dev_class->type = FP_DEVICE_TYPE_USB;
++  dev_class->scan_type = FP_SCAN_TYPE_PRESS;
++  dev_class->id_table = id_table;
++  dev_class->nr_enroll_stages = FOCALTECH_MOC_MAX_FINGERS;
++  dev_class->temp_hot_seconds = -1;
++
++  dev_class->open = focaltech_moc_open;
++  dev_class->close = focaltech_moc_close;
++  dev_class->verify = focaltech_moc_identify;
++  dev_class->enroll = focaltech_moc_enroll;
++  dev_class->identify = focaltech_moc_identify;
++  dev_class->delete = focaltech_moc_delete_print;
++  dev_class->list = focaltech_moc_list;
++
++  fpi_device_class_auto_initialize_features (dev_class);
++}
+diff --git a/libfprint/drivers/focaltech_moc/focaltech_moc.h b/libfprint/drivers/focaltech_moc/focaltech_moc.h
+new file mode 100644
+index 00000000..9fcbec5d
+--- /dev/null
++++ b/libfprint/drivers/focaltech_moc/focaltech_moc.h
+@@ -0,0 +1,52 @@
++/*
++ * Copyright (C) 2021 Focaltech Microelectronics
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ */
++
++#pragma once
++
++#include "fpi-device.h"
++#include "fpi-ssm.h"
++#include <libusb.h>
++
++#include <stdio.h>
++#include <stdlib.h>
++
++G_DECLARE_FINAL_TYPE (FpiDeviceFocaltechMoc, fpi_device_focaltech_moc, FPI, DEVICE_FOCALTECH_MOC, FpDevice)
++
++#define FOCALTECH_MOC_DRIVER_FULLNAME "Focaltech MOC Sensors"
++
++#define FOCALTECH_MOC_CMD_TIMEOUT 1000
++#define FOCALTECH_MOC_MAX_FINGERS 10
++#define FOCALTECH_MOC_UID_PREFIX_LENGTH 8
++#define FOCALTECH_MOC_USER_ID_LENGTH 64
++
++typedef void (*FocaltechCmdMsgCallback) (FpiDeviceFocaltechMoc *self,
++                                         GError                *error);
++
++struct _FpiDeviceFocaltechMoc
++{
++  FpDevice        parent;
++  FpiSsm         *task_ssm;
++  FpiSsm         *cmd_ssm;
++  FpiUsbTransfer *cmd_transfer;
++  gboolean        cmd_cancelable;
++  gsize           cmd_len_in;
++  int             num_frames;
++  int             delete_slot;
++  guint8          bulk_in_ep;
++  guint8          bulk_out_ep;
++};
+diff --git a/libfprint/drivers/goodixmoc/goodix.c b/libfprint/drivers/goodixmoc/goodix.c
+index bacb4845..5a3fface 100644
+--- a/libfprint/drivers/goodixmoc/goodix.c
++++ b/libfprint/drivers/goodixmoc/goodix.c
+@@ -1374,6 +1374,7 @@ gx_fp_probe (FpDevice *device)
+     case 0x63AC:
+     case 0x63BC:
+     case 0x63CC:
++    case 0x6582:
+     case 0x6A94:
+     case 0x659A:
+       self->max_enroll_stage = 12;
+@@ -1623,6 +1624,7 @@ static const FpIdEntry id_table[] = {
+   { .vid = 0x27c6,  .pid = 0x63BC,  },
+   { .vid = 0x27c6,  .pid = 0x63CC,  },
+   { .vid = 0x27c6,  .pid = 0x6496,  },
++  { .vid = 0x27c6,  .pid = 0x6582,  },
+   { .vid = 0x27c6,  .pid = 0x6584,  },
+   { .vid = 0x27c6,  .pid = 0x658C,  },
+   { .vid = 0x27c6,  .pid = 0x6592,  },
+diff --git a/libfprint/drivers/realtek/realtek.c b/libfprint/drivers/realtek/realtek.c
+new file mode 100644
+index 00000000..45322908
+--- /dev/null
++++ b/libfprint/drivers/realtek/realtek.c
+@@ -0,0 +1,1219 @@
++/*
++ * Copyright (C) 2022-2023 Realtek Corp.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ */
++
++#define FP_COMPONENT "realtek"
++
++#include "drivers_api.h"
++
++#include "fpi-byte-reader.h"
++
++#include "realtek.h"
++
++G_DEFINE_TYPE (FpiDeviceRealtek, fpi_device_realtek, FP_TYPE_DEVICE)
++
++static const FpIdEntry id_table[] = {
++  { .vid = 0x0bda,  .pid = 0x5813,  },
++  { .vid = 0,  .pid = 0,  .driver_data = 0 },   /* terminating entry */
++};
++
++static gboolean
++parse_print_data (GVariant      *data,
++                  guint8        *finger,
++                  const guint8 **user_id,
++                  gsize         *user_id_len)
++{
++  g_autoptr(GVariant) user_id_var = NULL;
++
++  g_return_val_if_fail (data, FALSE);
++  g_return_val_if_fail (finger, FALSE);
++  g_return_val_if_fail (user_id, FALSE);
++  g_return_val_if_fail (user_id_len, FALSE);
++
++  *user_id = NULL;
++  *user_id_len = 0;
++  *finger = 0;
++
++  if (!g_variant_check_format_string (data, "(y@ay)", FALSE))
++    return FALSE;
++
++  g_variant_get (data,
++                 "(y@ay)",
++                 finger,
++                 &user_id_var);
++
++  *user_id = g_variant_get_fixed_array (user_id_var, user_id_len, 1);
++
++  if (*user_id_len <= 0 || *user_id_len > DEFAULT_UID_LEN)
++    return FALSE;
++
++  if (*user_id[0] == '\0' || *user_id[0] == ' ')
++    return FALSE;
++
++  if (*finger != SUB_FINGER_01)
++    return FALSE;
++
++  return TRUE;
++}
++
++static void
++fp_cmd_ssm_done_data_free (CommandData *data)
++{
++  g_free (data);
++}
++
++/* data callbacks */
++
++static void
++fp_task_ssm_generic_cb (FpiDeviceRealtek *self,
++                        uint8_t          *buffer_in,
++                        GError           *error)
++{
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fpi_ssm_next_state (self->task_ssm);
++}
++
++static void
++fp_finish_capture_cb (FpiDeviceRealtek *self,
++                      uint8_t          *buffer_in,
++                      GError           *error)
++{
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  gint capture_status = buffer_in[0];
++
++  if (capture_status == 0)
++    {
++      fpi_device_report_finger_status_changes (FP_DEVICE (self),
++                                               FP_FINGER_STATUS_PRESENT,
++                                               FP_FINGER_STATUS_NEEDED);
++      fpi_ssm_next_state (self->task_ssm);
++    }
++  else
++    {
++      fpi_ssm_jump_to_state (self->task_ssm,
++                             fpi_ssm_get_cur_state (self->task_ssm));
++    }
++}
++
++static void
++fp_accept_sample_cb (FpiDeviceRealtek *self,
++                     uint8_t          *buffer_in,
++                     GError           *error)
++{
++  fpi_device_report_finger_status_changes (FP_DEVICE (self),
++                                           FP_FINGER_STATUS_NONE,
++                                           FP_FINGER_STATUS_PRESENT);
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  gint in_status = buffer_in[0];
++
++  if (self->fp_purpose != FP_RTK_PURPOSE_ENROLL)
++    {
++      /* verify or identify purpose process */
++      fpi_ssm_next_state (self->task_ssm);
++      return;
++    }
++  else
++    {
++      /* enroll purpose process */
++      if (in_status == FP_RTK_CMD_ERR)
++        {
++          fpi_ssm_mark_failed (self->task_ssm,
++                               fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                         "Command error!"));
++          return;
++        }
++
++      if (self->enroll_stage < self->max_enroll_stage)
++        {
++          if (in_status == FP_RTK_SUCCESS)
++            {
++              self->enroll_stage++;
++              fpi_device_enroll_progress (FP_DEVICE (self), self->enroll_stage, NULL, NULL);
++              fpi_ssm_jump_to_state (self->task_ssm, FP_RTK_ENROLL_CAPTURE);
++            }
++          else if (in_status == FP_RTK_MATCH_FAIL)
++            {
++              fpi_ssm_mark_failed (self->task_ssm,
++                                   fpi_device_error_new_msg (FP_DEVICE_ERROR_DATA_INVALID,
++                                                             "InStatus invalid!"));
++            }
++          else
++            {
++              fpi_device_enroll_progress (FP_DEVICE (self),
++                                          self->enroll_stage,
++                                          NULL,
++                                          fpi_device_retry_new (FP_DEVICE_RETRY_GENERAL));
++
++              fpi_ssm_jump_to_state (self->task_ssm, FP_RTK_ENROLL_CAPTURE);
++            }
++          return;
++        }
++      fpi_ssm_next_state (self->task_ssm);
++    }
++}
++
++static FpPrint *
++fp_print_from_data (FpiDeviceRealtek *self, uint8_t *buffer)
++{
++  FpPrint *print;
++  GVariant *data;
++  GVariant *uid;
++  guint finger;
++  gsize userid_len;
++  g_autofree gchar *userid = NULL;
++
++  userid = g_strndup ((gchar *) buffer + 1, DEFAULT_UID_LEN);
++  finger = *(buffer);
++
++  print = fp_print_new (FP_DEVICE (self));
++  userid_len = MIN (DEFAULT_UID_LEN, strlen (userid));
++
++  uid = g_variant_new_fixed_array (G_VARIANT_TYPE_BYTE,
++                                   userid,
++                                   userid_len,
++                                   1);
++
++  data = g_variant_new ("(y@ay)",
++                        finger,
++                        uid);
++
++  fpi_print_set_type (print, FPI_PRINT_RAW);
++  fpi_print_set_device_stored (print, TRUE);
++  g_object_set (print, "fpi-data", data, NULL);
++  g_object_set (print, "description", userid, NULL);
++  fpi_print_fill_from_user_id (print, userid);
++
++  return print;
++}
++
++static void
++fp_identify_feature_cb (FpiDeviceRealtek *self,
++                        uint8_t          *buffer_in,
++                        GError           *error)
++{
++  FpDevice *device = FP_DEVICE (self);
++  FpPrint *match = NULL;
++  FpPrint *print = NULL;
++  FpiDeviceAction current_action;
++
++  g_autoptr(GPtrArray) templates = NULL;
++  gboolean found = FALSE;
++
++  current_action = fpi_device_get_current_action (device);
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  gint in_status = buffer_in[0];
++
++  if (in_status == FP_RTK_CMD_ERR)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Command error!"));
++      return;
++    }
++
++  if (in_status >= FP_RTK_TOO_HIGH && in_status <= FP_RTK_MERGE_FAILURE)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_retry_new (FP_DEVICE_RETRY_GENERAL));
++      return;
++    }
++
++  if (in_status == FP_RTK_SUCCESS)
++    {
++      match = fp_print_from_data (self, buffer_in + 1);
++
++      if (current_action == FPI_DEVICE_ACTION_VERIFY)
++        {
++          templates = g_ptr_array_sized_new (1);
++          fpi_device_get_verify_data (device, &print);
++          g_ptr_array_add (templates, print);
++        }
++      else
++        {
++          fpi_device_get_identify_data (device, &templates);
++          g_ptr_array_ref (templates);
++        }
++
++      for (gint cnt = 0; cnt < templates->len; cnt++)
++        {
++          print = g_ptr_array_index (templates, cnt);
++
++          if (fp_print_equal (print, match))
++            {
++              found = TRUE;
++              break;
++            }
++        }
++
++      if (found)
++        {
++          if (current_action == FPI_DEVICE_ACTION_VERIFY)
++            {
++              fpi_device_verify_report (device, FPI_MATCH_SUCCESS, match, error);
++              fpi_ssm_next_state (self->task_ssm);
++            }
++          else
++            {
++              fpi_device_identify_report (device, print, match, error);
++              fpi_ssm_mark_completed (self->task_ssm);
++            }
++          return;
++        }
++    }
++
++  if (!found)
++    {
++      if (current_action == FPI_DEVICE_ACTION_VERIFY)
++        fpi_device_verify_report (device, FPI_MATCH_FAIL, NULL, error);
++      else
++        fpi_device_identify_report (device, NULL, NULL, error);
++
++      fpi_ssm_jump_to_state (self->task_ssm, FP_RTK_VERIFY_NUM_STATES);
++    }
++}
++
++static void
++fp_get_delete_pos_cb (FpiDeviceRealtek *self,
++                      uint8_t          *buffer_in,
++                      GError           *error)
++{
++  FpPrint *print = NULL;
++
++  g_autoptr(GVariant) data = NULL;
++  gsize user_id_len = 0;
++  const guint8 *user_id;
++  guint8 finger;
++  gboolean found = FALSE;
++  gchar temp_userid[DEFAULT_UID_LEN + 1] = {0};
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  fpi_device_get_delete_data (FP_DEVICE (self), &print);
++  g_object_get (print, "fpi-data", &data, NULL);
++
++  if (!parse_print_data (data, &finger, &user_id, &user_id_len))
++    {
++      fpi_device_delete_complete (FP_DEVICE (self),
++                                  fpi_device_error_new (FP_DEVICE_ERROR_DATA_INVALID));
++      return;
++    }
++
++  for (gint i = 0; i < self->template_num; i++)
++    {
++      if (buffer_in[i * TEMPLATE_LEN] != 0)
++        {
++          memcpy (temp_userid, buffer_in + i * TEMPLATE_LEN + UID_OFFSET, DEFAULT_UID_LEN);
++          if (g_strcmp0 (fp_print_get_description (print), (const char *) temp_userid) == 0)
++            {
++              self->pos_index = i;
++              found = TRUE;
++              break;
++            }
++        }
++    }
++
++  if (!found)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Get template position failed!"));
++      return;
++    }
++
++  fpi_ssm_next_state (self->task_ssm);
++}
++
++static void
++fp_get_enroll_num_cb (FpiDeviceRealtek *self,
++                      uint8_t          *buffer_in,
++                      GError           *error)
++{
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  self->template_num = buffer_in[1];
++
++  fpi_ssm_next_state (self->task_ssm);
++}
++
++static void
++fp_get_template_cb (FpiDeviceRealtek *self,
++                    uint8_t          *buffer_in,
++                    GError           *error)
++{
++  gboolean found = FALSE;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  for (gint i = 0; i < self->template_num; i++)
++    {
++      if (buffer_in[i * TEMPLATE_LEN] == 0)
++        {
++          self->pos_index = i;
++          found = TRUE;
++          break;
++        }
++    }
++
++  if (!found)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "No free template was found!"));
++      return;
++    }
++
++  fpi_ssm_next_state (self->task_ssm);
++}
++
++static void
++fp_check_duplicate_cb (FpiDeviceRealtek *self,
++                       uint8_t          *buffer_in,
++                       GError           *error)
++{
++  if (error)
++    {
++      fpi_ssm_mark_failed (self->task_ssm, error);
++      return;
++    }
++
++  gint in_status = buffer_in[0];
++
++  if (in_status == FP_RTK_CMD_ERR)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Command error!"));
++      return;
++    }
++
++  if (in_status == FP_RTK_SUCCESS)
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Current fingerprint is duplicate!"));
++    }
++  else if (in_status == FP_RTK_MATCH_FAIL)
++    {
++      fpi_ssm_next_state (self->task_ssm);
++    }
++  else
++    {
++      fpi_ssm_mark_failed (self->task_ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_DATA_INVALID,
++                                                     "InStatus invalid!"));
++    }
++}
++
++static void
++fp_list_cb (FpiDeviceRealtek *self,
++            uint8_t          *buffer_in,
++            GError           *error)
++{
++  gboolean found = FALSE;
++
++  g_autoptr(GPtrArray) list_result = NULL;
++
++  if (error)
++    {
++      fpi_device_list_complete (FP_DEVICE (self), NULL, error);
++      return;
++    }
++
++  list_result = g_ptr_array_new_with_free_func (g_object_unref);
++
++  for (gint i = 0; i < self->template_num; i++)
++    {
++      if (buffer_in[i * TEMPLATE_LEN] != 0)
++        {
++          FpPrint *print = NULL;
++          print = fp_print_from_data (self, buffer_in + i * TEMPLATE_LEN + SUBFACTOR_OFFSET);
++          g_ptr_array_add (list_result, g_object_ref_sink (print));
++          found = TRUE;
++        }
++    }
++
++  if (!found)
++    {
++      fpi_device_list_complete (FP_DEVICE (self),
++                                g_steal_pointer (&list_result),
++                                fpi_device_error_new_msg (FP_DEVICE_ERROR_DATA_FULL,
++                                                          "Database is empty"));
++      return;
++    }
++
++  fp_info ("Query templates complete!");
++  fpi_device_list_complete (FP_DEVICE (self),
++                            g_steal_pointer (&list_result),
++                            NULL);
++}
++
++static void
++fp_clear_storage_cb (FpiDeviceRealtek *self,
++                     uint8_t          *buffer_in,
++                     GError           *error)
++{
++  FpDevice *device = FP_DEVICE (self);
++
++  if (error)
++    {
++      fpi_device_clear_storage_complete (device, error);
++      return;
++    }
++
++  fp_info ("Successfully cleared storage");
++  fpi_device_clear_storage_complete (device, NULL);
++}
++
++
++static gint
++parse_status (guint8 *buffer, gint status_type)
++{
++  switch (status_type)
++    {
++    case FP_RTK_MSG_PLAINTEXT_NO_STATUS:
++      return 0;
++      break;
++
++    case FP_RTK_MSG_PLAINTEXT:
++      return buffer[0];
++      break;
++
++    default:
++      return 1;
++      break;
++    }
++}
++
++static void
++fp_cmd_receive_cb (FpiUsbTransfer *transfer,
++                   FpDevice       *device,
++                   gpointer        user_data,
++                   GError         *error)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  CommandData *data = user_data;
++  gint ssm_state = 0;
++  gint status_flag = 1;
++
++  if (error)
++    {
++      fpi_ssm_mark_failed (transfer->ssm, error);
++      return;
++    }
++  if (data == NULL)
++    {
++      fpi_ssm_mark_failed (transfer->ssm,
++                           fpi_device_error_new (FP_DEVICE_ERROR_GENERAL));
++      return;
++    }
++
++  ssm_state = fpi_ssm_get_cur_state (transfer->ssm);
++
++  /* skip zero length package */
++  if (transfer->actual_length == 0)
++    {
++      fpi_ssm_jump_to_state (transfer->ssm, ssm_state);
++      return;
++    }
++
++  /* get data */
++  if (ssm_state == FP_RTK_CMD_TRANS_DATA)
++    {
++      g_autofree guchar *read_buf = NULL;
++
++      read_buf = g_malloc0 (sizeof (guchar) * (self->trans_data_len));
++      memcpy (read_buf, transfer->buffer, self->trans_data_len);
++      self->read_data = g_steal_pointer (&read_buf);
++
++      fpi_ssm_next_state (transfer->ssm);
++      return;
++    }
++
++  /* get status */
++  status_flag = parse_status (transfer->buffer, self->message_type);
++  if (status_flag != 0)
++    {
++      fpi_ssm_mark_failed (transfer->ssm,
++                           fpi_device_error_new_msg (FP_DEVICE_ERROR_PROTO,
++                                                     "Status check failed"));
++      return;
++    }
++
++  if (data->callback)
++    data->callback (self, self->read_data, NULL);
++
++  if (self->read_data)
++    g_clear_pointer (&self->read_data, g_free);
++
++  fpi_ssm_mark_completed (transfer->ssm);
++}
++
++static void
++fp_cmd_run_state (FpiSsm *ssm, FpDevice *dev)
++{
++  FpiUsbTransfer *transfer = NULL;
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (dev);
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case FP_RTK_CMD_SEND:
++      if (self->cmd_transfer)
++        {
++          self->cmd_transfer->ssm = ssm;
++          fpi_usb_transfer_submit (g_steal_pointer (&self->cmd_transfer),
++                                   CMD_TIMEOUT,
++                                   NULL,
++                                   fpi_ssm_usb_transfer_cb,
++                                   NULL);
++        }
++      else
++        {
++          fpi_ssm_next_state (ssm);
++        }
++      break;
++
++    case FP_RTK_CMD_TRANS_DATA:
++      if (self->cmd_type == FP_RTK_CMD_ONLY)
++        {
++          fpi_ssm_jump_to_state (ssm, FP_RTK_CMD_GET_STATUS);
++          break;
++        }
++
++      if (self->cmd_type == FP_RTK_CMD_WRITE)
++        {
++          if (self->data_transfer)
++            {
++              self->data_transfer->ssm = ssm;
++              fpi_usb_transfer_submit (g_steal_pointer (&self->data_transfer),
++                                       DATA_TIMEOUT,
++                                       NULL,
++                                       fpi_ssm_usb_transfer_cb,
++                                       NULL);
++            }
++          else
++            {
++              fpi_ssm_next_state (ssm);
++            }
++        }
++      else  /* CMD_READ */
++        {
++          transfer = fpi_usb_transfer_new (dev);
++          transfer->ssm = ssm;
++          fpi_usb_transfer_fill_bulk (transfer, EP_IN, EP_IN_MAX_BUF_SIZE);
++
++          fpi_usb_transfer_submit (transfer,
++                                   self->cmd_cancellable ? 0 : DATA_TIMEOUT,
++                                   self->cmd_cancellable ? fpi_device_get_cancellable (dev) : NULL,
++                                   fp_cmd_receive_cb,
++                                   fpi_ssm_get_data (ssm));
++        }
++      break;
++
++    case FP_RTK_CMD_GET_STATUS:
++      transfer = fpi_usb_transfer_new (dev);
++      transfer->ssm = ssm;
++      fpi_usb_transfer_fill_bulk (transfer, EP_IN, EP_IN_MAX_BUF_SIZE);
++      fpi_usb_transfer_submit (transfer,
++                               STATUS_TIMEOUT,
++                               NULL,
++                               fp_cmd_receive_cb,
++                               fpi_ssm_get_data (ssm));
++      break;
++    }
++}
++
++static void
++fp_cmd_ssm_done (FpiSsm *ssm, FpDevice *dev, GError *error)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (dev);
++  CommandData *data = fpi_ssm_get_data (ssm);
++
++  self->cmd_ssm = NULL;
++
++  if (error)
++    {
++      if (data->callback)
++        data->callback (self, NULL, error);
++      else
++        g_error_free (error);
++    }
++}
++
++static FpiUsbTransfer *
++prepare_transfer (FpDevice      *dev,
++                  guint8        *data,
++                  gsize          data_len,
++                  GDestroyNotify free_func)
++{
++  g_autoptr(FpiUsbTransfer) transfer = NULL;
++
++  g_return_val_if_fail (data || data_len == 0, NULL);
++
++  transfer = fpi_usb_transfer_new (dev);
++
++  fpi_usb_transfer_fill_bulk_full (transfer,
++                                   EP_OUT,
++                                   data,
++                                   data_len,
++                                   free_func);
++
++  return g_steal_pointer (&transfer);
++}
++
++static void
++realtek_sensor_cmd (FpiDeviceRealtek *self,
++                    guint8           *cmd,
++                    guint8           *trans_data,
++                    FpRtkMsgType      message_type,
++                    gboolean          bwait_data_delay,
++                    SynCmdMsgCallback callback)
++{
++  g_autoptr(FpiUsbTransfer) cmd_transfer = NULL;
++  g_autoptr(FpiUsbTransfer) data_transfer = NULL;
++  CommandData *data = g_new0 (CommandData, 1);
++
++  self->cmd_type = GET_CMD_TYPE (cmd[0]);
++  self->message_type = message_type;
++  self->trans_data_len = GET_TRANS_DATA_LEN (cmd[11], cmd[10]);
++  self->cmd_cancellable = bwait_data_delay;
++
++  cmd_transfer = prepare_transfer (FP_DEVICE (self), cmd, FP_RTK_CMD_TOTAL_LEN, NULL);
++  self->cmd_transfer = g_steal_pointer (&cmd_transfer);
++
++  if ((self->cmd_type == FP_RTK_CMD_WRITE) && trans_data)
++    {
++      data_transfer = prepare_transfer (FP_DEVICE (self), trans_data, self->trans_data_len, g_free);
++      self->data_transfer = g_steal_pointer (&data_transfer);
++    }
++
++  self->cmd_ssm = fpi_ssm_new (FP_DEVICE (self),
++                               fp_cmd_run_state,
++                               FP_RTK_CMD_NUM_STATES);
++
++  data->callback = callback;
++  fpi_ssm_set_data (self->cmd_ssm, data, (GDestroyNotify) fp_cmd_ssm_done_data_free);
++
++  fpi_ssm_start (self->cmd_ssm, fp_cmd_ssm_done);
++}
++
++static void
++fp_verify_ssm_done (FpiSsm *ssm, FpDevice *dev, GError *error)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (dev);
++
++  fp_info ("Verify complete!");
++
++  if (fpi_ssm_get_error (ssm))
++    error = fpi_ssm_get_error (ssm);
++
++  if (error && error->domain == FP_DEVICE_RETRY)
++    {
++      if (fpi_device_get_current_action (dev) == FPI_DEVICE_ACTION_VERIFY)
++        fpi_device_verify_report (dev, FPI_MATCH_ERROR, NULL, g_steal_pointer (&error));
++      else
++        fpi_device_identify_report (dev, NULL, NULL, g_steal_pointer (&error));
++    }
++
++  if (fpi_device_get_current_action (dev) == FPI_DEVICE_ACTION_VERIFY)
++    fpi_device_verify_complete (dev, error);
++  else
++    fpi_device_identify_complete (dev, error);
++
++  self->task_ssm = NULL;
++}
++
++static void
++fp_enroll_ssm_done (FpiSsm *ssm, FpDevice *dev, GError *error)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (dev);
++  FpPrint *print = NULL;
++
++  fp_info ("Enrollment complete!");
++
++  if (fpi_ssm_get_error (ssm))
++    error = fpi_ssm_get_error (ssm);
++
++  if (error)
++    {
++      fpi_device_enroll_complete (dev, NULL, error);
++      self->task_ssm = NULL;
++      return;
++    }
++
++  fpi_device_get_enroll_data (FP_DEVICE (self), &print);
++  fpi_device_enroll_complete (FP_DEVICE (self), g_object_ref (print), NULL);
++  self->task_ssm = NULL;
++}
++
++static void
++fp_init_ssm_done (FpiSsm *ssm, FpDevice *dev, GError *error)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (dev);
++
++  fp_info ("Init complete!");
++
++  if (fpi_ssm_get_error (ssm))
++    error = fpi_ssm_get_error (ssm);
++
++  fpi_device_open_complete (dev, error);
++  self->task_ssm = NULL;
++}
++
++static void
++fp_delete_ssm_done (FpiSsm *ssm, FpDevice *dev, GError *error)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (dev);
++
++  fp_info ("Delete print complete!");
++
++  if (fpi_ssm_get_error (ssm))
++    error = fpi_ssm_get_error (ssm);
++
++  fpi_device_delete_complete (dev, error);
++  self->task_ssm = NULL;
++}
++
++static void
++fp_verify_sm_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  guint8 *cmd_buf = NULL;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case FP_RTK_VERIFY_CAPTURE:
++      fpi_device_report_finger_status_changes (device,
++                                               FP_FINGER_STATUS_NEEDED,
++                                               FP_FINGER_STATUS_NONE);
++
++      cmd_buf = (guint8 *) &co_start_capture;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 1, fp_task_ssm_generic_cb);
++      break;
++
++    case FP_RTK_VERIFY_FINISH_CAPTURE:
++      cmd_buf = (guint8 *) &co_finish_capture;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 1, fp_finish_capture_cb);
++      break;
++
++    case FP_RTK_VERIFY_ACCEPT_SAMPLE:
++      co_accept_sample.param[0] = self->fp_purpose;
++      cmd_buf = (guint8 *) &co_accept_sample;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT_NO_STATUS, 1, fp_accept_sample_cb);
++      break;
++
++    case FP_RTK_VERIFY_INDENTIFY_FEATURE:
++      cmd_buf = (guint8 *) &tls_identify_feature;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT_NO_STATUS, 0, fp_identify_feature_cb);
++      break;
++
++    case FP_RTK_VERIFY_UPDATE_TEMPLATE:
++      cmd_buf = (guint8 *) &co_update_template;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_task_ssm_generic_cb);
++      break;
++    }
++}
++
++static void
++fp_enroll_sm_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  g_autofree gchar *user_id = NULL;
++  g_autofree guint8 *payload = NULL;
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  FpPrint *print = NULL;
++  guint8 *cmd_buf = NULL;
++  guint8 *trans_id = NULL;
++  GVariant *uid = NULL;
++  GVariant *data = NULL;
++  gsize user_id_len;
++  guint finger;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case FP_RTK_ENROLL_GET_TEMPLATE:
++      g_assert (self->template_num > 0);
++
++      co_get_template.data_len[0] = GET_LEN_L (TEMPLATE_LEN * self->template_num);
++      co_get_template.data_len[1] = GET_LEN_H (TEMPLATE_LEN * self->template_num);
++
++      cmd_buf = (guint8 *) &co_get_template;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_get_template_cb);
++      break;
++
++    case FP_RTK_ENROLL_BEGIN_POS:
++      tls_enroll_begin.param[0] = self->pos_index;
++      cmd_buf = (guint8 *) &tls_enroll_begin;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_task_ssm_generic_cb);
++      break;
++
++    case FP_RTK_ENROLL_CAPTURE:
++      fpi_device_report_finger_status_changes (device,
++                                               FP_FINGER_STATUS_NEEDED,
++                                               FP_FINGER_STATUS_NONE);
++
++      cmd_buf = (guint8 *) &co_start_capture;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 1, fp_task_ssm_generic_cb);
++      break;
++
++    case FP_RTK_ENROLL_FINISH_CAPTURE:
++      cmd_buf = (guint8 *) &co_finish_capture;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 1, fp_finish_capture_cb);
++      break;
++
++    case FP_RTK_ENROLL_ACCEPT_SAMPLE:
++      co_accept_sample.param[0] = self->fp_purpose;
++      cmd_buf = (guint8 *) &co_accept_sample;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT_NO_STATUS, 1, fp_accept_sample_cb);
++      break;
++
++    case FP_RTK_ENROLL_CHECK_DUPLICATE:
++      cmd_buf = (guint8 *) &co_check_duplicate;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT_NO_STATUS, 1, fp_check_duplicate_cb);
++      break;
++
++    case FP_RTK_ENROLL_COMMIT:
++      fpi_device_get_enroll_data (device, &print);
++      user_id = fpi_print_generate_user_id (print);
++      user_id_len = strlen (user_id);
++      user_id_len = MIN (DEFAULT_UID_LEN, user_id_len);
++
++      payload = g_malloc0 (UID_PAYLOAD_LEN);
++      memcpy (payload, user_id, user_id_len);
++
++      trans_id = g_steal_pointer (&payload);
++
++      finger = SUB_FINGER_01;
++      uid = g_variant_new_fixed_array (G_VARIANT_TYPE_BYTE,
++                                       user_id,
++                                       user_id_len,
++                                       1);
++      data = g_variant_new ("(y@ay)",
++                            finger,
++                            uid);
++
++      fpi_print_set_type (print, FPI_PRINT_RAW);
++      fpi_print_set_device_stored (print, TRUE);
++      g_object_set (print, "fpi-data", data, NULL);
++      g_object_set (print, "description", user_id, NULL);
++
++      g_debug ("user_id: %s, finger: 0x%x", user_id, finger);
++
++      tls_enroll_commit.param[0] = SUB_FINGER_01;
++      cmd_buf = (guint8 *) &tls_enroll_commit;
++      realtek_sensor_cmd (self, cmd_buf, trans_id, FP_RTK_MSG_PLAINTEXT, 0, fp_task_ssm_generic_cb);
++      break;
++    }
++}
++
++static void
++fp_init_sm_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  guint8 *cmd_buf = NULL;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case FP_RTK_INIT_SELECT_OS:
++      co_select_system.param[0] = 0x01;
++      cmd_buf = (guint8 *) &co_select_system;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_task_ssm_generic_cb);
++      break;
++
++    case FP_RTK_INIT_GET_ENROLL_NUM:
++      cmd_buf = (guint8 *) &co_get_enroll_num;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_get_enroll_num_cb);
++      break;
++    }
++}
++
++static void
++fp_delete_sm_run_state (FpiSsm *ssm, FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  guint8 *cmd_buf = NULL;
++
++  switch (fpi_ssm_get_cur_state (ssm))
++    {
++    case FP_RTK_DELETE_GET_POS:
++      g_assert (self->template_num > 0);
++
++      co_get_template.data_len[0] = GET_LEN_L (TEMPLATE_LEN * self->template_num);
++      co_get_template.data_len[1] = GET_LEN_H (TEMPLATE_LEN * self->template_num);
++
++      cmd_buf = (guint8 *) &co_get_template;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_get_delete_pos_cb);
++      break;
++
++    case FP_RTK_DELETE_PRINT:
++      co_delete_record.param[0] = self->pos_index;
++      cmd_buf = (guint8 *) &co_delete_record;
++      realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_task_ssm_generic_cb);
++      break;
++    }
++}
++
++
++static void
++identify_verify (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  FpiDeviceAction current_action;
++
++  G_DEBUG_HERE ();
++  current_action = fpi_device_get_current_action (device);
++
++  g_assert (current_action == FPI_DEVICE_ACTION_VERIFY ||
++            current_action == FPI_DEVICE_ACTION_IDENTIFY);
++
++  if (current_action == FPI_DEVICE_ACTION_IDENTIFY)
++    self->fp_purpose = FP_RTK_PURPOSE_IDENTIFY;
++  else
++    self->fp_purpose = FP_RTK_PURPOSE_VERIFY;
++
++  g_assert (!self->task_ssm);
++
++  self->task_ssm = fpi_ssm_new_full (device,
++                                     fp_verify_sm_run_state,
++                                     FP_RTK_VERIFY_NUM_STATES,
++                                     FP_RTK_VERIFY_NUM_STATES,
++                                     "Verify & Identify");
++
++  fpi_ssm_start (self->task_ssm, fp_verify_ssm_done);
++}
++
++static void
++enroll (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++
++  G_DEBUG_HERE ();
++  self->enroll_stage = 0;
++  self->fp_purpose = FP_RTK_PURPOSE_ENROLL;
++
++  g_assert (!self->task_ssm);
++
++  self->task_ssm = fpi_ssm_new_full (device,
++                                     fp_enroll_sm_run_state,
++                                     FP_RTK_ENROLL_NUM_STATES,
++                                     FP_RTK_ENROLL_NUM_STATES,
++                                     "Enroll");
++
++  fpi_ssm_start (self->task_ssm, fp_enroll_ssm_done);
++}
++
++static void
++dev_probe (FpDevice *device)
++{
++  GUsbDevice *usb_dev;
++  GError *error = NULL;
++  g_autofree gchar *product = NULL;
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++
++  G_DEBUG_HERE ();
++  /* Claim usb interface */
++  usb_dev = fpi_device_get_usb_device (device);
++  if (!g_usb_device_open (usb_dev, &error))
++    {
++      fpi_device_probe_complete (device, NULL, NULL, error);
++      return;
++    }
++
++  if (!g_usb_device_reset (usb_dev, &error))
++    {
++      g_usb_device_close (usb_dev, NULL);
++      fpi_device_probe_complete (device, NULL, NULL, error);
++      return;
++    }
++
++  if (!g_usb_device_claim_interface (usb_dev, 0, 0, &error))
++    {
++      g_usb_device_close (usb_dev, NULL);
++      fpi_device_probe_complete (device, NULL, NULL, error);
++      return;
++    }
++
++  product = g_usb_device_get_string_descriptor (usb_dev,
++                                                g_usb_device_get_product_index (usb_dev),
++                                                &error);
++
++  if (product)
++    fp_dbg ("Device name: %s", product);
++
++  self->max_enroll_stage = MAX_ENROLL_SAMPLES;
++  fpi_device_set_nr_enroll_stages (device, self->max_enroll_stage);
++
++  g_usb_device_release_interface (fpi_device_get_usb_device (FP_DEVICE (device)), 0, 0, NULL);
++  g_usb_device_close (usb_dev, NULL);
++
++  fpi_device_probe_complete (device, NULL, product, error);
++}
++
++static void
++dev_init (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  GError *error = NULL;
++
++  G_DEBUG_HERE ();
++  if (!g_usb_device_reset (fpi_device_get_usb_device (device), &error))
++    {
++      fpi_device_open_complete (FP_DEVICE (self), error);
++      return;
++    }
++
++  /* Claim usb interface */
++  if (!g_usb_device_claim_interface (fpi_device_get_usb_device (device), 0, 0, &error))
++    {
++      fpi_device_open_complete (FP_DEVICE (self), error);
++      return;
++    }
++
++  g_assert (!self->task_ssm);
++
++  self->task_ssm = fpi_ssm_new_full (device,
++                                     fp_init_sm_run_state,
++                                     FP_RTK_INIT_NUM_STATES,
++                                     FP_RTK_INIT_NUM_STATES,
++                                     "Init");
++
++  fpi_ssm_start (self->task_ssm, fp_init_ssm_done);
++}
++
++static void
++dev_exit (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++
++  g_autoptr(GError) release_error = NULL;
++
++  G_DEBUG_HERE ();
++
++  g_usb_device_release_interface (fpi_device_get_usb_device (FP_DEVICE (self)), 0, 0, &release_error);
++
++  fpi_device_close_complete (device, release_error);
++}
++
++static void
++delete_print (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++
++  G_DEBUG_HERE ();
++
++  g_assert (!self->task_ssm);
++
++  self->task_ssm = fpi_ssm_new_full (device,
++                                     fp_delete_sm_run_state,
++                                     FP_RTK_DELETE_NUM_STATES,
++                                     FP_RTK_DELETE_NUM_STATES,
++                                     "Delete print");
++
++  fpi_ssm_start (self->task_ssm, fp_delete_ssm_done);
++}
++
++static void
++clear_storage (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  guint8 *cmd_buf = NULL;
++
++  G_DEBUG_HERE ();
++  co_delete_record.param[0] = 0xff;
++  cmd_buf = (guint8 *) &co_delete_record;
++  realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 0, fp_clear_storage_cb);
++}
++
++static void
++list_print (FpDevice *device)
++{
++  FpiDeviceRealtek *self = FPI_DEVICE_REALTEK (device);
++  guint8 *cmd_buf = NULL;
++
++  G_DEBUG_HERE ();
++  g_assert (self->template_num > 0);
++
++  co_get_template.data_len[0] = GET_LEN_L (TEMPLATE_LEN * self->template_num);
++  co_get_template.data_len[1] = GET_LEN_H (TEMPLATE_LEN * self->template_num);
++
++  cmd_buf = (guint8 *) &co_get_template;
++  realtek_sensor_cmd (self, cmd_buf, NULL, FP_RTK_MSG_PLAINTEXT, 1, fp_list_cb);
++}
++
++static void
++fpi_device_realtek_init (FpiDeviceRealtek *self)
++{
++}
++
++static void
++fpi_device_realtek_class_init (FpiDeviceRealtekClass *klass)
++{
++  FpDeviceClass *dev_class = FP_DEVICE_CLASS (klass);
++
++  dev_class->id = FP_COMPONENT;
++  dev_class->full_name = "Realtek MOC Fingerprint Sensor";
++
++  dev_class->type = FP_DEVICE_TYPE_USB;
++  dev_class->scan_type = FP_SCAN_TYPE_PRESS;
++  dev_class->id_table = id_table;
++  dev_class->nr_enroll_stages = MAX_ENROLL_SAMPLES;
++  dev_class->temp_hot_seconds = -1;
++
++  dev_class->open = dev_init;
++  dev_class->close = dev_exit;
++  dev_class->probe = dev_probe;
++  dev_class->verify = identify_verify;
++  dev_class->identify = identify_verify;
++  dev_class->enroll = enroll;
++  dev_class->delete = delete_print;
++  dev_class->clear_storage = clear_storage;
++  dev_class->list = list_print;
++
++  fpi_device_class_auto_initialize_features (dev_class);
++}
+diff --git a/libfprint/drivers/realtek/realtek.h b/libfprint/drivers/realtek/realtek.h
+new file mode 100644
+index 00000000..803922fe
+--- /dev/null
++++ b/libfprint/drivers/realtek/realtek.h
+@@ -0,0 +1,220 @@
++/*
++ * Copyright (C) 2022-2023 Realtek Corp.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ */
++
++#pragma once
++
++#include "fpi-device.h"
++#include "fpi-ssm.h"
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <stdint.h>
++
++#define EP_IN (2 | FPI_USB_ENDPOINT_IN)
++#define EP_OUT (1 | FPI_USB_ENDPOINT_OUT)
++
++#define EP_IN_MAX_BUF_SIZE 2048
++
++#define FP_RTK_CMD_TOTAL_LEN 12
++#define FP_RTK_CMD_LEN 2
++#define FP_RTK_CMD_PARAM_LEN 4
++#define FP_RTK_CMD_ADDR_LEN 4
++#define FP_RTK_CMD_DATA_LEN 2
++
++#define TEMPLATE_LEN 35
++#define SUBFACTOR_OFFSET 2
++#define UID_OFFSET 3
++#define UID_PAYLOAD_LEN 32
++
++/* Command transfer timeout :ms*/
++#define CMD_TIMEOUT 1000
++#define DATA_TIMEOUT 5000
++#define STATUS_TIMEOUT 2000
++
++#define MAX_ENROLL_SAMPLES 8
++#define DEFAULT_UID_LEN 28
++#define SUB_FINGER_01 0xFF
++
++#define GET_CMD_TYPE(val)                   ((val & 0xC0) >> 6)
++#define GET_TRANS_DATA_LEN(len_h, len_l)    ((len_h << 8) | len_l)
++#define GET_LEN_L(total_data_len)           ((total_data_len) & 0xff)
++#define GET_LEN_H(total_data_len)           ((total_data_len) >> 8)
++
++G_DECLARE_FINAL_TYPE (FpiDeviceRealtek, fpi_device_realtek, FPI, DEVICE_REALTEK, FpDevice)
++
++typedef void (*SynCmdMsgCallback) (FpiDeviceRealtek *self,
++                                   uint8_t          *buffer_in,
++                                   GError           *error);
++
++typedef struct
++{
++  SynCmdMsgCallback callback;
++} CommandData;
++
++typedef enum {
++  FP_RTK_CMD_ONLY = 0,
++  FP_RTK_CMD_READ,
++  FP_RTK_CMD_WRITE,
++} FpRtkCmdType;
++
++typedef enum {
++  FP_RTK_MSG_PLAINTEXT = 0,
++  FP_RTK_MSG_PLAINTEXT_NO_STATUS,
++} FpRtkMsgType;
++
++typedef enum {
++  FP_RTK_PURPOSE_IDENTIFY = 0x01,     /* identify before enroll */
++  FP_RTK_PURPOSE_VERIFY   = 0x02,
++  FP_RTK_PURPOSE_ENROLL   = 0x04,
++} FpRtkPurpose;
++
++typedef enum {
++  FP_RTK_SUCCESS = 0x0,
++  FP_RTK_TOO_HIGH,
++  FP_RTK_TOO_LOW,
++  FP_RTK_TOO_LEFT,
++  FP_RTK_TOO_RIGHT,
++  FP_RTK_TOO_FAST,
++  FP_RTK_TOO_SLOW,
++  FP_RTK_POOR_QUALITY,
++  FP_RTK_TOO_SKEWED,
++  FP_RTK_TOO_SHORT,
++  FP_RTK_MERGE_FAILURE,
++  FP_RTK_MATCH_FAIL,
++  FP_RTK_CMD_ERR,
++} FpRtkInStatus;
++
++typedef enum {
++  FP_RTK_ENROLL_GET_TEMPLATE = 0,
++  FP_RTK_ENROLL_BEGIN_POS,
++  FP_RTK_ENROLL_CAPTURE,
++  FP_RTK_ENROLL_FINISH_CAPTURE,
++  FP_RTK_ENROLL_ACCEPT_SAMPLE,
++  FP_RTK_ENROLL_CHECK_DUPLICATE,
++  FP_RTK_ENROLL_COMMIT,
++  FP_RTK_ENROLL_NUM_STATES,
++} FpRtkEnrollState;
++
++typedef enum {
++  FP_RTK_VERIFY_CAPTURE = 0,
++  FP_RTK_VERIFY_FINISH_CAPTURE,
++  FP_RTK_VERIFY_ACCEPT_SAMPLE,
++  FP_RTK_VERIFY_INDENTIFY_FEATURE,
++  FP_RTK_VERIFY_UPDATE_TEMPLATE,
++  FP_RTK_VERIFY_NUM_STATES,
++} FpRtkVerifyState;
++
++typedef enum {
++  FP_RTK_DELETE_GET_POS = 0,
++  FP_RTK_DELETE_PRINT,
++  FP_RTK_DELETE_NUM_STATES,
++} FpRtkDeleteState;
++
++typedef enum {
++  FP_RTK_INIT_SELECT_OS = 0,
++  FP_RTK_INIT_GET_ENROLL_NUM,
++  FP_RTK_INIT_NUM_STATES,
++} FpRtkInitState;
++
++typedef enum {
++  FP_RTK_CMD_SEND = 0,
++  FP_RTK_CMD_TRANS_DATA,
++  FP_RTK_CMD_GET_STATUS,
++  FP_RTK_CMD_NUM_STATES,
++} FpRtkCmdState;
++
++struct _FpiDeviceRealtek
++{
++  FpDevice        parent;
++  FpiSsm         *task_ssm;
++  FpiSsm         *cmd_ssm;
++  FpiUsbTransfer *cmd_transfer;
++  FpiUsbTransfer *data_transfer;
++  gint            cmd_type;
++  FpRtkMsgType    message_type;
++  gboolean        cmd_cancellable;
++  gint            enroll_stage;
++  gint            max_enroll_stage;
++  guchar         *read_data;
++  gsize           trans_data_len;
++  FpRtkPurpose    fp_purpose;
++  gint            pos_index;
++  gint            template_num;
++};
++
++struct realtek_fp_cmd
++{
++  uint8_t cmd[FP_RTK_CMD_LEN];
++  uint8_t param[FP_RTK_CMD_PARAM_LEN];
++  uint8_t addr[FP_RTK_CMD_ADDR_LEN];
++  uint8_t data_len[FP_RTK_CMD_DATA_LEN];
++};
++
++static struct realtek_fp_cmd co_start_capture = {
++  .cmd = {0x05, 0x05},
++};
++
++static struct realtek_fp_cmd co_finish_capture = {
++  .cmd = {0x45, 0x06},
++  .data_len = {0x05},
++};
++
++static struct realtek_fp_cmd co_accept_sample = {
++  .cmd = {0x45, 0x08},
++  .data_len = {0x09},
++};
++
++static struct realtek_fp_cmd tls_identify_feature = {
++  .cmd = {0x45, 0x22},
++  .data_len = {0x2A},
++};
++
++static struct realtek_fp_cmd co_get_enroll_num = {
++  .cmd = {0x45, 0x0d},
++  .data_len = {0x02},
++};
++
++static struct realtek_fp_cmd co_get_template = {
++  .cmd = {0x45, 0x0E},
++};
++
++static struct realtek_fp_cmd tls_enroll_begin = {
++  .cmd = {0x05, 0x20},
++};
++
++static struct realtek_fp_cmd co_check_duplicate = {
++  .cmd = {0x45, 0x10},
++  .data_len = {0x22},
++};
++
++static struct realtek_fp_cmd tls_enroll_commit = {
++  .cmd = {0x85, 0x21},
++  .data_len = {0x20},
++};
++
++static struct realtek_fp_cmd co_update_template = {
++  .cmd = {0x05, 0x11},
++};
++
++static struct realtek_fp_cmd co_delete_record = {
++  .cmd = {0x05, 0x0F},
++};
++
++static struct realtek_fp_cmd co_select_system = {
++  .cmd = {0x05, 0x13},
++};
+\ No newline at end of file
+diff --git a/libfprint/drivers/synaptics/synaptics.c b/libfprint/drivers/synaptics/synaptics.c
+index f13b820b..138e734d 100644
+--- a/libfprint/drivers/synaptics/synaptics.c
++++ b/libfprint/drivers/synaptics/synaptics.c
+@@ -40,11 +40,14 @@ static const FpIdEntry id_table[] = {
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x00F0,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0103,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0123,  },
++  { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0124,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0126,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0129,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0168,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x015F,  },
+   { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0104,  },
++  { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0173,  },
++  { .vid = SYNAPTICS_VENDOR_ID,  .pid = 0x0106,  },
+   { .vid = 0,  .pid = 0,  .driver_data = 0 },   /* terminating entry */
+ };
+ 
+@@ -106,7 +109,11 @@ cmd_receive_cb (FpiUsbTransfer *transfer,
+ 
+           if (self->cmd_complete_on_removal)
+             {
+-              fpi_ssm_mark_completed (transfer->ssm);
++              if (self->delay_error)
++                fpi_ssm_mark_failed (transfer->ssm,
++                                     g_steal_pointer (&self->delay_error));
++              else
++                fpi_ssm_mark_completed (transfer->ssm);
+               return;
+             }
+         }
+@@ -641,18 +648,21 @@ verify (FpDevice *device)
+ }
+ 
+ static void
+-identify_complete_after_finger_removal (FpiDeviceSynaptics *self)
++identify_complete_after_finger_removal (FpiDeviceSynaptics *self, GError *error)
+ {
+   FpDevice *device = FP_DEVICE (self);
+ 
+   if (self->finger_on_sensor)
+     {
+       fp_dbg ("delaying identify report until after finger removal!");
++      if (error)
++        g_propagate_error (&self->delay_error, error);
++
+       self->cmd_complete_on_removal = TRUE;
+     }
+   else
+     {
+-      fpi_device_identify_complete (device, NULL);
++      fpi_device_identify_complete (device, error);
+     }
+ }
+ 
+@@ -702,19 +712,18 @@ identify_msg_cb (FpiDeviceSynaptics *self,
+           fp_info ("Match error occurred");
+           fpi_device_identify_report (device, NULL, NULL,
+                                       fpi_device_retry_new (FP_DEVICE_RETRY_GENERAL));
+-          identify_complete_after_finger_removal (self);
++          identify_complete_after_finger_removal (self, NULL);
+         }
+       else if (resp->result == BMKT_FP_NO_MATCH)
+         {
+           fp_info ("Print didn't match");
+           fpi_device_identify_report (device, NULL, NULL, NULL);
+-          identify_complete_after_finger_removal (self);
++          identify_complete_after_finger_removal (self, NULL);
+         }
+-      else if (resp->result == BMKT_FP_DATABASE_NO_RECORD_EXISTS)
++      else if (resp->result == BMKT_FP_DATABASE_NO_RECORD_EXISTS || resp->result == BMKT_FP_DATABASE_EMPTY)
+         {
+           fp_info ("Print is not in database");
+-          fpi_device_identify_complete (device,
+-                                        fpi_device_error_new (FP_DEVICE_ERROR_DATA_NOT_FOUND));
++          identify_complete_after_finger_removal (self, fpi_device_error_new (FP_DEVICE_ERROR_DATA_NOT_FOUND));
+         }
+       else
+         {
+@@ -750,7 +759,7 @@ identify_msg_cb (FpiDeviceSynaptics *self,
+         else
+           fpi_device_identify_report (device, NULL, print, NULL);
+ 
+-        identify_complete_after_finger_removal (self);
++        identify_complete_after_finger_removal (self, NULL);
+       }
+     }
+ }
+diff --git a/libfprint/drivers/synaptics/synaptics.h b/libfprint/drivers/synaptics/synaptics.h
+index 5fc0a192..6138db3f 100644
+--- a/libfprint/drivers/synaptics/synaptics.h
++++ b/libfprint/drivers/synaptics/synaptics.h
+@@ -127,4 +127,5 @@ struct _FpiDeviceSynaptics
+ 
+   struct syna_enroll_resp_data enroll_resp_data;
+   syna_state_t                 state;
++  GError                      *delay_error;
+ };
+diff --git a/libfprint/fp-context.c b/libfprint/fp-context.c
+index 34fcdda8..70d4062a 100644
+--- a/libfprint/fp-context.c
++++ b/libfprint/fp-context.c
+@@ -67,32 +67,26 @@ enum {
+ static guint signals[LAST_SIGNAL] = { 0 };
+ 
+ static const char *
+-get_drivers_whitelist_env (void)
++get_drivers_allowlist_env (void)
+ {
+-  return g_getenv ("FP_DRIVERS_WHITELIST");
++  return g_getenv ("FP_DRIVERS_ALLOWLIST");
+ }
+ 
+ static gboolean
+ is_driver_allowed (const gchar *driver)
+ {
+-  g_auto(GStrv) whitelisted_drivers = NULL;
+-  const char *fp_drivers_whitelist_env;
+-  int i;
++  g_auto(GStrv) allowlisted_drivers = NULL;
++  const char *fp_drivers_allowlist_env;
+ 
+   g_return_val_if_fail (driver, TRUE);
+ 
+-  fp_drivers_whitelist_env = get_drivers_whitelist_env ();
++  fp_drivers_allowlist_env = get_drivers_allowlist_env ();
+ 
+-  if (!fp_drivers_whitelist_env)
++  if (!fp_drivers_allowlist_env)
+     return TRUE;
+ 
+-  whitelisted_drivers = g_strsplit (fp_drivers_whitelist_env, ":", -1);
+-
+-  for (i = 0; whitelisted_drivers[i]; ++i)
+-    if (g_strcmp0 (driver, whitelisted_drivers[i]) == 0)
+-      return TRUE;
+-
+-  return FALSE;
++  allowlisted_drivers = g_strsplit (fp_drivers_allowlist_env, ":", -1);
++  return g_strv_contains ((const gchar * const *) allowlisted_drivers, driver);
+ }
+ 
+ typedef struct
+@@ -364,7 +358,7 @@ fp_context_init (FpContext *self)
+ 
+   priv->drivers = fpi_get_driver_types ();
+ 
+-  if (get_drivers_whitelist_env ())
++  if (get_drivers_allowlist_env ())
+     {
+       for (i = 0; i < priv->drivers->len;)
+         {
+diff --git a/libfprint/fp-image.c b/libfprint/fp-image.c
+index 8870cfab..f9c60b37 100644
+--- a/libfprint/fp-image.c
++++ b/libfprint/fp-image.c
+@@ -160,60 +160,65 @@ fp_image_init (FpImage *self)
+ 
+ typedef struct
+ {
+-  GAsyncReadyCallback user_cb;
+   struct fp_minutiae *minutiae;
+-  gint                width, height;
+-  gdouble             ppmm;
+-  FpiImageFlags       flags;
+-  guchar             *image;
+   guchar             *binarized;
+-} DetectMinutiaeData;
++  FpiImageFlags       flags;
++  unsigned char      *image;
++  gboolean            image_changed;
++} DetectMinutiaeNbisData;
+ 
+ static void
+-fp_image_detect_minutiae_free (DetectMinutiaeData *data)
++fp_image_detect_minutiae_free (DetectMinutiaeNbisData *data)
+ {
+-  g_clear_pointer (&data->image, g_free);
+   g_clear_pointer (&data->minutiae, free_minutiae);
+   g_clear_pointer (&data->binarized, g_free);
++
++  if (data->image_changed)
++    g_clear_pointer (&data->image, g_free);
++
+   g_free (data);
+ }
+ 
+-static void
+-fp_image_detect_minutiae_cb (GObject      *source_object,
+-                             GAsyncResult *res,
+-                             gpointer      user_data)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC (DetectMinutiaeNbisData, fp_image_detect_minutiae_free)
++
++
++static gboolean
++fp_image_detect_minutiae_nbis_finish (FpImage *self,
++                                      GTask   *task,
++                                      GError **error)
+ {
+-  GTask *task = G_TASK (res);
+-  FpImage *image;
+-  DetectMinutiaeData *data = g_task_get_task_data (task);
++  g_autoptr(DetectMinutiaeNbisData) data = NULL;
+ 
+-  if (!g_task_had_error (task))
+-    {
+-      gint i;
+-      image = FP_IMAGE (source_object);
++  data = g_task_propagate_pointer (task, error);
+ 
+-      image->flags = data->flags;
++  if (data != NULL)
++    {
++      self->flags = data->flags;
+ 
+-      g_clear_pointer (&image->data, g_free);
+-      image->data = g_steal_pointer (&data->image);
++      if (data->image_changed)
++        {
++          g_clear_pointer (&self->data, g_free);
++          self->data = g_steal_pointer (&data->image);
++        }
+ 
+-      g_clear_pointer (&image->binarized, g_free);
+-      image->binarized = g_steal_pointer (&data->binarized);
++      g_clear_pointer (&self->binarized, g_free);
++      self->binarized = g_steal_pointer (&data->binarized);
+ 
+-      g_clear_pointer (&image->minutiae, g_ptr_array_unref);
+-      image->minutiae = g_ptr_array_new_full (data->minutiae->num,
+-                                              (GDestroyNotify) free_minutia);
++      g_clear_pointer (&self->minutiae, g_ptr_array_unref);
++      self->minutiae = g_ptr_array_new_full (data->minutiae->num,
++                                             (GDestroyNotify) free_minutia);
+ 
+-      for (i = 0; i < data->minutiae->num; i++)
+-        g_ptr_array_add (image->minutiae,
++      for (int i = 0; i < data->minutiae->num; i++)
++        g_ptr_array_add (self->minutiae,
+                          g_steal_pointer (&data->minutiae->list[i]));
+ 
+-      /* Don't let it delete anything. */
++      /* Don't let free_minutiae delete the minutiae that we now own. */
+       data->minutiae->num = 0;
++
++      return TRUE;
+     }
+ 
+-  if (data->user_cb)
+-    data->user_cb (source_object, res, user_data);
++  return FALSE;
+ }
+ 
+ static void
+@@ -266,70 +271,83 @@ invert_colors (guint8 *data, gint width, gint height)
+ }
+ 
+ static void
+-fp_image_detect_minutiae_thread_func (GTask        *task,
+-                                      gpointer      source_object,
+-                                      gpointer      task_data,
+-                                      GCancellable *cancellable)
++fp_image_detect_minutiae_nbis_thread_func (GTask        *task,
++                                           gpointer      source_object,
++                                           gpointer      task_data,
++                                           GCancellable *cancellable)
+ {
+   g_autoptr(GTimer) timer = NULL;
+-  DetectMinutiaeData *data = task_data;
+-  struct fp_minutiae *minutiae = NULL;
++  g_autoptr(DetectMinutiaeNbisData) ret_data = NULL;
++  g_autoptr(GTask) thread_task = g_steal_pointer (&task);
+   g_autofree gint *direction_map = NULL;
+   g_autofree gint *low_contrast_map = NULL;
+   g_autofree gint *low_flow_map = NULL;
+   g_autofree gint *high_curve_map = NULL;
+   g_autofree gint *quality_map = NULL;
+-  g_autofree guchar *bdata = NULL;
++  g_autofree LFSPARMS *lfsparms = NULL;
++  FpImage *self = source_object;
++  FpiImageFlags minutiae_flags;
++  unsigned char *image;
+   gint map_w, map_h;
+   gint bw, bh, bd;
+   gint r;
+-  g_autofree LFSPARMS *lfsparms = NULL;
+ 
+-  /* Normalize the image first */
+-  if (data->flags & FPI_IMAGE_H_FLIPPED)
+-    hflip (data->image, data->width, data->height);
++  image = self->data;
++  minutiae_flags = self->flags & ~(FPI_IMAGE_H_FLIPPED |
++                                   FPI_IMAGE_V_FLIPPED |
++                                   FPI_IMAGE_COLORS_INVERTED);
++
++  if (minutiae_flags != FPI_IMAGE_NONE)
++    image = g_memdup2 (self->data, self->width * self->height);
+ 
+-  if (data->flags & FPI_IMAGE_V_FLIPPED)
+-    vflip (data->image, data->width, data->height);
++  ret_data = g_new0 (DetectMinutiaeNbisData, 1);
++  ret_data->flags = minutiae_flags;
++  ret_data->image = image;
++  ret_data->image_changed = image != self->data;
+ 
+-  if (data->flags & FPI_IMAGE_COLORS_INVERTED)
+-    invert_colors (data->image, data->width, data->height);
++  /* Normalize the image first */
++  if (self->flags & FPI_IMAGE_H_FLIPPED)
++    hflip (image, self->width, self->height);
++
++  if (self->flags & FPI_IMAGE_V_FLIPPED)
++    vflip (image, self->width, self->height);
+ 
+-  data->flags &= ~(FPI_IMAGE_H_FLIPPED | FPI_IMAGE_V_FLIPPED | FPI_IMAGE_COLORS_INVERTED);
++  if (self->flags & FPI_IMAGE_COLORS_INVERTED)
++    invert_colors (image, self->width, self->height);
+ 
+   lfsparms = g_memdup2 (&g_lfsparms_V2, sizeof (LFSPARMS));
+-  lfsparms->remove_perimeter_pts = data->flags & FPI_IMAGE_PARTIAL ? TRUE : FALSE;
++  lfsparms->remove_perimeter_pts = minutiae_flags & FPI_IMAGE_PARTIAL ? TRUE : FALSE;
+ 
+   timer = g_timer_new ();
+-  r = get_minutiae (&minutiae, &quality_map, &direction_map,
++  r = get_minutiae (&ret_data->minutiae, &quality_map, &direction_map,
+                     &low_contrast_map, &low_flow_map, &high_curve_map,
+-                    &map_w, &map_h, &bdata, &bw, &bh, &bd,
+-                    data->image, data->width, data->height, 8,
+-                    data->ppmm, lfsparms);
++                    &map_w, &map_h, &ret_data->binarized, &bw, &bh, &bd,
++                    image, self->width, self->height, 8,
++                    self->ppmm, lfsparms);
+   g_timer_stop (timer);
+   fp_dbg ("Minutiae scan completed in %f secs", g_timer_elapsed (timer, NULL));
+ 
+-  data->binarized = g_steal_pointer (&bdata);
+-  data->minutiae = minutiae;
++  if (g_task_had_error (thread_task))
++    return;
+ 
+   if (r)
+     {
+       fp_err ("get minutiae failed, code %d", r);
+-      g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED, "Minutiae scan failed with code %d", r);
+-      g_object_unref (task);
++      g_task_return_new_error (thread_task, G_IO_ERROR,
++                               G_IO_ERROR_FAILED,
++                               "Minutiae scan failed with code %d", r);
+       return;
+     }
+ 
+-  if (!data->minutiae || data->minutiae->num == 0)
++  if (!ret_data->minutiae || ret_data->minutiae->num == 0)
+     {
+-      g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED,
++      g_task_return_new_error (thread_task, G_IO_ERROR, G_IO_ERROR_FAILED,
+                                "No minutiae found");
+-      g_object_unref (task);
+       return;
+     }
+ 
+-  g_task_return_boolean (task, TRUE);
+-  g_object_unref (task);
++  g_task_return_pointer (thread_task, g_steal_pointer (&ret_data),
++                         (GDestroyNotify) fp_image_detect_minutiae_free);
+ }
+ 
+ /**
+@@ -445,21 +463,25 @@ fp_image_detect_minutiae (FpImage            *self,
+                           GAsyncReadyCallback callback,
+                           gpointer            user_data)
+ {
+-  GTask *task;
+-  DetectMinutiaeData *data = g_new0 (DetectMinutiaeData, 1);
++  g_autoptr(GTask) task = NULL;
++
++  g_return_if_fail (FP_IS_IMAGE (self));
++  g_return_if_fail (callback != NULL);
+ 
+-  task = g_task_new (self, cancellable, fp_image_detect_minutiae_cb, user_data);
++  task = g_task_new (self, cancellable, callback, user_data);
++  g_task_set_source_tag (task, fp_image_detect_minutiae);
++  g_task_set_check_cancellable (task, TRUE);
+ 
+-  data->image = g_malloc (self->width * self->height);
+-  memcpy (data->image, self->data, self->width * self->height);
+-  data->flags = self->flags;
+-  data->width = self->width;
+-  data->height = self->height;
+-  data->ppmm = self->ppmm;
+-  data->user_cb = callback;
++  if (!g_atomic_int_compare_and_exchange (&self->detection_in_progress,
++                                          FALSE, TRUE))
++    {
++      g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_ADDRESS_IN_USE,
++                               "Minutiae detection is already in progress");
++      return;
++    }
+ 
+-  g_task_set_task_data (task, data, (GDestroyNotify) fp_image_detect_minutiae_free);
+-  g_task_run_in_thread (task, fp_image_detect_minutiae_thread_func);
++  g_task_run_in_thread (g_steal_pointer (&task),
++                        fp_image_detect_minutiae_nbis_thread_func);
+ }
+ 
+ /**
+@@ -477,7 +499,27 @@ fp_image_detect_minutiae_finish (FpImage      *self,
+                                  GAsyncResult *result,
+                                  GError      **error)
+ {
+-  return g_task_propagate_boolean (G_TASK (result), error);
++  GTask *task;
++  gboolean changed;
++
++  g_return_val_if_fail (FP_IS_IMAGE (self), FALSE);
++  g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
++  g_return_val_if_fail (g_task_get_source_tag (G_TASK (result)) ==
++                        fp_image_detect_minutiae, FALSE);
++
++  task = G_TASK (result);
++  changed = g_atomic_int_compare_and_exchange (&self->detection_in_progress,
++                                               TRUE, FALSE);
++  g_assert (changed);
++
++  if (g_task_had_error (task))
++    {
++      gpointer data = g_task_propagate_pointer (task, error);
++      g_assert (data == NULL);
++      return FALSE;
++    }
++
++  return fp_image_detect_minutiae_nbis_finish (self, task, error);
+ }
+ 
+ /**
+diff --git a/libfprint/fp-print.c b/libfprint/fp-print.c
+index 7bcb9d8d..92323160 100644
+--- a/libfprint/fp-print.c
++++ b/libfprint/fp-print.c
+@@ -721,13 +721,12 @@ fp_print_serialize (FpPrint *print,
+ 
+   result = g_variant_builder_end (&builder);
+ 
+-  if (G_BYTE_ORDER == G_BIG_ENDIAN)
+-    {
+-      GVariant *tmp;
+-      tmp = g_variant_byteswap (result);
+-      g_variant_unref (result);
+-      result = tmp;
+-    }
++#if (G_BYTE_ORDER == G_BIG_ENDIAN)
++  GVariant *tmp;
++  tmp = g_variant_byteswap (result);
++  g_variant_unref (result);
++  result = tmp;
++#endif
+ 
+   len = g_variant_get_size (result);
+   /* Add 3 bytes of header */
+@@ -800,10 +799,11 @@ fp_print_deserialize (const guchar *data,
+   if (!raw_value)
+     goto invalid_format;
+ 
+-  if (G_BYTE_ORDER == G_BIG_ENDIAN)
+-    value = g_variant_byteswap (raw_value);
+-  else
+-    value = g_variant_get_normal_form (raw_value);
++#if (G_BYTE_ORDER == G_BIG_ENDIAN)
++  value = g_variant_byteswap (raw_value);
++#else
++  value = g_variant_get_normal_form (raw_value);
++#endif
+ 
+   g_variant_get (value,
+                  "(i&s&sbymsmsi@a{sv}v)",
+diff --git a/libfprint/fpi-image.h b/libfprint/fpi-image.h
+index 3554bb7b..0c703fb1 100644
+--- a/libfprint/fpi-image.h
++++ b/libfprint/fpi-image.h
+@@ -33,6 +33,7 @@
+  * rely on the image to be normalized by libfprint before further processing.
+  */
+ typedef enum {
++  FPI_IMAGE_NONE            = 0,
+   FPI_IMAGE_V_FLIPPED       = 1 << 0,
+   FPI_IMAGE_H_FLIPPED       = 1 << 1,
+   FPI_IMAGE_COLORS_INVERTED = 1 << 2,
+@@ -67,7 +68,8 @@ struct _FpImage
+   guint8    *binarized;
+ 
+   GPtrArray *minutiae;
+-  guint      ref_count;
++
++  gboolean   detection_in_progress;
+ };
+ 
+ gint fpi_std_sq_dev (const guint8 *buf,
+diff --git a/libfprint/fprint-list-supported-devices.c b/libfprint/fprint-list-supported-devices.c
+index ace5de09..1b02c0b2 100644
+--- a/libfprint/fprint-list-supported-devices.c
++++ b/libfprint/fprint-list-supported-devices.c
+@@ -110,7 +110,7 @@ main (int argc, char **argv)
+ 
+   printed = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+ 
+-  g_print ("%% lifprint — Supported Devices\n");
++  g_print ("%% libfprint — Supported Devices\n");
+   g_print ("%% Bastien Nocera, Daniel Drake\n");
+   g_print ("%% 2018\n");
+   g_print ("\n");
+diff --git a/libfprint/fprint-list-udev-hwdb.c b/libfprint/fprint-list-udev-hwdb.c
+index cf1c4ecf..28530a06 100644
+--- a/libfprint/fprint-list-udev-hwdb.c
++++ b/libfprint/fprint-list-udev-hwdb.c
+@@ -24,11 +24,12 @@
+ #include "fpi-context.h"
+ #include "fpi-device.h"
+ 
+-static const FpIdEntry whitelist_id_table[] = {
++static const FpIdEntry allowlist_id_table[] = {
+   /* Currently known and unsupported devices.
+    * You can generate this list from the wiki page using e.g.:
+    *   gio cat https://gitlab.freedesktop.org/libfprint/wiki/-/wikis/Unsupported-Devices.md | sed -n 's!|.*\([0-9a-fA-F]\{4\}\):\([0-9a-fA-F]\{4\}\).*|.*!  { .vid = 0x\1, .pid = 0x\2 },!p'
+    */
++  { .vid = 0x047d, .pid = 0x00f2 },
+   { .vid = 0x04e8, .pid = 0x730b },
+   { .vid = 0x04f3, .pid = 0x036b },
+   { .vid = 0x04f3, .pid = 0x0c00 },
+@@ -36,12 +37,16 @@ static const FpIdEntry whitelist_id_table[] = {
+   { .vid = 0x04f3, .pid = 0x0c57 },
+   { .vid = 0x04f3, .pid = 0x0c5e },
+   { .vid = 0x04f3, .pid = 0x0c5a },
++  { .vid = 0x04f3, .pid = 0x0c6c },
+   { .vid = 0x04f3, .pid = 0x0c70 },
+   { .vid = 0x04f3, .pid = 0x0c72 },
++  { .vid = 0x04f3, .pid = 0x0c77 },
+   { .vid = 0x04f3, .pid = 0x2706 },
++  { .vid = 0x04f3, .pid = 0x3032 },
+   { .vid = 0x04f3, .pid = 0x3057 },
+   { .vid = 0x04f3, .pid = 0x3104 },
+   { .vid = 0x04f3, .pid = 0x310d },
++  { .vid = 0x04f3, .pid = 0x3128 },
+   { .vid = 0x06cb, .pid = 0x0081 },
+   { .vid = 0x06cb, .pid = 0x0088 },
+   { .vid = 0x06cb, .pid = 0x008a },
+@@ -75,6 +80,7 @@ static const FpIdEntry whitelist_id_table[] = {
+   { .vid = 0x10a5, .pid = 0x0007 },
+   { .vid = 0x10a5, .pid = 0x9200 },
+   { .vid = 0x10a5, .pid = 0x9800 },
++  { .vid = 0x10a5, .pid = 0xe340 },
+   { .vid = 0x1188, .pid = 0x9545 },
+   { .vid = 0x138a, .pid = 0x0007 },
+   { .vid = 0x138a, .pid = 0x003a },
+@@ -87,12 +93,16 @@ static const FpIdEntry whitelist_id_table[] = {
+   { .vid = 0x138a, .pid = 0x0097 },
+   { .vid = 0x138a, .pid = 0x009d },
+   { .vid = 0x138a, .pid = 0x00ab },
++  { .vid = 0x138a, .pid = 0x00a6 },
+   { .vid = 0x147e, .pid = 0x1002 },
+   { .vid = 0x1491, .pid = 0x0088 },
+   { .vid = 0x16d1, .pid = 0x1027 },
+   { .vid = 0x1c7a, .pid = 0x0300 },
+   { .vid = 0x1c7a, .pid = 0x0575 },
+   { .vid = 0x1c7a, .pid = 0x0576 },
++  { .vid = 0x1c7a, .pid = 0x0577 },
++  { .vid = 0x1c7a, .pid = 0x0582 },
++  { .vid = 0x1c7a, .pid = 0x05a1 },
+   { .vid = 0x27c6, .pid = 0x5042 },
+   { .vid = 0x27c6, .pid = 0x5110 },
+   { .vid = 0x27c6, .pid = 0x5117 },
+@@ -120,6 +130,8 @@ static const FpIdEntry whitelist_id_table[] = {
+   { .vid = 0x27c6, .pid = 0x5740 },
+   { .vid = 0x27c6, .pid = 0x5e0a },
+   { .vid = 0x27c6, .pid = 0x581a },
++  { .vid = 0x27c6, .pid = 0x589a },
++  { .vid = 0x27c6, .pid = 0x6382 },
+   { .vid = 0x2808, .pid = 0x9338 },
+   { .vid = 0x2808, .pid = 0x93a9 },
+   { .vid = 0x298d, .pid = 0x2020 },
+@@ -128,18 +140,18 @@ static const FpIdEntry whitelist_id_table[] = {
+   { .vid = 0 },
+ };
+ 
+-static const FpIdEntry blacklist_id_table[] = {
++static const FpIdEntry denylist_id_table[] = {
+   { .vid = 0x0483, .pid = 0x2016 },
+   /* https://bugs.freedesktop.org/show_bug.cgi?id=66659 */
+   { .vid = 0x045e, .pid = 0x00bb },
+   { .vid = 0 },
+ };
+ 
+-static const FpDeviceClass whitelist = {
++static const FpDeviceClass allowlist = {
+   .type = FP_DEVICE_TYPE_USB,
+-  .id_table = whitelist_id_table,
+-  .id = "whitelist",
+-  .full_name = "Hardcoded whitelist"
++  .id_table = allowlist_id_table,
++  .id = "allowlist",
++  .full_name = "Hardcoded allowlist"
+ };
+ 
+ GHashTable *printed = NULL;
+@@ -158,7 +170,7 @@ print_driver (const FpDeviceClass *cls)
+       const FpIdEntry *bl_entry;
+       char *key;
+ 
+-      for (bl_entry = blacklist_id_table; bl_entry->vid != 0; bl_entry++)
++      for (bl_entry = denylist_id_table; bl_entry->vid != 0; bl_entry++)
+         if (entry->vid == bl_entry->vid && entry->pid == bl_entry->pid)
+           break;
+ 
+@@ -169,7 +181,7 @@ print_driver (const FpDeviceClass *cls)
+ 
+       if (g_hash_table_lookup (printed, key) != NULL)
+         {
+-          if (cls == &whitelist)
++          if (cls == &allowlist)
+             g_warning ("%s implemented by driver %s",
+                        key, (const char *) g_hash_table_lookup (printed, key));
+           g_free (key);
+@@ -180,7 +192,7 @@ print_driver (const FpDeviceClass *cls)
+ 
+       if (num_printed == 0)
+         {
+-          if (cls != &whitelist)
++          if (cls != &allowlist)
+             g_print ("\n# Supported by libfprint driver %s\n", cls->id);
+           else
+             g_print ("\n# Known unsupported devices\n");
+@@ -234,7 +246,7 @@ main (int argc, char **argv)
+       print_driver (cls);
+     }
+ 
+-  print_driver (&whitelist);
++  print_driver (&allowlist);
+ 
+   g_hash_table_destroy (printed);
+ 
+diff --git a/libfprint/meson.build b/libfprint/meson.build
+index 7e3b771f..da8285e5 100644
+--- a/libfprint/meson.build
++++ b/libfprint/meson.build
+@@ -141,6 +141,10 @@ driver_sources = {
+         [ 'drivers/goodixmoc/goodix.c', 'drivers/goodixmoc/goodix_proto.c' ],
+     'fpcmoc' :
+         [ 'drivers/fpcmoc/fpc.c' ],
++    'realtek' :
++        [ 'drivers/realtek/realtek.c' ],
++    'focaltech_moc' :
++        [ 'drivers/focaltech_moc/focaltech_moc.c' ],
+ }
+ 
+ helper_sources = {
+diff --git a/meson.build b/meson.build
+index 0b7569bd..aeef6911 100644
+--- a/meson.build
++++ b/meson.build
+@@ -131,6 +131,8 @@ default_drivers = [
+     'goodixmoc',
+     'nb1010',
+     'fpcmoc',
++    'realtek',
++    'focaltech_moc',
+ 
+     # SPI
+     'elanspi',
+diff --git a/tests/create-driver-test.py.in b/tests/create-driver-test.py.in
+index 8173271f..64d96db4 100755
+--- a/tests/create-driver-test.py.in
++++ b/tests/create-driver-test.py.in
+@@ -44,7 +44,7 @@ if len(sys.argv) > 3:
+     sys.exit(1)
+ 
+ driver_name = sys.argv[1]
+-os.environ['FP_DRIVERS_WHITELIST'] = driver_name
++os.environ['FP_DRIVERS_ALLOWLIST'] = driver_name
+ 
+ test_variant = None
+ if len(sys.argv) == 3:
+diff --git a/tests/egis0570/capture.pcapng b/tests/egis0570/capture.pcapng
+old mode 100755
+new mode 100644
+diff --git a/tests/egis0570/device b/tests/egis0570/device
+index 5247b785..3001bd98 100644
+--- a/tests/egis0570/device
++++ b/tests/egis0570/device
+@@ -24,7 +24,7 @@ E: ID_USB_INTERFACES=:ff0000:
+ E: ID_VENDOR_FROM_DATABASE=LighTuning Technology Inc.
+ E: ID_PATH=pci-0000:00:14.0-usb-0:9
+ E: ID_PATH_TAG=pci-0000_00_14_0-usb-0_9
+-E: LIBFPRINT_DRIVER=Hardcoded whitelist
++E: LIBFPRINT_DRIVER=Hardcoded allowlist
+ A: authorized=1\n
+ A: avoid_reset_quirk=0\n
+ A: bConfigurationValue=1\n
+diff --git a/tests/focaltech_moc/custom.pcapng b/tests/focaltech_moc/custom.pcapng
+new file mode 100644
+index 00000000..9bcd05c9
+Binary files /dev/null and b/tests/focaltech_moc/custom.pcapng differ
+diff --git a/tests/focaltech_moc/custom.py b/tests/focaltech_moc/custom.py
+new file mode 100755
+index 00000000..6a876c60
+--- /dev/null
++++ b/tests/focaltech_moc/custom.py
+@@ -0,0 +1,89 @@
++#!/usr/bin/python3
++
++import traceback
++import sys
++import gi
++
++gi.require_version('FPrint', '2.0')
++from gi.repository import FPrint, GLib
++
++# Exit with error on any exception, included those happening in async callbacks
++sys.excepthook = lambda *args: (traceback.print_exception(*args), sys.exit(1))
++
++ctx = GLib.main_context_default()
++
++c = FPrint.Context()
++c.enumerate()
++devices = c.get_devices()
++
++d = devices[0]
++del devices
++
++assert d.get_driver() == "focaltech_moc"
++assert not d.has_feature(FPrint.DeviceFeature.CAPTURE)
++assert d.has_feature(FPrint.DeviceFeature.IDENTIFY)
++assert d.has_feature(FPrint.DeviceFeature.VERIFY)
++assert not d.has_feature(FPrint.DeviceFeature.DUPLICATES_CHECK)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE_LIST)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE_DELETE)
++assert not d.has_feature(FPrint.DeviceFeature.STORAGE_CLEAR)
++
++d.open_sync()
++
++template = FPrint.Print.new(d)
++
++def enroll_progress(*args):
++    #assert d.get_finger_status() == FPrint.FingerStatusFlags.NEEDED
++    print("finger status: ", d.get_finger_status())
++    print('enroll progress: ' + str(args))
++
++def identify_done(dev, res):
++    global identified
++    identified = True
++    identify_match, identify_print = dev.identify_finish(res)
++    print('indentification_done: ', identify_match, identify_print)
++    assert identify_match.equal(identify_print)
++
++# List, enroll, list, verify, identify, delete
++print("enrolling")
++assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++p = d.enroll_sync(template, None, enroll_progress, None)
++assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++print("enroll done")
++
++print("listing")
++stored = d.list_prints_sync()
++print("listing done")
++assert len(stored) == 1
++assert stored[0].equal(p)
++print("verifying")
++assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++verify_res, verify_print = d.verify_sync(p)
++assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++print("verify done")
++del p
++assert verify_res == True
++
++identified = False
++deserialized_prints = []
++for p in stored:
++    deserialized_prints.append(FPrint.Print.deserialize(p.serialize()))
++    assert deserialized_prints[-1].equal(p)
++del stored
++
++print('async identifying')
++d.identify(deserialized_prints, callback=identify_done)
++del deserialized_prints
++
++while not identified:
++    ctx.iteration(True)
++
++print("deleting")
++d.delete_print_sync(p)
++print("delete done")
++
++d.close_sync()
++
++del d
++del c
+diff --git a/tests/focaltech_moc/device b/tests/focaltech_moc/device
+new file mode 100644
+index 00000000..093807d1
+--- /dev/null
++++ b/tests/focaltech_moc/device
+@@ -0,0 +1,385 @@
++P: /devices/pci0000:00/0000:00:1c.4/0000:0b:00.0/usb3/3-1/3-1.4
++N: bus/usb/003/006=1201100100000040082879D900020102030109022000010100A0320904000002DCA0B0000705020240000007058102400000
++E: DEVNAME=/dev/bus/usb/003/006
++E: DEVTYPE=usb_device
++E: DRIVER=usb
++E: PRODUCT=2808/d979/200
++E: TYPE=0/0/0
++E: BUSNUM=003
++E: DEVNUM=006
++E: MAJOR=189
++E: MINOR=261
++E: SUBSYSTEM=usb
++E: ID_VENDOR=CCore
++E: ID_VENDOR_ENC=CCore
++E: ID_VENDOR_ID=2808
++E: ID_MODEL=FocalTech_FT9349_ESS
++E: ID_MODEL_ENC=FocalTech\x20FT9349\x20ESS
++E: ID_MODEL_ID=d979
++E: ID_REVISION=0200
++E: ID_SERIAL=CCore_FocalTech_FT9349_ESS_1234567890ABCDEF
++E: ID_SERIAL_SHORT=1234567890ABCDEF
++E: ID_BUS=usb
++E: ID_USB_INTERFACES=:dca0b0:
++E: ID_PATH=pci-0000:0b:00.0-usb-0:1.4
++E: ID_PATH_TAG=pci-0000_0b_00_0-usb-0_1_4
++A: authorized=1
++A: avoid_reset_quirk=0
++A: bConfigurationValue=1
++A: bDeviceClass=00
++A: bDeviceProtocol=00
++A: bDeviceSubClass=00
++A: bMaxPacketSize0=64
++A: bMaxPower=100mA
++A: bNumConfigurations=1
++A: bNumInterfaces= 1
++A: bcdDevice=0200
++A: bmAttributes=a0
++A: busnum=3
++A: configuration=
++H: descriptors=1201100100000040082879D900020102030109022000010100A0320904000002DCA0B0000705020240000007058102400000
++A: dev=189:261
++A: devnum=6
++A: devpath=1.4
++L: driver=../../../../../../../bus/usb/drivers/usb
++A: idProduct=d979
++A: idVendor=2808
++A: ltm_capable=no
++A: manufacturer=CCore
++A: maxchild=0
++L: port=../3-1:1.0/3-1-port4
++A: power/active_duration=130884
++A: power/async=enabled
++A: power/autosuspend=2
++A: power/autosuspend_delay_ms=2000
++A: power/connected_duration=2778952
++A: power/control=auto
++A: power/level=auto
++A: power/persist=0
++A: power/runtime_active_kids=0
++A: power/runtime_active_time=131747
++A: power/runtime_enabled=enabled
++A: power/runtime_status=active
++A: power/runtime_suspended_time=2647026
++A: power/runtime_usage=0
++A: power/wakeup=disabled
++A: power/wakeup_abort_count=
++A: power/wakeup_active=
++A: power/wakeup_active_count=
++A: power/wakeup_count=
++A: power/wakeup_expire_count=
++A: power/wakeup_last_time_ms=
++A: power/wakeup_max_time_ms=
++A: power/wakeup_total_time_ms=
++A: product=FocalTech FT9349 ESS
++A: quirks=0x0
++A: removable=unknown
++A: rx_lanes=1
++A: serial=1234567890ABCDEF
++A: speed=12
++A: tx_lanes=1
++A: urbnum=1922
++A: version= 1.10
++
++P: /devices/pci0000:00/0000:00:1c.4/0000:0b:00.0/usb3/3-1
++N: bus/usb/003/002=1201000209000140E305080636850001000109021900010100E0320904000001090000000705810301000C
++E: DEVNAME=/dev/bus/usb/003/002
++E: DEVTYPE=usb_device
++E: DRIVER=usb
++E: PRODUCT=5e3/608/8536
++E: TYPE=9/0/1
++E: BUSNUM=003
++E: DEVNUM=002
++E: MAJOR=189
++E: MINOR=257
++E: SUBSYSTEM=usb
++E: ID_VENDOR=05e3
++E: ID_VENDOR_ENC=05e3
++E: ID_VENDOR_ID=05e3
++E: ID_MODEL=USB2.0_Hub
++E: ID_MODEL_ENC=USB2.0\x20Hub
++E: ID_MODEL_ID=0608
++E: ID_REVISION=8536
++E: ID_SERIAL=05e3_USB2.0_Hub
++E: ID_BUS=usb
++E: ID_USB_INTERFACES=:090000:
++E: ID_VENDOR_FROM_DATABASE=Genesys Logic, Inc.
++E: ID_MODEL_FROM_DATABASE=Hub
++E: ID_PATH=pci-0000:0b:00.0-usb-0:1
++E: ID_PATH_TAG=pci-0000_0b_00_0-usb-0_1
++E: ID_FOR_SEAT=usb-pci-0000_0b_00_0-usb-0_1
++E: TAGS=:seat:
++A: authorized=1
++A: avoid_reset_quirk=0
++A: bConfigurationValue=1
++A: bDeviceClass=09
++A: bDeviceProtocol=01
++A: bDeviceSubClass=00
++A: bMaxPacketSize0=64
++A: bMaxPower=100mA
++A: bNumConfigurations=1
++A: bNumInterfaces= 1
++A: bcdDevice=8536
++A: bmAttributes=e0
++A: busnum=3
++A: configuration=
++H: descriptors=1201000209000140E305080636850001000109021900010100E0320904000001090000000705810301000C
++A: dev=189:257
++A: devnum=2
++A: devpath=1
++L: driver=../../../../../../bus/usb/drivers/usb
++A: idProduct=0608
++A: idVendor=05e3
++A: ltm_capable=no
++A: maxchild=4
++L: port=../3-0:1.0/usb3-port1
++A: power/active_duration=6193132
++A: power/async=enabled
++A: power/autosuspend=0
++A: power/autosuspend_delay_ms=0
++A: power/connected_duration=6193132
++A: power/control=auto
++A: power/level=auto
++A: power/runtime_active_kids=3
++A: power/runtime_active_time=6192633
++A: power/runtime_enabled=enabled
++A: power/runtime_status=active
++A: power/runtime_suspended_time=0
++A: power/runtime_usage=0
++A: power/wakeup=disabled
++A: power/wakeup_abort_count=
++A: power/wakeup_active=
++A: power/wakeup_active_count=
++A: power/wakeup_count=
++A: power/wakeup_expire_count=
++A: power/wakeup_last_time_ms=
++A: power/wakeup_max_time_ms=
++A: power/wakeup_total_time_ms=
++A: product=USB2.0 Hub
++A: quirks=0x0
++A: removable=unknown
++A: rx_lanes=1
++A: speed=480
++A: tx_lanes=1
++A: urbnum=619
++A: version= 2.00
++
++P: /devices/pci0000:00/0000:00:1c.4/0000:0b:00.0/usb3
++N: bus/usb/003/001=12010002090001406B1D020015050302010109021900010100E0000904000001090000000705810304000C
++E: DEVNAME=/dev/bus/usb/003/001
++E: DEVTYPE=usb_device
++E: DRIVER=usb
++E: PRODUCT=1d6b/2/515
++E: TYPE=9/0/1
++E: BUSNUM=003
++E: DEVNUM=001
++E: MAJOR=189
++E: MINOR=256
++E: SUBSYSTEM=usb
++E: ID_VENDOR=Linux_5.15.0-52-generic_xhci-hcd
++E: ID_VENDOR_ENC=Linux\x205.15.0-52-generic\x20xhci-hcd
++E: ID_VENDOR_ID=1d6b
++E: ID_MODEL=xHCI_Host_Controller
++E: ID_MODEL_ENC=xHCI\x20Host\x20Controller
++E: ID_MODEL_ID=0002
++E: ID_REVISION=0515
++E: ID_SERIAL=Linux_5.15.0-52-generic_xhci-hcd_xHCI_Host_Controller_0000:0b:00.0
++E: ID_SERIAL_SHORT=0000:0b:00.0
++E: ID_BUS=usb
++E: ID_USB_INTERFACES=:090000:
++E: ID_VENDOR_FROM_DATABASE=Linux Foundation
++E: ID_MODEL_FROM_DATABASE=2.0 root hub
++E: ID_PATH=pci-0000:0b:00.0
++E: ID_PATH_TAG=pci-0000_0b_00_0
++E: ID_FOR_SEAT=usb-pci-0000_0b_00_0
++E: TAGS=:seat:
++A: authorized=1
++A: authorized_default=1
++A: avoid_reset_quirk=0
++A: bConfigurationValue=1
++A: bDeviceClass=09
++A: bDeviceProtocol=01
++A: bDeviceSubClass=00
++A: bMaxPacketSize0=64
++A: bMaxPower=0mA
++A: bNumConfigurations=1
++A: bNumInterfaces= 1
++A: bcdDevice=0515
++A: bmAttributes=e0
++A: busnum=3
++A: configuration=
++H: descriptors=12010002090001406B1D020015050302010109021900010100E0000904000001090000000705810304000C
++A: dev=189:256
++A: devnum=1
++A: devpath=0
++L: driver=../../../../../bus/usb/drivers/usb
++A: idProduct=0002
++A: idVendor=1d6b
++A: interface_authorized_default=1
++A: ltm_capable=no
++A: manufacturer=Linux 5.15.0-52-generic xhci-hcd
++A: maxchild=2
++A: power/active_duration=6193348
++A: power/async=enabled
++A: power/autosuspend=0
++A: power/autosuspend_delay_ms=0
++A: power/connected_duration=6193348
++A: power/control=auto
++A: power/level=auto
++A: power/runtime_active_kids=1
++A: power/runtime_active_time=6193145
++A: power/runtime_enabled=enabled
++A: power/runtime_status=active
++A: power/runtime_suspended_time=0
++A: power/runtime_usage=0
++A: power/wakeup=disabled
++A: power/wakeup_abort_count=
++A: power/wakeup_active=
++A: power/wakeup_active_count=
++A: power/wakeup_count=
++A: power/wakeup_expire_count=
++A: power/wakeup_last_time_ms=
++A: power/wakeup_max_time_ms=
++A: power/wakeup_total_time_ms=
++A: product=xHCI Host Controller
++A: quirks=0x0
++A: removable=unknown
++A: rx_lanes=1
++A: serial=0000:0b:00.0
++A: speed=480
++A: tx_lanes=1
++A: urbnum=36
++A: version= 2.00
++
++P: /devices/pci0000:00/0000:00:1c.4/0000:0b:00.0
++E: DRIVER=xhci_hcd
++E: PCI_CLASS=C0330
++E: PCI_ID=104C:8241
++E: PCI_SUBSYS_ID=1028:050F
++E: PCI_SLOT_NAME=0000:0b:00.0
++E: MODALIAS=pci:v0000104Cd00008241sv00001028sd0000050Fbc0Csc03i30
++E: SUBSYSTEM=pci
++E: ID_PCI_CLASS_FROM_DATABASE=Serial bus controller
++E: ID_PCI_SUBCLASS_FROM_DATABASE=USB controller
++E: ID_PCI_INTERFACE_FROM_DATABASE=XHCI
++E: ID_VENDOR_FROM_DATABASE=Texas Instruments
++E: ID_MODEL_FROM_DATABASE=TUSB73x0 SuperSpeed USB 3.0 xHCI Host Controller
++A: aer_dev_correctable=RxErr 0\nBadTLP 0\nBadDLLP 0\nRollover 0\nTimeout 0\nNonFatalErr 0\nCorrIntErr 0\nHeaderOF 0\nTOTAL_ERR_COR 0
++A: aer_dev_fatal=Undefined 0\nDLP 0\nSDES 0\nTLP 0\nFCP 0\nCmpltTO 0\nCmpltAbrt 0\nUnxCmplt 0\nRxOF 0\nMalfTLP 0\nECRC 0\nUnsupReq 0\nACSViol 0\nUncorrIntErr 0\nBlockedTLP 0\nAtomicOpBlocked 0\nTLPBlockedErr 0\nPoisonTLPBlocked 0\nTOTAL_ERR_FATAL 0
++A: aer_dev_nonfatal=Undefined 0\nDLP 0\nSDES 0\nTLP 0\nFCP 0\nCmpltTO 0\nCmpltAbrt 0\nUnxCmplt 0\nRxOF 0\nMalfTLP 0\nECRC 0\nUnsupReq 0\nACSViol 0\nUncorrIntErr 0\nBlockedTLP 0\nAtomicOpBlocked 0\nTLPBlockedErr 0\nPoisonTLPBlocked 0\nTOTAL_ERR_NONFATAL 0
++A: ari_enabled=0
++A: broken_parity_status=0
++A: class=0x0c0330
++H: config=4C104182060410000230030C100000000400D0F7000000000400D1F70000000000000000000000000000000028100F050000000040000000000000000B010000014883FE080000000570860000000000000000000000000000000000000000003020000000000000000000000000000010C00200C38F900500201900123C07004200121000000000000000000000000000000000100000000000000000000000020000000000000000000000000000000000000000000F0000000000000000001100078002000000021000000000000028100F05AB0D00001B0000003F000000000040CB00000000000000000000000000000000000000000000000000000000010002150000000000000000302046000020000000200000A000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030001000000200000280008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003B00B100FFFFFFFF04000007000F0F1B2001010000000000AA430000800200000000000000000000117E7C031000000830C0000001800000FFFF0F00000000000F00000000000000855023000B50230000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000F010000000000000000000000000000000000001B0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
++A: consistent_dma_mask_bits=64
++A: current_link_speed=5.0 GT/s PCIe
++A: current_link_width=1
++A: d3cold_allowed=1
++A: device=0x8241
++A: dma_mask_bits=64
++L: driver=../../../../bus/pci/drivers/xhci_hcd
++A: driver_override=(null)
++A: enable=1
++A: irq=16
++A: link/clkpm=0
++A: link/l0s_aspm=0
++A: link/l1_aspm=1
++A: local_cpulist=0-3
++A: local_cpus=f
++A: max_link_speed=5.0 GT/s PCIe
++A: max_link_width=1
++A: modalias=pci:v0000104Cd00008241sv00001028sd0000050Fbc0Csc03i30
++A: msi_bus=1
++A: msi_irqs/25=msix
++A: msi_irqs/26=msix
++A: msi_irqs/27=msix
++A: msi_irqs/28=msix
++A: msi_irqs/29=msix
++A: numa_node=-1
++A: pools=poolinfo - 0.1\nbuffer-2048         0    0 2048  0\nbuffer-512          0    0  512  0\nbuffer-128          0    0  128  0\nbuffer-32           0    0   32  0\nxHCI 1KB stream ctx arrays    0    0 1024  0\nxHCI 256 byte stream ctx arrays    0    0  256  0\nxHCI input/output contexts   11   12 2112 12\nxHCI ring segments   34   34 4096 34\nbuffer-2048        16   32 2048 16\nbuffer-512          0    0  512  0\nbuffer-128         26   32  128  1\nbuffer-32           0    0   32  0
++A: power/async=enabled
++A: power/control=on
++A: power/runtime_active_kids=1
++A: power/runtime_active_time=6193932
++A: power/runtime_enabled=forbidden
++A: power/runtime_status=active
++A: power/runtime_suspended_time=0
++A: power/runtime_usage=1
++A: power/wakeup=enabled
++A: power/wakeup_abort_count=0
++A: power/wakeup_active=0
++A: power/wakeup_active_count=0
++A: power/wakeup_count=0
++A: power/wakeup_expire_count=0
++A: power/wakeup_last_time_ms=0
++A: power/wakeup_max_time_ms=0
++A: power/wakeup_total_time_ms=0
++A: power_state=D0
++A: reset_method=bus
++A: resource=0x00000000f7d00000 0x00000000f7d0ffff 0x0000000000140204\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x00000000f7d10000 0x00000000f7d11fff 0x0000000000140204\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000
++A: revision=0x02
++A: subsystem_device=0x050f
++A: subsystem_vendor=0x1028
++A: vendor=0x104c
++
++P: /devices/pci0000:00/0000:00:1c.4
++E: DRIVER=pcieport
++E: PCI_CLASS=60400
++E: PCI_ID=8086:1C18
++E: PCI_SUBSYS_ID=1028:050F
++E: PCI_SLOT_NAME=0000:00:1c.4
++E: MODALIAS=pci:v00008086d00001C18sv00001028sd0000050Fbc06sc04i00
++E: SUBSYSTEM=pci
++E: ID_PCI_CLASS_FROM_DATABASE=Bridge
++E: ID_PCI_SUBCLASS_FROM_DATABASE=PCI bridge
++E: ID_PCI_INTERFACE_FROM_DATABASE=Normal decode
++E: ID_VENDOR_FROM_DATABASE=Intel Corporation
++E: ID_MODEL_FROM_DATABASE=6 Series/C200 Series Chipset Family PCI Express Root Port 5
++A: ari_enabled=0
++A: broken_parity_status=0
++A: class=0x060400
++H: config=8680181C07001000B5000406100081000000000000000000000B0C00F0000020D0F7D0F7F1FF010000000000000000000000000040000000000000000B011200108042010080000000001000123C1205420012F000B2240000004001000000000000000016000000000000000000000002000000000000000000000000000000059000000000000000000000000000000DA0000028100F050000000000000000010002C8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001020B00000080118100000000003F00000000000001000000000000000000000000000000870F050800000000000000000000000000000000110006000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001B363A7400001414311742005B6009002020000A521498095104690616000028BCB5BC4A00000000744C8500DC08DC0061091100D30F07005000E2005B00170001009400370494000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
++A: consistent_dma_mask_bits=32
++A: current_link_speed=5.0 GT/s PCIe
++A: current_link_width=1
++A: d3cold_allowed=1
++A: device=0x1c18
++A: dma_mask_bits=32
++L: driver=../../../bus/pci/drivers/pcieport
++A: driver_override=(null)
++A: enable=2
++A: irq=16
++A: local_cpulist=0-3
++A: local_cpus=f
++A: max_link_speed=5.0 GT/s PCIe
++A: max_link_width=1
++A: modalias=pci:v00008086d00001C18sv00001028sd0000050Fbc06sc04i00
++A: msi_bus=1
++A: numa_node=-1
++A: power/async=enabled
++A: power/control=on
++A: power/runtime_active_kids=1
++A: power/runtime_active_time=6193944
++A: power/runtime_enabled=forbidden
++A: power/runtime_status=active
++A: power/runtime_suspended_time=0
++A: power/runtime_usage=2
++A: power/wakeup=disabled
++A: power/wakeup_abort_count=
++A: power/wakeup_active=
++A: power/wakeup_active_count=
++A: power/wakeup_count=
++A: power/wakeup_expire_count=
++A: power/wakeup_last_time_ms=
++A: power/wakeup_max_time_ms=
++A: power/wakeup_total_time_ms=
++A: power_state=D0
++A: reset_method=pm
++A: resource=0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x00000000f7d00000 0x00000000f7dfffff 0x0000000000000200\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000
++A: revision=0xb5
++A: secondary_bus_number=11
++A: subordinate_bus_number=12
++A: subsystem_device=0x050f
++A: subsystem_vendor=0x1028
++A: vendor=0x8086
++
+diff --git a/tests/meson.build b/tests/meson.build
+index b172c1ae..199500d2 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -6,6 +6,8 @@ envs.set('G_MESSAGES_DEBUG', 'all')
+ # Setup paths
+ envs.set('MESON_SOURCE_ROOT', meson.project_source_root())
+ envs.set('MESON_BUILD_ROOT', meson.project_build_root())
++envs.set('G_TEST_SRCDIR', meson.current_source_dir())
++envs.set('G_TEST_BUILDDIR', meson.current_build_dir())
+ envs.prepend('LD_LIBRARY_PATH', meson.project_build_root() / 'libfprint')
+ 
+ # Set FP_DEVICE_EMULATION so that drivers can adapt (e.g. to use fixed
+@@ -13,7 +15,7 @@ envs.prepend('LD_LIBRARY_PATH', meson.project_build_root() / 'libfprint')
+ envs.set('FP_DEVICE_EMULATION', '1')
+ 
+ # Set a colon-separated list of native drivers we enable in tests
+-envs.set('FP_DRIVERS_WHITELIST', ':'.join([
++envs.set('FP_DRIVERS_ALLOWLIST', ':'.join([
+     'virtual_image',
+     'virtual_device',
+     'virtual_device_storage',
+@@ -50,6 +52,8 @@ drivers_tests = [
+     'nb1010',
+     'egis0570',
+     'fpcmoc',
++    'realtek',
++    'focaltech_moc',
+ ]
+ 
+ if get_option('introspection')
+@@ -71,6 +75,12 @@ envs_str = run_command(python3, '-c', env_parser_cmd,
+     env: envs,
+     check: installed_tests).stdout().strip()
+ 
++envs_str = ' '.join([
++    envs_str,
++    'G_TEST_SRCDIR=' + installed_tests_testdir,
++    'G_TEST_BUILDDIR=' + installed_tests_execdir,
++])
++
+ if get_option('introspection')
+     envs.prepend('GI_TYPELIB_PATH', meson.project_build_root() / 'libfprint')
+     virtual_devices_tests = [
+@@ -149,7 +159,7 @@ if get_option('introspection')
+     foreach driver_test: drivers_tests
+         driver_name = driver_test.split('-')[0]
+         driver_envs = envs
+-        driver_envs.set('FP_DRIVERS_WHITELIST', driver_name)
++        driver_envs.set('FP_DRIVERS_ALLOWLIST', driver_name)
+ 
+         if (driver_name in supported_drivers and
+             gusb_dep.version().version_compare('>= 0.3.0'))
+@@ -247,10 +257,6 @@ endif
+ 
+ unit_tests_deps = { 'fpi-assembling' : [cairo_dep] }
+ 
+-test_config = configuration_data()
+-test_config.set_quoted('SOURCE_ROOT', meson.project_source_root())
+-test_config_h = configure_file(output: 'test-config.h', configuration: test_config)
+-
+ foreach test_name: unit_tests
+     if unit_tests_deps.has_key(test_name)
+         missing_deps = false
+@@ -278,7 +284,7 @@ foreach test_name: unit_tests
+ 
+     basename = 'test-' + test_name
+     test_exe = executable(basename,
+-        sources: [basename + '.c', test_config_h],
++        sources: basename + '.c',
+         dependencies: [ libfprint_private_dep ] + extra_deps,
+         c_args: common_cflags,
+         link_whole: test_utils,
+diff --git a/tests/realtek/custom.pcapng b/tests/realtek/custom.pcapng
+new file mode 100644
+index 00000000..0fe6dc7b
+Binary files /dev/null and b/tests/realtek/custom.pcapng differ
+diff --git a/tests/realtek/custom.py b/tests/realtek/custom.py
+new file mode 100755
+index 00000000..15a71e2c
+--- /dev/null
++++ b/tests/realtek/custom.py
+@@ -0,0 +1,110 @@
++#!/usr/bin/python3
++
++import traceback
++import sys
++import gi
++
++gi.require_version('FPrint', '2.0')
++from gi.repository import FPrint, GLib
++
++# Exit with error on any exception, included those happening in async callbacks
++sys.excepthook = lambda *args: (traceback.print_exception(*args), sys.exit(1))
++
++ctx = GLib.main_context_default()
++
++c = FPrint.Context()
++c.enumerate()
++devices = c.get_devices()
++
++d = devices[0]
++del devices
++
++assert d.get_driver() == "realtek"
++assert not d.has_feature(FPrint.DeviceFeature.CAPTURE)
++assert d.has_feature(FPrint.DeviceFeature.IDENTIFY)
++assert d.has_feature(FPrint.DeviceFeature.VERIFY)
++assert not d.has_feature(FPrint.DeviceFeature.DUPLICATES_CHECK)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE_LIST)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE_DELETE)
++assert d.has_feature(FPrint.DeviceFeature.STORAGE_CLEAR)
++
++d.open_sync()
++
++# 1. verify clear storage command, 2. make sure later asserts are good
++d.clear_storage_sync()
++
++template = FPrint.Print.new(d)
++
++def enroll_progress(*args):
++    # assert d.get_finger_status() & FPrint.FingerStatusFlags.NEEDED
++    print('enroll progress: ' + str(args))
++
++def identify_done(dev, res):
++    global identified
++    identified = True
++    try:
++        identify_match, identify_print = dev.identify_finish(res)
++    except gi.repository.GLib.GError as e:
++        print("Please try again")
++    else:
++        print('indentification_done: ', identify_match, identify_print)
++        assert identify_match.equal(identify_print)
++
++def start_identify_async(prints):
++    global identified
++    print('async identifying')
++    d.identify(prints, callback=identify_done)
++    del prints
++
++    while not identified:
++        ctx.iteration(True)
++
++    identified = False
++
++# List, enroll, list, verify, identify, delete
++print("enrolling")
++assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++p = d.enroll_sync(template, None, enroll_progress, None)
++assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++print("enroll done")
++
++print("listing")
++stored = d.list_prints_sync()
++print("listing done")
++assert len(stored) == 1
++assert stored[0].equal(p)
++print("verifying")
++try:
++    assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++    verify_res, verify_print = d.verify_sync(p)
++    assert d.get_finger_status() == FPrint.FingerStatusFlags.NONE
++except gi.repository.GLib.GError as e:
++    print("Please try again")
++else:
++    print("verify done")
++    del p
++    assert verify_res == True
++
++identified = False
++deserialized_prints = []
++for p in stored:
++    deserialized_prints.append(FPrint.Print.deserialize(p.serialize()))
++    assert deserialized_prints[-1].equal(p)
++del stored
++
++print('async identifying')
++d.identify(deserialized_prints, callback=identify_done)
++del deserialized_prints
++
++while not identified:
++    ctx.iteration(True)
++
++print("deleting")
++d.delete_print_sync(p)
++print("delete done")
++
++d.close_sync()
++
++del d
++del c
+diff --git a/tests/realtek/device b/tests/realtek/device
+new file mode 100644
+index 00000000..c4f1c85e
+--- /dev/null
++++ b/tests/realtek/device
+@@ -0,0 +1,240 @@
++P: /devices/pci0000:00/0000:00:14.0/usb1/1-4
++N: bus/usb/001/005=12010102EF020140DA0B135801210301020109022E00010104A0FA0904000004FF02000507050102000200070583031000080705840310000807058202000200
++E: DEVNAME=/dev/bus/usb/001/005
++E: DEVTYPE=usb_device
++E: DRIVER=usb
++E: PRODUCT=bda/5813/2101
++E: TYPE=239/2/1
++E: BUSNUM=001
++E: DEVNUM=005
++E: MAJOR=189
++E: MINOR=4
++E: SUBSYSTEM=usb
++E: ID_VENDOR=Generic
++E: ID_VENDOR_ENC=Generic
++E: ID_VENDOR_ID=0bda
++E: ID_MODEL=Realtek_USB2.0_Finger_Print_Bridge
++E: ID_MODEL_ENC=Realtek\x20USB2.0\x20Finger\x20Print\x20Bridge
++E: ID_MODEL_ID=5813
++E: ID_REVISION=2101
++E: ID_SERIAL=Generic_Realtek_USB2.0_Finger_Print_Bridge_201801010001
++E: ID_SERIAL_SHORT=201801010001
++E: ID_BUS=usb
++E: ID_USB_INTERFACES=:ff0200:
++E: ID_VENDOR_FROM_DATABASE=Realtek Semiconductor Corp.
++E: ID_PATH=pci-0000:00:14.0-usb-0:4
++E: ID_PATH_TAG=pci-0000_00_14_0-usb-0_4
++A: authorized=1\n
++A: avoid_reset_quirk=0\n
++A: bConfigurationValue=1\n
++A: bDeviceClass=ef\n
++A: bDeviceProtocol=01\n
++A: bDeviceSubClass=02\n
++A: bMaxPacketSize0=64\n
++A: bMaxPower=500mA\n
++A: bNumConfigurations=1\n
++A: bNumInterfaces= 1\n
++A: bcdDevice=2101\n
++A: bmAttributes=a0\n
++A: busnum=1\n
++A: configuration=Realtek USB2.0 Finger Print Bridge\n
++H: descriptors=12010102EF020140DA0B135801210301020109022E00010104A0FA0904000004FF02000507050102000200070583031000080705840310000807058202000200
++A: dev=189:4\n
++A: devnum=5\n
++A: devpath=4\n
++L: driver=../../../../../bus/usb/drivers/usb
++L: firmware_node=../../../../LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:4b/device:4c/device:50
++A: idProduct=5813\n
++A: idVendor=0bda\n
++A: ltm_capable=no\n
++A: manufacturer=Generic\n
++A: maxchild=0\n
++A: physical_location/dock=no\n
++A: physical_location/horizontal_position=left\n
++A: physical_location/lid=no\n
++A: physical_location/panel=top\n
++A: physical_location/vertical_position=upper\n
++L: port=../1-0:1.0/usb1-port4
++A: power/active_duration=91232868\n
++A: power/async=enabled\n
++A: power/autosuspend=2\n
++A: power/autosuspend_delay_ms=2000\n
++A: power/connected_duration=91232868\n
++A: power/control=on\n
++A: power/level=on\n
++A: power/persist=1\n
++A: power/runtime_active_kids=0\n
++A: power/runtime_active_time=91232594\n
++A: power/runtime_enabled=forbidden\n
++A: power/runtime_status=active\n
++A: power/runtime_suspended_time=0\n
++A: power/runtime_usage=7\n
++A: power/wakeup=disabled\n
++A: power/wakeup_abort_count=\n
++A: power/wakeup_active=\n
++A: power/wakeup_active_count=\n
++A: power/wakeup_count=\n
++A: power/wakeup_expire_count=\n
++A: power/wakeup_last_time_ms=\n
++A: power/wakeup_max_time_ms=\n
++A: power/wakeup_total_time_ms=\n
++A: product=Realtek USB2.0 Finger Print Bridge\n
++A: quirks=0x0\n
++A: removable=removable\n
++A: rx_lanes=1\n
++A: serial=201801010001\n
++A: speed=480\n
++A: tx_lanes=1\n
++A: urbnum=15076313\n
++A: version= 2.01\n
++
++P: /devices/pci0000:00/0000:00:14.0/usb1
++N: bus/usb/001/001=12010002090001406B1D020002060302010109021900010100E0000904000001090000000705810304000C
++E: DEVNAME=/dev/bus/usb/001/001
++E: DEVTYPE=usb_device
++E: DRIVER=usb
++E: PRODUCT=1d6b/2/602
++E: TYPE=9/0/1
++E: BUSNUM=001
++E: DEVNUM=001
++E: MAJOR=189
++E: MINOR=0
++E: SUBSYSTEM=usb
++E: ID_VENDOR=Linux_6.2.0-35-generic_xhci-hcd
++E: ID_VENDOR_ENC=Linux\x206.2.0-35-generic\x20xhci-hcd
++E: ID_VENDOR_ID=1d6b
++E: ID_MODEL=xHCI_Host_Controller
++E: ID_MODEL_ENC=xHCI\x20Host\x20Controller
++E: ID_MODEL_ID=0002
++E: ID_REVISION=0602
++E: ID_SERIAL=Linux_6.2.0-35-generic_xhci-hcd_xHCI_Host_Controller_0000:00:14.0
++E: ID_SERIAL_SHORT=0000:00:14.0
++E: ID_BUS=usb
++E: ID_USB_INTERFACES=:090000:
++E: ID_VENDOR_FROM_DATABASE=Linux Foundation
++E: ID_AUTOSUSPEND=1
++E: ID_MODEL_FROM_DATABASE=2.0 root hub
++E: ID_PATH=pci-0000:00:14.0
++E: ID_PATH_TAG=pci-0000_00_14_0
++E: ID_FOR_SEAT=usb-pci-0000_00_14_0
++E: TAGS=:seat:
++E: CURRENT_TAGS=:seat:
++A: authorized=1\n
++A: authorized_default=1\n
++A: avoid_reset_quirk=0\n
++A: bConfigurationValue=1\n
++A: bDeviceClass=09\n
++A: bDeviceProtocol=01\n
++A: bDeviceSubClass=00\n
++A: bMaxPacketSize0=64\n
++A: bMaxPower=0mA\n
++A: bNumConfigurations=1\n
++A: bNumInterfaces= 1\n
++A: bcdDevice=0602\n
++A: bmAttributes=e0\n
++A: busnum=1\n
++A: configuration=
++H: descriptors=12010002090001406B1D020002060302010109021900010100E0000904000001090000000705810304000C
++A: dev=189:0\n
++A: devnum=1\n
++A: devpath=0\n
++L: driver=../../../../bus/usb/drivers/usb
++L: firmware_node=../../../LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:4b/device:4c
++A: idProduct=0002\n
++A: idVendor=1d6b\n
++A: interface_authorized_default=1\n
++A: ltm_capable=no\n
++A: manufacturer=Linux 6.2.0-35-generic xhci-hcd\n
++A: maxchild=16\n
++A: power/active_duration=264747968\n
++A: power/async=enabled\n
++A: power/autosuspend=0\n
++A: power/autosuspend_delay_ms=0\n
++A: power/connected_duration=264747968\n
++A: power/control=auto\n
++A: power/level=auto\n
++A: power/runtime_active_kids=3\n
++A: power/runtime_active_time=264747968\n
++A: power/runtime_enabled=enabled\n
++A: power/runtime_status=active\n
++A: power/runtime_suspended_time=0\n
++A: power/runtime_usage=0\n
++A: power/wakeup=disabled\n
++A: power/wakeup_abort_count=\n
++A: power/wakeup_active=\n
++A: power/wakeup_active_count=\n
++A: power/wakeup_count=\n
++A: power/wakeup_expire_count=\n
++A: power/wakeup_last_time_ms=\n
++A: power/wakeup_max_time_ms=\n
++A: power/wakeup_total_time_ms=\n
++A: product=xHCI Host Controller\n
++A: quirks=0x0\n
++A: removable=unknown\n
++A: rx_lanes=1\n
++A: serial=0000:00:14.0\n
++A: speed=480\n
++A: tx_lanes=1\n
++A: urbnum=3177\n
++A: version= 2.00\n
++
++P: /devices/pci0000:00/0000:00:14.0
++E: DRIVER=xhci_hcd
++E: PCI_CLASS=C0330
++E: PCI_ID=8086:A36D
++E: PCI_SUBSYS_ID=1028:085C
++E: PCI_SLOT_NAME=0000:00:14.0
++E: MODALIAS=pci:v00008086d0000A36Dsv00001028sd0000085Cbc0Csc03i30
++E: SUBSYSTEM=pci
++E: ID_PCI_CLASS_FROM_DATABASE=Serial bus controller
++E: ID_PCI_SUBCLASS_FROM_DATABASE=USB controller
++E: ID_PCI_INTERFACE_FROM_DATABASE=XHCI
++E: ID_VENDOR_FROM_DATABASE=Intel Corporation
++E: ID_MODEL_FROM_DATABASE=Cannon Lake PCH USB 3.1 xHCI Host Controller
++A: ari_enabled=0\n
++A: broken_parity_status=0\n
++A: class=0x0c0330\n
++H: config=86806DA3060590021030030C00008000040030D200000000000000000000000000000000000000000000000028105C08000000007000000000000000FF010000FD0134808FC6FF8300000000000000007F6DDC0F000000005919041B00000000316000000000000000000000000000000180C2C108000000000000000000000005908700D802E0FE0000000000000000090014F01000400100000000C10A080000080E00001800008F40020000010000030000000C00000000000000C000000000000000000100003000000000000000030000000C0000000000000000000000000000000000000000000000000000000000000000000000B50F120112000000
++A: consistent_dma_mask_bits=64\n
++A: d3cold_allowed=1\n
++A: dbc=disabled\n
++A: device=0xa36d\n
++A: dma_mask_bits=64\n
++L: driver=../../../bus/pci/drivers/xhci_hcd
++A: driver_override=(null)\n
++A: enable=1\n
++L: firmware_node=../../LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:4b
++A: index=4\n
++A: irq=125\n
++A: label=Onboard - Other\n
++A: local_cpulist=0-3\n
++A: local_cpus=f\n
++A: modalias=pci:v00008086d0000A36Dsv00001028sd0000085Cbc0Csc03i30\n
++A: msi_bus=1\n
++A: msi_irqs/125=msi\n
++A: numa_node=-1\n
++A: pools=poolinfo - 0.1\nbuffer-2048         0    0 2048  0\nbuffer-512          0    0  512  0\nbuffer-128          0    0  128  0\nbuffer-32           0    0   32  0\nxHCI 1KB stream ctx arrays    0    0 1024  0\nxHCI 256 byte stream ctx arrays    0    0  256  0\nxHCI input/output contexts    6    7 2112  7\nxHCI ring segments   24   24 4096 24\nbuffer-2048         0    0 2048  0\nbuffer-512          0    0  512  0\nbuffer-128         12   32  128  1\nbuffer-32           0    0   32  0\n
++A: power/async=enabled\n
++A: power/control=on\n
++A: power/runtime_active_kids=1\n
++A: power/runtime_active_time=264748677\n
++A: power/runtime_enabled=forbidden\n
++A: power/runtime_status=active\n
++A: power/runtime_suspended_time=0\n
++A: power/runtime_usage=1\n
++A: power/wakeup=enabled\n
++A: power/wakeup_abort_count=0\n
++A: power/wakeup_active=0\n
++A: power/wakeup_active_count=0\n
++A: power/wakeup_count=0\n
++A: power/wakeup_expire_count=0\n
++A: power/wakeup_last_time_ms=0\n
++A: power/wakeup_max_time_ms=0\n
++A: power/wakeup_total_time_ms=0\n
++A: power_state=D0\n
++A: resource=0x00000000d2300000 0x00000000d230ffff 0x0000000000140204\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n0x0000000000000000 0x0000000000000000 0x0000000000000000\n
++A: revision=0x10\n
++A: subsystem_device=0x085c\n
++A: subsystem_vendor=0x1028\n
++A: vendor=0x8086\n
++
+diff --git a/tests/test-fpi-assembling.c b/tests/test-fpi-assembling.c
+index 94b8fe5e..c6dae6fe 100644
+--- a/tests/test-fpi-assembling.c
++++ b/tests/test-fpi-assembling.c
+@@ -22,7 +22,6 @@
+ #include <cairo.h>
+ #include "fpi-assembling.h"
+ #include "fpi-image.h"
+-#include "test-config.h"
+ 
+ typedef struct
+ {
+@@ -67,8 +66,7 @@ test_frame_assembling (void)
+   g_autoptr(FpImage) fp_img = NULL;
+   GSList *frames = NULL;
+ 
+-  g_assert_false (SOURCE_ROOT == NULL);
+-  path = g_build_path (G_DIR_SEPARATOR_S, SOURCE_ROOT, "tests", "vfs5011", "capture.png", NULL);
++  path = g_test_build_filename (G_TEST_DIST, "vfs5011", "capture.png", NULL);
+ 
+   img = cairo_image_surface_create_from_png (path);
+   data = cairo_image_surface_get_data (img);
+diff --git a/tests/test-generated-hwdb.sh b/tests/test-generated-hwdb.sh
+index 7e1af144..b1031802 100755
+--- a/tests/test-generated-hwdb.sh
++++ b/tests/test-generated-hwdb.sh
+@@ -1,13 +1,12 @@
+-#!/usr/bin/env bash
+-set -e
++#!/bin/sh -e
+ 
+ if [ ! -x "$UDEV_HWDB" ]; then
+     echo "E: UDEV_HWDB (${UDEV_HWDB}) unset or not executable."
+     exit 1
+ fi
+ 
+-if [ "$UDEV_HWDB_CHECK_CONTENTS" == 1 ]; then
+-    generated_rules=$(mktemp "${TMPDIR:-/tmp}/libfprint-XXXXXX.hwdb")
++if [ "$UDEV_HWDB_CHECK_CONTENTS" = 1 ]; then
++    generated_rules=$(mktemp "${TMPDIR:-/tmp}/libfprint.hwdb.XXXXXX")
+ else
+     generated_rules=/dev/null
+ fi
