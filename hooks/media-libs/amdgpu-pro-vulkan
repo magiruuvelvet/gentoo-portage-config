@@ -1,0 +1,20 @@
+#!/bin/sh
+
+source /etc/portage/hooks/functions/check-env.sh
+
+instprep() {
+    cd "${ED}"
+
+    echo "hiding amdgpu-pro vulkan icd... (conflicts with my setup)"
+    mkdir -p "${ED}/opt/amdgpu-pro/vulkan/icd.d"
+    mv "${ED}/usr/share/vulkan/icd.d/amd_pro_icd64.json" "${ED}/opt/amdgpu-pro/vulkan/icd.d/"
+
+    echo "removing default bin wrappers... (conflicts with my setup)"
+    rm "${ED}/usr/bin/vk_radv"
+    rm "${ED}/usr/bin/vk_pro"
+}
+
+case "$1" in
+    instprep) instprep ;;
+    *) : ;;
+esac
