@@ -6,6 +6,12 @@ instprep() {
     echo "Injecting GCC runtime libraries into launcher script..."
     cd "${ED}/opt/vivaldi"
     patch -p1 < /etc/portage/hooks/patches/www-client/vivaldi/gnu-runtime-libs.patch
+
+    echo "Replace entry point with dGPU blocker..."
+    cd "${ED}/usr/bin"
+    rm vivaldi-stable
+    cp /etc/portage/hooks/patches/www-client/vivaldi/vivaldi-stable.sh vivaldi-stable
+    chmod +x vivaldi-stable
 }
 
 case "$1" in
