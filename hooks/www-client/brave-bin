@@ -3,7 +3,7 @@
 source /etc/portage/hooks/functions/check-env.sh
 
 instprep() {
-    echo "Create custom launcher to inject GCC runtime libraries and dGPU blocker..."
+    echo "Create custom launcher to inject GCC runtime libraries and dGPU launcher..."
 
     cd "${ED}/usr/bin"
     rm brave-bin

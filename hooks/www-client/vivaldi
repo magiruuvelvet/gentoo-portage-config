@@ -7,7 +7,7 @@ instprep() {
     cd "${ED}/opt/vivaldi"
     patch -p1 < /etc/portage/hooks/patches/www-client/vivaldi/gnu-runtime-libs.patch
 
-    echo "Replace entry point with dGPU blocker..."
+    echo "Replace entry point to run on the dGPU..."
     cd "${ED}/usr/bin"
     rm vivaldi-stable
     cp /etc/portage/hooks/patches/www-client/vivaldi/vivaldi-stable.sh vivaldi-stable

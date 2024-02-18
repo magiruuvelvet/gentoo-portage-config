@@ -16,8 +16,10 @@ www-servers/caddy::chaoslab
 
 # installed kernels
 =sys-kernel/gentoo-kernel-bin-6.6.16
+=sys-kernel/gentoo-kernel-bin-6.6.17
 
 =sys-kernel/gentoo-sources-6.6.16
+=sys-kernel/gentoo-sources-6.6.17
 
 # media
 media-video/mpv::vapoursynth
