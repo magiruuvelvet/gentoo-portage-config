@@ -1,0 +1,13 @@
+diff --git a/startkde/startplasma.cpp b/startkde/startplasma.cpp
+index b0158c9..361f91e 100644
+--- a/startkde/startplasma.cpp
++++ b/startkde/startplasma.cpp
+@@ -332,7 +332,7 @@ void setupPlasmaEnvironment()
+ {
+     // Manually disable auto scaling because we are scaling above
+     // otherwise apps that manually opt in for high DPI get auto scaled by the developer AND manually scaled by us
+-    qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
++    //qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
+ 
+     qputenv("KDE_FULL_SESSION", "true");
+     qputenv("KDE_SESSION_VERSION", "5");
