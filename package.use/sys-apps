@@ -16,3 +16,5 @@ sys-apps/man-db -gdbm berkdb
 sys-apps/flatpak X seccomp policykit -gnome -gtk kde
 sys-apps/debianutils -installkernel
 sys-apps/kmod zstd
+sys-apps/kmscon -fbdev
+sys-apps/xdg-desktop-portal-gtk X wayland

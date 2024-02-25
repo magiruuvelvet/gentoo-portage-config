@@ -3,7 +3,7 @@ media-sound/audacity ffmpeg flac -ladspa -lv2 vst vamp -portmixer soundtouch -mi
 media-sound/bluez-alsa aac ldac ofono hcitop
 media-sound/cantata -cdda -cddb -cdio -http-server -mtp -musicbrainz -replaygain -streaming taglib -udisks -zeroconf
 media-sound/kid3 taglib kde flac -mp3 mp4 vorbis -mpris
-media-sound/mpd alsa audiofile bzip2 cue curl dbus faad -ffmpeg flac icu pulseaudio pipewire sqlite unicode wavpack zip zlib vorbis
+media-sound/mpd alsa audiofile bzip2 cue curl dbus faad ffmpeg flac icu pulseaudio pipewire sqlite unicode wavpack zip zlib vorbis
 media-sound/pulseaudio bluetooth -daemon dbus realtime webrtc-aec orc -libsamplerate -gdbm -X system-wide
 media-sound/pulseaudio alsa alsa-plugin asyncns caps glib ssl tcpd udev -jack -native-headset gstreamer
 

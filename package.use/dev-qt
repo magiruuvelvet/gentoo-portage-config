@@ -1,6 +1,6 @@
 dev-qt/* X qml icu udev dbus vulkan wayland -debug -designer
 dev-qt/qtcore icu
-dev-qt/qtgui gif libinput png jpeg udev xcb dbus egl evdev accessibility
+dev-qt/qtgui gif libinput png jpeg udev xcb dbus egl eglfs evdev accessibility
 dev-qt/qtwidgets png xcb
 dev-qt/qtdbus
 dev-qt/qtbluetooth qml

@@ -10,7 +10,7 @@ index 9a60a57..28a762e 100644
 +        #'-fuse-ld=bfd',
  
 -        '-lgcc',
-+        '/usr/lib/clang/15.0.6/lib/linux/libclang_rt.builtins-x86_64.a',
++        '/usr/lib/clang/17/lib/linux/libclang_rt.builtins-x86_64.a',
          '-nostdlib',
          '-static-pie',
          '-Wl,--entry=efi_main',

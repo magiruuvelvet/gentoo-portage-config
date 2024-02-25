@@ -130,6 +130,7 @@ dev-python/sip gnu-source-light.conf
 dev-util/boost-build std-gnu17.conf
 dev-util/ctags gnu-source-light.conf
 dev-util/global gnu-source-light.conf
+dev-util/google-perftools gnu-source-light.conf
 dev-util/desktop-file-utils gnu-source-light.conf
 dev-util/radare2 std-gnu99.conf
 dev-util/scanmem gnu-source-light.conf

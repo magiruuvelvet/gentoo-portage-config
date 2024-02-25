@@ -1,0 +1,3 @@
+# note: required for app-i18n/fcitx-rime
+dev-util/google-perftools llvm-libunwind
+dev-cpp/glog llvm-libunwind

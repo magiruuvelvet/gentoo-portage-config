@@ -22,6 +22,7 @@ app-text/opensp c++11.conf
 dev-libs/boehm-gc c++11.conf
 dev-libs/xapian c++11.conf
 dev-libs/libplatform c++11.conf
+dev-libs/darts c++11.conf
 dev-python/kiwisolver c++11.conf
 dev-python/matplotlib c++11-force.conf ld-force-lib64.conf
 dev-util/gperf c++11.conf

@@ -1,1 +1,2 @@
-gui-libs/wlroots X x11-backend icccm
+gui-libs/wlroots X vulkan x11-backend xcb-errors icccm
+gui-libs/xdg-desktop-portal-hyprland qt6
