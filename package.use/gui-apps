@@ -1,1 +1,1 @@
-gui-apps/waybar -pulseaudio -pipewire mpris upower wifi network tray experimental -popups
+gui-apps/waybar -pulseaudio -pipewire mpd mpris upower wifi network -tray experimental -popups

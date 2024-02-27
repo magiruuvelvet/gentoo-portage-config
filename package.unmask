@@ -24,7 +24,12 @@ www-servers/caddy::chaoslab
 # media
 media-video/mpv::vapoursynth
 
+# hyprland
 gui-libs/xdg-desktop-portal-hyprland::guru
+gui-apps/hyprlock::guru
+gui-apps/hyprpaper::guru
+gui-apps/hyprpicker::guru
+app-misc/cliphist::guru
 
 # glibc version history, currently installed last
 #=sys-libs/glibc-2.29-r4

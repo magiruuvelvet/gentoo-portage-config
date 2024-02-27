@@ -1,7 +1,7 @@
-kde-plasma/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
-kde-frameworks/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
-kde-apps/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
-kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 -wayland
+kde-plasma/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
+kde-frameworks/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
+kde-apps/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
+kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
 
 kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
 
@@ -29,7 +29,7 @@ kde-frameworks/ktexteditor -editorconfig
 kde-frameworks/sonnet qml
 kde-frameworks/kimageformats heif
 kde-frameworks/karchive zstd
-kde-frameworks/kwindowsystem -wayland
+kde-frameworks/kwindowsystem wayland
 kde-frameworks/kguiaddons dbus
 kde-frameworks/kcoreaddons dbus
 

@@ -28,8 +28,8 @@ instprep() {
    ln -s ../../../../../../vscodium-assets .
 
    # remove wayland desktop files
-   rm -f "${ED}/usr/share/applications/vscode-url-handler-wayland.desktop"
-   rm -f "${ED}/usr/share/applications/vscode-wayland.desktop"
+   #rm -f "${ED}/usr/share/applications/vscode-url-handler-wayland.desktop"
+   #rm -f "${ED}/usr/share/applications/vscode-wayland.desktop"
 }
 
 postinst() {
