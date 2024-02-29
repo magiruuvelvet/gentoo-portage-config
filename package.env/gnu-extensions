@@ -404,6 +404,7 @@ media-tv/kodi gnu-source-light.conf
 media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
 dev-ruby/redcarpet gnu-source-light.conf
 x11-terms/kitty gnu-source-light.conf
+gui-wm/gamescope gnu-source-light.conf
 
 gnustep-base/libobjc2 gnu-source-light.conf
 
