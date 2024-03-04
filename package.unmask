@@ -15,11 +15,19 @@ www-servers/caddy::chaoslab
 =net-misc/nextcloud-client-2.6.5
 
 # installed kernels
-=sys-kernel/gentoo-kernel-bin-6.6.16
-=sys-kernel/gentoo-kernel-bin-6.6.17
+=sys-kernel/gentoo-kernel-bin-5.15.148
+=sys-kernel/gentoo-kernel-bin-6.1.77
+=sys-kernel/gentoo-kernel-bin-6.6.18
+=sys-kernel/gentoo-kernel-bin-6.6.19
 
-=sys-kernel/gentoo-sources-6.6.16
-=sys-kernel/gentoo-sources-6.6.17
+=sys-kernel/gentoo-sources-5.15.148
+=sys-kernel/gentoo-sources-6.1.77
+=sys-kernel/gentoo-sources-6.6.18
+=sys-kernel/gentoo-sources-6.6.19
+
+# NOTE: 6.2+ might have AMDGPU instabilities (several people report driver and system crashes)
+#  i'm experiencing amdgpu crashes too
+#  stay on 6.1 LTS for now, as it seems to run stable so far
 
 # media
 media-video/mpv::vapoursynth
