@@ -9,8 +9,9 @@ instprep() {
     cd "${ED}/opt/vscode/bin"
     patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/vscode-gnu-runtime-libs.patch
 
-    echo "Use dGPU for rendering..."
-    patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/vscode-use-dgpu-for-rendering.patch
+    # NOTE: I swapped GPUs in the UEFI settings, dGPU default, primerun -> iGPU
+    #echo "Use dGPU for rendering..."
+    #patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/vscode-use-dgpu-for-rendering.patch
 
     echo "Patching workbench.html to allow injecting custom CSS..."
     cd "${ED}/opt/vscode/resources/app/out/vs/code/electron-sandbox/workbench"

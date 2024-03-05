@@ -3,3 +3,12 @@ x11-misc/bumblebee bbswitch
 x11-misc/picom dbus opengl
 x11-misc/albert python -python-extensions -statistics
 x11-misc/synergy gui
+
+# change "primerun" into a stub, to make sure programs launched with it are running on the dGPU
+# my system allows me to swap the 2 GPUs to make the dGPU the default and the iGPU the secondary offloading GPU
+# due to hardware wiring reasons with the HDMI port, I made the dGPU the default to workaround DRM corruption bugs in Wayland
+# the entire displaying on all monitors is now handled by only the dGPU which fixes some obscure amdgpu driver crashes
+#  + this also fixes the systemd-boot menu being invisible when an external monitor is connected
+#    (most likely a firmware bug causing the 2 GPUs fighting over the internal screen)
+# the system was not designed to be operated in hybrid graphics mode and is only offered for tinkerers
+x11-misc/amdgpu-prime reverse-gpu-layout

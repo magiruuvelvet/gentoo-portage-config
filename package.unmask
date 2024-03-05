@@ -17,11 +17,13 @@ www-servers/caddy::chaoslab
 # installed kernels
 =sys-kernel/gentoo-kernel-bin-5.15.148
 =sys-kernel/gentoo-kernel-bin-6.1.77
+=sys-kernel/gentoo-kernel-bin-6.6.16
 =sys-kernel/gentoo-kernel-bin-6.6.18
 =sys-kernel/gentoo-kernel-bin-6.6.19
 
 =sys-kernel/gentoo-sources-5.15.148
 =sys-kernel/gentoo-sources-6.1.77
+=sys-kernel/gentoo-sources-6.6.16
 =sys-kernel/gentoo-sources-6.6.18
 =sys-kernel/gentoo-sources-6.6.19
 
