@@ -8,7 +8,7 @@ kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager 
 kde-plasma/plasma-desktop fontconfig touchpad mouse -kaccounts
 kde-plasma/plasma-workspace calendar qalculate qrcode
 
-kde-plasma/kwin multimedia plasma
+kde-plasma/kwin multimedia plasma lock
 kde-plasma/kde-cli-tools kdesu
 kde-plasma/kscreenlocker pam seccomp
 kde-plasma/plasma-vault networkmanager

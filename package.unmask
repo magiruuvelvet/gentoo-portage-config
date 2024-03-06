@@ -14,6 +14,9 @@ www-servers/caddy::chaoslab
 # to avoid using the new shitty user interface which is a fucking mess
 =net-misc/nextcloud-client-2.6.5
 
+# replacement for https://github.com/esjeon/krohnkite hopefully
+kde-misc/bismuth::gentoo
+
 # installed kernels
 =sys-kernel/gentoo-kernel-bin-5.15.148
 =sys-kernel/gentoo-kernel-bin-6.1.77
@@ -27,9 +30,10 @@ www-servers/caddy::chaoslab
 =sys-kernel/gentoo-sources-6.6.18
 =sys-kernel/gentoo-sources-6.6.19
 
-# NOTE: 6.2+ might have AMDGPU instabilities (several people report driver and system crashes)
-#  i'm experiencing amdgpu crashes too
-#  stay on 6.1 LTS for now, as it seems to run stable so far
+# NOTE:
+#   since swapping the GPUs to make the dGPU the default,
+#   kernel 6.6 LTS seems to run stable in Wayland so far
+#   amdgpu has serious issues with 2 framebuffers being used at the same time
 
 # media
 media-video/mpv::vapoursynth
