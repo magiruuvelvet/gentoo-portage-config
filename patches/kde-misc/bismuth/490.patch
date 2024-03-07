@@ -1,0 +1,23 @@
+From ce377a33232b7eac80e7d99cb795962a057643ae Mon Sep 17 00:00:00 2001
+From: Jan Keith Darunday <jkcdarunday@gmail.com>
+Date: Thu, 13 Jul 2023 17:17:45 +0800
+Subject: [PATCH] fix: Use optional chaining operator in windowId.toString to
+ avoid errors when windowId is undefined in Wayland
+
+---
+ src/kwinscript/driver/window.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/kwinscript/driver/window.ts b/src/kwinscript/driver/window.ts
+index d5790756..c2b43b6d 100644
+--- a/src/kwinscript/driver/window.ts
++++ b/src/kwinscript/driver/window.ts
+@@ -292,7 +292,7 @@ export class DriverWindowImpl implements DriverWindow {
+ 
+   public toString(): string {
+     // Using a shorthand name to keep debug message tidy
+-    return `KWin(${this.client.windowId.toString(16)}.${
++    return `KWin(${this.client.windowId?.toString(16)}.${
+       this.client.resourceClass
+     })`;
+   }
