@@ -1,0 +1,22 @@
+diff --git a/src/Decoration.cc b/src/Decoration.cc
+index 1cca7dd..8e2a386 100644
+--- a/src/Decoration.cc
++++ b/src/Decoration.cc
+@@ -364,13 +364,10 @@ void Decoration::updateBorders()
+ void Decoration::updateResizeBorders()
+ {
+     QMargins borders;
+-
+-    const int extender = settings()->largeSpacing();
+-    borders.setLeft(extender);
+-    borders.setTop(extender);
+-    borders.setRight(extender);
+-    borders.setBottom(extender);
+-
++    borders.setLeft(0);
++    borders.setTop(0);
++    borders.setRight(0);
++    borders.setBottom(0);
+     setResizeOnlyBorders(borders);
+ }
+ 

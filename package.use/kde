@@ -5,10 +5,10 @@ kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 
 
 kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
 
-kde-plasma/plasma-desktop fontconfig touchpad mouse -kaccounts
-kde-plasma/plasma-workspace calendar qalculate qrcode
+kde-plasma/plasma-desktop fontconfig touchpad mouse -kaccounts screencast
+kde-plasma/plasma-workspace calendar qalculate qrcode screencast
 
-kde-plasma/kwin multimedia plasma lock
+kde-plasma/kwin multimedia plasma lock screencast
 kde-plasma/kde-cli-tools kdesu
 kde-plasma/kscreenlocker pam seccomp
 kde-plasma/plasma-vault networkmanager

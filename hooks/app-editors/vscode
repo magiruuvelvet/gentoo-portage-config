@@ -13,6 +13,10 @@ instprep() {
     #echo "Use dGPU for rendering..."
     #patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/vscode-use-dgpu-for-rendering.patch
 
+    # NOTE: required for the Wayland session, as enabling GTK_USE_PORTAL=1 in Wayland causes major problems with GTK applications
+    echo "Use KDE file dialogs..."
+    patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/vscode-use-kde-file-dialogs.patch
+
     echo "Patching workbench.html to allow injecting custom CSS..."
     cd "${ED}/opt/vscode/resources/app/out/vs/code/electron-sandbox/workbench"
     patch workbench.html < /etc/portage/hooks/patches/app-editors/vscodium/workbench-custom-css.patch
