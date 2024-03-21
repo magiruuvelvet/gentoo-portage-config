@@ -1,0 +1,16 @@
+diff --git a/client/Wayland/wlf_cliprdr.c b/client/Wayland/wlf_cliprdr.c
+index 0f0195d7c..75cb91cfc 100644
+--- a/client/Wayland/wlf_cliprdr.c
++++ b/client/Wayland/wlf_cliprdr.c
+@@ -693,8 +693,10 @@ wlf_cliprdr_server_format_data_response(CliprdrClientContext* context,
+ 			if (cnv < 0)
+ 				return ERROR_INTERNAL_ERROR;
+ 
+-			size = (size_t)cnv;
+ 			data = cdata;
++			size = 0;
++			if (cnv > 0)
++				size = (UINT32)strnlen(data, (size_t)cnv);
+ 			break;
+ 
+ 		default:
