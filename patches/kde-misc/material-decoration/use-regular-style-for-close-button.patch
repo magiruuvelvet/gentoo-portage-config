@@ -1,0 +1,34 @@
+diff --git a/src/Button.cc b/src/Button.cc
+index 889266b..b2ccd11 100644
+--- a/src/Button.cc
++++ b/src/Button.cc
+@@ -327,29 +327,6 @@ QColor Button::backgroundColor() const
+         return Qt::transparent;
+     }
+ 
+-    //--- CloseButton
+-    if (type() == KDecoration2::DecorationButtonType::Close) {
+-        auto *decoratedClient = deco->client().toStrongRef().data();
+-        const QColor hoveredColor = decoratedClient->color(
+-            KDecoration2::ColorGroup::Warning,
+-            KDecoration2::ColorRole::Foreground
+-        );
+-        QColor normalColor = QColor(hoveredColor);
+-        normalColor.setAlphaF(0);
+-
+-        if (isPressed()) {
+-            const QColor pressedColor = decoratedClient->color(
+-                KDecoration2::ColorGroup::Warning,
+-                KDecoration2::ColorRole::Foreground
+-            ).lighter();
+-            return KColorUtils::mix(normalColor, pressedColor, m_transitionValue);
+-        }
+-
+-        if (isHovered()) {
+-            return KColorUtils::mix(normalColor, hoveredColor, m_transitionValue);
+-        }
+-    }
+-
+     //--- Checked
+     if (isChecked() && type() != KDecoration2::DecorationButtonType::Maximize) {
+         const QColor normalColor = deco->titleBarForegroundColor();
