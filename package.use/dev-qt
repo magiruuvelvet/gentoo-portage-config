@@ -13,7 +13,7 @@ dev-qt/qtquickcontrols2 widgets
 dev-qt/qtdeclarative jit widgets -localstorage
 dev-qt/qtscript jit scripttools
 dev-qt/qttest
-dev-qt/qtwayland libinput xcomposite
+dev-qt/qtwayland libinput xcomposite compositor
 dev-qt/qtgraphicaleffects
 dev-qt/qtprintsupport cups
 dev-qt/qtwebchannel qml
