@@ -141,8 +141,7 @@ dev-util/unifdef gnu-source-light.conf
 gnome-base/dconf std-gnu99.conf
 gnome-base/gnome-keyring gnu-source-light.conf
 dev-libs/gobject-introspection gnu-source-light.conf
-# clang is stuck in an infinite loop when building with optimizations and eventually gets killed by the OEM killer
-games-emulation/mupen64plus-core no-optimizations.conf gnu-source-light.conf
+games-emulation/mupen64plus-core gnu-source-light.conf
 # uses gnu inline assembly
 games-emulation/mupen64plus-ui-console std-gnu99.conf
 mail-mta/postfix std-gnu99.conf

@@ -5,7 +5,7 @@ source /etc/portage/hooks/functions/check-env.sh
 instprep() {
     echo -e "Overwriting systemd unit with VPN namespace patched version..."
     cp "/etc/portage/hooks/net-proxy/files/privoxy.service" \
-       "${ED}/lib/systemd/system/privoxy.service"
+       "${ED}/usr/lib/systemd/system/privoxy.service"
 }
 
 case "$1" in

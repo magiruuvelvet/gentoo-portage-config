@@ -1,12 +1,12 @@
 # -Wl,--undefined-version
 
 net-fs/samba allow-undefined-version.conf
+sys-libs/talloc allow-undefined-version.conf
+sys-libs/tevent allow-undefined-version.conf
+sys-libs/tdb allow-undefined-version.conf
+sys-libs/ldb allow-undefined-version.conf
 net-libs/libnftnl allow-undefined-version.conf
 net-misc/spice-gtk allow-undefined-version.conf
-
-# note:
-# x11-libs/libxkbcommon seems to be affected too, but works without noticeable issues
-# software compiled by myself has no problems loading libxkbcommon.so
-# the only annoyance is precompiled and closed-source software which emit this warning
-# /usr/lib64/libxkbcommon.so.0: no version information available (required by /path/to/elf)
-# but seem to work anyway and X11 keyboard related stuff works
+net-nds/openldap allow-undefined-version.conf
+media-libs/libva allow-undefined-version.conf
+media-gfx/graphicsmagick allow-undefined-version.conf

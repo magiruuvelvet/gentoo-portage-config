@@ -20,6 +20,7 @@ dev-libs/capstone python
 dev-libs/keystone python
 dev-libs/newt -gpm
 dev-libs/m17n-lib X
+dev-libs/tree-sitter-bash python
 
 # for SDDM native Wayland backend
 dev-libs/weston fullscreen
