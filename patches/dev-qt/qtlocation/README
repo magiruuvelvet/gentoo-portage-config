@@ -1,0 +1,8 @@
+Context:
+
+mapbox-gl uses C++17, but also std::unary_function which was removed in C++17,
+so this does not compile anymore with a standard compliant C++ stdlib.
+(LLVM libc++ actually hides std::unary_function when compiling in C++17 mode.)
+Downgrade to C++14 to make this dependency compile again.
+
+Reference: https://en.cppreference.com/w/cpp/utility/functional/unary_function

@@ -1,13 +1,13 @@
 diff --git a/lib/_emerge/actions.py b/lib/_emerge/actions.py
-index 05a1152..1aa31e6 100644
+index 43d936f..15b1124 100644
 --- a/lib/_emerge/actions.py
 +++ b/lib/_emerge/actions.py
-@@ -2030,11 +2030,17 @@ def action_info(settings, trees, myopts, myfiles):
-         "sys-devel/autoconf",
-         "sys-devel/automake",
+@@ -2081,11 +2081,17 @@ def action_info(settings, trees, myopts, myfiles):
+         "dev-build/autoconf",
+         "dev-build/automake",
          "virtual/os-headers",
 -        "sys-devel/binutils",
-         "sys-devel/libtool",
+         "dev-build/libtool",
          "dev-lang/python",
 +        "sys-libs/compiler-rt",
 +        "sys-devel/llvm",

@@ -7,6 +7,7 @@ sys-libs/tdb allow-undefined-version.conf
 sys-libs/ldb allow-undefined-version.conf
 net-libs/libnftnl allow-undefined-version.conf
 net-misc/spice-gtk allow-undefined-version.conf
+net-proxy/dante allow-undefined-version.conf
 net-nds/openldap allow-undefined-version.conf
 media-libs/libva allow-undefined-version.conf
 media-gfx/graphicsmagick allow-undefined-version.conf

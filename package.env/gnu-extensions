@@ -37,6 +37,7 @@ app-misc/cmatrix gnu-source-light.conf
 app-misc/srm gnu-source-light.conf
 app-misc/dtach gnu-source-light.conf
 app-pda/libimobiledevice gnu-source-light.conf
+app-pda/libimobiledevice-glue gnu-source-light.conf
 app-pda/libplist std-gnu17.conf
 app-pda/libusbmuxd gnu-source-light.conf
 app-pda/usbmuxd gnu-source-light.conf
