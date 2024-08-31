@@ -25,7 +25,7 @@ dev-qt/qtsql sqlite mysql postgres
 
 dev-qt/qtbase eglfs opengl evdev postgres zstd
 dev-qt/qttools opengl zstd qtplugininfo qdbus qdoc
-dev-qt/qtdeclarative:6 opengl
+dev-qt/qtdeclarative:6 opengl svg
 dev-qt/qtmultimedia:6 eglfs opengl vaapi
 dev-qt/qtquick3d:6 opengl
 dev-qt/qtwebengine:6 opengl vaapi

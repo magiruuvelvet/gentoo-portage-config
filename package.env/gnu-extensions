@@ -157,6 +157,7 @@ media-gfx/fontforge gnu-source-light.conf
 media-gfx/zbar gnu-source-light.conf
 media-gfx/jpegoptim gnu-source-light.conf
 media-libs/alsa-lib std-gnu99.conf
+media-libs/assimp gnu-source-light.conf
 media-libs/babl std-gnu99.conf
 media-libs/codec2 std-gnu99.conf
 media-libs/faad2 gnu-source-light.conf

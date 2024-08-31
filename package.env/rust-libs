@@ -1,1 +1,7 @@
 net-libs/quiche rust-libs.conf
+dev-util/maturin rust-libs.conf
+dev-python/cryptography rust-libs.conf
+sys-process/bottom rust-libs.conf
+sys-apps/bat rust-libs.conf
+sys-apps/eza rust-libs.conf
+sys-apps/amdgpu_top rust-libs.conf
