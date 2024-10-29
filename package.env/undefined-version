@@ -6,6 +6,7 @@ sys-libs/tevent allow-undefined-version.conf
 sys-libs/tdb allow-undefined-version.conf
 sys-libs/ldb allow-undefined-version.conf
 net-libs/libnftnl allow-undefined-version.conf
+net-libs/gtk-vnc allow-undefined-version.conf
 net-misc/spice-gtk allow-undefined-version.conf
 net-proxy/dante allow-undefined-version.conf
 net-nds/openldap allow-undefined-version.conf

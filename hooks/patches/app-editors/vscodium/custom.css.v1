@@ -68,7 +68,7 @@
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  Build, Build the selected target: [all]"],
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="gear  ビルド, 選択したターゲットをビルドします: [all]"] {
     position: absolute !important;
-    bottom: 102px !important;
+    bottom: 42px !important;
     width: 48px !important;
     height: 48px !important;
 }
@@ -91,9 +91,8 @@
     display: block !important;
     width: 48px !important;
     height: 48px !important;
-    font-size: 30px !important;
+    font-size: 36px !important;
     line-height: 48px !important;
-    color: #d3cb9d;
 }
 
 /* move cmake tools run button to activity bar (mimic Qt Creator) */
@@ -101,7 +100,7 @@
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="play, Launch the selected target in the terminal window"],
 .part.statusbar div[id="ms-vscode.cmake-tools"][aria-label*="play, 選択したターゲットをターミナル ウィンドウで起動します"] {
     position: absolute !important;
-    bottom: 51px !important;
+    bottom: calc(42px + 42px + 10px) !important;
     width: 48px !important;
     height: 48px !important;
 }
@@ -119,14 +118,12 @@
     display: block !important;
     width: 48px !important;
     height: 48px !important;
-    font-size: 38px !important;
+    font-size: 36px !important;
     line-height: 48px !important;
-    color: rgba(50, 205, 50, 0.8);
 }
 
 /* redundant and also broken, btw I use lldb by default; use CodeLLDB instead */
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="bug"],
-.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label*="bug, 選択したターゲットのデバッガーを起動します"] {
+.part.statusbar div[id="ms-vscode.cmake-tools"][aria-label="bug"] {
     display: none !important;
 }
 
@@ -211,42 +208,16 @@
 }
 
 /* fixed order of left status bar items */
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Start Debugging"],
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Stop Debugging"] {
-    /*order: -1000 !important;
-    margin-left: 0 !important;*/
-    position: absolute !important;
-    bottom: 0px !important;
-    width: 48px !important;
-    height: 48px !important;
-    padding: 0 !important;
-}
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Start Debugging"] a,
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Stop Debugging"] a {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 48px !important;
-    height: 48px !important;
-}
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Start Debugging"] span::before,
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Stop Debugging"] span::before {
-    content: '\eaaf';
-    display: block !important;
-    width: 48px !important;
-    height: 48px !important;
-    font-size: 28px !important;
-    line-height: 48px !important;
-}
-.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][aria-label="bug, Start Debugging"] span::before {
-    color: lightgray;
+.part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"] {
+    order: -1000 !important;
+    margin-left: 0 !important;
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="fabiospampinato.vscode-statusbar-debugger"][title="Pause"] {
-    /*margin-left: 8px !important;*/
+    margin-left: 8px !important;
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] {
     order: -999 !important;
-    /*margin-left: 8px !important;*/
-    margin-left: 45px !important;
+    margin-left: 8px !important;
 }
 .part.statusbar .items-container.left-items .statusbar-item[id="status.problems"] .codicon-error {
     color: #ff9797;

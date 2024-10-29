@@ -5,3 +5,4 @@ sys-process/bottom rust-libs.conf
 sys-apps/bat rust-libs.conf
 sys-apps/eza rust-libs.conf
 sys-apps/amdgpu_top rust-libs.conf
+dev-util/git-delta rust-libs.conf

@@ -18,6 +18,7 @@ app-arch/lzop gnu-source-light.conf
 app-arch/brotli gnu-source-light.conf
 app-arch/ncompress gnu-source-light.conf
 app-crypt/gnupg std-gnu99.conf
+app-crypt/gnupg-pkcs11-scd gnu-source-light.conf
 app-crypt/heimdal gnu-source-light.conf
 app-crypt/mit-krb5 std-gnu11.conf
 app-crypt/rhash gnu-source-light.conf
@@ -26,6 +27,7 @@ app-crypt/seahorse gnu-source-light.conf
 app-crypt/gcr gnu-source-light.conf
 app-crypt/libsecret gnu-source-light.conf
 app-crypt/swtpm gnu-source-light.conf
+app-crypt/ccid gnu-source-light.conf
 #app-emulation/spice std-gnu11.conf
 app-i18n/libhangul gnu-source-light.conf
 app-i18n/fbterm std-gnu99.conf
@@ -104,6 +106,7 @@ dev-libs/libksba std-gnu99.conf gnu-source-light.conf
 dev-libs/dotconf gnu-source-light.conf
 dev-libs/kpathsea gnu-source-light.conf
 dev-libs/ptexenc gnu-source-light.conf
+dev-libs/pkcs11-helper gnu-source-light.conf
 dev-libs/libgit2 gnu-source-light.conf
 dev-libs/ell gnu-gcc.conf static-gnu-runtime.conf
 dev-libs/ocl-icd std-gnu11.conf
@@ -164,6 +167,7 @@ media-libs/faad2 gnu-source-light.conf
 media-libs/fontconfig std-gnu99.conf
 media-libs/gd gnu-source-light.conf
 media-libs/gegl std-gnu99.conf
+media-libs/glfw gnu-source-light.conf
 media-libs/gst-plugins-bad std-gnu17.conf
 media-libs/gst-plugins-base gnu-source-light.conf
 media-libs/gst-plugins-good std-gnu17.conf
@@ -238,6 +242,7 @@ net-dialup/linux-atm gnu-source-light.conf
 net-dns/pihole gnu-source-light.conf
 net-dns/c-ares std-gnu99.conf
 net-nds/openldap gnu-source-light.conf
+net-dns/bind std-gnu99.conf
 net-dns/bind-tools std-gnu99.conf ld-force-lib64.conf
 net-firewall/iptables std-gnu99.conf
 net-firewall/ebtables std-gnu99.conf
