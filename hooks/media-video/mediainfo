@@ -3,6 +3,10 @@
 source /etc/portage/hooks/functions/check-env.sh
 
 instprep() {
+    :
+}
+
+_instprep() {
     echo -e ">>> Installing Japanese language file for ${CATEGORY}/${PN}..."
 
     local i18n_dir="${ED}/usr/share/mediainfo/i18n"

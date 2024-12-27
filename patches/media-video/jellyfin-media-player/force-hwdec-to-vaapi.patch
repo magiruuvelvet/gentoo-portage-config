@@ -1,21 +1,13 @@
 diff --git a/src/player/PlayerComponent.cpp b/src/player/PlayerComponent.cpp
-index f91b329..e5a869e 100644
+index 991bfe0..03ef2d0 100644
 --- a/src/player/PlayerComponent.cpp
 +++ b/src/player/PlayerComponent.cpp
-@@ -118,6 +118,7 @@ bool PlayerComponent::componentInitialize()
- 
-   // Make it load the hwdec interop, so hwdec can be enabled at runtime.
-   mpv::qt::set_property(m_mpv, "hwdec-preload", "auto");
-+  mpv::qt::set_property(m_mpv, "hwdec", "vaapi");
- 
-   // User-visible application name used by some audio APIs (at least PulseAudio).
-   mpv::qt::set_property(m_mpv, "audio-client-name", QCoreApplication::applicationName());
-@@ -1229,7 +1230,7 @@ void PlayerComponent::updateVideoSettings()
+@@ -1296,7 +1296,7 @@ void PlayerComponent::setVideoConfiguration()
    {
      hwdecMode = "auto-copy";
    }
 -  mpv::qt::set_property(m_mpv, "hwdec", hwdecMode);
 +  mpv::qt::set_property(m_mpv, "hwdec", "vaapi");
-   mpv::qt::set_property(m_mpv, "videotoolbox-format", hwdecVTFormat);
+   mpv::qt::set_property(m_mpv, "hwdec-image-format", hwdecVTFormat);
  
    QVariant deinterlace = SettingsComponent::Get().value(SETTINGS_SECTION_VIDEO, "deinterlace");

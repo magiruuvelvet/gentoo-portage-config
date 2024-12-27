@@ -1,6 +1,6 @@
-sys-devel/clang default-compiler-rt default-libcxx default-lld
-sys-devel/clang-runtime libcxx compiler-rt openmp sanitize
-sys-libs/compiler-rt clang
+llvm-core/clang default-compiler-rt default-libcxx default-lld
+llvm-core/clang-runtime libcxx compiler-rt openmp sanitize
+llvm-runtimes/compiler-rt clang
 sys-libs/compiler-rt-sanitizers clang
-sys-libs/libcxx libcxxabi libunwind
-sys-libs/libcxxabi libunwind
+llvm-runtimes/libcxx libcxxabi libunwind
+llvm-runtimes/libcxxabi libunwind

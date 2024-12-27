@@ -5,5 +5,5 @@ sys-libs/db -cxx
 sys-libs/libosinfo introspection
 sys-libs/zlib minizip
 sys-libs/timezone-data leaps-timezone
-sys-libs/ncurses -gpm
+sys-libs/ncurses -gpm cxx
 sys-libs/libxcrypt static-libs

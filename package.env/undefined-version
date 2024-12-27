@@ -11,6 +11,8 @@ net-misc/spice-gtk allow-undefined-version.conf
 net-proxy/dante allow-undefined-version.conf
 net-nds/openldap allow-undefined-version.conf
 media-libs/libva allow-undefined-version.conf
+media-libs/alsa-lib allow-undefined-version.conf
 media-gfx/graphicsmagick allow-undefined-version.conf
+media-sound/sox allow-undefined-version.conf
 
 x11-misc/mangohud::localrepo allow-undefined-version.conf

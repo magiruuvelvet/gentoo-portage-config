@@ -1,9 +1,9 @@
---- workbench.html	2021-03-01 15:48:29.730707881 +0100
-+++ workbench.html	2021-03-01 15:52:16.968859389 +0100
+--- workbench.esm.html	2021-03-01 15:48:29.730707881 +0100
++++ workbench.esm.html	2021-03-01 15:52:16.968859389 +0100
 @@ -16,4 +16,7 @@
  
- 	<!-- Startup via workbench.js -->
- 	<script src="workbench.js"></script>
+ 	<!-- Startup (do not modify order of script tags!) -->
+ 	<script src="./workbench.js" type="module"></script>
 +
 +	<link rel="stylesheet" type="text/css" href="https://codium-assets.local/custom.css">
 +	<script src="https://codium-assets.local/custom.js"></script>

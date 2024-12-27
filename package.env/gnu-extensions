@@ -145,6 +145,7 @@ dev-util/unifdef gnu-source-light.conf
 gnome-base/dconf std-gnu99.conf
 gnome-base/gnome-keyring gnu-source-light.conf
 dev-libs/gobject-introspection gnu-source-light.conf
+dev-libs/gumbo gnu-source-light.conf
 games-emulation/mupen64plus-core gnu-source-light.conf
 # uses gnu inline assembly
 games-emulation/mupen64plus-ui-console std-gnu99.conf
@@ -371,6 +372,7 @@ sys-libs/libcap std-gnu99.conf
 sys-libs/libseccomp std-gnu99.conf
 sys-libs/ncurses std-gnu99.conf
 sys-libs/pam gnu-source-light.conf define-linux.conf
+sys-libs/pam_wrapper gnu-source-light.conf
 sys-libs/slang gnu-source-light.conf
 sys-libs/zlib std-gnu99.conf
 sys-libs/cracklib gnu-source-light.conf

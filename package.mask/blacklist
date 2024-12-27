@@ -51,33 +51,19 @@ sys-devel/gcc-config::gentoo
 sys-devel/binutils-config::gentoo
 sys-libs/binutils-libs::gentoo
 
-# mask Gentoo version of LLVM
-#sys-devel/llvm::gentoo
-#sys-devel/llvm-common::gentoo
-#sys-devel/clang::gentoo
-#sys-devel/clang-common::gentoo
-#sys-devel/clang-runtime::gentoo
-#sys-libs/libcxx::gentoo
-#sys-libs/libcxxabi::gentoo
-#sys-libs/llvm-libunwind::gentoo
-#dev-util/lldb::gentoo
-#sys-devel/lld::gentoo
-#sys-libs/libomp::gentoo
-#sys-libs/compiler-rt::gentoo
-
-# don't update for now, i recently updated my toolchain already
->=sys-devel/llvm-18.0.0
->=sys-devel/llvm-common-18.0.0
->=sys-devel/clang-18.0.0
->=sys-devel/clang-common-18.0.0
->=sys-devel/clang-runtime-18.0.0
->=sys-libs/libcxx-18.0.0
->=sys-libs/libcxxabi-18.0.0
->=sys-libs/llvm-libunwind-18.0.0
->=dev-util/lldb-18.0.0
->=sys-devel/lld-18.0.0
->=sys-libs/libomp-18.0.0
->=sys-libs/compiler-rt-18.0.0
+# do planned toolchain updates instead of automatic
+>=llvm-core/llvm-18.0.0
+>=llvm-core/llvm-common-18.0.0
+>=llvm-core/clang-18.0.0
+>=llvm-core/clang-common-18.0.0
+>=llvm-core/clang-runtime-18.0.0
+>=llvm-runtimes/libcxx-18.0.0
+>=llvm-runtimes/libcxxabi-18.0.0
+>=llvm-runtimes/llvm-libunwind-18.0.0
+>=llvm-core/lldb-18.0.0
+>=llvm-core/lld-18.0.0
+>=llvm-runtimes/libomp-18.0.0
+>=llvm-runtimes/compiler-rt-18.0.0
 >=dev-python/lit-18.0.0
 
 # use custom version

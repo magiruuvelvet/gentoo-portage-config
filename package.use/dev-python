@@ -1,4 +1,4 @@
-dev-python/PyQt5 bluetooth ssl dbus declarative gui multimedia network networkauth opengl sensors serialport sql svg webchannel websockets widgets x11extras xmlpatterns
+dev-python/pyqt5 bluetooth ssl dbus declarative gui multimedia network networkauth opengl sensors serialport sql svg webchannel websockets widgets x11extras xmlpatterns
 dev-python/cryptography idna
 dev-python/ipython matplotlib
 dev-python/pillow zlib jpeg jpeg2k lcms tiff truetype webp

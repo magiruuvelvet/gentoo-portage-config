@@ -7,14 +7,14 @@
 sys-devel/gcc gnu-gcc.conf
 sys-libs/glibc gnu-gcc.conf
 
-sys-devel/clang clang.conf
-sys-devel/llvm clang.conf
-sys-libs/compiler-rt clang.conf
+llvm-core/clang clang.conf
+llvm-core/llvm clang.conf
+llvm-runtimes/compiler-rt clang.conf
 sys-libs/compiler-rt-sanitizers clang.conf
-sys-libs/llvm-libunwind clang.conf
-sys-libs/libcxx clang.conf
-sys-libs/libcxxabi clang.conf
-dev-debug/lldb clang.conf
+llvm-runtimes/llvm-libunwind clang.conf
+llvm-runtimes/libcxx clang.conf
+llvm-runtimes/libcxxabi clang.conf
+llvm-core/lldb clang.conf
 
 # TODO: find a LLVM-based Fortran compiler
 sci-libs/fftw gfortran.conf

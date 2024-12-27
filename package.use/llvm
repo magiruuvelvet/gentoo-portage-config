@@ -4,27 +4,27 @@
 
 # mask: sys-libs/libunwind (this is the wrong library)
 
-sys-libs/llvm-libunwind static-libs test
+llvm-runtimes/llvm-libunwind static-libs test
 
-sys-libs/compiler-rt clang test
+llvm-runtimes/compiler-rt clang test
 sys-libs/compiler-rt-sanitizers clang test
 
-sys-devel/lld zstd
+llvm-core/lld zstd
 
-sys-libs/libcxx libcxxabi libunwind static-libs test
-sys-libs/libcxxabi libunwind static-libs test
+llvm-runtimes/libcxx libcxxabi libunwind static-libs test
+llvm-runtimes/libcxxabi libunwind static-libs test
 
-sys-devel/llvm-common
-sys-devel/llvm -abi_x86_32 xml libffi -gold -binutils-plugin zstd
-sys-devel/llvm LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
+llvm-core/llvm-common
+llvm-core/llvm -abi_x86_32 xml libffi -gold -binutils-plugin zstd
+llvm-core/llvm LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 
-sys-devel/clang-common default-compiler-rt default-libcxx default-lld llvm-libunwind
-sys-devel/clang-runtime -abi_x86_32 libcxx compiler-rt openmp -sanitize
-sys-devel/clang -abi_x86_32 xml default-compiler-rt default-libcxx default-lld
-sys-devel/clang LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
-sys-devel/clang
+llvm-core/clang-common default-compiler-rt default-libcxx default-lld llvm-libunwind
+llvm-core/clang-runtime -abi_x86_32 libcxx compiler-rt openmp -sanitize
+llvm-core/clang -abi_x86_32 xml default-compiler-rt default-libcxx default-lld
+llvm-core/clang LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
+llvm-core/clang
 
-dev-debug/lldb python lzma -libedit
+llvm-core/lldb python lzma -libedit
 
 # OpenMP runtime library for LLVM/clang compiler
-sys-libs/libomp
+llvm-runtimes/libomp
