@@ -1,5 +1,5 @@
---- workbench.esm.html	2021-03-01 15:48:29.730707881 +0100
-+++ workbench.esm.html	2021-03-01 15:52:16.968859389 +0100
+--- workbench.html	2021-03-01 15:48:29.730707881 +0100
++++ workbench.html	2021-03-01 15:52:16.968859389 +0100
 @@ -16,4 +16,7 @@
  
  	<!-- Startup (do not modify order of script tags!) -->

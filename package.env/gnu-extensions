@@ -31,6 +31,7 @@ app-crypt/ccid gnu-source-light.conf
 #app-emulation/spice std-gnu11.conf
 app-i18n/libhangul gnu-source-light.conf
 app-i18n/fbterm std-gnu99.conf
+app-i18n/uchardet gnu-source-light.conf
 app-misc/jq gnu-source-light.conf
 app-misc/pax-utils std-gnu99.conf
 app-misc/ddcutil std-gnu99.conf
@@ -282,6 +283,7 @@ net-mail/dovecot std-gnu99.conf
 net-mail/mailutils std-gnu99.conf
 net-misc/freerdp gnu-source-light.conf
 net-misc/rdesktop gnu-source-light.conf
+net-misc/radvd gnu-source-light.conf
 net-misc/memcached std-gnu99.conf
 net-misc/modemmanager std-gnu99.conf
 net-misc/ofono gnu-source-light.conf

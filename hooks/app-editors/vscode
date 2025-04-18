@@ -17,9 +17,9 @@ instprep() {
     echo "Use KDE file dialogs..."
     patch -p1 < /etc/portage/hooks/patches/app-editors/vscodium/vscode-use-kde-file-dialogs.patch
 
-    echo "Patching workbench.esm.html to allow injecting custom CSS..."
+    echo "Patching workbench.html to allow injecting custom CSS..."
     cd "${ED}/opt/vscode/resources/app/out/vs/code/electron-sandbox/workbench"
-    patch workbench.esm.html < /etc/portage/hooks/patches/app-editors/vscodium/workbench-custom-css.patch
+    patch workbench.html < /etc/portage/hooks/patches/app-editors/vscodium/workbench-custom-css.patch
 
     cp /etc/portage/hooks/patches/app-editors/vscodium/custom.css \
         "${ED}/opt/vscode/custom.css"
@@ -38,7 +38,7 @@ instprep() {
 }
 
 postinst() {
-    echo "adjust /opt/vscode/resources/app/out/vs/code/electron-sandbox/workbench/workbench.esm.html"
+    echo "adjust /opt/vscode/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html"
 }
 
 case "$1" in
