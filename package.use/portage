@@ -1,2 +1,7 @@
-sys-apps/portage PYTHON_TARGETS: -* python3_11 PYTHON_SINGLE_TARGET: -* python3_11
-app-portage/* PYTHON_TARGETS: -* python3_11 PYTHON_SINGLE_TARGET: -* python3_11
+sys-apps/portage PYTHON_TARGETS: -* python3_12 PYTHON_SINGLE_TARGET: -* python3_12
+app-portage/* PYTHON_TARGETS: -* python3_12 PYTHON_SINGLE_TARGET: -* python3_12
+
+dev-java/java-config PYTHON_TARGETS: -* python3_12
+sys-apps/pkgcore PYTHON_TARGETS: -* python3_12
+dev-util/pkgcheck PYTHON_TARGETS: -* python3_12
+dev-util/pkgdev PYTHON_TARGETS: -* python3_12

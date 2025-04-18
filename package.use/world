@@ -1,6 +1,6 @@
 */* systemd pam policykit udev ipv6 idn -gpm tomoyo cjk nls unicode bluetooth alsa pulseaudio fish-completion
 */* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb
-*/* PYTHON_TARGETS: -* python3_11 PYTHON_SINGLE_TARGET: -* python3_11
+*/* PYTHON_TARGETS: -* python3_11 python3_12 PYTHON_SINGLE_TARGET: -* python3_12
 */* RUBY_TARGETS: -* ruby31 RUBY_SINGLE_TARGET: -* ruby31
 */* PHP_TARGETS: -* php8-2 PHP_SINGLE_TARGET: -* php8-2
 */* PERL_FEATURES: ithreads

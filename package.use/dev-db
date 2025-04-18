@@ -2,6 +2,6 @@ dev-db/tokyocabinet threads
 dev-db/mariadb server pam innodb-lz4 innodb-lzo jemalloc bindist
 dev-db/sqlite readline icu secure-delete -tools
 dev-db/postgresql llvm icu threads lz4 -server
-dev-db/postgresql llvm_slot_17 -llvm_slot_18
+dev-db/postgresql llvm_slot_17 -llvm_slot_18 -llvm_slot_19
 dev-db/soci sqlite
 dev-db/redis lua_single_target_luajit -lua_single_target_lua5-1

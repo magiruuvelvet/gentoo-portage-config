@@ -59,10 +59,10 @@ sys-libs/binutils-libs::gentoo
 >=llvm-core/clang-runtime-18.0.0
 >=llvm-runtimes/libcxx-18.0.0
 >=llvm-runtimes/libcxxabi-18.0.0
->=llvm-runtimes/llvm-libunwind-18.0.0
+>=llvm-runtimes/libunwind-18.0.0
 >=llvm-core/lldb-18.0.0
 >=llvm-core/lld-18.0.0
->=llvm-runtimes/libomp-18.0.0
+>=llvm-runtimes/openmp-18.0.0
 >=llvm-runtimes/compiler-rt-18.0.0
 >=dev-python/lit-18.0.0
 

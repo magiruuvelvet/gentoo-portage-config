@@ -15,7 +15,7 @@ sys-libs/libxcrypt abi_x86_32
 virtual/libcrypt abi_x86_32
 
 # toolchain runtime
-llvm-runtimes/llvm-libunwind abi_x86_32
+llvm-runtimes/libunwind abi_x86_32
 llvm-runtimes/libcxx abi_x86_32
 llvm-runtimes/libcxxabi abi_x86_32
-llvm-runtimes/libomp abi_x86_32
+llvm-runtimes/openmp abi_x86_32

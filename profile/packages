@@ -4,12 +4,12 @@
 *llvm-core/clang
 *llvm-core/clang-common
 *llvm-core/clang-runtime
-*llvm-runtimes/llvm-libunwind
+*llvm-runtimes/libunwind
 *llvm-runtimes/compiler-rt
 #*sys-libs/compiler-rt-sanitizers
 *llvm-runtimes/libcxx
 *llvm-runtimes/libcxxabi
-*llvm-runtimes/libomp
+*llvm-runtimes/openmp
 
 # remove GNU toolchains from the @system group
 -*sys-devel/gcc

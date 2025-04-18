@@ -7,7 +7,7 @@ index 84f39ce..af09805 100644
  
      def _add_profile(self, profile_override=None):
 -        profile, was_symlink = self._find_profile_path(profile_override)
-+        profile, was_symlink = self._find_profile_path("/usr/portage/profiles/default/linux/amd64/17.1/systemd/merged-usr")
++        profile, was_symlink = self._find_profile_path("/usr/portage/profiles/default/linux/amd64/23.0/llvm/systemd")
          if was_symlink:
              paths = profile.rsplit(os.path.sep, 1)
          else:
