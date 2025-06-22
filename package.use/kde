@@ -39,7 +39,7 @@ kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 kde-apps/kdenlive semantic-desktop
 kde-apps/gwenview activities -mpris raw semantic-desktop share kipi
-kde-apps/spectacle kipi share
+kde-plasma/spectacle kipi share
 kde-apps/kate -filebrowser -projects -snippets -plasma
 kde-apps/kate-addons -filebrowser -projects -snippets
 

@@ -1,7 +1,7 @@
-diff --git a/cargo_home/gentoo/libgit2-sys-0.16.1+1.7.1/build.rs b/cargo_home/gentoo/libgit2-sys-0.16.1+1.7.1/build.rs
+diff --git a/cargo_home/gentoo/libgit2-sys-0.17.0+1.8.1/build.rs b/cargo_home/gentoo/libgit2-sys-0.17.0+1.8.1/build.rs
 index e888b94..ff81136 100644
---- a/cargo_home/gentoo/libgit2-sys-0.16.1+1.7.1/build.rs
-+++ b/cargo_home/gentoo/libgit2-sys-0.16.1+1.7.1/build.rs
+--- a/cargo_home/gentoo/libgit2-sys-0.17.0+1.8.1/build.rs
++++ b/cargo_home/gentoo/libgit2-sys-0.17.0+1.8.1/build.rs
 @@ -75,6 +75,7 @@ fn main() {
      // is some way with cc to have different instructions per-file?
      cfg.define("GIT_REGEX_BUILTIN", "1")

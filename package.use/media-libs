@@ -31,7 +31,7 @@ media-libs/sdl2-mixer wav flac mad mod modplug mp3 opus vorbis
 media-libs/sdl2-ttf X
 media-libs/tiff cxx jbig jpeg lzma webp zlib zstd
 media-libs/gstreamer caps nls introspection -unwind
-media-libs/gst-plugins-base X alsa egl nls ogg opengl orc pango theora vorbis introspection
+media-libs/gst-plugins-base X wayland alsa egl nls ogg opengl orc pango theora vorbis introspection
 media-libs/gst-plugins-bad vaapi
 media-libs/vapoursynth VAPOURSYNTH_PLUGINS: *
 media-libs/libwmf expat
