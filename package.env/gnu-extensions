@@ -334,6 +334,7 @@ sys-apps/install-xattr gnu-source-light.conf
 sys-apps/ethtool gnu-source-light.conf
 sys-apps/i2c-tools gnu-source-light.conf
 sys-apps/ed gnu-source-light.conf
+sys-apps/which gnu-source-light.conf
 sys-block/parted std-gnu99.conf
 sys-devel/bc std-gnu99.conf
 dev-build/bmake std-gnu99.conf
@@ -395,6 +396,7 @@ x11-libs/gtk+ gnu-source-light.conf
 x11-libs/libwnck gnu-source-light.conf
 x11-libs/pixman std-gnu11.conf
 x11-libs/cairo std-gnu99.conf
+x11-libs/libSM gnu-source-light.conf
 x11-misc/i3lock std-gnu99.conf
 x11-misc/alltray gnu-source-light.conf
 x11-apps/xrestop gnu-source-light.conf

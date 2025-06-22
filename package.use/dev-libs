@@ -1,3 +1,4 @@
+dev-libs/appstream compose
 dev-libs/libappindicator introspection
 dev-libs/atk introspection
 dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
