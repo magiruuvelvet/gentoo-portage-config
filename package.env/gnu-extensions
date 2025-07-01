@@ -206,7 +206,7 @@ media-libs/libshout gnu-source-light.conf
 media-libs/freeglut gnu-source-light.conf
 media-libs/libvpx gnu-source-light.conf
 media-libs/virglrenderer gnu-source-light.conf
-media-libs/openal gnu-gcc.conf static-gnu-runtime.conf
+#media-libs/openal gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libv4l std-gnu99.conf
 media-libs/mediastreamer2 gnu-source-light.conf
 media-libs/pcaudiolib std-gnu99.conf
@@ -286,7 +286,7 @@ net-misc/rdesktop gnu-source-light.conf
 net-misc/radvd gnu-source-light.conf
 net-misc/memcached std-gnu99.conf
 net-misc/modemmanager std-gnu99.conf
-net-misc/ofono gnu-source-light.conf
+net-misc/ofono std-gnu99.conf
 net-misc/spice-gtk std-gnu17.conf
 net-misc/telnet-bsd gnu-source-light.conf
 net-misc/dhcp gnu-source-light.conf std-gnu99.conf
@@ -299,7 +299,7 @@ net-wireless/wpa_supplicant std-gnu99.conf
 net-wireless/bluez gnu-source-light.conf
 net-wireless/bluez-tools gnu-source-light.conf
 net-wireless/bluez-hcidump std-gnu99.conf
-net-dialup/ppp gnu-gcc.conf static-gnu-runtime.conf
+#net-dialup/ppp gnu-gcc.conf static-gnu-runtime.conf
 sci-mathematics/lpsolve std-gnu99.conf
 sys-apps/man gnu-source-light.conf
 sys-apps/diffutils std-gnu11.conf
@@ -329,7 +329,7 @@ sys-apps/dtc gnu-source-light.conf
 sys-apps/lm-sensors std-gnu99.conf
 sys-apps/lshw std-gnu11.conf
 sys-apps/smartmontools std-gnu11.conf
-sys-apps/pcsc-lite gnu-source-light.conf
+sys-apps/pcsc-lite std-gnu11.conf
 sys-apps/install-xattr gnu-source-light.conf
 sys-apps/ethtool gnu-source-light.conf
 sys-apps/i2c-tools gnu-source-light.conf
