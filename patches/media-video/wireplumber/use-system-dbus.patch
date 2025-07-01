@@ -1,0 +1,12 @@
+diff --git a/modules/module-dbus-connection.c b/modules/module-dbus-connection.c
+index b337be5..11149b7 100644
+--- a/modules/module-dbus-connection.c
++++ b/modules/module-dbus-connection.c
+@@ -259,6 +259,6 @@ wireplumber__module_init (WpCore * core, WpSpaJson * args, GError ** error)
+       wp_dbus_connection_get_type(),
+       "name", "dbus-connection",
+       "core", core,
+-      "bus-type", G_BUS_TYPE_SESSION,
++      "bus-type", G_BUS_TYPE_SYSTEM,
+       NULL));
+ }
