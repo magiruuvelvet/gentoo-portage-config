@@ -1,15 +1,7 @@
-# multilib cross compilation is broken again in this version
-=dev-util/meson-0.56.2
-
 # install 059-r7
 >=sys-kernel/dracut-060
 
-# makes some gtk apps sad (waterfox, ...)
-#>=x11-libs/pango-1.48
-
-# need to debug this later
-#>=dev-ruby/rubygems-3.2
-
-# bluez 5.63 has issues with hibernation on my system
-=net-wireless/bluez-5.63
-=net-wireless/bluez-5.63-r1
+# fontconfig 2.17 seems to have regressions and selects wrong fonts in my multi-locale environment (multiple language scripts).
+# blacklist for now until I've figured out what is going on.
+# the wrong font selection causes extremely poor visuals in some important places.
+>=media-libs/fontconfig-2.17
