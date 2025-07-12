@@ -10,12 +10,11 @@ acct-group/vmware::stefantalpalaru
 # official repos are lacking some USE flags here
 www-servers/caddy::chaoslab
 
-# version 3 is a complete brick in my opinion, backport security patches instead as long as possible
-# to avoid using the new shitty user interface which is a fucking mess
-=net-misc/nextcloud-client-2.6.5
-
 # replacement for https://github.com/esjeon/krohnkite hopefully
 kde-misc/bismuth::gentoo
+
+
+gui-apps/quickshell::guru
 
 # installed kernels
 =sys-kernel/gentoo-kernel-bin-6.1.77
@@ -26,25 +25,10 @@ kde-misc/bismuth::gentoo
 =sys-kernel/gentoo-sources-6.6.16
 =sys-kernel/gentoo-sources-6.6.21
 
-# NOTE:
-#   since swapping the GPUs to make the dGPU the default,
-#   kernel 6.6 LTS seems to run stable in Wayland so far
-#   amdgpu has serious issues with 2 framebuffers being used at the same time
-
 # media
 media-video/mpv::vapoursynth
 
-# hyprland
-gui-libs/xdg-desktop-portal-hyprland::guru
-gui-apps/hyprlock::guru
-gui-apps/hyprpaper::guru
-gui-apps/hyprpicker::guru
-app-misc/cliphist::guru
-
 # glibc version history, currently installed last
-#=sys-libs/glibc-2.29-r4
-#=sys-libs/glibc-2.31-r7
-#=sys-libs/glibc-2.33-r7
 =sys-libs/glibc-2.36-r8
 
 # stubs for gcc and binutils
@@ -58,26 +42,3 @@ dev-debug/gdb::localrepo
 # private stub packages
 sys-power/switcheroo-control::privaterepo
 sys-power/power-profiles-daemon::privaterepo
-
-# linphone voip client
-net-voip/linphone-desktop::nest
-dev-libs/liblinphone::nest
-dev-libs/belcard::nest
-dev-libs/belle-sip::nest
-dev-libs/lime::nest
-media-libs/mediastreamer2::nest
-net-libs/bctoolbox::nest
-net-libs/bzrtp::nest
-net-libs/ortp::nest
-dev-cpp/belr::nest
-
-# linphone voip client additional dependencies
-dev-cpp/xsd::nest
-dev-cpp/libxsd-frontend::nest
-dev-cpp/libcutl::nest
-dev-db/soci::nest
-dev-util/cli::nest
-dev-python/pystache::nest
-
-
-net-misc/ngrok-bin::nest

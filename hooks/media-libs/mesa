@@ -2,24 +2,6 @@
 
 source /etc/portage/hooks/functions/check-env.sh
 
-_find_replace_literal() {
-    FIND="$1" REPLACE="$2" ruby -p -i -e "gsub(ENV['FIND'], ENV['REPLACE'])" "$3"
-}
-
-_compile() {
-    pushd "$T"
-
-    # fix compiler
-    _find_replace_literal "c = ['clang']"      "c = ['/etc/portage/compiler-wrapper/libatomic-clang']"      meson.x86_64-pc-linux.amd64.ini
-    _find_replace_literal "cpp = ['clang++']"  "cpp = ['/etc/portage/compiler-wrapper/libatomic-clang++']"  meson.x86_64-pc-linux.amd64.ini
-
-    # fix compiler and architecture (meson fails to add -m32 for some reason)
-    _find_replace_literal "c = ['clang']"      "c = ['/etc/portage/compiler-wrapper/libatomic-clang', '-m32']"      meson.i686-pc-linux.x86.ini
-    _find_replace_literal "cpp = ['clang++']"  "cpp = ['/etc/portage/compiler-wrapper/libatomic-clang++', '-m32']"  meson.i686-pc-linux.x86.ini
-
-    popd
-}
-
 compile() {
     :
 }

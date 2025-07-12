@@ -78,8 +78,4 @@ app-emulation/libvirt libunwind.conf std-gnu99.conf
 dev-python/libvirt-python std-gnu99.conf
 
 
-# bundled sha util uses GNU extension -> inline assembly
-games-action/minetest std-gnu11.conf
-
-
 kde-misc/plasma-applet-window-appmenu plasma-applet-window-appmenu.conf

@@ -1,17 +1,9 @@
 #!/bin/sh
 
-# wrapper around -latomic to use the absolute path to it
-# otherwise the library isn't found during linking
+# removes offending -latomic arguments from the compiler invocation
 
 CLANG="$(basename "$0")"
 args=()
-
-BITS=64
-for i in "$@"; do
-    if [[ "$i" == "-m32" ]]; then
-        BITS=
-    fi
-done
 
 if [[ "$CLANG" == *"++" ]]; then
     REAL_CLANG=clang++
@@ -21,8 +13,7 @@ fi
 
 for x in "$@"; do
     if [[ "$x" == *"-latomic"* ]]; then
-        #args+=("/usr/lib$BITS/libatomic.so.1")
-        args+=("/sucks/gnu/lib$BITS/libatomic.a")
+        :
     else
         args+=("$x")
     fi

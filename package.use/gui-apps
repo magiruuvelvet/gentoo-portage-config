@@ -1,1 +1,2 @@
-gui-apps/waybar -pulseaudio -pipewire mpd mpris upower wifi network -tray experimental -popups
+# disable Wayland-only features
+gui-apps/quickshell -* X i3 i3-ipc jemalloc mpris pipewire sockets tray
