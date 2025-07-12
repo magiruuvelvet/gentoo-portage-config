@@ -3,7 +3,7 @@ sys-kernel/linux-headers gnu-gcc.conf
 sys-kernel/vanilla-sources gnu-gcc.conf
 sys-kernel/gentoo-sources gnu-gcc.conf
 sys-kernel/gentoo-kernel-bin gnu-gcc.conf
-sys-apps/kmod gnu-gcc.conf static-gnu-runtime.conf
+#sys-apps/kmod gnu-gcc.conf static-gnu-runtime.conf
 app-emulation/vmware-modules gnu-gcc.conf
 media-video/v4l2loopback gnu-gcc.conf
 app-laptop/tuxedo-drivers gnu-gcc.conf
