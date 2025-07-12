@@ -17,12 +17,8 @@ kde-misc/bismuth::gentoo
 gui-apps/quickshell::guru
 
 # installed kernels
-=sys-kernel/gentoo-kernel-bin-6.1.77
-=sys-kernel/gentoo-kernel-bin-6.6.16
 =sys-kernel/gentoo-kernel-bin-6.6.21
 
-=sys-kernel/gentoo-sources-6.1.77
-=sys-kernel/gentoo-sources-6.6.16
 =sys-kernel/gentoo-sources-6.6.21
 
 # media
