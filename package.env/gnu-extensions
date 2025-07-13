@@ -55,6 +55,7 @@ app-text/rman gnu-source-light.conf
 app-text/convertlit gnu-source-light.conf
 app-text/mupdf gnu-source-light.conf
 app-text/manpager gnu-source-light.conf
+app-text/mandoc gnu-source-light.conf
 app-text/dvipsk gnu-source-light.conf
 app-text/dvipng gnu-source-light.conf
 dev-tex/bibtexu gnu-source-light.conf
@@ -188,7 +189,7 @@ media-libs/libjpeg-turbo gnu-source-light.conf
 media-libs/libmtp gnu-source-light.conf
 media-libs/portaudio std-gnu99.conf
 media-libs/tiff gnu-source-light.conf
-media-libs/mlt gnu-source-light.conf ld-force-lib64.conf
+media-libs/mlt gnu-source-light.conf
 media-libs/dssi gnu-source-light.conf
 media-libs/libdvdnav gnu-source-light.conf
 media-libs/libdvdcss gnu-source-light.conf
@@ -237,15 +238,15 @@ media-video/mkvtoolnix gnu-source-light.conf
 media-video/obs-studio gnu-source-light.conf
 net-analyzer/openbsd-netcat gnu-source-light.conf
 net-analyzer/fping gnu-source-light.conf
-net-analyzer/zabbix gnu-source-light.conf ld-force-lib64.conf
-net-analyzer/tcpdump gnu-source-light.conf ld-force-lib64.conf
+net-analyzer/zabbix gnu-source-light.conf
+net-analyzer/tcpdump gnu-source-light.conf
 net-analyzer/macchanger gnu-source-light.conf
 net-dialup/linux-atm gnu-source-light.conf
 net-dns/pihole gnu-source-light.conf
 net-dns/c-ares std-gnu99.conf
 net-nds/openldap gnu-source-light.conf
 net-dns/bind std-gnu99.conf
-net-dns/bind-tools std-gnu99.conf ld-force-lib64.conf
+net-dns/bind-tools std-gnu99.conf
 net-firewall/iptables std-gnu99.conf
 net-firewall/ebtables std-gnu99.conf
 net-firewall/xtables-addons std-gnu99.conf
@@ -435,12 +436,3 @@ net-wireless/crda gnu-gcc.conf static-gnu-runtime.conf
 # the linux kernel and kernel modules depend on this for building, so this
 # essential utility must be fixed !!
 dev-libs/elfutils gnu-gcc.conf static-gnu-runtime.conf
-
-# TODO: mariadb straight out doesn't work at all without GNU *rage*
-# backtrace: dies at libunwind, before it libgcc_s sneaked in somehow fucking up everything
-#dev-db/mariadb gnu-gcc.conf static-gnu-runtime.conf
-
-
-# figure out why this compiler can't handle a pure LLVM toolchain (linker)
-# i figured it out :)
-#dev-lang/fpc gnu-gcc.conf static-gnu-runtime.conf

@@ -1,12 +1,9 @@
 # allow unstable masked main repo packages
-=net-misc/streamlink-9999 **
 =games-emulation/pcsx2-9999 **
 =games-emulation/dolphin-9999 **
 
 =media-video/mpv-9999::vapoursynth **
 =media-video/minitube-9999::localrepo **
-
-=gui-apps/waybar-9999::gentoo **
 
 # localrepo
 =x11-misc/nvidia-xrun-9999 **

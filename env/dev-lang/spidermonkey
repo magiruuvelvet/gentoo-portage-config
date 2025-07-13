@@ -1,7 +1,0 @@
-# rustc can't figure its own shit out :angry_face:
-CHOST="x86_64-unknown-linux-gnu"
-CBUILD="x86_64-unknown-linux-gnu"
-
-# x86_64-unknown-linux-gnu-
-PATH="/sucks/gnu/target-triplet-gnu:$PATH"
-LD_LIBRARY_PATH="/sucks/gnu/target-triplet-gnu:$LD_LIBRARY_PATH"

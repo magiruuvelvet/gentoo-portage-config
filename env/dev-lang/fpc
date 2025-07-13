@@ -1,4 +1,2 @@
-#PATH="/sucks/gnu/bin:$PATH"
-
 # ld wrapper to fix stage 1
 PATH="/etc/portage/patches/dev-lang/fpc:$PATH"

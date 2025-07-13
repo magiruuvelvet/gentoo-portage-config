@@ -7,11 +7,9 @@
 # patchelf is mandatory on SUID binaries (like vmware-vmx)
 # launcher scripts are required for crap like vscodium to make native plugins happy
 
-app-emulation/vmware-workstation
 app-editors/vscodium-bin
 app-office/freeoffice
 media-video/svp
-net-im/discord-bin
 net-im/zoom
 www-client/brave-bin
 www-client/vivaldi

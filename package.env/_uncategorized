@@ -24,11 +24,10 @@ dev-libs/xapian c++11.conf
 dev-libs/libplatform c++11.conf
 dev-libs/darts c++11.conf
 dev-python/kiwisolver c++11.conf
-dev-python/matplotlib c++11-force.conf ld-force-lib64.conf
+dev-python/matplotlib c++11-force.conf
 dev-util/gperf c++11.conf
-media-gfx/graphicsmagick ld-no-gnu.conf
 media-libs/glu c++11.conf
-media-libs/libfpx c++11.conf ld-no-gnu.conf
+media-libs/libfpx c++11.conf
 media-libs/libmodplug c++11.conf
 media-libs/libraw c++11.conf
 media-libs/libsfml c++11.conf
@@ -37,11 +36,10 @@ net-libs/libproxy c++11.conf
 x11-misc/virtualgl c++11.conf
 games-util/xboxdrv c++11.conf
 games-emulation/mupen64plus-video-rice c++11.conf gnu-source-light.conf
-dev-games/irrlicht c++11.conf strict-ansi.conf
 dev-cpp/libxsd-frontend c++11.conf
 dev-cpp/xsd c++11.conf
 x11-libs/wxGTK c++11.conf
-app-text/mecab c++11.conf ld-no-gnu.conf
+app-text/mecab c++11.conf
 dev-ruby/mecab-ruby c++11.conf
 net-libs/libtorrent c++11.conf
 
@@ -57,19 +55,7 @@ gnome-base/librsvg libunwind.conf
 sys-apps/osinfo-db-tools libunwind.conf
 sys-libs/libosinfo libunwind.conf
 
-#dev-debug/valgrind std-gnu17.conf libunwind.conf fpic.conf
 dev-debug/valgrind gnu-gcc.conf static-gnu-runtime.conf
-
-app-backup/borgbackup ld-force-lib64.conf
-dev-util/cutter ld-force-lib64.conf
-media-sound/sonic-visualiser ld-force-lib64.conf
-media-libs/rubberband ld-force-lib64.conf
-kde-apps/kio-extras ld-force-lib64.conf
-media-sound/cantata ld-force-lib64.conf
-dev-libs/boost ld-force-lib64.conf
-media-video/subtitlecomposer ld-force-lib64.conf
-dev-libs/glib ld-fix-libs.conf
-media-libs/libsixel ld-force-lib64.conf
 
 # TODO: weird or faulty runtime behavior in those packages without the applied fixes
 dev-lang/luajit libunwind.conf gnu-source-light.conf
