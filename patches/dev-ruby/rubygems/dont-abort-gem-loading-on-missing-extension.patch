@@ -1,8 +1,8 @@
 diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
-index 0d72cee..516ca63 100644
+index 0b905a7..22c3b4e 100644
 --- a/lib/rubygems/specification.rb
 +++ b/lib/rubygems/specification.rb
-@@ -2121,7 +2121,7 @@ def missing_extensions?
+@@ -2128,7 +2128,7 @@ def missing_extensions?
      return false if default_gem?
      return false if File.exist? gem_build_complete_path
  

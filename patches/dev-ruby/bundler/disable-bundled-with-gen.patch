@@ -1,20 +1,20 @@
 diff --git a/lib/bundler/lockfile_generator.rb b/lib/bundler/lockfile_generator.rb
-index 0578a93..6c8942a 100644
+index 904552f..a9e2d50 100644
 --- a/lib/bundler/lockfile_generator.rb
 +++ b/lib/bundler/lockfile_generator.rb
-@@ -20,7 +20,6 @@ module Bundler
-       add_platforms
+@@ -21,7 +21,6 @@ module Bundler
        add_dependencies
+       add_checksums
        add_locked_ruby_version
 -      add_bundled_with
  
        out
      end
-@@ -71,7 +70,6 @@ module Bundler
+@@ -80,7 +79,6 @@ module Bundler
      end
  
      def add_bundled_with
--      add_section("BUNDLED WITH", Bundler::VERSION)
+-      add_section("BUNDLED WITH", definition.bundler_version_to_lock.to_s)
      end
  
      def add_section(name, value)

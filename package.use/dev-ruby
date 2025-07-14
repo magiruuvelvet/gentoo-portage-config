@@ -1,1 +1,1 @@
-dev-ruby/rubygems server
+dev-ruby/rubygems -server
