@@ -1,0 +1,13 @@
+diff --git a/src/server/main.cpp b/src/server/main.cpp
+index a53c100..2cda584 100644
+--- a/src/server/main.cpp
++++ b/src/server/main.cpp
+@@ -62,8 +62,6 @@ int main(int argc, char *argv[]) {
+         }
+     }
+ 
+-    SetMyExceptionHandler();
+-
+     setlocale(LC_ALL, "");
+ 
+     // Log::setLogRule("wayland=5");

@@ -1,0 +1,13 @@
+diff --git a/src/x11/i3/ipc/connection.hpp b/src/x11/i3/ipc/connection.hpp
+index af480c5..d1191dd 100644
+--- a/src/x11/i3/ipc/connection.hpp
++++ b/src/x11/i3/ipc/connection.hpp
+@@ -25,7 +25,7 @@ Q_DECLARE_OPAQUE_POINTER(qs::i3::ipc::I3Monitor*);
+ 
+ namespace qs::i3::ipc {
+ 
+-constexpr std::string MAGIC = "i3-ipc";
++const std::string MAGIC = "i3-ipc";
+ 
+ enum EventCode {
+ 	RunCommand = 0,

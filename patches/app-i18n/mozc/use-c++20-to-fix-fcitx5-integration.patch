@@ -1,0 +1,35 @@
+diff --git a/src/build_defs.bzl b/src/build_defs.bzl
+index b4027fc..2782768 100644
+--- a/src/build_defs.bzl
++++ b/src/build_defs.bzl
+@@ -259,7 +259,7 @@ def mozc_objc_library(
+         deps = deps + [
+             "//:macro",
+         ],
+-        copts = copts + ["-funsigned-char", "-std=c++17"],
++        copts = copts + ["-funsigned-char", "-std=c++20"],
+         # The 'manual' tag excludes this from the targets of 'all' and '...'.
+         # This is a workaround to exclude objc_library rules from Linux build
+         # because target_compatible_with doesn't work as expected.
+diff --git a/src/gyp/common.gypi b/src/gyp/common.gypi
+index 20fc040..b3ead1e 100644
+--- a/src/gyp/common.gypi
++++ b/src/gyp/common.gypi
+@@ -213,7 +213,7 @@
+           }],
+           ['compiler_target=="clang" or compiler_target=="gcc"', {
+             'cflags_cc': [
+-              '-std=c++17',
++              '-std=c++20',
+             ],
+           }],
+         ],
+@@ -233,7 +233,7 @@
+           }],
+           ['compiler_host=="clang" or compiler_host=="gcc"', {
+             'cflags_cc': [
+-              '-std=c++17',
++              '-std=c++20',
+             ],
+           }],
+         ],

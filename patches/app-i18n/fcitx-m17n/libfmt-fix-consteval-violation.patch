@@ -1,0 +1,13 @@
+diff --git a/im/engine.cpp b/im/engine.cpp
+index 1a94199..dc57a7a 100644
+--- a/im/engine.cpp
++++ b/im/engine.cpp
+@@ -352,7 +352,7 @@ std::vector<InputMethodEntry> M17NEngine::listInputMethods() {
+         std::string iconName;
+         auto uniqueName = stringutils::concat("m17n_", lang, "_", name);
+         auto fxName = fmt::format(
+-            _("{0} (M17N)"),
++            "{0} (M17N)",
+             (item && item->i18nName.size()) ? _(item->i18nName) : name);
+ 
+         info = minput_get_title_icon(mlang, mname);

@@ -51,9 +51,11 @@ sys-libs/binutils-libs::gentoo
 # do planned toolchain updates instead of automatic
 >=llvm-core/llvm-18.0.0
 >=llvm-core/llvm-common-18.0.0
+>=llvm-core/llvm-toolchain-symlinks-18.0.0
 >=llvm-core/clang-18.0.0
 >=llvm-core/clang-common-18.0.0
 >=llvm-core/clang-runtime-18.0.0
+>=llvm-core/clang-toolchain-symlinks-18.0.0
 >=llvm-runtimes/libcxx-18.0.0
 >=llvm-runtimes/libcxxabi-18.0.0
 >=llvm-runtimes/libunwind-18.0.0
