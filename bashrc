@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# enable ebuild preservation archive
+EBUILD_PRESERVATION_ARCHIVE_ENABLED=true
+
 # prepend latest LLVM version to PATH to avoid problems with env.d and multiple LLVM versions
 export PATH="/usr/lib/llvm/current/bin:$PATH"
 
@@ -11,6 +14,12 @@ if [[ ! -z "$EBUILD_PHASE" && "$EBUILD_PHASE" != "depend" ]]; then
     if (( $? != 0 )); then
         die "\e[1mhook for [${CATEGORY}/${PN}][$EBUILD_PHASE] terminated with an error\e[0m"
     fi
+fi
+
+# preserve the ebuild during the postinst phase
+if [[ "${EBUILD_PHASE}" == "postinst" && "${EBUILD_PRESERVATION_ARCHIVE_ENABLED}" == "true" ]]; then
+    source "/etc/portage/ebuild-preservation-archive.sh"
+    ebuild_preservation_archive_main
 fi
 
 notify-send() {
