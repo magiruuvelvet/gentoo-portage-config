@@ -1,4 +1,4 @@
-EBUILD_PRESERVATION_ARCHIVE_ROOT="/var/db/pkg-preserve"
+EBUILD_PRESERVATION_ARCHIVE_ROOT="/var/db/pkg-preserved"
 
 ebuild_preservation_archive_main() {
     local pretty_name="\e[38;2;120;120;39m[${CATEGORY}/${PN}-${PVR}]\e[0m"
@@ -19,6 +19,12 @@ ebuild_preservation_archive_main() {
         fi
 
         mkdir -p "$1"
+    }
+
+    delete_dir_if_empty() {
+        if [ -d "$1" ] && [ -z "$(ls -A "$1")" ]; then
+            rmdir "$1"
+        fi
     }
 
     copy_patch_dir_if_exists() {
@@ -81,6 +87,7 @@ ebuild_preservation_archive_main() {
     copy_patch_dir_if_exists "${user_patch_dir}/${PN}:${SLOT}" "${pkg_dir}/patches/"
     copy_patch_dir_if_exists "${user_patch_dir}/${P}-${PR}" "${pkg_dir}/patches/"
     copy_patch_dir_if_exists "${user_patch_dir}/${P}-${PR}:${SLOT}" "${pkg_dir}/patches/"
+    delete_dir_if_empty "${pkg_dir}/patches"
 
     # copy eclass directory
     # TODO: only copy active eclasses (possible?)
