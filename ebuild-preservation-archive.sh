@@ -28,13 +28,17 @@ ebuild_preservation_archive_main() {
         fi
     }
 
+    get_first_line() {
+        echo "${1%%$'\n'*}"
+    }
+
     # ensure mandatory environment variables are present
     ensure_var "$PORTAGE_REPO_NAME" || exit 1
     ensure_var "$CATEGORY"          || exit 1
     ensure_var "$P"                 || exit 1
     ensure_var "$PN"                || exit 1
     ensure_var "$PV"                || exit 1
-    ensure_env "$PR"                || exit 1
+    ensure_var "$PR"                || exit 1
     ensure_var "$PVR"               || exit 1
     ensure_var "$SLOT"              || exit 1
 
@@ -89,12 +93,18 @@ ebuild_preservation_archive_main() {
     echo -e "${pretty_name} creating build info manifest..."
     cat > "${pkg_dir}/build_info.manifest" << EOF
 EBUILD PRESERVATION MANIFEST 1.0
+
+[Package]
 Package: =${CATEGORY}/${pkg_name}
 Build Date: $(date)
-Repository: ${PORTAGE_REPO_NAME}
+Repository: ${PORTAGE_REPO_NAME} (${repo_root})
 Build Host: $(hostname)
 Portage Version: $(/usr/bin/portageq --version)
 Profile: $(cat /etc/portage/profile/parent)
+
+[Environment]
+CC: ${CC}
+CXX: ${CXX}
 USE: ${USE}
 FEATURES: ${FEATURES}
 CFLAGS: ${CFLAGS}
