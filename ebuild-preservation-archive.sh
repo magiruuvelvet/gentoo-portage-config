@@ -54,7 +54,7 @@ ebuild_preservation_archive_main() {
 
     # ensure the directory exists and is empty
     ensure_dir_and_empty "${pkg_dir}"
-    mkdir -p "${pkg_dir}"/{files,patches,eclass}
+    mkdir -p "${pkg_dir}"/patches
 
     # copy ebuild and manifest
     echo -e "${pretty_name} copying ebuild and manifest..."
