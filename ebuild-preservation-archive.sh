@@ -50,6 +50,7 @@ ebuild_preservation_archive_main() {
 
     # setup variables
     local timestamp="$(date '+%Y%m%d_%H%M%S')"
+    local pkg_slot="${SLOT%%/*}" # remove everything after first slash
     local pkg_name="${PN}-${PVR}"
     local pkg_dir="${EBUILD_PRESERVATION_ARCHIVE_ROOT}/${CATEGORY}/${pkg_name}_${timestamp}"
     local repo_root="$(/usr/bin/portageq get_repo_path / "${PORTAGE_REPO_NAME}")"
@@ -82,11 +83,11 @@ ebuild_preservation_archive_main() {
     # copy user patches
     # https://wiki.gentoo.org/wiki//etc/portage/patches
     copy_patch_dir_if_exists "${user_patch_dir}/${P}" "${pkg_dir}/patches/"
-    copy_patch_dir_if_exists "${user_patch_dir}/${P}:${SLOT}" "${pkg_dir}/patches/"
+    copy_patch_dir_if_exists "${user_patch_dir}/${P}:${pkg_slot}" "${pkg_dir}/patches/"
     copy_patch_dir_if_exists "${user_patch_dir}/${PN}" "${pkg_dir}/patches/"
-    copy_patch_dir_if_exists "${user_patch_dir}/${PN}:${SLOT}" "${pkg_dir}/patches/"
+    copy_patch_dir_if_exists "${user_patch_dir}/${PN}:${pkg_slot}" "${pkg_dir}/patches/"
     copy_patch_dir_if_exists "${user_patch_dir}/${P}-${PR}" "${pkg_dir}/patches/"
-    copy_patch_dir_if_exists "${user_patch_dir}/${P}-${PR}:${SLOT}" "${pkg_dir}/patches/"
+    copy_patch_dir_if_exists "${user_patch_dir}/${P}-${PR}:${pkg_slot}" "${pkg_dir}/patches/"
     delete_dir_if_empty "${pkg_dir}/patches"
 
     # copy eclass directory
