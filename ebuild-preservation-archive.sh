@@ -49,10 +49,11 @@ ebuild_preservation_archive_main() {
     ensure_var "$SLOT"              || exit 1
 
     # setup variables
-    local timestamp="$(date '+%Y%m%d_%H%M%S')"
+    local current_unix_time="$(date '+%s')"
+    local pkg_timestamp="$(date -d "@${current_unix_time}" '+%Y%m%d_%H%M%S')"
     local pkg_slot="${SLOT%%/*}" # remove everything after first slash
     local pkg_name="${PN}-${PVR}"
-    local pkg_dir="${EBUILD_PRESERVATION_ARCHIVE_ROOT}/${CATEGORY}/${pkg_name}_${timestamp}"
+    local pkg_dir="${EBUILD_PRESERVATION_ARCHIVE_ROOT}/${CATEGORY}/${pkg_name}_${pkg_timestamp}"
     local repo_root="$(/usr/bin/portageq get_repo_path / "${PORTAGE_REPO_NAME}")"
     local source_dir="${repo_root}/${CATEGORY}/${PN}"
     local user_patch_dir="/etc/portage/patches/${CATEGORY}"
@@ -104,7 +105,8 @@ EBUILD PRESERVATION MANIFEST 1.0
 
 [Package]
 Package: =${CATEGORY}/${pkg_name}
-Build Date: $(date)
+Slot: ${pkg_slot}
+Build Date: $(date -d "@${current_unix_time}" '+%Y-%m-%dT%H:%M:%S%:z')
 Repository: ${PORTAGE_REPO_NAME} (${repo_root})
 Build Host: $(hostname)
 Portage Version: $(/usr/bin/portageq --version)
