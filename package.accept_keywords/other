@@ -5,7 +5,7 @@
 =media-video/mpv-9999::vapoursynth **
 =media-video/minitube-9999::localrepo **
 
+=games-util/mangohud-9999::guru **
+
 # localrepo
-=x11-misc/nvidia-xrun-9999 **
 =kde-misc/krohnkite-9999 **
-=media-gfx/flameshot-9999 **

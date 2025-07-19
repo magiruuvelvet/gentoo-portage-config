@@ -1,0 +1,24 @@
+diff --git a/src/fps_metrics.h b/src/fps_metrics.h
+index cb768d9..4949eb5 100644
+--- a/src/fps_metrics.h
++++ b/src/fps_metrics.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include <vector>
+ #include <string>
++#include <sstream>
+ #include <memory>
+ #include <thread>
+ #include <mesa/util/os_time.h>
+diff --git a/src/hud_elements.h b/src/hud_elements.h
+index 90bd25f..e4770d3 100644
+--- a/src/hud_elements.h
++++ b/src/hud_elements.h
+@@ -8,6 +8,7 @@
+ #include "winesync.h"
+ #include "vulkan/vulkan.h"
+ #include <array>
++#include <map>
+ #include "net.h"
+ #include "overlay_params.h"
+ #include "shell.h"

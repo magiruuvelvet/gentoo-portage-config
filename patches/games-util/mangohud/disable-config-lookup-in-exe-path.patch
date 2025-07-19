@@ -1,0 +1,42 @@
+diff --git a/src/config.cpp b/src/config.cpp
+index d6b272a..5814813 100644
+--- a/src/config.cpp
++++ b/src/config.cpp
+@@ -65,11 +65,8 @@ std::string get_program_name() {
+ static void enumerate_config_files(std::vector<std::string>& paths) {
+     static const char *mangohud_dir = "/MangoHud/";
+ 
+-    const std::string data_dir = get_data_dir();
+     const std::string config_dir = get_config_dir();
+ 
+-    const std::string program_name = get_program_name();
+-
+     if (config_dir.empty()) {
+         // If we can't find 'HOME' just abandon hope.
+         return;
+@@ -77,25 +74,6 @@ static void enumerate_config_files(std::vector<std::string>& paths) {
+ 
+     paths.push_back(config_dir + mangohud_dir + "MangoHud.conf");
+     paths.push_back("/etc/MangoHud.conf");
+-
+-    if (is_blacklisted()) {
+-        // Don't bother looking for conf file
+-        return;
+-    }
+-
+-    if (!program_name.empty()) {
+-        paths.push_back(config_dir + mangohud_dir + program_name + ".conf");
+-    }
+-
+-    const std::string program_dir = get_program_dir();
+-    if (!program_dir.empty()) {
+-        paths.push_back(program_dir + "/MangoHud.conf");
+-    }
+-
+-    const std::string wine_program_name = get_wine_exe_name();
+-    if (!wine_program_name.empty()) {
+-        paths.push_back(config_dir + mangohud_dir + "wine-" + wine_program_name + ".conf");
+-     }
+ }
+ 
+ void parseConfigFile(overlay_params& params) {

@@ -6,6 +6,7 @@ media-libs/gd png fontconfig jpeg truetype -avif
 media-libs/gegl cairo ffmpeg jpeg2k -openexr pdf raw svg tiff webp zlib
 media-libs/glfw X -wayland
 media-libs/imlib2 X bzip2 gif jpeg mp3 png shm tiff zlib
+media-libs/imgui opengl vulkan
 media-libs/jasper opengl jpeg
 media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
 media-libs/libaacs

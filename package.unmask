@@ -12,6 +12,10 @@ kde-misc/bismuth::gentoo
 
 gui-apps/quickshell::guru
 
+games-util/mangohud::guru
+media-libs/imgui::guru
+media-libs/implot::guru
+
 # installed kernels
 =sys-kernel/gentoo-kernel-bin-6.6.21
 

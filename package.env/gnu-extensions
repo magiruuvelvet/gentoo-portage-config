@@ -212,6 +212,7 @@ media-libs/libv4l std-gnu99.conf
 media-libs/mediastreamer2 gnu-source-light.conf
 media-libs/pcaudiolib std-gnu99.conf
 media-libs/vulkan-loader gnu-source-light.conf
+media-libs/sdl2-mixer gnu-source-light.conf
 media-plugins/alsa-plugins std-gnu99.conf
 media-plugins/frei0r-plugins gnu-source-light.conf c++11.conf
 media-plugins/calf std-gnu11.conf
