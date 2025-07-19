@@ -1,0 +1,13 @@
+diff --git a/daemon/powerdevil.desktop.cmake b/daemon/powerdevil.desktop.cmake
+index c9c700c..a842618 100644
+--- a/daemon/powerdevil.desktop.cmake
++++ b/daemon/powerdevil.desktop.cmake
+@@ -57,7 +57,7 @@ Name[uk]=Керування живленням
+ Name[x-test]=xxPower Managementxx
+ Name[zh_CN]=电源管理
+ Name[zh_TW]=電源管理
+-Exec=@KDE_INSTALL_FULL_LIBEXECDIR@/org_kde_powerdevil
++Exec=/usr/libexec/org_kde_powerdevil
+ NoDisplay=true
+ OnlyShowIn=KDE;
+ X-systemd-skip=true
