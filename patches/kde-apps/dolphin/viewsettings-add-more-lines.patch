@@ -1,8 +1,8 @@
 diff --git a/src/settings/viewmodes/viewsettingstab.cpp b/src/settings/viewmodes/viewsettingstab.cpp
-index 6ac280e..d9bf5dd 100644
+index fc9e941..c5a4c52 100644
 --- a/src/settings/viewmodes/viewsettingstab.cpp
 +++ b/src/settings/viewmodes/viewsettingstab.cpp
-@@ -85,6 +85,9 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
+@@ -77,6 +77,9 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
          m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "3"));
          m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "4"));
          m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "5"));

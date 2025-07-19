@@ -2,7 +2,7 @@
 
 source /etc/portage/hooks/functions/check-env.sh
 
-instprep() {
+old_instprep() {
     if [ ! -z "${D}" ]; then
         # this fixes some (not all) shortcuts to open in kcmshell5 again instead of the full settings application
         # who the fuck thought this would be a great idea anyway :| and it's even hardcoded, no way to change it without using Gentoo
@@ -13,6 +13,10 @@ instprep() {
 
         # for the remaining shit see "revert-opening-kcms-in-systemsettings.patch"
     fi
+}
+
+instprep() {
+    :
 }
 
 case "$1" in

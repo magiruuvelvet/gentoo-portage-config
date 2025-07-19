@@ -1,19 +1,19 @@
 diff --git a/containments/panel/contents/ui/main.qml b/containments/panel/contents/ui/main.qml
-index 4e707bf..b474c5e 100644
+index 3355b72..b38bf62 100644
 --- a/containments/panel/contents/ui/main.qml
 +++ b/containments/panel/contents/ui/main.qml
-@@ -208,10 +208,10 @@ function checkLastSpacer() {
-                 return ((layout[side] || returnAllMargins) && !fillArea) ? Math.round(Math.min(spacingAtMinSize, (inThickArea ? thickPanelSvg.fixedMargins[side] : panelSvg.fixedMargins[side]))) : 0;
-             }
+@@ -236,10 +236,10 @@ ContainmentItem {
+                     return ((layout[side] || returnAllMargins) && !fillArea) ? Math.round(Math.min(dropArea.spacingAtMinSize, (inThickArea ? thickPanelSvg.fixedMargins[side] : panelSvg.fixedMargins[side]))) : 0;
+                 }
  
--            Layout.topMargin: getMargins('top')
--            Layout.bottomMargin: getMargins('bottom')
--            Layout.leftMargin: getMargins('left')
--            Layout.rightMargin: getMargins('right')
-+            Layout.topMargin: 1
-+            Layout.bottomMargin: 1
-+            Layout.leftMargin: 0
-+            Layout.rightMargin: 0
+-                Layout.topMargin: getMargins('top')
+-                Layout.bottomMargin: getMargins('bottom')
+-                Layout.leftMargin: getMargins('left')
+-                Layout.rightMargin: getMargins('right')
++                Layout.topMargin: 1
++                Layout.bottomMargin: 1
++                Layout.leftMargin: 0
++                Layout.rightMargin: 0
  
- // BEGIN BUG 454095: do not combine these expressions to a function or the bindings won't work
-             Layout.minimumWidth: (root.isHorizontal ? (applet && applet.Layout.minimumWidth > 0 ? applet.Layout.minimumWidth : root.height) : root.width) - Layout.leftMargin - Layout.rightMargin
+                 // Always fill width/height, in order to still shrink the applet when there is not enough space.
+                 // When the applet doesn't want to expand set a Layout.maximumWidth accordingly

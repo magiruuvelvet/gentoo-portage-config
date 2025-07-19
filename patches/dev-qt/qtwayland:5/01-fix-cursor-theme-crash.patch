@@ -1,0 +1,14 @@
+diff --git a/src/client/qwaylandinputdevice.cpp b/src/client/qwaylandinputdevice.cpp
+index 278e31f..26309a7 100644
+--- a/src/client/qwaylandinputdevice.cpp
++++ b/src/client/qwaylandinputdevice.cpp
+@@ -349,7 +349,8 @@ void QWaylandInputDevice::Pointer::updateCursor()
+         int bufferScale = mCursor.themeBufferScale;
+         QPoint hotspot = QPoint(image->hotspot_x, image->hotspot_y) / bufferScale;
+         QSize size = QSize(image->width, image->height) / bufferScale;
+-        bool animated = duration > 0;
++        //bool animated = duration > 0;
++        bool animated = waylandCursor->image_count > 1 && duration > 0; // image->delay > 0;
+         if (animated) {
+             mCursor.gotFrameCallback = false;
+             mCursor.gotTimerCallback = false;

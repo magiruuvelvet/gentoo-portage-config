@@ -1,8 +1,8 @@
 diff --git a/src/grantleethememanager.cpp b/src/grantleethememanager.cpp
-index 3db9a62..2c2c208 100644
+index 879593b..6a847f8 100644
 --- a/src/grantleethememanager.cpp
 +++ b/src/grantleethememanager.cpp
-@@ -130,6 +130,9 @@ public:
+@@ -106,6 +106,9 @@ public:
              while (dirIt.hasNext()) {
                  dirIt.next();
                  const QString dirName = dirIt.fileName();

@@ -1,8 +1,8 @@
 diff --git a/libnotificationmanager/notification.cpp b/libnotificationmanager/notification.cpp
-index 45645fb..4e2367c 100644
+index ca7cc6a..eb626a5 100644
 --- a/libnotificationmanager/notification.cpp
 +++ b/libnotificationmanager/notification.cpp
-@@ -350,22 +350,7 @@ void Notification::Private::processHints(const QVariantMap &hints)
+@@ -391,22 +391,7 @@ void Notification::Private::processHints(const QVariantMap &hints)
      eventId = hints.value(QStringLiteral("x-kde-eventId")).toString();
      xdgTokenAppId = hints.value(QStringLiteral("x-kde-xdgTokenAppId")).toString();
  

@@ -1,8 +1,8 @@
-diff --git a/src/effects/fade/package/contents/code/main.js b/src/effects/fade/package/contents/code/main.js
-index ce0d7a6..29b17f3 100644
---- a/src/effects/fade/package/contents/code/main.js
-+++ b/src/effects/fade/package/contents/code/main.js
-@@ -35,83 +35,19 @@ class FadeEffect {
+diff --git a/src/plugins/fade/package/contents/code/main.js b/src/plugins/fade/package/contents/code/main.js
+index a9600f2..b3417f8 100644
+--- a/src/plugins/fade/package/contents/code/main.js
++++ b/src/plugins/fade/package/contents/code/main.js
+@@ -38,83 +38,19 @@ class FadeEffect {
      }
  
      static isFadeWindow(w) {
@@ -34,7 +34,7 @@ index ce0d7a6..29b17f3 100644
 -        if (effects.hasActiveFullScreenEffect) {
 -            return;
 -        }
--        if (!this.fadeWindows || !FadeEffect.isFadeWindow(window)) {
+-        if (!FadeEffect.isFadeWindow(window)) {
 -            return;
 -        }
 -        if (window.fadeOutAnimation) {
@@ -55,7 +55,7 @@ index ce0d7a6..29b17f3 100644
 -        if (effects.hasActiveFullScreenEffect) {
 -            return;
 -        }
--        if (!this.fadeWindows || window.skipsCloseAnimation || !FadeEffect.isFadeWindow(window)) {
+-        if (window.skipsCloseAnimation || !FadeEffect.isFadeWindow(window)) {
 -            return;
 -        }
 -        window.fadeOutAnimation = animate({

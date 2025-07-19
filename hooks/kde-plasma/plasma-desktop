@@ -5,10 +5,10 @@ source /etc/portage/hooks/functions/check-env.sh
 instprep() {
     if [ ! -z "${D}" ]; then
         echo "Remove trash bin..."
-        rm -r "${D}/usr/lib64/qt5/qml/org/kde/plasma/private/trash"
+        rm -r "${D}/usr/lib64/qt6/qml/org/kde/plasma/private/trash"
         rm -r "${D}/usr/share/plasma/plasmoids/org.kde.plasma.trash"
         
-        rm "${D}/usr/share/kservices5/plasma-applet-org.kde.plasma.trash.desktop"
+        rm "${D}/usr/share/kservices6/plasma-applet-org.kde.plasma.trash.desktop"
         rm "${D}/usr/share/metainfo/org.kde.plasma.trash.appdata.xml"
     fi
 }

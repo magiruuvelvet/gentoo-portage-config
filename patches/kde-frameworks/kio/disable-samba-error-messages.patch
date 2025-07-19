@@ -1,8 +1,8 @@
 diff --git a/src/core/ksambashare.cpp b/src/core/ksambashare.cpp
-index 9e315e4..85f10de 100644
+index 8f2403c..429c836 100644
 --- a/src/core/ksambashare.cpp
 +++ b/src/core/ksambashare.cpp
-@@ -159,27 +159,8 @@ QString KSambaSharePrivate::testparmParamValue(const QString &parameterName)
+@@ -106,27 +106,8 @@ QString KSambaSharePrivate::testparmParamValue(const QString &parameterName)
  
          const int netbiosNameErrorIdx = errArray.indexOf("WARNING: The 'netbios name' is too long (max. 15 chars).");
          if (netbiosNameErrorIdx >= 0) {
@@ -30,7 +30,7 @@ index 9e315e4..85f10de 100644
      }
  
      if (!stdOut.isEmpty()) {
-@@ -210,12 +191,6 @@ QByteArray KSambaSharePrivate::getNetUserShareInfo()
+@@ -163,12 +144,6 @@ QByteArray KSambaSharePrivate::getNetUserShareInfo()
              skipUserShare = true;
          } else if (stdErr.contains("usershares are currently disabled")) {
              skipUserShare = true;
@@ -43,9 +43,9 @@ index 9e315e4..85f10de 100644
          }
      }
  
-@@ -368,14 +343,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::add(const KSambaShareData &s
+@@ -323,14 +298,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::add(const KSambaShareData &s
      QByteArray stdOut;
-     int ret = runProcess(QStringLiteral("net"), args, stdOut, m_stdErr);
+     int ret = runProcess(exec, args, stdOut, m_stdErr);
  
 -    // TODO: parse and process error messages.
 -    if (!m_stdErr.isEmpty()) {
@@ -58,9 +58,9 @@ index 9e315e4..85f10de 100644
      if (ret == 0 && !data.contains(shareData.name())) {
          // It needs to be added in this function explicitly, otherwise another instance of
          // KSambaShareDataPrivate will be created and added to data when the share
-@@ -405,14 +372,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::remove(const KSambaShareData
+@@ -362,14 +329,6 @@ KSambaShareData::UserShareError KSambaSharePrivate::remove(const KSambaShareData
      QByteArray stdOut;
-     int ret = runProcess(QStringLiteral("net"), args, stdOut, m_stdErr);
+     int ret = runProcess(exec, args, stdOut, m_stdErr);
  
 -    // TODO: parse and process error messages.
 -    if (!m_stdErr.isEmpty()) {
@@ -73,7 +73,7 @@ index 9e315e4..85f10de 100644
      return (ret == 0) ? KSambaShareData::UserShareOk : KSambaShareData::UserShareSystemError;
  
      // NB: the share file gets deleted which leads us to reload and drop the ShareData, hence no explicit remove
-@@ -457,9 +416,6 @@ QMap<QString, KSambaShareData> KSambaSharePrivate::parse(const QByteArray &users
+@@ -414,9 +373,6 @@ QMap<QString, KSambaShareData> KSambaSharePrivate::parse(const QByteArray &users
                  shareData.dd->acl = value;
              } else if (key == QLatin1String("guest_ok")) {
                  shareData.dd->guestPermission = value;

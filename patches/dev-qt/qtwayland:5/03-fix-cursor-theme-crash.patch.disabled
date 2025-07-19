@@ -1,0 +1,18 @@
+diff --git a/src/client/qwaylandinputdevice.cpp b/src/client/qwaylandinputdevice.cpp
+index 278e31f..c7b56f0 100644
+--- a/src/client/qwaylandinputdevice.cpp
++++ b/src/client/qwaylandinputdevice.cpp
+@@ -177,7 +177,12 @@ public:
+         , m_fn(fn)
+         , m_autoDelete(autoDelete)
+     {}
+-    ~WlCallback() override { wl_callback_destroy(object()); }
++    ~WlCallback() override {
++        auto *obj = object();
++        if (obj) {
++            wl_callback_destroy(obj);
++        }
++    }
+     bool done() const { return m_done; }
+     void callback_done(uint32_t callback_data) override {
+         m_done = true;

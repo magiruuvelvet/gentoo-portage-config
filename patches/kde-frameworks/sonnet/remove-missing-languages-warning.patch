@@ -1,8 +1,8 @@
 diff --git a/src/core/guesslanguage.cpp b/src/core/guesslanguage.cpp
-index 152a399..f5d752a 100644
+index d8012b8..1c1e707 100644
 --- a/src/core/guesslanguage.cpp
 +++ b/src/core/guesslanguage.cpp
-@@ -649,9 +649,6 @@ void GuessLanguagePrivate::loadModels()
+@@ -648,9 +648,6 @@ void GuessLanguagePrivate::loadModels()
      }
      QSet<QString> knownLanguages(s_scriptLanguages.constBegin(), s_scriptLanguages.constEnd());
      knownLanguages.subtract(availableLanguages);

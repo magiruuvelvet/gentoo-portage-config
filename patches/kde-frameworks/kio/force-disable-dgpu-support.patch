@@ -1,5 +1,5 @@
 diff --git a/src/gui/gpudetection.cpp b/src/gui/gpudetection.cpp
-index 5c4e1c6..584e36b 100644
+index 6271dec..2efaaa3 100644
 --- a/src/gui/gpudetection.cpp
 +++ b/src/gui/gpudetection.cpp
 @@ -19,11 +19,6 @@
@@ -22,7 +22,7 @@ index 5c4e1c6..584e36b 100644
  static void checkGpu()
  {
      if (s_gpuCheck == GpuCheck::NotChecked) {
-@@ -100,19 +96,18 @@ static void checkGpuWithSolid()
+@@ -131,19 +127,18 @@ static void checkGpuWithSolid()
      s_gpuCheck = GpuCheck::Absent;
  #endif
  }
@@ -45,10 +45,10 @@ index 5c4e1c6..584e36b 100644
  }
  
 diff --git a/src/gui/kprocessrunner.cpp b/src/gui/kprocessrunner.cpp
-index 3e0e30c..d124a4e 100644
+index 00f7811..9c079a5 100644
 --- a/src/gui/kprocessrunner.cpp
 +++ b/src/gui/kprocessrunner.cpp
-@@ -119,12 +119,6 @@ KProcessRunner *KProcessRunner::fromApplication(const KService::Ptr &service,
+@@ -136,12 +136,6 @@ KProcessRunner *KProcessRunner::fromApplication(const KService::Ptr &service,
      qCDebug(KIO_GUI) << "Starting process:" << args;
      *instance->m_process << args;
  
@@ -60,12 +60,12 @@ index 3e0e30c..d124a4e 100644
 -
      QString workingDir(service->workingDirectory());
      if (workingDir.isEmpty() && !urls.isEmpty() && urls.first().isLocalFile()) {
-         workingDir = urls.first().adjusted(QUrl::RemoveFilename).toLocalFile();
-diff --git a/src/widgets/kpropertiesdialog.cpp b/src/widgets/kpropertiesdialog.cpp
-index 2506182..beefec1 100644
---- a/src/widgets/kpropertiesdialog.cpp
-+++ b/src/widgets/kpropertiesdialog.cpp
-@@ -3344,13 +3344,7 @@ KDesktopPropsPlugin::KDesktopPropsPlugin(KPropertiesDialog *_props)
+         // systemd requires working directory to be normalized, or '~'
+diff --git a/src/widgets/kpropertiesdialogbuiltin_p.cpp b/src/widgets/kpropertiesdialogbuiltin_p.cpp
+index 4b9d5d1..a33780b 100644
+--- a/src/widgets/kpropertiesdialogbuiltin_p.cpp
++++ b/src/widgets/kpropertiesdialogbuiltin_p.cpp
+@@ -2645,13 +2645,7 @@ KDesktopPropsPlugin::KDesktopPropsPlugin(KPropertiesDialog *_props)
      d->m_terminalOptionStr = config.readEntry("TerminalOptions");
      d->m_suidBool = config.readEntry("X-KDE-SubstituteUID", false);
      d->m_suidUserStr = config.readEntry("X-KDE-Username");
@@ -80,21 +80,17 @@ index 2506182..beefec1 100644
      if (config.hasKey("StartupNotify")) {
          d->m_startupBool = config.readEntry("StartupNotify", true);
      } else {
-@@ -3548,13 +3542,6 @@ void KDesktopPropsPlugin::applyChanges()
+@@ -2850,9 +2844,6 @@ void KDesktopPropsPlugin::applyChanges()
      config.writeEntry("TerminalOptions", d->m_terminalOptionStr);
      config.writeEntry("X-KDE-SubstituteUID", d->m_suidBool);
      config.writeEntry("X-KDE-Username", d->m_suidUserStr);
 -    if (KIO::hasDiscreteGpu()) {
--        if (config.hasKey("PrefersNonDefaultGPU")) {
--            config.writeEntry("PrefersNonDefaultGPU", d->m_runOnDiscreteGpuBool);
--        } else {
--            config.writeEntry("X-KDE-RunOnDiscreteGpu", d->m_runOnDiscreteGpuBool);
--        }
+-        config.writeEntry("PrefersNonDefaultGPU", d->m_runOnDiscreteGpuBool);
 -    }
      config.writeEntry("StartupNotify", d->m_startupBool);
      config.sync();
  
-@@ -3634,11 +3621,7 @@ void KDesktopPropsPlugin::slotAdvanced()
+@@ -2933,11 +2924,7 @@ void KDesktopPropsPlugin::slotAdvanced()
      d->m_uiAdvanced->suidEdit->setEnabled(d->m_suidBool);
      d->m_uiAdvanced->suidEditLabel->setEnabled(d->m_suidBool);
  
@@ -107,7 +103,7 @@ index 2506182..beefec1 100644
  
      d->m_uiAdvanced->startupInfoCheck->setChecked(d->m_startupBool);
  
-@@ -3667,9 +3650,7 @@ void KDesktopPropsPlugin::slotAdvanced()
+@@ -2966,9 +2953,7 @@ void KDesktopPropsPlugin::slotAdvanced()
          d->m_terminalBool = d->m_uiAdvanced->terminalCheck->isChecked();
          d->m_suidBool = d->m_uiAdvanced->suidCheck->isChecked();
          d->m_suidUserStr = d->m_uiAdvanced->suidEdit->text().trimmed();

@@ -5,14 +5,17 @@ source /etc/portage/hooks/functions/check-env.sh
 instprep() {
     if [ ! -z "${D}" ]; then
         echo "Remove search providers..."
-        rm "${D}/usr/share/kservices5/searchproviders/"*
+        rm "${D}/usr/share/kf6/searchproviders/"*
 
         echo "Remove trash bin..."
-        rm "${D}/usr/bin/ktrash5"
-        rm "${D}/usr/lib64/qt5/plugins/kcm_trash.so"
-        rm "${D}/usr/lib64/qt5/plugins/kf5/kio/trash.so"
-        rm "${D}/usr/lib64/qt5/plugins/kf5/kio/kio_trash.so"
-        rm "${D}/usr/share/kservices5/kcmtrash.desktop"
+        rm "${D}/usr/share/applications/kcm_trash.desktop"
+
+        # TODO: verify if these files are still present
+        rm -f "${D}/usr/bin/ktrash6"
+        rm -f "${D}/usr/lib64/qt6/plugins/kcm_trash.so"
+        rm -f "${D}/usr/lib64/qt6/plugins/kf6/kio/trash.so"
+        rm -f "${D}/usr/lib64/qt6/plugins/kf6/kio/kio_trash.so"
+        rm -f "${D}/usr/share/kservices6/kcmtrash.desktop"
     fi
 }
 

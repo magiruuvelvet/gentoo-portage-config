@@ -1,14 +1,14 @@
 diff --git a/kdecoration/breezedecoration.cpp b/kdecoration/breezedecoration.cpp
-index cc5bb75..522009a 100644
+index d648d08..3a3b413 100644
 --- a/kdecoration/breezedecoration.cpp
 +++ b/kdecoration/breezedecoration.cpp
-@@ -428,22 +428,7 @@ void Decoration::recalculateBorders()
-     setBorders(QMargins(left, top, right, bottom));
+@@ -464,22 +464,7 @@ void Decoration::recalculateBorders()
+     setBorders(bordersFor(window()->nextScale()));
  
      // extended sizes
--    const int extSize = s->largeSpacing();
--    int extSides = 0;
--    int extBottom = 0;
+-    const qreal extSize = KDecoration3::snapToPixelGrid(settings()->largeSpacing(), window()->nextScale());
+-    qreal extSides = 0;
+-    qreal extBottom = 0;
 -    if (hasNoBorders()) {
 -        if (!isMaximizedHorizontally()) {
 -            extSides = extSize;
@@ -21,8 +21,8 @@ index cc5bb75..522009a 100644
 -        extSides = extSize;
 -    }
 -
--    setResizeOnlyBorders(QMargins(extSides, 0, extSides, extBottom));
+-    setResizeOnlyBorders(QMarginsF(extSides, 0, extSides, extBottom));
 +    setResizeOnlyBorders(QMargins(0, 0, 0, 0));
+ }
  
-     // Update shadows and clear outline to make sure outline changes when borders are changed
-     updateShadow();
+ //________________________________________________________________

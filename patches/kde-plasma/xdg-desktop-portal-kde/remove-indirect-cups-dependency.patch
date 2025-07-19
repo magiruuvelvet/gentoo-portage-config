@@ -1,0 +1,114 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4800563..de8f226 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -35,7 +35,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+     Core
+     Concurrent
+     DBus
+-    PrintSupport
+     QuickWidgets
+     Widgets
+     WaylandClient
+@@ -48,7 +47,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient)
+ 
+ if (Qt6_VERSION VERSION_GREATER_EQUAL "6.10.0")
+     find_package(Qt6GuiPrivate ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
+-    find_package(Qt6PrintSupportPrivate ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
+ endif()
+ 
+ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED
+diff --git a/data/kde.portal b/data/kde.portal
+index bf49041..c88909e 100644
+--- a/data/kde.portal
++++ b/data/kde.portal
+@@ -1,4 +1,4 @@
+ [portal]
+ DBusName=org.freedesktop.impl.portal.desktop.kde
+-Interfaces=org.freedesktop.impl.portal.Access;org.freedesktop.impl.portal.Account;org.freedesktop.impl.portal.AppChooser;org.freedesktop.impl.portal.Background;org.freedesktop.impl.portal.Email;org.freedesktop.impl.portal.FileChooser;org.freedesktop.impl.portal.Inhibit;org.freedesktop.impl.portal.Notification;org.freedesktop.impl.portal.Print;org.freedesktop.impl.portal.ScreenCast;org.freedesktop.impl.portal.Screenshot;org.freedesktop.impl.portal.RemoteDesktop;org.freedesktop.impl.portal.Settings;org.freedesktop.impl.portal.DynamicLauncher;org.freedesktop.impl.portal.GlobalShortcuts;org.freedesktop.impl.portal.InputCapture;org.freedesktop.impl.portal.Clipboard
++Interfaces=org.freedesktop.impl.portal.Access;org.freedesktop.impl.portal.Account;org.freedesktop.impl.portal.AppChooser;org.freedesktop.impl.portal.Background;org.freedesktop.impl.portal.Email;org.freedesktop.impl.portal.FileChooser;org.freedesktop.impl.portal.Inhibit;org.freedesktop.impl.portal.Notification;org.freedesktop.impl.portal.ScreenCast;org.freedesktop.impl.portal.Screenshot;org.freedesktop.impl.portal.RemoteDesktop;org.freedesktop.impl.portal.Settings;org.freedesktop.impl.portal.DynamicLauncher;org.freedesktop.impl.portal.GlobalShortcuts;org.freedesktop.impl.portal.InputCapture;org.freedesktop.impl.portal.Clipboard
+ UseIn=KDE
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 8bad7d6..dd31e32 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -38,8 +38,6 @@ set(xdg_desktop_portal_kde_SRCS
+     notificationinhibition.cpp
+     notificationinhibition.h
+     outputsmodel.cpp outputsmodel.h
+-    print.cpp
+-    print.h
+     quickdialog.cpp quickdialog.h
+     remotedesktop.cpp
+     remotedesktopdialog.cpp
+@@ -168,13 +166,6 @@ ecm_qt_declare_logging_category(xdg_desktop_portal_kde_SRCS
+     DESCRIPTION "XDG Desktop Portal KDE Notification"
+     EXPORT XDPKDE
+ )
+-ecm_qt_declare_logging_category(xdg_desktop_portal_kde_SRCS
+-    IDENTIFIER "XdgDesktopPortalKdePrint"
+-    CATEGORY_NAME "xdp-kde-print"
+-    HEADER print_debug.h
+-    DESCRIPTION "XDG Desktop Portal KDE Print"
+-    EXPORT XDPKDE
+-)
+ ecm_qt_declare_logging_category(xdg_desktop_portal_kde_SRCS
+     IDENTIFIER "XdgDesktopPortalKdeRemoteDesktop"
+     CATEGORY_NAME "xdp-kde-remotedesktop"
+@@ -310,7 +301,6 @@ target_link_libraries(xdg-desktop-portal-kde
+     Qt::GuiPrivate
+     Qt::DBus
+     Qt::Concurrent
+-    Qt::PrintSupport
+     Qt::QuickWidgets
+     Qt::Widgets
+     Qt::WaylandClient
+@@ -333,7 +323,7 @@ target_link_libraries(xdg-desktop-portal-kde
+     Wayland::Client
+     PkgConfig::XKB
+ )
+-target_link_libraries(xdg-desktop-portal-kde Qt::PrintSupportPrivate Qt::GuiPrivate)
++target_link_libraries(xdg-desktop-portal-kde Qt::GuiPrivate)
+ 
+ install(TARGETS xdg-desktop-portal-kde DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+ 
+diff --git a/src/desktopportal.cpp b/src/desktopportal.cpp
+index a76c1f5..3dacf93 100644
+--- a/src/desktopportal.cpp
++++ b/src/desktopportal.cpp
+@@ -21,7 +21,6 @@
+ #include "inhibit.h"
+ #include "inputcapture.h"
+ #include "notification.h"
+-#include "print.h"
+ #include "remotedesktop.h"
+ #include "screencast.h"
+ #include "screenshot.h"
+@@ -37,7 +36,6 @@ DesktopPortal::DesktopPortal(QObject *parent)
+     , m_fileChooser(new FileChooserPortal(this))
+     , m_inhibit(new InhibitPortal(this))
+     , m_notification(new NotificationPortal(this))
+-    , m_print(new PrintPortal(this))
+     , m_settings(new SettingsPortal(this))
+     , m_dynamicLauncher(new DynamicLauncherPortal(this))
+ {
+diff --git a/src/desktopportal.h b/src/desktopportal.h
+index cf3a7e3..104f0c8 100644
+--- a/src/desktopportal.h
++++ b/src/desktopportal.h
+@@ -20,7 +20,6 @@ class EmailPortal;
+ class FileChooserPortal;
+ class InhibitPortal;
+ class NotificationPortal;
+-class PrintPortal;
+ class ScreenshotPortal;
+ class SettingsPortal;
+ class ScreenCastPortal;
+@@ -42,7 +41,6 @@ private:
+     FileChooserPortal *const m_fileChooser;
+     InhibitPortal *const m_inhibit;
+     NotificationPortal *const m_notification;
+-    PrintPortal *const m_print;
+     ScreenshotPortal *m_screenshot = nullptr;
+     SettingsPortal *const m_settings;
+     ScreenCastPortal *m_screenCast = nullptr;

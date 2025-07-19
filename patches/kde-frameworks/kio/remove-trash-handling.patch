@@ -1,8 +1,8 @@
 diff --git a/src/core/copyjob.cpp b/src/core/copyjob.cpp
-index 72a4c07..f988d8b 100644
+index 5c0697e..b8ad466 100644
 --- a/src/core/copyjob.cpp
 +++ b/src/core/copyjob.cpp
-@@ -912,14 +912,6 @@ void CopyJobPrivate::addCopyInfoFromUDSEntry(const UDSEntry &entry, const QUrl &
+@@ -950,14 +950,6 @@ void CopyJobPrivate::addCopyInfoFromUDSEntry(const UDSEntry &entry, const QUrl &
  QUrl CopyJobPrivate::finalDestUrl(const QUrl &src, const QUrl &dest) const
  {
      Q_Q(const CopyJob);
@@ -17,7 +17,7 @@ index 72a4c07..f988d8b 100644
      return dest;
  }
  
-@@ -1883,10 +1875,6 @@ KIO::Job *CopyJobPrivate::linkNextFile(const QUrl &uSource, const QUrl &uDest, J
+@@ -1888,10 +1880,6 @@ KIO::Job *CopyJobPrivate::linkNextFile(const QUrl &uSource, const QUrl &uDest, J
                      config.writeEntry("Icon", QStringLiteral("text-x-texinfo"));
                  } else if (protocol == QLatin1String("mailto")) { // sven:
                      config.writeEntry("Icon", QStringLiteral("internet-mail")); // added mailto: support
@@ -29,10 +29,10 @@ index 72a4c07..f988d8b 100644
                      config.writeEntry("Icon", QStringLiteral("unknown"));
                  }
 diff --git a/src/core/global.cpp b/src/core/global.cpp
-index d4493b1..9c16108 100644
+index bf39dda..f2f9acc 100644
 --- a/src/core/global.cpp
 +++ b/src/core/global.cpp
-@@ -238,16 +238,6 @@ QString KIO::iconNameForUrl(const QUrl &url)
+@@ -210,17 +210,6 @@ QString KIO::iconNameForUrl(const QUrl &url)
              iconName = favIconForUrl(url);
          }
  
@@ -40,7 +40,8 @@ index d4493b1..9c16108 100644
 -        else if (url.scheme() == QLatin1String("trash")) {
 -            if (url.path().length() <= 1) { // trash:/ itself
 -                KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
--                iconName = trashConfig.group("Status").readEntry("Empty", true) ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full");
+-                iconName =
+-                    trashConfig.group(QStringLiteral("Status")).readEntry("Empty", true) ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full");
 -            } else { // url.path().length() > 1, it's a file/folder under trash:/
 -                iconName = mt.iconName();
 -            }
@@ -50,10 +51,10 @@ index d4493b1..9c16108 100644
          if (iconName.isEmpty() && (mt.isDefault() || url.path().size() <= 1)) {
              iconName = KProtocolInfo::icon(url.scheme());
 diff --git a/src/core/kfileitem.cpp b/src/core/kfileitem.cpp
-index bcdb1ca..dd10069 100644
+index fd17bdc..5e9d447 100644
 --- a/src/core/kfileitem.cpp
 +++ b/src/core/kfileitem.cpp
-@@ -1011,14 +1011,6 @@ static QString iconFromDesktopFile(const QString &path)
+@@ -1132,14 +1132,6 @@ static QString iconFromDesktopFile(const QString &path)
          if (!emptyIcon.isEmpty()) {
              const QString u = cfg.readUrl();
              const QUrl url(u);
@@ -61,7 +62,7 @@ index bcdb1ca..dd10069 100644
 -                // We need to find if the trash is empty, preferably without using a KIO job.
 -                // So instead kio_trash leaves an entry in its config file for us.
 -                KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
--                if (trashConfig.group("Status").readEntry("Empty", true)) {
+-                if (trashConfig.group(QStringLiteral("Status")).readEntry("Empty", true)) {
 -                    return emptyIcon;
 -                }
 -            }

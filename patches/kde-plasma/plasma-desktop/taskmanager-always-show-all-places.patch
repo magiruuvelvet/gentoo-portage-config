@@ -1,13 +1,13 @@
 diff --git a/applets/taskmanager/package/contents/ui/ContextMenu.qml b/applets/taskmanager/package/contents/ui/ContextMenu.qml
-index 6303bc4..e656b83 100644
+index 6db7517..b51b9f2 100644
 --- a/applets/taskmanager/package/contents/ui/ContextMenu.qml
 +++ b/applets/taskmanager/package/contents/ui/ContextMenu.qml
-@@ -92,7 +92,7 @@ PlasmaComponents.ContextMenu {
-             {
-                 title:   i18n("Places"),
-                 group:   "places",
--                actions: backend.placesActions(launcherUrl, showAllPlaces, menu)
-+                actions: backend.placesActions(launcherUrl, true, menu)
-             },
-             {
-                 title:   i18n("Recent Files"),
+@@ -95,7 +95,7 @@ PlasmaExtras.Menu {
+     function loadDynamicLaunchActions(launcherUrl: url): void {
+         const sections = [];
+ 
+-        const placesActions = backend.placesActions(launcherUrl, showAllPlaces, menu);
++        const placesActions = backend.placesActions(launcherUrl, true, menu);
+ 
+         if (placesActions.length > 0) {
+             sections.push({

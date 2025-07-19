@@ -1,8 +1,8 @@
 diff --git a/src/views/dolphinview.cpp b/src/views/dolphinview.cpp
-index 8d4a765..bc0a855 100644
+index f3bde88..af949e8 100644
 --- a/src/views/dolphinview.cpp
 +++ b/src/views/dolphinview.cpp
-@@ -2292,39 +2292,7 @@ void DolphinView::updatePlaceholderLabel()
+@@ -2387,39 +2387,7 @@ void DolphinView::updatePlaceholderLabel()
          return;
      }
  
@@ -40,6 +40,6 @@ index 8d4a765..bc0a855 100644
 -
 -    m_placeholderLabel->setVisible(true);
 +    m_placeholderLabel->setVisible(false);
- }
- 
- bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
+ #ifndef QT_NO_ACCESSIBILITY
+     if (QAccessible::isActive()) {
+         static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view))->announceNewlyLoadedLocation(m_placeholderLabel->text());

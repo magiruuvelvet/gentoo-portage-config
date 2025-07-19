@@ -22,8 +22,9 @@ dev-qt/qtwebkit gstreamer jit multimedia opengl webp -printsupport -hyphen -gstr
 dev-qt/qt3d gamepad
 dev-qt/qtgamepad evdev
 dev-qt/qtsql sqlite mysql postgres
+dev-qt/qtspeech
 
-dev-qt/qtbase eglfs opengl evdev postgres zstd
+dev-qt/qtbase eglfs opengl evdev mysql postgres zstd libproxy
 dev-qt/qttools opengl zstd qtplugininfo qdbus qdoc
 dev-qt/qtdeclarative:6 opengl svg qmlls
 dev-qt/qtmultimedia:6 eglfs opengl vaapi

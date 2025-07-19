@@ -1,9 +1,9 @@
 diff --git a/smb/transfer.h b/smb/transfer.h
-index b5ace64..cd35086 100644
+index dace313..14ef0aa 100644
 --- a/smb/transfer.h
 +++ b/smb/transfer.h
-@@ -11,6 +11,8 @@
- 
+@@ -12,6 +12,8 @@
+ #include <array>
  #include <condition_variable>
  #include <mutex>
 +#include <array>

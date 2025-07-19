@@ -1,28 +1,27 @@
 diff --git a/apps/lib/katemainwindow.cpp b/apps/lib/katemainwindow.cpp
-index d1435c3..47b972c 100644
+index af3414c..7b6c8af 100644
 --- a/apps/lib/katemainwindow.cpp
 +++ b/apps/lib/katemainwindow.cpp
-@@ -855,19 +855,6 @@ void KateMainWindow::slotDropEvent(QDropEvent *event)
+@@ -1055,18 +1055,6 @@ void KateMainWindow::slotDropEvent(QDropEvent *event)
      if (event->mimeData()->hasUrls()) {
          QList<QUrl> textlist = event->mimeData()->urls();
  
 -        // Try to get the KTextEditor::View that sent this, and activate it, so that the file opens in the
 -        // view where it was dropped
--        KTextEditor::View *kVsender = qobject_cast<KTextEditor::View *>(QObject::sender());
+-        auto *kVsender = qobject_cast<KTextEditor::View *>(QObject::sender());
 -        if (kVsender != nullptr) {
--            QWidget *parent = kVsender->parentWidget();
--            if (parent != nullptr) {
--                KateViewSpace *vs = qobject_cast<KateViewSpace *>(parent->parentWidget());
+-            if (auto parent = kVsender->parent()) {
+-                auto *vs = qobject_cast<KateViewSpace *>(parent->parent());
 -                if (vs != nullptr) {
 -                    m_viewManager->setActiveSpace(vs);
 -                }
 -            }
 -        }
 -
-         for (const QUrl &url : qAsConst(textlist)) {
+         for (const QUrl &url : std::as_const(textlist)) {
              // if url has no file component, try and recursively scan dir
              KFileItem kitem(url);
-@@ -893,7 +880,7 @@ void KateMainWindow::slotDropEvent(QDropEvent *event)
+@@ -1084,7 +1072,7 @@ void KateMainWindow::slotDropEvent(QDropEvent *event)
                      connect(list_job, &KIO::ListJob::entries, this, &KateMainWindow::slotListRecursiveEntries);
                  }
              } else {
@@ -32,18 +31,18 @@ index d1435c3..47b972c 100644
          }
      }
 diff --git a/apps/lib/kateviewmanager.cpp b/apps/lib/kateviewmanager.cpp
-index 1a91a2b..f2bdca3 100644
+index f3f3b52..432fbc5 100644
 --- a/apps/lib/kateviewmanager.cpp
 +++ b/apps/lib/kateviewmanager.cpp
-@@ -37,6 +37,7 @@
- 
+@@ -33,6 +33,7 @@
  #include <QFileDialog>
+ #include <QScrollBar>
  #include <QTimer>
 +#include <QProcess>
  
  // END Includes
  
-@@ -448,6 +449,12 @@ void KateViewManager::openUrl(const QUrl &url)
+@@ -549,6 +550,12 @@ void KateViewManager::openUrl(const QUrl &url)
      openUrl(url, QString());
  }
  
@@ -57,14 +56,14 @@ index 1a91a2b..f2bdca3 100644
  {
      if (!url.isLocalFile()) {
 diff --git a/apps/lib/kateviewmanager.h b/apps/lib/kateviewmanager.h
-index ce5ddf0..36982c0 100644
+index c2cca52..130daaa 100644
 --- a/apps/lib/kateviewmanager.h
 +++ b/apps/lib/kateviewmanager.h
-@@ -82,6 +82,7 @@ public:
+@@ -74,6 +74,7 @@ public:
  
- public Q_SLOTS:
+ public:
      void openUrl(const QUrl &url);
 +    void openUrlInNewWindow(const QUrl &url);
      void openUrlOrProject(const QUrl &url);
+     void openRecent(const QUrl &url);
      void addPositionToHistory(const QUrl &url, KTextEditor::Cursor pos);
- 

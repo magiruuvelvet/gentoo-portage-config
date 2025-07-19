@@ -1,8 +1,8 @@
 diff --git a/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp b/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp
-index e41731a..38af15f 100644
+index d71d175..0243bad 100644
 --- a/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp
 +++ b/kcms/mouse/backends/x11/x11_libinput_dummydevice.cpp
-@@ -71,23 +71,13 @@ void valueWriterPart<bool>(bool val, Atom valAtom, Display *dpy)
+@@ -71,30 +71,12 @@ void valueWriterPart<bool>(bool val, Atom valAtom, Display *dpy)
          QScopedArrayPointer<unsigned char, ScopedXDeleter> data(_data);
          _data = nullptr;
  
@@ -15,16 +15,23 @@ index e41731a..38af15f 100644
 -        if (num_items_return == 1) {
 -            sendVal[0] = val;
 -        } else {
--            // Special case for acceleration profile.
--            const Atom accel = XInternAtom(dpy, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED, True);
--            if (num_items_return < 2 || num_items_return > 3 || valAtom != accel) {
+-            if (num_items_return < 2 || num_items_return > 3) {
 -                return;
 -            }
--            sendVal[val] = 1;
+-
+-            if (valAtom == XInternAtom(dpy, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED, True)) {
+-                // Special case for acceleration profile.
+-                sendVal[val] = 1;
+-            } else if (valAtom == XInternAtom(dpy, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, True)) {
+-                // Special case for scroll on button down.
+-                sendVal[2] = val;
+-            } else {
+-                return;
+-            }
 -        }
-+        unsigned char sendVal = val ? 1 : 0;
- 
+-
 -        XIChangeProperty(dpy, deviceid, valAtom, XA_INTEGER, 8, XIPropModeReplace, sendVal, num_items_return);
++        unsigned char sendVal = val ? 1 : 0;
 +        XIChangeProperty(dpy, deviceid, valAtom, XA_INTEGER, 8, XIPropModeReplace, &sendVal, 1);
      });
  }

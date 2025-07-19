@@ -1,28 +1,30 @@
-kde-plasma/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
-kde-frameworks/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
-kde-apps/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
-kde-misc/* X nls -handbook -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland
+kde-plasma/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
+kde-frameworks/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
+kde-apps/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
+kde-misc/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
 
 kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
 
-kde-plasma/plasma-desktop fontconfig touchpad mouse -kaccounts screencast
+kde-plasma/plasma-desktop fontconfig touchpad mouse screencast
 kde-plasma/plasma-workspace calendar qalculate qrcode screencast
 
 kde-plasma/kwin multimedia plasma lock screencast
+kde-plasma/kwin-x11 lock
 kde-plasma/kde-cli-tools kdesu
 kde-plasma/kscreenlocker pam seccomp
 kde-plasma/plasma-vault networkmanager
 kde-plasma/powerdevil brightness-control wireless
 kde-plasma/plasma-nm modemmanager
-kde-plasma/drkonqi X
+kde-plasma/breeze
 
 kde-frameworks/kio acl kwallet
 kde-frameworks/kinit caps
 kde-frameworks/kwallet gpg
+kde-frameworks/kwallet-runtime gpg
 kde-frameworks/kauth policykit
 kde-frameworks/knotifications dbus phonon qml
 kde-frameworks/kconfig dbus qml
-kde-frameworks/purpose -kaccounts -dolphin -bluetooth
+kde-frameworks/purpose -dolphin -bluetooth
 kde-frameworks/kitemmodels qml
 kde-frameworks/prison qml
 kde-frameworks/ktexteditor -editorconfig
@@ -33,8 +35,8 @@ kde-frameworks/kwindowsystem wayland
 kde-frameworks/kguiaddons dbus
 kde-frameworks/kcoreaddons dbus
 
-kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp ios
-kde-apps/thumbnailers raw
+kde-apps/kio-extras sftp taglib activities man-activities -openexr samba phonon -mtp ios -libproxy
+kde-apps/thumbnailers raw video
 kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 kde-apps/kdenlive semantic-desktop
@@ -43,6 +45,8 @@ kde-plasma/spectacle kipi share
 kde-apps/kate -filebrowser -projects -snippets -plasma
 kde-apps/kate-addons -filebrowser -projects -snippets
 
+media-libs/pulseaudio-qt -handbook
+
 # random finding: the bluetooth feature of kdeconnect is constantly putting the adapter
 # into scan mode and adds random shit to the kde bluetooth applet which doesn't even belong to me
 # cluttering up the menu with useless shit, in just one day I suddenly had 20 new devices from
@@ -50,7 +54,8 @@ kde-apps/kate-addons -filebrowser -projects -snippets
 kde-misc/kdeconnect app mousepad -bluetooth -pulseaudio
 
 # Akonadi stuff
-kde-apps/akonadi -sqlite -mysql postgres tools xml debug -kaccounts
+kde-apps/akonadi-config -mysql postgres
+kde-apps/akonadi -sqlite -mysql postgres tools xml debug -webengine
 dev-libs/xapian -glass -remote -inmemory
 net-nds/openldap minimal -syslog -tcpd
 dev-libs/cyrus-sasl

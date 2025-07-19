@@ -24,7 +24,7 @@ dev-libs/newt -gpm
 dev-libs/m17n-lib X
 dev-libs/tree-sitter-bash python
 dev-libs/jemalloc stats
-dev-libs/qtkeychain qt5
+dev-libs/qtkeychain qt6
 dev-libs/qcoro dbus
 
 # for SDDM native Wayland backend

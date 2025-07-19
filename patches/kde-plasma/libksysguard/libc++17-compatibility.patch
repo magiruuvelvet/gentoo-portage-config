@@ -1,0 +1,109 @@
+diff --git a/processcore/processes_linux_p.cpp b/processcore/processes_linux_p.cpp
+index 197b061..e1f7aec 100644
+--- a/processcore/processes_linux_p.cpp
++++ b/processcore/processes_linux_p.cpp
+@@ -36,6 +36,7 @@
+ #include <sched.h>
+ 
+ #include <thread>
++#include <atomic>
+ 
+ #define PROCESS_BUFFER_SIZE 1000
+ 
+@@ -104,6 +105,7 @@ class ProcessesLocal::Private
+ {
+ public:
+     Private()
++        : shouldStopSmapsThread(false)
+     {
+         mBuffer.fill('\0', PROCESS_BUFFER_SIZE);
+         mProcDir = opendir("/proc");
+@@ -117,13 +119,15 @@ public:
+     inline bool getNiceness(long pid, Process *process);
+     inline bool getIOStatistics(const QString &dir, Process *process);
+ 
+-    static void smapsThreadFunction(std::stop_token stopToken, ProcessesLocal *processes);
++    static void smapsThreadFunction(ProcessesLocal *processes, std::atomic<bool> *shouldStop);
+ 
+     QFile mFile;
+     QByteArray mBuffer;
+     DIR *mProcDir;
+ 
+-    std::unique_ptr<std::jthread> smapsThread = nullptr;
++    // C++17 compatible thread management
++    std::unique_ptr<std::thread> smapsThread = nullptr;
++    std::atomic<bool> shouldStopSmapsThread;
+     QQueue<long> smapsQueue;
+     std::mutex smapsQueueMutex;
+ };
+@@ -131,15 +135,20 @@ public:
+ ProcessesLocal::Private::~Private()
+ {
+     if (smapsThread) {
+-        smapsThread->request_stop();
+-        smapsThread->join();
++        // Signal the thread to stop
++        shouldStopSmapsThread.store(true);
++        // Wait for the thread to complete
++        if (smapsThread->joinable()) {
++            smapsThread->join();
++        }
+     }
+     closedir(mProcDir);
+ }
+ 
+-void ProcessesLocal::Private::smapsThreadFunction(std::stop_token stopToken, ProcessesLocal *processes)
++void ProcessesLocal::Private::smapsThreadFunction(ProcessesLocal *processes, std::atomic<bool> *shouldStop)
+ {
+-    while (!stopToken.stop_requested()) {
++    // Continue processing while not requested to stop
++    while (!shouldStop->load()) {
+         std::this_thread::sleep_for(SmapsThreadDelay);
+ 
+         std::vector<long> pids;
+@@ -155,6 +164,11 @@ void ProcessesLocal::Private::smapsThreadFunction(std::stop_token stopToken, Pro
+         }
+ 
+         for (auto pid : pids) {
++            // Check if we should stop before processing each PID
++            if (shouldStop->load()) {
++                return;
++            }
++
+             QFile file{"/proc/"_L1 + QString::number(pid) + "/smaps_rollup"_L1};
+             if (!file.open(QIODevice::ReadOnly)) {
+                 continue;
+@@ -509,16 +523,16 @@ bool ProcessesLocal::Private::readProcStatm(const QString &dir, Process *process
+     // Table 1-3: Contents of the statm files (as of 2.6.8-rc3)
+     // ..............................................................................
+     // Field    Content
+-    // size     total program size (pages)		(same as VmSize in status)
+-    // resident size of memory portions (pages)	(same as VmRSS in status)
+-    // shared   number of pages that are shared	(i.e. backed by a file, same
++    // size     total program size (pages)              (same as VmSize in status)
++    // resident size of memory portions (pages) (same as VmRSS in status)
++    // shared   number of pages that are shared (i.e. backed by a file, same
+     //                                              as RssFile+RssShmem in status)
+-    // trs      number of pages that are 'code'	(not including libs; broken,
++    // trs      number of pages that are 'code' (not including libs; broken,
+     //                                              includes data segment)
+-    // lrs      number of pages of library		(always 0 on 2.6)
+-    // drs      number of pages of data/stack	(including libs; broken,
++    // lrs      number of pages of library              (always 0 on 2.6)
++    // drs      number of pages of data/stack   (including libs; broken,
+     //                                              includes library text)
+-    // dt       number of dirty pages			(always 0 on 2.6)
++    // dt       number of dirty pages                   (always 0 on 2.6)
+     fields.rss = atol(parts.at(1)) * pageSize;
+     fields.shared = atol(parts.at(2)) * pageSize;
+     fields.priv = fields.rss - fields.shared;
+@@ -659,7 +673,8 @@ bool ProcessesLocal::updateProcessInfo(long pid, Process *process)
+ 
+     if (mUpdateFlags.testFlag(Processes::Smaps)) {
+         if (!d->smapsThread) {
+-            d->smapsThread = std::make_unique<std::jthread>(Private::smapsThreadFunction, this);
++            // Create thread with C++17 compatible approach
++            d->smapsThread = std::make_unique<std::thread>(Private::smapsThreadFunction, this, &d->shouldStopSmapsThread);
+         }
+ 
+         if (std::chrono::steady_clock::now() - process->memoryInfo()->precise.lastUpdate >= PreciseUpdateInterval) {

@@ -1,0 +1,17 @@
+diff --git a/src/main.cpp b/src/main.cpp
+index bb7fe2b..7d3e49e 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -21,9 +21,9 @@ int main(int argc, char **argv)
+ {
+     // On Wayland the shortcuts are ran as part of kwin_wayland
+     // no-op when started on Wayland
+-    if (qEnvironmentVariable("XDG_SESSION_TYPE") == QLatin1String("wayland")) {
+-        return 0;
+-    }
++    // if (qEnvironmentVariable("XDG_SESSION_TYPE") == QLatin1String("wayland")) {
++    //     return 0;
++    // }
+ 
+     auto sessionManager = qgetenv("SESSION_MANAGER");
+     // Disable Session Management the right way (C)

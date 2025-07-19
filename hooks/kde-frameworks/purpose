@@ -6,9 +6,9 @@ instprep() {
     if [ ! -z "${D}" ]; then
         echo "Remove unneeded plugins from DNS blocked services..."
 
-        rm "${D}/usr/lib64/qt5/plugins/kf5/purpose/imgurplugin.so"
-        rm "${D}/usr/lib64/qt5/plugins/kf5/purpose/pastebinplugin.so"
-        rm "${D}/usr/lib64/qt5/plugins/kf5/purpose/telegramplugin.so"
+        rm "${D}/usr/lib64/qt6/plugins/kf6/purpose/imgurplugin.so"
+        rm "${D}/usr/lib64/qt6/plugins/kf6/purpose/pastebinplugin.so"
+        rm "${D}/usr/lib64/qt6/plugins/kf6/purpose/telegramplugin.so"
     fi
 }
 

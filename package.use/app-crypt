@@ -1,6 +1,6 @@
 app-crypt/gcr gtk vala introspection
 app-crypt/libsecret vala introspection
 app-crypt/gnupg bzip2 user-socket tools smartcard -usb
-app-crypt/pinentry X wayland ncurses gnome-keyring
-app-crypt/gpgme cxx qt5
+app-crypt/pinentry X wayland ncurses gnome-keyring qt6
+app-crypt/gpgme cxx qt6
 app-crypt/heimdal caps

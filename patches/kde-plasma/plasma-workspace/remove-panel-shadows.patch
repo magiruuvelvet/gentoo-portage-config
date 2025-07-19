@@ -1,8 +1,8 @@
 diff --git a/shell/panelshadows.cpp b/shell/panelshadows.cpp
-index 5cec447..da5be35 100644
+index ca2a9c1..b4320b7 100644
 --- a/shell/panelshadows.cpp
 +++ b/shell/panelshadows.cpp
-@@ -112,24 +112,6 @@ void PanelShadows::setEnabledBorders(QWindow *window, Plasma::FrameSvg::EnabledB
+@@ -122,24 +122,6 @@ QMargins PanelShadows::extraPadding(QWindow *window) const
  
  void PanelShadows::Private::updateShadows()
  {
@@ -27,7 +27,7 @@ index 5cec447..da5be35 100644
  }
  
  void PanelShadows::Private::initTile(const QString &element)
-@@ -145,15 +127,6 @@ void PanelShadows::Private::initTile(const QString &element)
+@@ -155,15 +137,6 @@ void PanelShadows::Private::initTile(const QString &element)
  void PanelShadows::Private::setupTiles()
  {
      clearTiles();
@@ -43,9 +43,9 @@ index 5cec447..da5be35 100644
  }
  
  void PanelShadows::Private::clearTiles()
-@@ -163,116 +136,6 @@ void PanelShadows::Private::clearTiles()
+@@ -173,121 +146,6 @@ void PanelShadows::Private::clearTiles()
  
- void PanelShadows::Private::updateShadow(QWindow *window, Plasma::FrameSvg::EnabledBorders enabledBorders)
+ void PanelShadows::Private::updateShadow(QWindow *window, KSvg::FrameSvg::EnabledBorders enabledBorders)
  {
 -    if (!hasShadows()) {
 -        return;
@@ -65,89 +65,94 @@ index 5cec447..da5be35 100644
 -        shadow->destroy();
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::TopBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::TopBorder) {
 -        shadow->setTopTile(m_tiles.at(0));
 -    } else {
 -        shadow->setTopTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::TopBorder && enabledBorders & Plasma::FrameSvg::RightBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::TopBorder && enabledBorders & KSvg::FrameSvg::RightBorder) {
 -        shadow->setTopRightTile(m_tiles.at(1));
 -    } else {
 -        shadow->setTopRightTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::RightBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::RightBorder) {
 -        shadow->setRightTile(m_tiles.at(2));
 -    } else {
 -        shadow->setRightTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::BottomBorder && enabledBorders & Plasma::FrameSvg::RightBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::BottomBorder && enabledBorders & KSvg::FrameSvg::RightBorder) {
 -        shadow->setBottomRightTile(m_tiles.at(3));
 -    } else {
 -        shadow->setBottomRightTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::BottomBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::BottomBorder) {
 -        shadow->setBottomTile(m_tiles.at(4));
 -    } else {
 -        shadow->setBottomTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::BottomBorder && enabledBorders & Plasma::FrameSvg::LeftBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::BottomBorder && enabledBorders & KSvg::FrameSvg::LeftBorder) {
 -        shadow->setBottomLeftTile(m_tiles.at(5));
 -    } else {
 -        shadow->setBottomLeftTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::LeftBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::LeftBorder) {
 -        shadow->setLeftTile(m_tiles.at(6));
 -    } else {
 -        shadow->setLeftTile(nullptr);
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::TopBorder && enabledBorders & Plasma::FrameSvg::LeftBorder) {
+-    if (enabledBorders & KSvg::FrameSvg::TopBorder && enabledBorders & KSvg::FrameSvg::LeftBorder) {
 -        shadow->setTopLeftTile(m_tiles.at(7));
 -    } else {
 -        shadow->setTopLeftTile(nullptr);
 -    }
 -
 -    QMargins padding;
+-    QMargins extraPadding = m_extraPadding.value(window);
 -
--    if (enabledBorders & Plasma::FrameSvg::TopBorder) {
--        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-top-margin"));
+-    if (KWindowSystem::isPlatformX11()) {
+-        extraPadding *= window->devicePixelRatio();
+-    }
+-
+-    if (enabledBorders & KSvg::FrameSvg::TopBorder) {
+-        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-top-margin")).toSize();
 -        if (marginHint.isValid()) {
--            padding.setTop(marginHint.height());
+-            padding.setTop(marginHint.height() + extraPadding.top());
 -        } else {
--            padding.setTop(m_tiles[0]->image().height());
+-            padding.setTop(m_tiles[0]->image().height() + extraPadding.top());
 -        }
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::RightBorder) {
--        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-right-margin"));
+-    if (enabledBorders & KSvg::FrameSvg::RightBorder) {
+-        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-right-margin")).toSize();
 -        if (marginHint.isValid()) {
--            padding.setRight(marginHint.width());
+-            padding.setRight(marginHint.width() + extraPadding.right());
 -        } else {
--            padding.setRight(m_tiles[2]->image().width());
+-            padding.setRight(m_tiles[2]->image().width() + extraPadding.right());
 -        }
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::BottomBorder) {
--        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-bottom-margin"));
+-    if (enabledBorders & KSvg::FrameSvg::BottomBorder) {
+-        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-bottom-margin")).toSize();
 -        if (marginHint.isValid()) {
--            padding.setBottom(marginHint.height());
+-            padding.setBottom(marginHint.height() + extraPadding.bottom());
 -        } else {
--            padding.setBottom(m_tiles[4]->image().height());
+-            padding.setBottom(m_tiles[4]->image().height() + extraPadding.bottom());
 -        }
 -    }
 -
--    if (enabledBorders & Plasma::FrameSvg::LeftBorder) {
--        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-left-margin"));
+-    if (enabledBorders & KSvg::FrameSvg::LeftBorder) {
+-        const QSize marginHint = q->elementSize(QStringLiteral("shadow-hint-left-margin")).toSize();
 -        if (marginHint.isValid()) {
--            padding.setLeft(marginHint.width());
+-            padding.setLeft(marginHint.width() + extraPadding.left());
 -        } else {
--            padding.setLeft(m_tiles[6]->image().width());
+-            padding.setLeft(m_tiles[6]->image().width() + extraPadding.left());
 -        }
 -    }
 -

@@ -22,7 +22,6 @@ media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads u
 media-libs/libsoundtouch -openmp
 media-libs/libvpx highbitdepth postproc svc
 media-libs/lv2 plugins
-media-libs/mlt ffmpeg frei0r kdenlive melt qt5 sdl xml opengl fftw
 media-libs/openal sdl
 media-libs/opencolorio opengl
 media-libs/raptor curl unicode json
@@ -36,8 +35,7 @@ media-libs/gst-plugins-bad vaapi
 media-libs/vapoursynth VAPOURSYNTH_PLUGINS: *
 media-libs/libwmf expat
 media-libs/libsamplerate sndfile
-media-libs/phonon pulseaudio gstreamer -vlc
-media-libs/phonon-gstreamer network alsa
+media-libs/phonon pulseaudio -vlc minimal
 media-libs/mesa pic vaapi -vdpau vulkan vulkan-overlay wayland lm-sensors xa llvm
 media-libs/freetype -infinality png utils harfbuzz svg brotli
 media-libs/harfbuzz icu introspection

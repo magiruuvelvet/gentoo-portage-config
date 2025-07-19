@@ -1,22 +1,22 @@
 diff --git a/src/dolphincontextmenu.cpp b/src/dolphincontextmenu.cpp
-index 94fed18..65cf2aa 100644
+index 354111a..bda5bae 100644
 --- a/src/dolphincontextmenu.cpp
 +++ b/src/dolphincontextmenu.cpp
-@@ -346,7 +346,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties
+@@ -391,7 +391,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties
  
      // Insert 'Move to Trash' and/or 'Delete'
-     const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) || !properties.isLocal());
+     const bool showDeleteAction = (KSharedConfig::openConfig()->group(QStringLiteral("KDE")).readEntry("ShowDeleteCommand", false) || !properties.isLocal());
 -    const bool showMoveToTrashAction = (properties.isLocal() && properties.supportsMoving());
 +    const bool showMoveToTrashAction = false;
  
      if (showDeleteAction && showMoveToTrashAction) {
          delete m_removeAction;
 diff --git a/src/panels/folders/treeviewcontextmenu.cpp b/src/panels/folders/treeviewcontextmenu.cpp
-index f6cafca..6204fb1 100644
+index ec1ccb4..4339769 100644
 --- a/src/panels/folders/treeviewcontextmenu.cpp
 +++ b/src/panels/folders/treeviewcontextmenu.cpp
-@@ -86,23 +86,10 @@ void TreeViewContextMenu::open(const QPoint &pos)
-         KConfigGroup configGroup(globalConfig, "KDE");
+@@ -78,23 +78,10 @@ void TreeViewContextMenu::open(const QPoint &pos)
+         KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
          bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
  
 -        const QUrl url = m_fileItem.url();
@@ -43,33 +43,21 @@ index f6cafca..6204fb1 100644
  
          popup->addSeparator();
      }
-@@ -197,21 +184,6 @@ void TreeViewContextMenu::rename()
+@@ -189,9 +176,6 @@ void TreeViewContextMenu::rename()
  
  void TreeViewContextMenu::moveToTrash()
  {
--#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
 -    using Iface = KIO::AskUserActionInterface;
 -    auto *deleteJob = new KIO::DeleteOrTrashJob(QList{m_fileItem.url()}, Iface::Trash, Iface::DefaultConfirmation, m_parent);
 -    deleteJob->start();
--#else
--    const QList<QUrl> list{m_fileItem.url()};
--    KIO::JobUiDelegate uiDelegate;
--    uiDelegate.setWindow(m_parent);
--    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
--        KIO::Job *job = KIO::trash(list);
--        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
--        KJobWidgets::setWindow(job, m_parent);
--        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
--    }
--#endif
  }
  
  void TreeViewContextMenu::deleteItem()
 diff --git a/src/settings/dolphinsettingsdialog.cpp b/src/settings/dolphinsettingsdialog.cpp
-index ec92cb6..53bdbb0 100644
+index 6410d96..904cdea 100644
 --- a/src/settings/dolphinsettingsdialog.cpp
 +++ b/src/settings/dolphinsettingsdialog.cpp
-@@ -89,17 +89,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
+@@ -71,17 +71,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
      contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-menu-edit")));
      connect(contextMenuSettingsPage, &ContextMenuSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
  
@@ -87,9 +75,9 @@ index ec92cb6..53bdbb0 100644
  #if HAVE_KUSERFEEDBACK
      // User Feedback
      UserFeedbackSettingsPage *feedbackSettingsPage = nullptr;
-@@ -116,9 +105,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
+@@ -96,9 +85,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
+     m_pages.append(interfaceSettingsPage);
      m_pages.append(viewSettingsPage);
-     m_pages.append(navigationSettingsPage);
      m_pages.append(contextMenuSettingsPage);
 -    if (trashSettingsPage) {
 -        m_pages.append(trashSettingsPage);
@@ -97,7 +85,7 @@ index ec92cb6..53bdbb0 100644
  #if HAVE_KUSERFEEDBACK
      if (feedbackSettingsPage) {
          m_pages.append(feedbackSettingsPage);
-@@ -209,9 +195,5 @@ void DolphinSettingsDialog::closeEvent(QCloseEvent *event)
+@@ -187,11 +173,7 @@ void DolphinSettingsDialog::closeEvent(QCloseEvent *event)
  
  SettingsPageBase *DolphinSettingsDialog::createTrashSettingsPage(QWidget *parent)
  {
@@ -108,56 +96,61 @@ index ec92cb6..53bdbb0 100644
 -    return new TrashSettingsPage(parent);
 +    return nullptr;
  }
+ 
+ #include "moc_dolphinsettingsdialog.cpp"
 diff --git a/src/settings/trash/trashsettingspage.cpp b/src/settings/trash/trashsettingspage.cpp
-index 511d6b3..644a8b1 100644
+index 38a3d08..8f6357f 100644
 --- a/src/settings/trash/trashsettingspage.cpp
 +++ b/src/settings/trash/trashsettingspage.cpp
-@@ -14,14 +14,6 @@
+@@ -15,15 +15,6 @@
  TrashSettingsPage::TrashSettingsPage(QWidget *parent)
      : SettingsPageBase(parent)
  {
 -    QFormLayout *topLayout = new QFormLayout(this);
 -
--    m_proxy = new KCModuleProxy(KPluginMetaData(QStringLiteral("kcm_trash")));
--    topLayout->addRow(m_proxy);
+-    m_kcm = KCModuleLoader::loadModule(KPluginMetaData(QStringLiteral("kcm_trash")));
+-
+-    topLayout->addRow(m_kcm->widget());
 -
 -    loadSettings();
 -
--    connect(m_proxy, &KCModuleProxy::changed, this, &TrashSettingsPage::changed);
+-    connect(m_kcm, &KCModule::needsSaveChanged, this, &TrashSettingsPage::changed);
  }
  
  TrashSettingsPage::~TrashSettingsPage()
-@@ -30,15 +22,12 @@ TrashSettingsPage::~TrashSettingsPage()
+@@ -32,17 +23,14 @@ TrashSettingsPage::~TrashSettingsPage()
  
  void TrashSettingsPage::applySettings()
  {
--    m_proxy->save();
+-    m_kcm->save();
  }
  
  void TrashSettingsPage::restoreDefaults()
  {
--    m_proxy->defaults();
+-    m_kcm->defaults();
  }
  
  void TrashSettingsPage::loadSettings()
  {
--    m_proxy->load();
+-    m_kcm->load();
  }
+ 
+ #include "moc_trashsettingspage.cpp"
 diff --git a/src/views/viewproperties.cpp b/src/views/viewproperties.cpp
-index f42adbc..af208dd 100644
+index 99a6bb3..35e6e0a 100644
 --- a/src/views/viewproperties.cpp
 +++ b/src/views/viewproperties.cpp
-@@ -51,9 +51,6 @@ ViewProperties::ViewProperties(const QUrl &url)
-     } else if (url.scheme().contains(QLatin1String("search"))) {
+@@ -119,9 +119,6 @@ ViewProperties::ViewProperties(const QUrl &url)
+     if (url.scheme().contains(QLatin1String("search"))) {
          m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
          useSearchView = true;
 -    } else if (url.scheme() == QLatin1String("trash")) {
 -        m_filePath = destinationDir(QStringLiteral("trash"));
 -        useTrashView = true;
-     } else if (url.scheme() == QLatin1String("recentdocuments")) {
-         m_filePath = destinationDir(QStringLiteral("recentdocuments"));
+     } else if (url.scheme() == QLatin1String("recentlyused")) {
+         m_filePath = destinationDir(QStringLiteral("recentlyused"));
          useRecentDocumentsView = true;
-@@ -119,9 +116,6 @@ ViewProperties::ViewProperties(const QUrl &url)
+@@ -194,9 +191,6 @@ ViewProperties::ViewProperties(const QUrl &url)
                  setViewMode(DolphinView::DetailsView);
                  setVisibleRoles({"text", "path", "modificationtime"});
              }
@@ -165,5 +158,5 @@ index f42adbc..af208dd 100644
 -            setViewMode(DolphinView::DetailsView);
 -            setVisibleRoles({"text", "path", "deletiontime"});
          } else if (useRecentDocumentsView || useDownloadsView) {
-             setSortRole(QByteArrayLiteral("modificationtime"));
              setSortOrder(Qt::DescendingOrder);
+             setSortFoldersFirst(false);

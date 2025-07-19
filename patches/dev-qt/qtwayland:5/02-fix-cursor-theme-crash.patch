@@ -1,0 +1,15 @@
+diff --git a/src/client/qwaylandinputdevice.cpp b/src/client/qwaylandinputdevice.cpp
+index 278e31f..c1b72a8 100644
+--- a/src/client/qwaylandinputdevice.cpp
++++ b/src/client/qwaylandinputdevice.cpp
+@@ -234,7 +234,9 @@ public:
+         if (animated) {
+             m_frameCallback.reset(new WlCallback(frame(), [this](uint32_t time){
+                Q_UNUSED(time);
+-               m_pointer->cursorFrameCallback();
++               if (m_pointer) {
++                   m_pointer->cursorFrameCallback();
++               }
+             }));
+         }
+         commit();

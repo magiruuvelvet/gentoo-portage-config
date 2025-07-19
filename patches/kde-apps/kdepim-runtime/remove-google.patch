@@ -1,65 +1,66 @@
 diff --git a/agents/migration/CMakeLists.txt b/agents/migration/CMakeLists.txt
-index bf12b71..0cfe902 100644
+index 31f6bc4..3c7c88b 100644
 --- a/agents/migration/CMakeLists.txt
 +++ b/agents/migration/CMakeLists.txt
-@@ -34,7 +34,7 @@ endif ()
+@@ -34,7 +34,7 @@ endif()
  
  target_link_libraries(akonadi_migration_agent
      gidmigration
 -    googlegroupwaremigration
 +    #googlegroupwaremigration
-     KPim${KF_MAJOR_VERSION}::AkonadiCore
-     KPim${KF_MAJOR_VERSION}::AkonadiAgentBase
-     KF${KF_MAJOR_VERSION}::Contacts
+     icalcategoriestotagsmigration
+     KPim6::AkonadiCore
+     KPim6::AkonadiAgentBase
 diff --git a/agents/migration/migrationagent.cpp b/agents/migration/migrationagent.cpp
-index 4760c6e..ea36f45 100644
+index 32fcb08..2ea5a37 100644
 --- a/agents/migration/migrationagent.cpp
 +++ b/agents/migration/migrationagent.cpp
 @@ -9,7 +9,6 @@
  #include "migrationstatuswidget.h"
  
- #include <migration/gid/gidmigrator.h>
--#include <migration/googlegroupware/googleresourcemigrator.h>
+ #include "migration/gid/gidmigrator.h"
+-#include "migration/googlegroupware/googleresourcemigrator.h"
+ #include "migration/icalcategoriestotags/icalcategoriestotagsmigrator.h"
  
  #include <KContacts/Addressee>
- #include <KLocalizedString>
-@@ -27,7 +26,6 @@ MigrationAgent::MigrationAgent(const QString &id)
+@@ -28,7 +27,6 @@ MigrationAgent::MigrationAgent(const QString &id)
  {
-     KLocalizedString::setApplicationDomain("akonadi_migration_agent");
+     KLocalizedString::setApplicationDomain(QByteArrayLiteral("akonadi_migration_agent"));
      mScheduler.addMigrator(QSharedPointer<GidMigrator>::create(KContacts::Addressee::mimeType()));
 -    mScheduler.addMigrator(QSharedPointer<GoogleResourceMigrator>::create());
+     mScheduler.addMigrator(QSharedPointer<ICalCategoriesToTagsMigrator>::create());
  }
  
- void MigrationAgent::configure(WId windowId)
 diff --git a/migration/CMakeLists.txt b/migration/CMakeLists.txt
-index 0eecf3c..09dfd0e 100644
+index 6a74671..b9284d4 100644
 --- a/migration/CMakeLists.txt
 +++ b/migration/CMakeLists.txt
-@@ -36,5 +36,5 @@ target_link_libraries(migrationshared
+@@ -36,6 +36,6 @@ target_link_libraries(migrationshared
  
  
  add_subdirectory(gid)
 -add_subdirectory(googlegroupware)
 +#add_subdirectory(googlegroupware)
+ add_subdirectory(icalcategoriestotags)
  
 diff --git a/resources/CMakeLists.txt b/resources/CMakeLists.txt
-index 299f404..f71f3bc 100644
+index eca9216..0f79740 100644
 --- a/resources/CMakeLists.txt
 +++ b/resources/CMakeLists.txt
-@@ -58,7 +58,7 @@ add_subdirectory( maildir )
- add_subdirectory( openxchange )
- add_subdirectory( pop3 )
+@@ -57,7 +57,7 @@ add_subdirectory(maildir)
+ add_subdirectory(openxchange)
+ add_subdirectory(pop3)
  
--add_subdirectory( google-groupware )
-+#add_subdirectory( google-groupware )
+-add_subdirectory(google-groupware)
++#add_subdirectory(google-groupware)
  
- add_subdirectory( shared )
- add_subdirectory( birthdays )
+ add_subdirectory(shared)
+ add_subdirectory(birthdays)
 diff --git a/resources/google-groupware/calendarhandler.cpp b/resources/google-groupware/calendarhandler.cpp
-index f306829..70eede4 100644
+index 1da8c14..0427522 100644
 --- a/resources/google-groupware/calendarhandler.cpp
 +++ b/resources/google-groupware/calendarhandler.cpp
-@@ -360,7 +360,7 @@ void FreeBusyHandler::retrieveFreeBusy(const QString &email, const QDateTime &st
+@@ -451,7 +451,7 @@ void FreeBusyHandler::retrieveFreeBusy(const QString &email, const QDateTime &st
          }
  
          KCalendarCore::FreeBusy::Ptr fb(new KCalendarCore::FreeBusy);
@@ -69,15 +70,15 @@ index f306829..70eede4 100644
          fb->addAttendee(KCalendarCore::Attendee(QString(), queryJob->id()));
          // FIXME: is it really sort?
 diff --git a/resources/google-groupware/googleresource.cpp b/resources/google-groupware/googleresource.cpp
-index 3ed66ec..c187f41 100644
+index 6e4cf37..ea2c0af 100644
 --- a/resources/google-groupware/googleresource.cpp
 +++ b/resources/google-groupware/googleresource.cpp
-@@ -143,16 +143,10 @@ QList<QUrl> GoogleResource::scopes() const
+@@ -142,16 +142,10 @@ QList<QUrl> GoogleResource::scopes() const
  
  void GoogleResource::updateResourceName()
  {
 -    const QString accountName = m_settings.account();
--    setName(i18nc("%1 is account name (user@gmail.com)", "Google Groupware (%1)", accountName.isEmpty() ? i18n("not configured") : accountName));
+-    setName(i18nc("%1 is account name (user@gmail.com)", "Google Groupware (%1)", accountName.isEmpty() ? i18n("Not configured") : accountName));
  }
  
  void GoogleResource::reloadConfig()
@@ -89,7 +90,7 @@ index 3ed66ec..c187f41 100644
  }
  
  bool GoogleResource::handleError(KGAPI2::Job *job, bool _cancelTask)
-@@ -221,13 +215,7 @@ void GoogleResource::requestAuthenticationFromUser(const KGAPI2::AccountPtr &acc
+@@ -218,13 +212,7 @@ void GoogleResource::requestAuthenticationFromUser(const KGAPI2::AccountPtr &acc
  
  bool GoogleResource::canPerformTask()
  {
@@ -105,10 +106,10 @@ index 3ed66ec..c187f41 100644
  
  void GoogleResource::slotAuthJobFinished(KGAPI2::Job *job)
 diff --git a/resources/google-groupware/googlesettings.cpp b/resources/google-groupware/googlesettings.cpp
-index caf82ff..4533fee 100644
+index cfb1ccf..038644a 100644
 --- a/resources/google-groupware/googlesettings.cpp
 +++ b/resources/google-groupware/googlesettings.cpp
-@@ -162,17 +162,17 @@ void GoogleSettings::addTaskList(const QString &taskList)
+@@ -158,17 +158,17 @@ void GoogleSettings::addTaskList(const QString &taskList)
  
  QString GoogleSettings::clientId() const
  {
@@ -130,7 +131,7 @@ index caf82ff..4533fee 100644
  
  AccountPtr GoogleSettings::accountPtr()
 diff --git a/resources/imap/gmailpasswordrequester.cpp b/resources/imap/gmailpasswordrequester.cpp
-index 496ab4b..0eb0ecf 100644
+index bcb433f..1d2b64a 100644
 --- a/resources/imap/gmailpasswordrequester.cpp
 +++ b/resources/imap/gmailpasswordrequester.cpp
 @@ -12,8 +12,8 @@
@@ -143,4 +144,4 @@ index 496ab4b..0eb0ecf 100644
 +#define GOOGLE_API_SECRET QStringLiteral("")
  
  GmailPasswordRequester::GmailPasswordRequester(ImapResourceBase *resource, QObject *parent)
-     : PasswordRequesterInterface(parent)
+     : XOAuthPasswordRequester(parent)
