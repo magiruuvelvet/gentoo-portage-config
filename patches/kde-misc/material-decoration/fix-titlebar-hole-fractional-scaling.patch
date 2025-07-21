@@ -1,0 +1,18 @@
+diff --git a/src/Decoration.cc b/src/Decoration.cc
+index f110aab..2c97d05 100644
+--- a/src/Decoration.cc
++++ b/src/Decoration.cc
+@@ -684,8 +684,11 @@ int Decoration::buttonPadding() const
+ 
+ int Decoration::titleBarHeight() const
+ {
+-    const QFontMetrics fontMetrics(settings()->font());
+-    return buttonPadding()*2 + fontMetrics.height();
++    // this calculation results in a value that doesn't result in an integer when multiplied by 1.25 (125% scale)
++    // force the title bar height to 24 pixels, 24*1.25=30 to avoid holes between the decoration and the window surface
++    // const QFontMetrics fontMetrics(settings()->font());
++    // return buttonPadding()*2 + fontMetrics.height();
++    return 24;
+ }
+ 
+ int Decoration::appMenuButtonHorzPadding() const
