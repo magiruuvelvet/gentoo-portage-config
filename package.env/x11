@@ -18,6 +18,8 @@ x11-apps/x11perf gnu-source-light.conf
 x11-apps/iceauth gnu-source-light.conf
 x11-apps/smproxy gnu-source-light.conf
 x11-apps/setxkbmap gnu-source-light.conf
+# perfect to debug Xwayland shenanigans related to mouse cursor "security" bullshit
+x11-apps/xeyes gnu-source-light.conf
 x11-libs/libdrm std-gnu99.conf
 media-libs/libva std-gnu99.conf
 media-libs/libva-intel-driver gnu-gcc.conf static-gnu-runtime.conf
