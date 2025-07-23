@@ -1,0 +1,14 @@
+diff --git a/runner/systemsettingsrunner.cpp b/runner/systemsettingsrunner.cpp
+index d33b790..3e96f10 100644
+--- a/runner/systemsettingsrunner.cpp
++++ b/runner/systemsettingsrunner.cpp
+@@ -126,8 +126,7 @@ void SystemsettingsRunner::run(const KRunner::RunnerContext & /*context*/, const
+         job = new KIO::CommandLauncherJob(QStringLiteral("kinfocenter"), {data.pluginId()});
+         job->setDesktopName(QStringLiteral("org.kde.kinfocenter"));
+     } else if (!data.value(QStringLiteral("X-KDE-System-Settings-Parent-Category")).isEmpty()) {
+-        job = new KIO::CommandLauncherJob(QStringLiteral("systemsettings"), {data.pluginId()});
+-        job->setDesktopName(QStringLiteral("systemsettings"));
++        job = new KIO::CommandLauncherJob(QStringLiteral("kcmshell6"), {data.pluginId()});
+     } else {
+         // Systemsettings only uses predefined namespaces that kcmshell5/6 also knows about
+         job = new KIO::CommandLauncherJob(QStringLiteral("kcmshell6"), {data.pluginId()});

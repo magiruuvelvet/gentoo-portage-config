@@ -1,0 +1,11 @@
+diff --git a/app/systemsettings.desktop b/app/systemsettings.desktop
+index 4d64b88..63aada0 100755
+--- a/app/systemsettings.desktop
++++ b/app/systemsettings.desktop
+@@ -1,5 +1,5 @@
+ [Desktop Entry]
+-Exec=systemsettings
++Exec=/usr/bin/systemsettings
+ Icon=preferences-system
+ Type=Application
+ SingleMainWindow=true
