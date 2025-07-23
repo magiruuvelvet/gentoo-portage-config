@@ -1,9 +1,0 @@
-diff --git a/testament/testament.nim.cfg b/testament/testament.nim.cfg
-index c972841..6752899 100644
---- a/testament/testament.nim.cfg
-+++ b/testament/testament.nim.cfg
-@@ -4,3 +4,4 @@ path = "$nim" # For compiler/nodejs
- -d:ssl # For azure
- # my SSL doesn't have this feature and I don't care:
- -d:nimDisableCertificateValidation
-+--passL:"-ldl"
