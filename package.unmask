@@ -2,14 +2,6 @@
 
 # TODO: convert to directory
 
-# full caddy build with many plugins I need
-# official repos are lacking some USE flags here
-www-servers/caddy::chaoslab
-
-# replacement for https://github.com/esjeon/krohnkite hopefully
-kde-misc/bismuth::gentoo
-
-
 gui-apps/quickshell::guru
 
 games-util/mangohud::guru
