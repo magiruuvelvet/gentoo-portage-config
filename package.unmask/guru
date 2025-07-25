@@ -1,0 +1,7 @@
+gui-apps/quickshell::guru
+
+games-util/mangohud::guru
+media-libs/imgui::guru
+media-libs/implot::guru
+
+app-editors/imhex::guru

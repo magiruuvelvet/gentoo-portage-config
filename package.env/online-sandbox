@@ -1,6 +1,0 @@
-net-im/riot-desktop online-sandbox.conf
-net-im/riot-web online-sandbox.conf
-app-misc/mkcert online-sandbox.conf
-www-apps/hugo online-sandbox.conf
-app-editors/micro online-sandbox.conf
-dev-libs/liblinphone online-sandbox.conf

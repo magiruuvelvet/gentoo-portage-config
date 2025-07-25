@@ -2,3 +2,6 @@
 # install stable versions of the below packages instead
 net-misc/networkmanager -* *
 net-misc/modemmanager -* *
+
+media-video/pipewire -* *
+media-video/wireplumber -* *

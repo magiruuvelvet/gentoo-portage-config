@@ -1,18 +1,5 @@
 # unmasked 3rd party packages
 
-# TODO: convert to directory
-
-gui-apps/quickshell::guru
-
-games-util/mangohud::guru
-media-libs/imgui::guru
-media-libs/implot::guru
-
-# installed kernels
-=sys-kernel/gentoo-kernel-bin-6.6.21
-
-=sys-kernel/gentoo-sources-6.6.21
-
 # media
 media-video/mpv::vapoursynth
 

@@ -1,0 +1,5 @@
+# installed kernels
+
+=sys-kernel/gentoo-kernel-bin-6.6.21
+
+=sys-kernel/gentoo-sources-6.6.21
