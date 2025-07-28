@@ -1,2 +1,3 @@
 net-print/cups dbus acl pam ssl threads usb
-net-print/cups-filters foomatic postscript dbus jpeg pdf png tiff
+net-print/cups-filters foomatic
+net-print/libcupsfilters foomatic postscript -dbus jpeg pdf png tiff

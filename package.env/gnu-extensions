@@ -143,7 +143,7 @@ dev-util/scanmem gnu-source-light.conf
 dev-util/colm gnu-source-light.conf
 dev-util/unicorn std-gnu99.conf gnu-source-light.conf
 dev-util/unifdef gnu-source-light.conf
-#dev-util/rizin gnu-source-light.conf
+dev-util/pahole std-gnu99.conf
 gnome-base/dconf std-gnu99.conf
 gnome-base/gnome-keyring gnu-source-light.conf
 dev-libs/gobject-introspection gnu-source-light.conf

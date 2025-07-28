@@ -12,10 +12,6 @@ index 8514ba0..f57437a 100644
  	// Bug: 660 If installed to non-standard folder, QIcon::fromTheme does not seem to find icon. Therefore
  	// add icon files here...
  	if (icon.isNull()) {
-diff --git a/support/.QtAwesome.cpp.kate-swp b/support/.QtAwesome.cpp.kate-swp
-deleted file mode 100644
-index ae3cfc1..0000000
-Binary files a/support/.QtAwesome.cpp.kate-swp and /dev/null differ
 diff --git a/support/QtAwesome.cpp b/support/QtAwesome.cpp
 index 680b983..9ddb782 100644
 --- a/support/QtAwesome.cpp
