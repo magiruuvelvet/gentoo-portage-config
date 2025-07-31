@@ -26,7 +26,7 @@ index 0000000..75f7948
 +
 +    undef :operating_system_defaults
 +    def operating_system_defaults
-+      options = "--install-dir #{gentoo_install_dir} --bindir #{gentoo_bindir}"
++      options = "--install-dir #{gentoo_install_dir} --bindir #{gentoo_bindir} --platform=ruby"
 +
 +      {
 +        'install' => options,

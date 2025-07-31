@@ -1,0 +1,13 @@
+diff --git a/main/gui/source/init/splash_window.cpp b/main/gui/source/init/splash_window.cpp
+index ffec4b4..645070c 100644
+--- a/main/gui/source/init/splash_window.cpp
++++ b/main/gui/source/init/splash_window.cpp
+@@ -499,7 +499,7 @@ namespace hex::init {
+             ImHexApi::System::impl::setGlobalScale(meanScale);
+             ImHexApi::System::impl::setNativeScale(meanScale);
+ 
+-            log::info("Native scaling set to: {:.1f}", meanScale);
++            log::info("Native scaling set to: {:.2f}", meanScale);
+         }
+ 
+         glfwMakeContextCurrent(m_window);

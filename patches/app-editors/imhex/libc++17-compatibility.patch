@@ -1,0 +1,63 @@
+diff --git a/main/gui/source/messaging/linux.cpp b/main/gui/source/messaging/linux.cpp
+index a25c0f5..a44dd4e 100644
+--- a/main/gui/source/messaging/linux.cpp
++++ b/main/gui/source/messaging/linux.cpp
+@@ -3,6 +3,10 @@
+ #include <stdexcept>
+ #include <fcntl.h>
+ #include <sys/file.h>
++#include <unistd.h>
++#include <atomic>
++#include <thread>
++#include <chrono>
+ 
+ #include <hex/helpers/logger.hpp>
+ #include <hex/api/events/events_lifecycle.hpp>
+@@ -40,16 +44,21 @@ namespace hex::messaging {
+         static int fifo = 0;
+         fifo = open(CommunicationPipePath, O_RDWR | O_NONBLOCK);
+ 
+-        static auto listenerThread = std::jthread([](const std::stop_token &stopToken){
++        // Atomic flag to signal thread termination (replaces std::stop_token)
++        static std::atomic<bool> should_stop{false};
++
++        // Use std::thread instead of std::jthread for libc++ 17 compatibility
++        static std::thread listener_thread([]{
+             std::vector<u8> buffer(0xFFFF);
+ 
+-            while (true) {
++            while (!should_stop.load(std::memory_order_acquire)) {
+                 int result = ::read(fifo, buffer.data(), buffer.size());
+                 if (result > 0) {
+                     EventNativeMessageReceived::post(std::vector<u8>{ buffer.begin(), buffer.begin() + result });
+                 }
+ 
+-                if (stopToken.stop_requested())
++                // Check stop condition before potentially blocking
++                if (should_stop.load(std::memory_order_acquire))
+                     break;
+ 
+                 if (result <= 0) {
+@@ -59,12 +68,19 @@ namespace hex::messaging {
+         });
+ 
+         std::atexit([]{
+-            listenerThread.request_stop();
++            // Signal the thread to stop (replaces request_stop())
++            should_stop.store(true, std::memory_order_release);
++
++            // Close the FIFO to unblock any pending read operations
+             close(fifo);
+-            listenerThread.join();
++
++            // Wait for thread completion
++            if (listener_thread.joinable()) {
++                listener_thread.join();
++            }
+         });
+     }
+-    
++
+     // Not implemented, so lets say we are the main instance every time so events are forwarded to ourselves
+     bool setupNative() {
+         int fd = open(LockPath, O_RDONLY);
