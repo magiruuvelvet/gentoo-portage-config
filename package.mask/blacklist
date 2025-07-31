@@ -14,9 +14,6 @@ dev-java/openjdk-bin
 # blacklist legacy gtk2, i don't want this anymore
 x11-libs/gtk+:2
 
-# use version in vapoursynth overlay
-media-video/mpv::gentoo
-
 # blacklist this broken tool (uses lots of legacy crap and is literally not even required anymore)
 x11-misc/imake
 
