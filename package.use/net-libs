@@ -3,7 +3,6 @@ net-libs/libproxy -gnome -kde -mono -networkmanager -perl -python -spidermonkey 
 net-libs/libpsl idn icu
 net-libs/libsoup introspection
 net-libs/mbedtls threads
-net-libs/webkit-gtk -* X opengl introspection
 net-libs/zeromq -unwind drafts
 net-libs/gtk-vnc introspection
 net-libs/nodejs npm ssl icu inspector -system-icu

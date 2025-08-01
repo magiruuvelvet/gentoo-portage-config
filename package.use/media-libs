@@ -22,7 +22,6 @@ media-libs/libsdl3 X alsa dbus opengl vulkan kms udev -wayland
 media-libs/libsoundtouch -openmp
 media-libs/libvpx highbitdepth postproc svc
 media-libs/lv2 plugins
-media-libs/openal sdl
 media-libs/opencolorio opengl
 media-libs/raptor curl unicode json
 media-libs/sdl2-image gif jpeg png tiff webp

@@ -4,7 +4,7 @@ media-video/ffmpeg X dav1d alsa amr amrenc bluray bzip2 cpudetection encode font
 media-video/ffmpeg fdk -flite -frei0r -fribidi -gme -gmp -gnutls gsm -hardcoded-tables -iec61883
 media-video/ffmpeg gcrypt gpl iconv jpeg2k libass -libcaca libdrm librtmp libxml2 lzma modplug
 media-video/ffmpeg mp3 network opengl openssl opus pic postproc pulseaudio srt ssh svg theora
-media-video/ffmpeg openal -opencl -openh264 -libaom -oss -rubberband -samba sdl snappy -speex
+media-video/ffmpeg -openal -opencl -openh264 -libaom -oss -rubberband -samba -sdl snappy -speex
 media-video/ffmpeg threads truetype vaapi -vdpau vorbis vpx wavpack webp x264 x265 xcb xvid
 media-video/ffmpeg zeromq zimg zlib zvbi -bs2b -cdio -chromaprint -chromium codec2 -debug -doc
 media-video/ffmpeg vulkan amf -cuda -video_cards_nvidia -nvenc
