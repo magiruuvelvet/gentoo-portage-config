@@ -1,10 +1,3 @@
-# requires at least POSIX extensions to build on Linux
-#dev-lang/go go-posix.conf
-
-# force libunwind instead of libgcc_s to remove gcc dependency
-# needs config.toml patches to use the correct compiler wrapper
-dev-lang/rust rust-clang.conf
-
 # allow usage of extensions for more modules
 dev-lang/python gnu-source-light.conf define-linux.conf
 dev-lang/php gnu-source-light.conf define-linux.conf

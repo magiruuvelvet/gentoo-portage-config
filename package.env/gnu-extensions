@@ -337,7 +337,7 @@ sys-fs/rar2fs std-gnu99.conf
 sys-fs/udftools gnu-source-light.conf
 sys-fs/udisks std-gnu99.conf
 sys-fs/xfsdump std-gnu99.conf
-sys-fs/xfsprogs std-gnu99.conf no-lto.conf
+sys-fs/xfsprogs std-gnu99.conf
 sys-fs/bindfs std-gnu99.conf
 sys-fs/mtools std-gnu99.conf
 sys-fs/hfsutils std-gnu99.conf
