@@ -1,6 +1,2 @@
-gnome-base/gconf -policykit
-gnome-base/gnome-desktop introspection
 gnome-base/gsettings-desktop-schemas introspection
 gnome-base/librsvg -vala introspection -tools
-gnome-base/gnome-keyring pam -ssh-agent
-app-crypt/gcr -introspection gtk -vala

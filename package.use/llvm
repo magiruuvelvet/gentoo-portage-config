@@ -1,20 +1,17 @@
 # default system toolchain
 
-# make backups with: quickpkg sys-libs/libunwind sys-libs/compiler-rt sys-libs/libcxx sys-libs/libcxxabi sys-devel/llvm sys-devel/clang-common sys-devel/llvm-common sys-devel/clang-runtime sys-devel/clang dev-util/lldb sys-libs/libomp sys-devel/lld
-
-# mask: sys-libs/libunwind (this is the wrong library)
+# make backups with: quickpkg llvm-runtimes/compiler-rt llvm-runtimes/libcxx llvm-runtimes/libcxxabi llvm-core/llvm llvm-core/clang-common llvm-core/llvm-common llvm-core/clang-runtime llvm-core/clang llvm-core/lldb llvm-runtimes/openmp llvm-core/lld
 
 llvm-runtimes/libunwind static-libs test
 
 llvm-runtimes/compiler-rt clang test
-sys-libs/compiler-rt-sanitizers clang test
+llvm-runtimes/compiler-rt-sanitizers clang test
 
 llvm-core/lld zstd
 
 llvm-runtimes/libcxx libcxxabi libunwind static-libs test
 llvm-runtimes/libcxxabi libunwind static-libs test
 
-llvm-core/llvm-common
 llvm-core/llvm -abi_x86_32 xml libffi -gold -binutils-plugin zstd
 llvm-core/llvm LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
 
@@ -22,9 +19,5 @@ llvm-core/clang-common default-compiler-rt default-libcxx default-lld libunwind
 llvm-core/clang-runtime -abi_x86_32 libcxx compiler-rt openmp -sanitize
 llvm-core/clang -abi_x86_32 xml default-compiler-rt default-libcxx default-lld
 llvm-core/clang LLVM_TARGETS: X86 WebAssembly AArch64 ARM -AMDGPU -Hexagon -Lanai -MSP430 -Mips NVPTX -PowerPC -RISCV -Sparc -SystemZ -XCore -BPF
-llvm-core/clang
 
 llvm-core/lldb python lzma -libedit
-
-# OpenMP runtime library for LLVM/clang compiler
-llvm-runtimes/openmp

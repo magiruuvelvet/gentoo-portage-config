@@ -1,4 +1,3 @@
 net-wireless/bluez mesh btpclient obex readline udev alsa experimental user-session
-net-wireless/crda gcrypt
 net-wireless/hostapd crda wps netlink savedconfig sqlite
 net-wireless/wpa_supplicant dbus fils readline ap p2p eap-sim uncommon-eap-types -qt5

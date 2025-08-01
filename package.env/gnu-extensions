@@ -46,7 +46,6 @@ app-pda/libusbmuxd gnu-source-light.conf
 app-pda/usbmuxd gnu-source-light.conf
 app-text/doxygen gnu-source-light.conf
 app-text/antiword gnu-source-light.conf
-app-text/tidy-html5 std-gnu99.conf
 app-text/xmlto gnu-source-light.conf
 app-text/discount gnu-source-light.conf
 app-text/ebook-tools gnu-source-light.conf
@@ -111,17 +110,13 @@ dev-libs/ptexenc gnu-source-light.conf
 dev-libs/pkcs11-helper gnu-source-light.conf
 dev-libs/libgit2 gnu-source-light.conf
 dev-libs/ell gnu-gcc.conf static-gnu-runtime.conf
-dev-libs/ocl-icd std-gnu11.conf
 dev-libs/json-c gnu-source-light.conf
 dev-libs/libxdg-basedir gnu-source-light.conf
-dev-libs/liblinphone gnu-source-light.conf
 dev-libs/xxhash gnu-source-light.conf
 dev-libs/tomsfastmath std-gnu99.conf
-dev-libs/libappindicator gnu-source-light.conf
 dev-libs/ios-webkit-debug-proxy std-gnu99.conf
 dev-libs/libtpms gnu-source-light.conf
 dev-libs/libmaa gnu-source-light.conf
-dev-cpp/libcutl gnu-source-light.conf
 dev-php/igbinary gnu-source-light.conf
 dev-php/pecl-memcached gnu-source-light.conf
 dev-php/xdebug gnu-source-light.conf
@@ -133,7 +128,6 @@ dev-python/bcrypt gnu-source-light.conf
 dev-python/pycryptodome gnu-source-light.conf
 dev-python/pyzmq gnu-source-light.conf
 dev-python/sip gnu-source-light.conf
-dev-util/boost-build std-gnu17.conf
 dev-util/ctags gnu-source-light.conf
 dev-util/global gnu-source-light.conf
 dev-util/google-perftools gnu-source-light.conf
@@ -209,7 +203,6 @@ media-libs/libvpx gnu-source-light.conf
 media-libs/virglrenderer gnu-source-light.conf
 #media-libs/openal gnu-gcc.conf static-gnu-runtime.conf
 media-libs/libv4l std-gnu99.conf
-media-libs/mediastreamer2 gnu-source-light.conf
 media-libs/pcaudiolib std-gnu99.conf
 media-libs/vulkan-loader gnu-source-light.conf
 media-libs/sdl2-mixer gnu-source-light.conf
@@ -227,7 +220,6 @@ media-sound/sox std-gnu99.conf
 media-sound/wavpack std-gnu99.conf
 media-sound/audacity gnu-source-light.conf
 media-sound/playerctl gnu-source-light.conf
-media-sound/pulseaudio-modules-bt std-gnu99.conf
 media-sound/pasystray gnu-source-light.conf
 media-sound/fluidsynth gnu-source-light.conf
 media-sound/jack2 std-gnu17.conf gnu-source-light.conf
@@ -278,11 +270,7 @@ net-libs/libnftnl std-gnu99.conf
 net-libs/libvncserver gnu-source-light.conf
 net-libs/enet gnu-source-light.conf
 net-libs/libslirp gnu-source-light.conf
-net-libs/bctoolbox gnu-source-light.conf
-net-libs/ortp std-gnu99.conf
-net-libs/bzrtp gnu-source-light.conf
 net-mail/dovecot std-gnu99.conf
-net-mail/mailutils std-gnu99.conf
 net-misc/freerdp gnu-source-light.conf
 net-misc/rdesktop gnu-source-light.conf
 net-misc/radvd gnu-source-light.conf
@@ -300,12 +288,9 @@ net-wireless/iw gnu-source-light.conf
 net-wireless/wpa_supplicant std-gnu99.conf
 net-wireless/bluez gnu-source-light.conf
 net-wireless/bluez-tools gnu-source-light.conf
-net-wireless/bluez-hcidump std-gnu99.conf
 #net-dialup/ppp gnu-gcc.conf static-gnu-runtime.conf
 sci-mathematics/lpsolve std-gnu99.conf
-sys-apps/man gnu-source-light.conf
 sys-apps/diffutils std-gnu11.conf
-sys-apps/dmapi gnu-source-light.conf
 sys-apps/fakeroot gnu-source-light.conf
 sys-apps/fakechroot gnu-source-light.conf
 sys-apps/firejail std-gnu99.conf
@@ -350,7 +335,6 @@ sys-fs/fuse std-gnu99.conf
 sys-fs/fuse-exfat gnu-source-light.conf
 sys-fs/lvm2 std-gnu99.conf
 sys-fs/rar2fs std-gnu99.conf
-sys-fs/reiser4progs std-gnu99.conf
 sys-fs/udftools gnu-source-light.conf
 sys-fs/udisks std-gnu99.conf
 sys-fs/xfsdump std-gnu99.conf
@@ -368,10 +352,7 @@ sys-fs/diskdev_cmds gnu-source-light.conf
 sys-fs/copyfs gnu-source-light.conf
 sys-fs/quota std-gnu99.conf
 sys-fs/extundelete gnu-source-light.conf std-gnu11.conf
-sys-fs/dmg2img gnu-source-light.conf
 sys-fs/squashfs-tools std-gnu99.conf
-sys-libs/e2fsprogs-libs std-gnu99.conf
-sys-libs/libaal gnu-source-light.conf
 sys-libs/libblockdev std-gnu99.conf
 sys-libs/libcap std-gnu99.conf
 sys-libs/libseccomp std-gnu99.conf
@@ -400,7 +381,6 @@ x11-libs/pixman std-gnu11.conf
 x11-libs/cairo std-gnu99.conf
 x11-libs/libSM gnu-source-light.conf
 x11-misc/i3lock std-gnu99.conf
-x11-misc/alltray gnu-source-light.conf
 x11-apps/xrestop gnu-source-light.conf
 x11-apps/luit gnu-source-light.conf
 x11-apps/mesa-progs gnu-source-light.conf
@@ -415,21 +395,9 @@ www-client/w3m gnu-source-light.conf
 app-accessibility/speech-dispatcher gnu-source-light.conf
 net-im/coturn gnu-source-light.conf
 media-tv/kodi gnu-source-light.conf
-media-tv/v4l-utils gnu-gcc.conf static-gnu-runtime.conf
 dev-ruby/redcarpet gnu-source-light.conf
 x11-terms/kitty gnu-source-light.conf
 gui-wm/gamescope gnu-source-light.conf
-
-gnustep-base/libobjc2 gnu-source-light.conf
-
-app-antivirus/clamav gnu-source-light.conf
-
-dev-ruby/ffi std-gnu99.conf gnu-source-light.conf
-
-# error: cannot specify -o when generating multiple output files
-# this package is hardcoded to assume everyone uses gcc
-# clang doesn't support the command line arguments given here
-net-wireless/crda gnu-gcc.conf static-gnu-runtime.conf
 
 # TODO: explicitly requires GNU extensions like nested functions *reeee*
 #       why can't the devs not stick to the ISO C Standard????

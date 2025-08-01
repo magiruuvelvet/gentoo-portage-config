@@ -1,3 +1,1 @@
-games-util/steam-meta steamruntime
-games-util/steam-launcher steamruntime -joystick -udev
 games-util/mangohud X -dbus -wayland

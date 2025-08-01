@@ -1,8 +1,5 @@
 # package blacklist, avoid to install
 # see package.unmask for eventual overwrites
-dev-java/icedtea-bin
-dev-java/icedtea-sound
-dev-java/icedtea-web
 dev-debug/gdb
 sys-kernel/gentoo-sources
 sys-kernel/vanilla-sources

@@ -1,5 +1,4 @@
 dev-libs/appstream compose
-dev-libs/libappindicator introspection
 dev-libs/atk introspection
 dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
 dev-libs/elfutils bzip2 nls utils lzma zstd
@@ -16,7 +15,6 @@ dev-libs/libinput INPUT_DEVICES: wacom
 dev-libs/libdbusmenu -gtk gtk3 introspection
 dev-libs/boehm-gc cxx
 dev-libs/gmp cxx
-dev-libs/liblinphone libnotify
 dev-libs/xerces-c icu
 dev-libs/capstone python
 dev-libs/keystone python

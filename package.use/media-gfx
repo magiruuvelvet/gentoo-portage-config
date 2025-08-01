@@ -1,5 +1,4 @@
 media-gfx/graphviz cairo nls gdk-pixbuf pdf postscript svg
-media-gfx/xloadimage jpeg png tiff
 media-gfx/gimp aalib heif jpeg2k mng -openexr postscript python vector-icons webp wmf xpm udev
 media-gfx/krita -color-management fftw gif gsl heif jpeg -openexr pdf qtmedia raw tiff vc webp
 media-gfx/inkscape dbus exif imagemagick jpeg lcms

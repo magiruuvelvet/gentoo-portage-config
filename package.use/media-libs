@@ -9,7 +9,6 @@ media-libs/imlib2 X bzip2 gif jpeg mp3 png shm tiff zlib
 media-libs/imgui opengl vulkan
 media-libs/jasper opengl jpeg
 media-libs/leptonica zlib gif jpeg jpeg2k png tiff webp
-media-libs/libaacs
 media-libs/libao alsa pulseaudio
 media-libs/libaom -tests -cpu_flags_x86_sse2 -cpu_flags_x86_ssse3
 media-libs/libbdplus aacs
@@ -34,7 +33,6 @@ media-libs/tiff cxx jbig jpeg lzma webp zlib zstd
 media-libs/gstreamer caps nls introspection -unwind
 media-libs/gst-plugins-base X wayland alsa egl nls ogg opengl orc pango theora vorbis introspection
 media-libs/gst-plugins-bad vaapi
-media-libs/vapoursynth VAPOURSYNTH_PLUGINS: *
 media-libs/libwmf expat
 media-libs/libsamplerate sndfile
 media-libs/phonon pulseaudio -vlc minimal
@@ -48,7 +46,6 @@ media-libs/libv4l jpeg -qt5 -utils
 media-libs/opus custom-modes
 media-libs/x264 pic
 media-libs/x265 pic
-media-libs/mediastreamer2 alsa pulseaudio ffmpeg gsm opus -v4l zrtp srtp jpeg speex vpx
 media-libs/libheif aom libde265 -rav1e x265
 media-libs/libsixel jpeg png gd curl
 media-libs/libpulse dbus -X

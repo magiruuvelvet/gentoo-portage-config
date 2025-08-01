@@ -33,18 +33,10 @@ media-libs/libraw c++11.conf
 media-libs/libsfml c++11.conf
 media-libs/gexiv2 c++11.conf
 net-libs/libproxy c++11.conf
-x11-misc/virtualgl c++11.conf
 games-util/xboxdrv c++11.conf
-games-emulation/mupen64plus-video-rice c++11.conf gnu-source-light.conf
-dev-cpp/libxsd-frontend c++11.conf
-dev-cpp/xsd c++11.conf
 x11-libs/wxGTK c++11.conf
-app-text/mecab c++11.conf
-dev-ruby/mecab-ruby c++11.conf
 net-libs/libtorrent c++11.conf
 
-app-i18n/kcm-fcitx no-c++11-narrowing-error.conf
-dev-cpp/clucene no-c++11-narrowing-error.conf
 sys-fs/inotify-tools Wno-error.conf
 
 

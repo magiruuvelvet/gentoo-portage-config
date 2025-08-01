@@ -3,7 +3,12 @@ kde-frameworks/* X nls -handbook -man -appstream -geolocation -gps prison -attic
 kde-apps/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
 kde-misc/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
 
-kde-plasma/plasma-meta browser-integration crypt desktop-portal display-manager legacy-systray pam pm-utils sddm wallpapers bluetooth networkmanager pulseaudio sdk
+# KDE packages not in the above categories
+
+media-libs/pulseaudio-qt -handbook
+net-p2p/ktorrent -bwscheduler upnp -zeroconf
+
+# KDE packages
 
 kde-plasma/plasma-desktop fontconfig touchpad mouse screencast
 kde-plasma/plasma-workspace calendar qalculate qrcode screencast
@@ -15,10 +20,9 @@ kde-plasma/kscreenlocker pam seccomp
 kde-plasma/plasma-vault networkmanager
 kde-plasma/powerdevil brightness-control wireless
 kde-plasma/plasma-nm modemmanager
-kde-plasma/breeze
+kde-plasma/spectacle share
 
 kde-frameworks/kio acl kwallet
-kde-frameworks/kinit caps
 kde-frameworks/kwallet gpg
 kde-frameworks/kwallet-runtime gpg
 kde-frameworks/kauth policykit
@@ -41,31 +45,18 @@ kde-apps/ark bzip2 lzma zip
 kde-apps/okular chm crypt djvu epub image-backend markdown mobi pdf postscript tiff
 kde-apps/kdenlive semantic-desktop
 kde-apps/gwenview activities -mpris raw semantic-desktop share kipi
-kde-plasma/spectacle kipi share
 kde-apps/kate -filebrowser -projects -snippets -plasma
 kde-apps/kate-addons -filebrowser -projects -snippets
-
-media-libs/pulseaudio-qt -handbook
-
-# random finding: the bluetooth feature of kdeconnect is constantly putting the adapter
-# into scan mode and adds random shit to the kde bluetooth applet which doesn't even belong to me
-# cluttering up the menu with useless shit, in just one day I suddenly had 20 new devices from
-# random people
-kde-misc/kdeconnect app mousepad -bluetooth -pulseaudio
 
 # Akonadi stuff
 kde-apps/akonadi-config -mysql postgres
 kde-apps/akonadi -sqlite -mysql postgres tools xml debug -webengine
 dev-libs/xapian -glass -remote -inmemory
 net-nds/openldap minimal -syslog -tcpd
-dev-libs/cyrus-sasl
 kde-apps/kdepim-addons markdown
 kde-apps/kitinerary -barcode -pdf
-
 kde-apps/libkleo -fancyviewer
 kde-apps/krdc vnc rdp
 
 kde-plasma/ksysguard lm-sensors -pcap caps -network
 kde-plasma/libksysguard X -webengine
-
-net-p2p/ktorrent -bwscheduler upnp -zeroconf

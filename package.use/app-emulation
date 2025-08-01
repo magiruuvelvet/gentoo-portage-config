@@ -1,6 +1,5 @@
 app-containers/containerd -btrfs
 app-containers/docker -btrfs aufs overlay
-app-containers/docker-compose
 app-emulation/libvirt caps dbus fuse libssh libvirtd macvtap -numa policykit qemu udev vepa virt-network -zfs
 app-emulation/libvirt-glib introspection
 app-emulation/qemu aio bzip2 caps curl fdt filecaps gnutls jpeg lzo zstd numa opengl png seccomp snappy spice ssh usb
@@ -14,8 +13,4 @@ app-emulation/qemu usbredir vhost-net vnc xattr xfs plugins vhost-user-fs virtfs
 #app-emulation/qemu static-user
 app-emulation/spice gstreamer lz4
 app-emulation/virt-manager gtk gui
-app-emulation/winetricks kde rar
-app-emulation/protontricks -gui
 app-emulation/faudio ffmpeg
-app-emulation/lxd daemon nls tools -dnsmasq
-app-emulation/wine-vanilla -run-exes -udisks gstreamer mp3 sdl xinerama

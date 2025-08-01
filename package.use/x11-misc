@@ -2,7 +2,6 @@ x11-misc/sddm pam
 x11-misc/bumblebee bbswitch
 x11-misc/picom dbus opengl
 x11-misc/albert python -python-extensions -statistics
-x11-misc/synergy gui
 
 # change "primerun" into a stub, to make sure programs launched with it are running on the dGPU
 # my system allows me to swap the 2 GPUs to make the dGPU the default and the iGPU the secondary offloading GPU
