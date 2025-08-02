@@ -3,3 +3,7 @@ dev-lang/python:3.10
 >=dev-lang/python-3.13
 
 dev-lang/php:8.3
+
+# block vala from being installed
+dev-lang/vala
+dev-libs/vala-common
