@@ -1,0 +1,3 @@
+# not in use, but preemptively blocking it due to forced systemd dependency
+# https://invent.kde.org/plasma/drkonqi/-/commit/affe13653b3347d7481a01bf33d3d6327249f638
+kde-plasma/drkonqi

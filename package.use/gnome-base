@@ -1,2 +1,1 @@
-gnome-base/gsettings-desktop-schemas introspection
-gnome-base/librsvg -vala introspection -tools
+gnome-base/librsvg -tools

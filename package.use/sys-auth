@@ -1,4 +1,4 @@
-sys-auth/polkit introspection nls pam jit kde
+sys-auth/polkit nls pam jit kde
 sys-auth/polkit-qt qt6
 sys-auth/elogind acl pam policykit
 sys-auth/pambase caps

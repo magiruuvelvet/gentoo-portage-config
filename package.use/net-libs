@@ -1,10 +1,8 @@
 net-libs/glib-networking -gnome
 net-libs/libproxy -gnome -kde -mono -networkmanager -perl -python -spidermonkey -webkit
 net-libs/libpsl idn icu
-net-libs/libsoup introspection
 net-libs/mbedtls threads
 net-libs/zeromq -unwind drafts
-net-libs/gtk-vnc introspection
 net-libs/nodejs npm ssl icu inspector -system-icu
 net-libs/libvncserver zlib lzo jpeg png threads
 net-libs/libpcap bluetooth dbus netlink usb

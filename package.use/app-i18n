@@ -1,4 +1,4 @@
-app-i18n/fcitx enchant -gtk3 -gtk2 -introspection autostart wayland
+app-i18n/fcitx enchant -gtk3 -gtk2 autostart wayland
 app-i18n/fcitx-configtool X config-qt kcm
 app-i18n/fcitx-qt X qt5 qt6 wayland
 app-i18n/mozc gui handwriting-tomoe -fcitx4 fcitx5 -handwriting-tegaki

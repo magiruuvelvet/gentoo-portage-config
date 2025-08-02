@@ -1,4 +1,3 @@
 app-accessibility/orca -braille
 app-accessibility/speech-dispatcher -espeak espeak-ng alsa pulseaudio python
-app-accessibility/at-spi2-core introspection
 app-accessibility/espeak-ng mbrola
