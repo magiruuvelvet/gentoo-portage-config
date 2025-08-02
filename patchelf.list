@@ -8,7 +8,4 @@
 # launcher scripts are required for crap like vscodium to make native plugins happy
 
 app-editors/vscodium-bin
-app-office/freeoffice
-media-video/svp
-www-client/brave-bin
 www-client/vivaldi
