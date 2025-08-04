@@ -1,3 +1,20 @@
-# reverts masks from package.mask/blacklist to replace them with stubs
+# > package.unmask/blacklist
+# Reverts masks from package.mask/blacklist
+#  - to replace them with stubs or
+#  - custom patched versions with junk removed.
+# Keep the #-headings and ordering identical with package.mask/blacklist.
 
+# GObject introspection
 dev-libs/gobject-introspection-common::localrepo
+
+# KDE ebuilds depend on these programs, but are not actually required
+sys-power/switcheroo-control::privaterepo
+sys-power/power-profiles-daemon::privaterepo
+
+# GNU toolchain
+sys-devel/gcc::localrepo
+sys-devel/binutils::localrepo
+sys-devel/gcc-config::localrepo
+sys-devel/binutils-config::localrepo
+sys-libs/binutils-libs::localrepo
+dev-debug/gdb::localrepo

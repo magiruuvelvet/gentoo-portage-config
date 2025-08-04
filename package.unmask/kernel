@@ -1,4 +1,5 @@
-# installed kernels
+# > package.unmask/kernel
+# Installed kernel versions.
 
 =sys-kernel/gentoo-kernel-bin-6.6.21
 

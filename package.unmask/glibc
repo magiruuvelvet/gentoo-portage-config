@@ -1,0 +1,4 @@
+# > package.unmask/glibc
+
+# glibc version history, currently installed last
+=sys-libs/glibc-2.36-r8

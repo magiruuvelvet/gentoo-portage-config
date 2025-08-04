@@ -1,0 +1,5 @@
+# > package.mask/glibc
+
+# global glibc mask, only unmask currently installed version
+# track updates manually rather than using Portage
+sys-libs/glibc
