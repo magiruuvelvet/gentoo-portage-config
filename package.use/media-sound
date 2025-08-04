@@ -6,5 +6,4 @@ media-sound/mpd alsa audiofile bzip2 cue curl dbus faad ffmpeg flac icu pulseaud
 media-sound/pulseaudio bluetooth
 
 media-sound/sox openmp alsa amr ao flac ogg opus png pulseaudio sndfile wavpack twolame magic
-media-sound/jack2 alsa -dbus metadata opus pam sndfile -tools -systemd
 media-sound/baudline jack

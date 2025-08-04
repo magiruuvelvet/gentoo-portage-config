@@ -3,7 +3,6 @@ net-misc/freerdp:2 X client alsa ffmpeg gstreamer jpeg pulseaudio xv xinerama -s
 net-misc/freerdp:3 X client alsa ffmpeg gstreamer jpeg pulseaudio xv xinerama -server -fuse icu sdl -systemd
 net-misc/modemmanager qmi udev mbim -policykit -qrtr
 net-misc/networkmanager -dhclient modemmanager ncurses nss ppp wext wifi bluetooth -connection-sharing json ofono -teamd -policykit iptables -gtk-doc -concheck
-net-misc/nextcloud-client dolphin
 net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth
 net-misc/openssh hpn pie ssl
 net-misc/spice-gtk pulseaudio usbredir dbus lz4 mjpeg gstvideo wayland

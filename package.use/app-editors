@@ -1,5 +1,3 @@
-app-editors/okteta -handbook
-app-editors/kile -handbook
 app-editors/nano magic
 app-editors/vscode egl wayland
 

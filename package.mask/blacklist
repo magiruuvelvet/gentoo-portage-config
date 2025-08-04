@@ -22,6 +22,9 @@ gui-libs/libdecor
 # blacklist this broken tool (uses lots of legacy crap and is literally not even required anymore)
 x11-misc/imake
 
+# explicitly blacklist sudo
+app-admin/sudo
+
 # KDE ebuilds depend on these programs, but are not actually required
 sys-power/switcheroo-control
 sys-power/power-profiles-daemon

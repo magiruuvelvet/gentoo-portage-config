@@ -15,7 +15,6 @@ media-video/ffmpeg-chromium cpudetection vulkan vaapi -vdpau
 media-video/ffmpeg-compat X opengl vulkan x264 x265 dav1d drm vaapi vpx
 
 media-video/mkvtoolnix qt5 pch gui
-media-video/subtitlecomposer unicode mpv
 media-video/mpv X -nvenc alsa jack archive bluray -cdda cli cplugins drm dvd egl iconv javascript libass -libcaca
 media-video/mpv libmpv lua luajit lua_single_target_luajit opengl pulseaudio pipewire uchardet vaapi -vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland -lua_single_target_lua5-1
 media-video/obs-studio alsa pulseaudio pipewire -jack fdk lua luajit lua_single_target_luajit speex truetype ssl v4l -nvenc wayland

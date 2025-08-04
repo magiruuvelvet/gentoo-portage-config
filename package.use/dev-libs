@@ -1,4 +1,4 @@
-dev-libs/appstream compose
+dev-libs/appstream -compose -systemd
 dev-libs/boost threads nls icu context bzip2 zlib lzma zstd
 dev-libs/elfutils bzip2 nls utils lzma zstd
 dev-libs/glib dbus
@@ -6,17 +6,13 @@ dev-libs/libusb udev
 dev-libs/libxml2 python icu
 dev-libs/libzip lzma
 dev-libs/nss nss-pem cacert utils
-dev-libs/xmlsec nss openssl
-dev-libs/re2 icu
 dev-libs/libpcre2 pcre16 pcre32 unicode
 dev-libs/libfido2 nfc smartcard hidapi
 dev-libs/libinput INPUT_DEVICES: wacom
 dev-libs/libdbusmenu -gtk gtk3
-dev-libs/boehm-gc cxx
 dev-libs/gmp cxx
 dev-libs/xerces-c icu
 dev-libs/capstone python
-dev-libs/keystone python
 dev-libs/newt -gpm
 dev-libs/m17n-lib X
 dev-libs/tree-sitter-bash python

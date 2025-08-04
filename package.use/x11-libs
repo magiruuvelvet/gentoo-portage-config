@@ -1,6 +1,4 @@
 x11-libs/* X
-media-libs/libva X opengl utils vdpau wayland
-media-libs/libva-intel-driver X
 x11-libs/cairo X opengl xcb
 x11-libs/libXfont2 truetype
 x11-libs/libxcb xkb

@@ -14,6 +14,7 @@ dev-qt/qtwebchannel qml
 dev-qt/qtwebengine widgets jumbo-build -bindist -debug -system-ffmpeg -system-icu
 dev-qt/qt3d gamepad
 dev-qt/qtsql sqlite mysql postgres
+dev-qt/qtspeech -speechd
 
 dev-qt/qtbase eglfs opengl evdev mysql postgres zstd libproxy
 dev-qt/qttools opengl zstd qtplugininfo qdbus qdoc

@@ -1,3 +1,1 @@
-net-analyzer/zabbix agent curl -frontend libxml2 mysql -postgres server ssh ssl
-net-analyzer/fping suid
 net-analyzer/tcpdump -samba

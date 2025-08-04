@@ -1,7 +1,7 @@
-kde-plasma/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
-kde-frameworks/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
-kde-apps/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
-kde-misc/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv
+kde-plasma/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
+kde-frameworks/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
+kde-apps/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
+kde-misc/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
 
 # KDE packages not in the above categories
 

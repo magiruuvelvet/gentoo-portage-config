@@ -1,3 +1,0 @@
-gui-libs/wlroots X vulkan x11-backend xcb-errors icccm
-gui-libs/xdg-desktop-portal-hyprland qt6
-gui-libs/libdecor -gtk -dbus
