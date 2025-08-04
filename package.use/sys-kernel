@@ -1,8 +1,8 @@
 sys-kernel/gentoo-sources -symlink -firmware
-sys-kernel/linux-firmware redistributable savedconfig unknown-license
+sys-kernel/linux-firmware redistributable savedconfig unknown-license -initramfs
 
 # managed manually by my update-initramfs script
-sys-kernel/gentoo-kernel-bin -initramfs
-sys-kernel/gentoo-kernel -initramfs
-sys-kernel/installkernel -dracut -grub -uki -ukify -systemd
+sys-kernel/gentoo-kernel-bin -initramfs -secureboot -generic-uki
+sys-kernel/gentoo-kernel -initramfs -secureboot -generic-uki
+sys-kernel/installkernel -dracut -grub -uki -ukify -generic-uki -systemd -secureboot
 sys-apps/systemd -kernel-install

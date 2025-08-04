@@ -1,9 +1,9 @@
 # initramfs should not be managed by portage
 # (managed manually by my update-initramfs script)
-sys-kernel/gentoo-kernel-bin -initramfs
-sys-kernel/gentoo-kernel -initramfs
-sys-kernel/installkernel -dracut -grub -uki -ukify -systemd
-sys-apps/systemd kernel-install
+sys-kernel/gentoo-kernel-bin -initramfs -secureboot -generic-uki
+sys-kernel/gentoo-kernel -initramfs -secureboot -generic-uki
+sys-kernel/installkernel -dracut -grub -uki -ukify -generic-uki -systemd -secureboot
+sys-apps/systemd -kernel-install
 
 # remove multilib crap (not needed in the toolchain itself)
 dev-libs/libffi -abi_x86_32 abi_x86_64

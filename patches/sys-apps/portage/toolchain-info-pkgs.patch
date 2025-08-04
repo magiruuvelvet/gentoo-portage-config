@@ -9,10 +9,10 @@ index 43d936f..15b1124 100644
 -        "sys-devel/binutils",
          "dev-build/libtool",
          "dev-lang/python",
-+        "sys-libs/compiler-rt",
-+        "sys-devel/llvm",
-+        "sys-devel/clang",
-+        "sys-devel/lld",
++        "llvm-runtimes/compiler-rt",
++        "llvm-core/llvm",
++        "llvm-core/clang",
++        "llvm-core/lld",
      ]
      myvars += portage.util.grabfile(settings["PORTDIR"] + "/profiles/info_pkgs")
 +    myvars.remove("sys-devel/binutils");
