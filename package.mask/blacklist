@@ -8,8 +8,19 @@ sys-kernel/gentoo-kernel
 sys-kernel/gentoo-kernel-bin
 dev-java/openjdk-bin
 
-# blacklist legacy gtk2, i don't want this anymore
+# blacklist GTK
 x11-libs/gtk+:2
+#x11-libs/gtk+:3 # TODO
+gui-libs/gtk
+
+# GObject introspection
+# - /usr/include/gobject-introspection-1.0
+# - /usr/share/gobject-introspection-1.0
+# - /usr/share/gir-1.0
+# - /usr/lib64/gobject-introspection
+# - /usr/lib64/girepository-1.0
+dev-libs/gobject-introspection
+dev-libs/gobject-introspection-common
 
 # blacklist this broken tool (uses lots of legacy crap and is literally not even required anymore)
 x11-misc/imake

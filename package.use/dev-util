@@ -1,6 +1,6 @@
 dev-util/ctags json xml yaml
 dev-util/cppcheck pcre
-dev-util/scanmem gui
+dev-util/scanmem -gui
 dev-util/unicorn unicorn_targets_aarch64 unicorn_targets_arm unicorn_targets_x86
 dev-util/vulkan-tools X -wayland vulkaninfo cube
 dev-util/ostree openssl curl http2 libmount soup

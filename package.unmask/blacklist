@@ -1,0 +1,3 @@
+# reverts masks from package.mask/blacklist to replace them with stubs
+
+dev-libs/gobject-introspection-common::localrepo

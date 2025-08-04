@@ -9,3 +9,4 @@ net-libs/libpcap bluetooth dbus netlink usb
 net-libs/libmbim udev
 net-libs/nghttp2 cxx
 net-libs/gnutls tools pkcs11
+net-libs/libqmi -qrtr
