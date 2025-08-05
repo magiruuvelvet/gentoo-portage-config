@@ -1,0 +1,10 @@
+# `world` has a global -dbus flag.
+# the purpose of this file is to document recent dbus removals in case something breaks.
+
+app-text/ghostscript-gpl -dbus
+dev-qt/qtmultimedia:6 -dbus
+media-libs/libpulse -dbus
+net-dns/dnsmasq -dbus
+net-libs/libpcap -dbus
+net-print/cups -dbus
+net-print/libcupsfilters -dbus

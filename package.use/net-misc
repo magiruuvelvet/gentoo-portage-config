@@ -5,4 +5,4 @@ net-misc/modemmanager qmi udev mbim -policykit -qrtr
 net-misc/networkmanager -dhclient modemmanager ncurses nss ppp wext wifi bluetooth -connection-sharing json ofono -teamd -policykit iptables -gtk-doc -concheck
 net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth
 net-misc/openssh hpn pie ssl
-net-misc/spice-gtk pulseaudio usbredir dbus lz4 mjpeg gstvideo wayland
+net-misc/spice-gtk pulseaudio usbredir lz4 mjpeg gstvideo wayland

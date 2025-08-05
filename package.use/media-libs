@@ -12,6 +12,7 @@ media-libs/libbdplus aacs
 media-libs/libbluray aacs bdplus -java
 media-libs/libcanberra sound udev alsa -gstreamer pulseaudio -gtk -gtk3 -gnome
 media-libs/libpng apng
+# dbus required for fcitx IME
 media-libs/libsdl2 X alsa dbus haptic joystick opengl pulseaudio sound threads udev video vulkan xinerama fcitx -wayland
 media-libs/libsdl3 X alsa dbus opengl vulkan kms udev -wayland
 media-libs/libsoundtouch -openmp
@@ -38,6 +39,6 @@ media-libs/opus custom-modes
 media-libs/x264 pic
 media-libs/x265 pic
 media-libs/libheif aom libde265 -rav1e x265
-media-libs/libpulse dbus -X
+media-libs/libpulse -X
 media-libs/libplacebo -llvm-libunwind -unwind
 media-libs/libva X opengl utils vdpau wayland

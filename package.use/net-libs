@@ -4,7 +4,7 @@ net-libs/libpsl idn icu
 net-libs/mbedtls threads
 net-libs/zeromq -unwind drafts
 net-libs/nodejs npm ssl icu inspector -system-icu
-net-libs/libpcap bluetooth dbus netlink usb
+net-libs/libpcap bluetooth netlink usb
 net-libs/libmbim udev
 net-libs/nghttp2 cxx
 net-libs/gnutls tools pkcs11
