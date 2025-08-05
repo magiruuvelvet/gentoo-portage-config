@@ -2,5 +2,7 @@
 # Installed kernel versions.
 
 =sys-kernel/gentoo-kernel-bin-6.6.21
+=sys-kernel/gentoo-kernel-bin-6.12.38
 
 =sys-kernel/gentoo-sources-6.6.21
+=sys-kernel/gentoo-sources-6.12.38

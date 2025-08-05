@@ -1,6 +1,6 @@
 net-misc/curl ssl ssh threads http2 quiche rtmp brotli telnet zstd
-net-misc/freerdp:2 X client alsa ffmpeg gstreamer jpeg pulseaudio xv xinerama -server -fuse icu wayland -systemd
-net-misc/freerdp:3 X client alsa ffmpeg gstreamer jpeg pulseaudio xv xinerama -server -fuse icu sdl -systemd
+net-misc/freerdp:2 X client alsa ffmpeg -gstreamer jpeg pulseaudio xv xinerama -server -fuse icu wayland
+net-misc/freerdp:3 X client alsa ffmpeg -gstreamer jpeg pulseaudio xv xinerama -server -fuse icu sdl
 net-misc/modemmanager qmi udev mbim -policykit -qrtr
 net-misc/networkmanager -dhclient modemmanager ncurses nss ppp wext wifi bluetooth -connection-sharing json ofono -teamd -policykit iptables -gtk-doc -concheck
 net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth

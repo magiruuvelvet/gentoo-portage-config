@@ -1,9 +1,9 @@
-sys-apps/busybox static -pam -systemd
+sys-apps/busybox static -pam
 sys-apps/dbus X user-session
 sys-apps/file bzip2 lzma zlib
 sys-apps/pciutils dns
 sys-apps/pcsc-lite udev
-sys-apps/shadow bcrypt -systemd
+sys-apps/shadow bcrypt
 sys-apps/systemd acl idn kmod lz4 lzma nat pam pcre policykit seccomp sysv-utils cgroup-hybrid -elfutils -gcrypt -audit -dns-over-tls -resolvconf kernel-install boot
 sys-apps/util-linux caps unicode udev suid
 sys-apps/kmod lzma zlib

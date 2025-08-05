@@ -9,5 +9,5 @@ app-emulation/qemu qemu_user_targets_aarch64_be qemu_user_targets_arm qemu_user_
 app-emulation/qemu qemu_user_targets_mips qemu_user_targets_mips64 qemu_user_targets_mips64el qemu_user_targets_mipsel
 app-emulation/qemu qemu_user_targets_x86_64 qemu_user_targets_i386 qemu_user_targets_aarch64 qemu_user_targets_riscv64
 app-emulation/qemu usbredir vhost-net vnc xattr xfs plugins vhost-user-fs virtfs virgl
-app-emulation/spice gstreamer lz4
+app-emulation/spice -gstreamer lz4
 app-emulation/virt-manager gtk gui

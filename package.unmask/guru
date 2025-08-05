@@ -5,3 +5,5 @@ media-libs/imgui::guru
 media-libs/implot::guru
 
 app-editors/imhex::guru
+
+app-portage/portage-lostfiles::guru

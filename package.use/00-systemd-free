@@ -1,0 +1,8 @@
+app-accessibility/at-spi2-core -systemd
+dev-libs/appstream -systemd
+media-libs/libpulse -systemd
+media-sound/mpd -systemd
+net-misc/freerdp -systemd
+sys-apps/busybox -systemd
+sys-apps/flatpak -systemd
+sys-apps/shadow -systemd

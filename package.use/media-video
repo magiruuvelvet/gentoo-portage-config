@@ -19,5 +19,5 @@ media-video/mpv X -nvenc alsa jack archive bluray -cdda cli cplugins drm dvd egl
 media-video/mpv libmpv lua luajit lua_single_target_luajit opengl pulseaudio pipewire uchardet vaapi -vdpau xz zlib vapoursynth -tools -jpeg -cuda vulkan wayland -lua_single_target_lua5-1
 media-video/obs-studio alsa pulseaudio pipewire -jack fdk lua luajit lua_single_target_luajit speex truetype ssl v4l -nvenc wayland
 
-media-video/pipewire -X -udev bluetooth modemmanager echo-cancel liblc3 dbus ffmpeg extra gstreamer sound-server system-service systemd jack-sdk pipewire-alsa
+media-video/pipewire -X -udev bluetooth modemmanager echo-cancel liblc3 dbus ffmpeg extra -gstreamer sound-server system-service systemd jack-sdk pipewire-alsa
 media-video/wireplumber system-service systemd

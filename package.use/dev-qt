@@ -2,7 +2,7 @@ dev-qt/* X qml icu udev dbus vulkan wayland -debug -designer
 dev-qt/qtcore icu
 dev-qt/qtgui gif libinput png jpeg udev xcb dbus egl eglfs evdev accessibility
 dev-qt/qtwidgets png xcb
-dev-qt/qtmultimedia qml gstreamer alsa pulseaudio widgets
+dev-qt/qtmultimedia qml -gstreamer alsa pulseaudio widgets
 dev-qt/qtvirtualkeyboard xcb -spell
 dev-qt/qtquickcontrols widgets
 dev-qt/qtquickcontrols2 widgets
@@ -19,7 +19,7 @@ dev-qt/qtspeech -speechd
 dev-qt/qtbase eglfs opengl evdev mysql postgres zstd libproxy
 dev-qt/qttools opengl zstd qtplugininfo qdbus qdoc
 dev-qt/qtdeclarative:6 opengl svg qmlls
-dev-qt/qtmultimedia:6 eglfs opengl vaapi
+dev-qt/qtmultimedia:6 eglfs opengl vaapi -gstreamer -dbus
 dev-qt/qtquick3d:6 opengl
 dev-qt/qtwebengine:6 opengl vaapi
 
