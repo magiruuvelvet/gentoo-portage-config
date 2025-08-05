@@ -19,6 +19,11 @@ dev-libs/gobject-introspection-common
 # nasty dependencies
 gui-libs/libdecor
 
+# not useful to me.
+# requires patched flatpak ebuild to disable the dconf feature. [-Ddconf=disabled]
+# I wish this was USE flagged in Gentoo.
+gnome-base/dconf
+
 # random bloatware
 sys-apps/accountsservice
 

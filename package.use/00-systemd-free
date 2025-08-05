@@ -1,8 +1,11 @@
 app-accessibility/at-spi2-core -systemd
+app-crypt/p11-kit -systemd
 dev-libs/appstream -systemd
+dev-util/ostree -systemd
 media-libs/libpulse -systemd
 media-sound/mpd -systemd
 net-misc/freerdp -systemd
 sys-apps/busybox -systemd
 sys-apps/flatpak -systemd
 sys-apps/shadow -systemd
+sys-apps/xdg-desktop-portal -systemd
