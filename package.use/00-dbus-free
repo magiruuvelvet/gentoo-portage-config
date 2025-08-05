@@ -2,9 +2,32 @@
 # the purpose of this file is to document recent dbus removals in case something breaks.
 
 app-text/ghostscript-gpl -dbus
+dev-libs/glib -dbus
 dev-qt/qtmultimedia:6 -dbus
 media-libs/libpulse -dbus
 net-dns/dnsmasq -dbus
 net-libs/libpcap -dbus
 net-print/cups -dbus
 net-print/libcupsfilters -dbus
+net-p2p/qbittorrent -dbus
+
+###############
+# dbus opt-in #
+###############
+
+# dbus required by KDE and fcitx IME
+dev-libs/qcoro dbus
+dev-qt/* dbus
+
+# dbus required for fcitx IME
+media-libs/libsdl2 dbus
+media-libs/libsdl3 dbus
+
+# dbus required for MPRIS control
+media-sound/mpd dbus
+
+# dbus required for bluetooth audio
+media-video/pipewire dbus
+
+# dbus required by net-misc/networkmanager
+net-wireless/wpa_supplicant dbus

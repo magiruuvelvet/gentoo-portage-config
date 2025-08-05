@@ -1,0 +1,15 @@
+diff --git a/GNUmakefile b/GNUmakefile
+index fbc69a2..59a45b1 100644
+--- a/GNUmakefile
++++ b/GNUmakefile
+@@ -993,8 +993,8 @@ endif # SunOS
+ 
+ ifneq ($(IS_LINUX)$(IS_HURD),00)
+   ifeq ($(findstring -fopenmp,$(CXXFLAGS)),-fopenmp)
+-    ifeq ($(findstring -lgomp,$(LDLIBS)),)
+-      LDLIBS += -lgomp
++    ifeq ($(findstring -lomp,$(LDLIBS)),)
++      LDLIBS += -lomp
+     endif # LDLIBS
+   endif # OpenMP
+ endif # IS_LINUX or IS_HURD

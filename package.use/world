@@ -1,7 +1,12 @@
+# globally enabled USE flags
 */* pam policykit udev ipv6 idn -gpm cjk nls unicode fish-completion
-*/* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb -gstreamer
+
+# globally disabled USE flags
+*/* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb -gstreamer -appstream
+
 # dbus is opt-in on a case-by-case basis, most things don't actually need it
 */* -dbus
+
 */* PYTHON_TARGETS: -* python3_12 PYTHON_SINGLE_TARGET: -* python3_12
 */* RUBY_TARGETS: -* ruby34 RUBY_SINGLE_TARGET: -* ruby34
 */* PHP_TARGETS: -* php8-2 PHP_SINGLE_TARGET: -* php8-2

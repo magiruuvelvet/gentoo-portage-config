@@ -1,5 +1,5 @@
 x11-misc/sddm pam
-x11-misc/picom dbus opengl
+x11-misc/picom opengl
 x11-misc/albert python -python-extensions -statistics
 
 # change "primerun" into a stub, to make sure programs launched with it are running on the dGPU

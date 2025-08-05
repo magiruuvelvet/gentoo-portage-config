@@ -1,7 +1,7 @@
-kde-plasma/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
-kde-frameworks/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
-kde-apps/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
-kde-misc/* X nls -handbook -man -appstream -geolocation -gps prison -attica gtk gtk3 -gtk2 -kde4 wayland -systemd -kaccounts -vlc mpv -speech
+kde-plasma/* X nls -handbook -man -geolocation -gps prison -attica gtk gtk3 -gtk2 wayland -systemd -kaccounts -vlc mpv -speech
+kde-frameworks/* X nls -handbook -man -geolocation -gps prison -attica gtk gtk3 -gtk2 wayland -systemd -kaccounts -vlc mpv -speech
+kde-apps/* X nls -handbook -man -geolocation -gps prison -attica gtk gtk3 -gtk2 wayland -systemd -kaccounts -vlc mpv -speech
+kde-misc/* X nls -handbook -man -geolocation -gps prison -attica gtk gtk3 -gtk2 wayland -systemd -kaccounts -vlc mpv -speech
 
 # KDE packages not in the above categories
 
@@ -11,7 +11,7 @@ net-p2p/ktorrent -bwscheduler upnp -zeroconf
 # KDE packages
 
 kde-plasma/plasma-desktop fontconfig touchpad mouse screencast
-kde-plasma/plasma-workspace calendar qalculate qrcode screencast
+kde-plasma/plasma-workspace calendar qalculate qrcode screencast -policykit
 
 kde-plasma/kwin multimedia plasma lock screencast
 kde-plasma/kwin-x11 lock

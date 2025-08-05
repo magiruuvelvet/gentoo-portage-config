@@ -19,6 +19,9 @@ dev-libs/gobject-introspection-common
 # nasty dependencies
 gui-libs/libdecor
 
+# random bloatware
+sys-apps/accountsservice
+
 # blacklist this broken tool (uses lots of legacy crap and is literally not even required anymore)
 x11-misc/imake
 
@@ -44,7 +47,7 @@ dev-debug/gdb::gentoo
 >=llvm-core/clang-18.0.0
 >=llvm-core/clang-common-18.0.0
 >=llvm-core/clang-runtime-18.0.0
->=llvm-core/clang-toolchain-symlinks-18.0.0
+>=llvm-core/clang-toolchain-symlinks-18
 >=llvm-runtimes/libcxx-18.0.0
 >=llvm-runtimes/libcxxabi-18.0.0
 >=llvm-runtimes/libunwind-18.0.0
