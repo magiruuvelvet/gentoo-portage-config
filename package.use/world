@@ -5,7 +5,12 @@
 */* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb -gstreamer -gpm -appstream
 
 # dbus is opt-in on a case-by-case basis, most things don't actually need it
+# also see package.use/00-dbus-free
 */* -dbus
+
+# systemd is tracked in "opt-in mode" until the migration to OpenRC is complete
+# also see package.use/00-systemd-free
+*/* -systemd
 
 */* PYTHON_TARGETS: -* python3_12 PYTHON_SINGLE_TARGET: -* python3_12
 */* RUBY_TARGETS: -* ruby34 RUBY_SINGLE_TARGET: -* ruby34

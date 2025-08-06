@@ -1,3 +1,14 @@
+# `world` has a global -systemd flag.
+# the purpose of this file is to document recent systemd removals in case something breaks
+# in unexpected ways.
+# removing as much as possible now, should ease the migration to OpenRC later on.
+
+# still mandatory while being on the systemd profile
+virtual/service-manager systemd
+sys-apps/dbus systemd
+x11-misc/sddm systemd
+
+# >> systemd dependency removed with success
 app-accessibility/at-spi2-core -systemd
 app-crypt/p11-kit -systemd
 app-i18n/fcitx -systemd
@@ -8,9 +19,38 @@ media-sound/mpd -systemd
 net-misc/freerdp -systemd
 net-libs/nghttp2 -systemd
 sys-apps/busybox -systemd
-#sys-apps/dbus -systemd
 sys-apps/flatpak -systemd
 sys-apps/shadow -systemd
 sys-apps/xdg-desktop-portal -systemd
 x11-base/xorg-server -systemd
 x11-base/xwayland -systemd
+
+# >> pending review
+sys-apps/smartmontools -systemd
+sys-process/procps -systemd
+dev-lang/erlang -systemd
+net-print/cups -systemd
+sys-apps/util-linux -systemd
+net-fs/samba -systemd
+net-fs/cifs-utils -systemd
+net-nds/openldap -systemd
+net-vpn/openvpn -systemd
+
+# >> pending removals
+# sys-libs/pam
+# sys-auth/pambase
+# sys-fs/lvm2
+# dev-db/mariadb
+# app-pda/usbmuxd
+# net-mail/dovecot
+# net-wireless/bluez
+# net-dialup/ppp
+# app-containers/docker
+# net-misc/modemmanager
+# media-sound/bluez-alsa
+# dev-db/postgresql
+# sys-auth/polkit
+# sys-fs/udisks
+# sys-apps/pcsc-lite
+# sys-auth/rtkit
+# sys-apps/kmscon
