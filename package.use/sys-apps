@@ -1,3 +1,4 @@
+sys-apps/openrc -netifrc sysv-utils
 sys-apps/busybox static -pam
 sys-apps/dbus X user-session
 sys-apps/file bzip2 lzma zlib

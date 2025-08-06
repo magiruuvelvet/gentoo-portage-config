@@ -24,8 +24,6 @@ sys-apps/shadow -systemd
 sys-apps/xdg-desktop-portal -systemd
 x11-base/xorg-server -systemd
 x11-base/xwayland -systemd
-
-# >> pending review
 sys-apps/smartmontools -systemd
 sys-process/procps -systemd
 dev-lang/erlang -systemd
@@ -35,6 +33,10 @@ net-fs/samba -systemd
 net-fs/cifs-utils -systemd
 net-nds/openldap -systemd
 net-vpn/openvpn -systemd
+net-dialup/ppp -systemd
+
+# >> pending review
+
 
 # >> pending removals
 # sys-libs/pam
@@ -44,7 +46,6 @@ net-vpn/openvpn -systemd
 # app-pda/usbmuxd
 # net-mail/dovecot
 # net-wireless/bluez
-# net-dialup/ppp
 # app-containers/docker
 # net-misc/modemmanager
 # media-sound/bluez-alsa
