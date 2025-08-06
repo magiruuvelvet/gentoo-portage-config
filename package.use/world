@@ -1,8 +1,8 @@
 # globally enabled USE flags
-*/* pam policykit udev ipv6 idn -gpm cjk nls unicode fish-completion
+*/* pam policykit udev ipv6 idn cjk nls unicode fish-completion
 
 # globally disabled USE flags
-*/* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb -gstreamer -appstream
+*/* -elogind -ldap -introspection -apparmor -selinux -vala -doc -epydoc -test -unwind -python -berkdb -gdbm -mandb -gstreamer -gpm -appstream
 
 # dbus is opt-in on a case-by-case basis, most things don't actually need it
 */* -dbus

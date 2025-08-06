@@ -1,3 +1,4 @@
 virtual/libusb udev
 virtual/linux-sources -firmware
 virtual/libcrypt static-libs
+virtual/notification-daemon kde

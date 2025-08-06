@@ -39,7 +39,7 @@ media-libs/libv4l jpeg -qt5 -utils
 media-libs/opus custom-modes
 media-libs/x264 pic
 media-libs/x265 pic
-media-libs/libheif aom libde265 -rav1e x265
+media-libs/libheif aom -de265 -kvazaar -rav1e x265
 media-libs/libpulse -X
 media-libs/libplacebo -llvm-libunwind -unwind
 media-libs/libva X opengl utils vdpau wayland
