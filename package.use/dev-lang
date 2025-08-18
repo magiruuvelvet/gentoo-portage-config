@@ -1,4 +1,4 @@
-dev-lang/python sqlite tk
+dev-lang/python sqlite
 dev-lang/luajit lua52compat
 dev-lang/tk truetype
 dev-lang/ruby -berkdb -gdbm ssl jemalloc socks5 jit rdoc -doc
@@ -8,7 +8,7 @@ dev-lang/fpc source
 
 # note: sysvipc causes random segfaults in LLVM/libomp.so from time to time
 dev-lang/php acl -berkdb bzip2 cjk cli ctype fileinfo filter -gdbm hash iconv ipv6 json nls opcache phar posix
-dev-lang/php readline session simplexml ssl systemd tokenizer unicode xml zlib bcmath argon2 calendar cgi curl
+dev-lang/php readline session simplexml ssl tokenizer unicode xml zlib bcmath argon2 calendar cgi curl
 dev-lang/php exif flatfile fpm ftp gd gmp imap inifile intl mhash mysql mysqli pdo sockets sqlite threads tidy
 dev-lang/php tokyocabinet truetype webp xmlreader xmlrpc xmlwriter xpm xslt zip zip-encryption pcntl -sysvipc
 dev-lang/php ffi sodium

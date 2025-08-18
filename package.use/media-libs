@@ -43,3 +43,4 @@ media-libs/libheif aom -de265 -kvazaar -rav1e x265
 media-libs/libpulse -X
 media-libs/libplacebo -llvm-libunwind -unwind
 media-libs/libva X opengl utils vdpau wayland
+media-libs/virglrenderer vaapi

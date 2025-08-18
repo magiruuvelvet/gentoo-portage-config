@@ -34,6 +34,8 @@ net-fs/cifs-utils -systemd
 net-nds/openldap -systemd
 net-vpn/openvpn -systemd
 net-dialup/ppp -systemd
+# only client libraries are installed, systemd USE flag was never fully utilized
+dev-db/postgresql -systemd
 
 # >> pending review
 
@@ -49,9 +51,11 @@ net-dialup/ppp -systemd
 # app-containers/docker
 # net-misc/modemmanager
 # media-sound/bluez-alsa
-# dev-db/postgresql
 # sys-auth/polkit
 # sys-fs/udisks
 # sys-apps/pcsc-lite
 # sys-auth/rtkit
 # sys-apps/kmscon
+# dev-lang/php
+# media-video/pipewire
+# media-video/wireplumber

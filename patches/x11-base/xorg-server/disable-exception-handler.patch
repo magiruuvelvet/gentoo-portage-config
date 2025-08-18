@@ -1,0 +1,43 @@
+diff --git a/os/backtrace.c b/os/backtrace.c
+index 99d7769..d5171fb 100644
+--- a/os/backtrace.c
++++ b/os/backtrace.c
+@@ -43,6 +43,8 @@
+ void
+ xorg_backtrace(void)
+ {
++    return;
++
+     unw_cursor_t cursor;
+     unw_context_t context;
+     unw_word_t ip;
+@@ -118,6 +120,8 @@ xorg_backtrace(void)
+ void
+ xorg_backtrace(void)
+ {
++    return;
++
+     const int BT_SIZE = 64;
+     void *array[BT_SIZE];
+     const char *mod;
+@@ -292,6 +296,7 @@ xorg_backtrace_pstack(void)
+ void
+ xorg_backtrace(void)
+ {
++    return;
+ 
+     ErrorFSigSafe("\n");
+     ErrorFSigSafe("Backtrace:\n");
+diff --git a/os/osinit.c b/os/osinit.c
+index 8575319..2f3b35e 100644
+--- a/os/osinit.c
++++ b/os/osinit.c
+@@ -132,7 +132,7 @@ OsSigHandler(int signo)
+     }
+ 
+     /* log, cleanup, and abort */
+-    xorg_backtrace();
++    //xorg_backtrace();
+ 
+ #ifdef SA_SIGINFO
+     if (sip->si_code == SI_USER) {

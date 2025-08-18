@@ -1,2 +1,2 @@
 sci-libs/fftw threads
-sci-libs/libqalculate icu
+sci-libs/libqalculate icu -curl
