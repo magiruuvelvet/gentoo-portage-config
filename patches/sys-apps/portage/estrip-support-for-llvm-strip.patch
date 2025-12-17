@@ -1,13 +1,13 @@
 diff --git a/bin/estrip b/bin/estrip
-index 81f78e8..fc6c9b4 100755
+index 3b2e4df..631dfee 100755
 --- a/bin/estrip
 +++ b/bin/estrip
-@@ -133,7 +133,7 @@ case $(${STRIP} --version 2>/dev/null) in
- *GNU*) # sys-devel/binutils
- 	# We'll leave out -R .note for now until we can check out the relevance
- 	# of the section when it has the ALLOC flag set on it ...
--	SAFE_STRIP_FLAGS="--strip-unneeded -N __gentoo_check_ldflags__"
-+	SAFE_STRIP_FLAGS="--strip-unneeded --strip-symbol=__gentoo_check_ldflags__"
- 	DEF_STRIP_FLAGS="-R .comment -R .GCC.command.line -R .note.gnu.gold-version"
- 	SPLIT_STRIP_FLAGS=
- 	;;
+@@ -486,7 +486,7 @@ case $("${name_of[strip]}" --version 2>/dev/null) in
+ 	*GNU*) # sys-devel/binutils
+ 		# We'll leave out -R .note for now until we can check out the relevance
+ 		# of the section when it has the ALLOC flag set on it ...
+-		SAFE_STRIP_FLAGS="--strip-unneeded -N __gentoo_check_ldflags__"
++		SAFE_STRIP_FLAGS="--strip-unneeded --strip-symbol=__gentoo_check_ldflags__"
+ 		DEF_STRIP_FLAGS="-R .comment -R .GCC.command.line -R .note.gnu.gold-version"
+ 		SPLIT_STRIP_FLAGS=
+ esac

@@ -1,8 +1,8 @@
 diff --git a/messageviewer/src/widgets/attachmentdialog.cpp b/messageviewer/src/widgets/attachmentdialog.cpp
-index e9b4371..4c68b90 100644
+index 7966aa3..630ec1b 100644
 --- a/messageviewer/src/widgets/attachmentdialog.cpp
 +++ b/messageviewer/src/widgets/attachmentdialog.cpp
-@@ -24,9 +24,7 @@ AttachmentDialog::AttachmentDialog(QWidget *parent, const QString &filenameText,
+@@ -25,9 +25,7 @@ AttachmentDialog::AttachmentDialog(QWidget *parent, const QString &filenameText,
      , dialog(new QDialog(parent))
  {
      text = xi18nc("@info",

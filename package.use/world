@@ -1,3 +1,5 @@
+# TODO: -systemd -logind -elogind seatd
+
 # globally enabled USE flags
 */* pam policykit udev ipv6 idn cjk nls unicode fish-completion
 

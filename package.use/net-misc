@@ -6,3 +6,6 @@ net-misc/networkmanager -dhclient modemmanager ncurses nss ppp wext wifi bluetoo
 net-misc/ofono atmodem cdmamodem datafiles isimodem phonesim provision qmimodem udev bluetooth
 net-misc/openssh hpn pie ssl
 net-misc/spice-gtk pulseaudio usbredir lz4 mjpeg gstvideo wayland
+
+# only required for services I do NOT use
+net-misc/yt-dlp -deno

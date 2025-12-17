@@ -25,7 +25,7 @@ fi
 notify-send() {
     # only attempt to send a notification if DISPLAY is set to avoid hangs in tty mode
     if [ ! -z "$DISPLAY" ]; then
-        su - magiruuvelvet -c "DISPLAY=:0 notify-send -t 6000 --app-name=Portage --icon=sandbox Portage \"$@\""
+        su - magiruuvelvet -c "DISPLAY=:0 notify-send -t 6000 --app-name=Portage Portage \"$@\""
     fi
 }
 

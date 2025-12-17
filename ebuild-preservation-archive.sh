@@ -54,6 +54,7 @@ ebuild_preservation_archive_main() {
     local pkg_slot="${SLOT%%/*}" # remove everything after first slash
     local pkg_name="${PN}-${PVR}"
     local pkg_dir="${EBUILD_PRESERVATION_ARCHIVE_ROOT}/${CATEGORY}/${pkg_name}_${pkg_timestamp}"
+    # FIXME: can be empty when merging dev-lang/python due to portageq not being executable
     local repo_root="$(/usr/bin/portageq get_repo_path / "${PORTAGE_REPO_NAME}")"
     local source_dir="${repo_root}/${CATEGORY}/${PN}"
     local user_patch_dir="/etc/portage/patches/${CATEGORY}"

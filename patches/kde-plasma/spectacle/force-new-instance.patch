@@ -1,0 +1,13 @@
+diff --git a/src/Main.cpp b/src/Main.cpp
+index 14a35c2..e935d40 100644
+--- a/src/Main.cpp
++++ b/src/Main.cpp
+@@ -88,7 +88,7 @@ int main(int argc, char **argv)
+ 
+     // If the new instance command line option has been specified,
+     // use this alternative path for executing Spectacle.
+-    if (commandLineParser.isSet(CommandLineOptions::self()->newInstance)) {
++    if (true) {
+         auto spectacleCore = SpectacleCore::instance();
+ 
+         QObject::connect(qApp, &QApplication::aboutToQuit, Settings::self(), &Settings::save);
