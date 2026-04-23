@@ -15,3 +15,4 @@ media-libs/libva allow-undefined-version.conf
 media-libs/alsa-lib allow-undefined-version.conf
 media-gfx/graphicsmagick allow-undefined-version.conf
 media-sound/sox allow-undefined-version.conf
+app-crypt/heimdal allow-undefined-version.conf

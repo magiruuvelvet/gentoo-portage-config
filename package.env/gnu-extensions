@@ -79,6 +79,7 @@ dev-lang/vala gnu-source-light.conf
 dev-lang/sassc gnu-source-light.conf
 dev-libs/chmlib gnu-source-light.conf
 dev-libs/dbus-glib gnu-source-light.conf
+dev-libs/leancrypto std-gnu99.conf
 dev-libs/libaio std-gnu99.conf gnu-source-light.conf
 dev-libs/libcdio std-gnu99.conf gnu-source-light.conf
 dev-libs/libconfig gnu-source-light.conf
@@ -128,6 +129,7 @@ dev-python/bcrypt gnu-source-light.conf
 dev-python/pycryptodome gnu-source-light.conf
 dev-python/pyzmq gnu-source-light.conf
 dev-python/sip gnu-source-light.conf
+dev-python/psutil gnu-source-light.conf
 dev-util/ctags gnu-source-light.conf
 dev-util/global gnu-source-light.conf
 dev-util/google-perftools gnu-source-light.conf
@@ -200,7 +202,7 @@ media-libs/liblrdf gnu-source-light.conf
 media-libs/libshout gnu-source-light.conf
 media-libs/freeglut gnu-source-light.conf
 media-libs/libvpx gnu-source-light.conf
-media-libs/virglrenderer gnu-source-light.conf
+media-libs/virglrenderer gnu-source-light.conf Wno-error.conf
 media-libs/libv4l std-gnu99.conf
 media-libs/pcaudiolib std-gnu99.conf
 media-libs/vulkan-loader gnu-source-light.conf
@@ -228,11 +230,11 @@ media-video/mjpegtools std-gnu11.conf
 media-video/vlc std-gnu11.conf
 media-video/mkvtoolnix gnu-source-light.conf
 media-video/obs-studio gnu-source-light.conf
-net-analyzer/openbsd-netcat gnu-source-light.conf
 net-analyzer/fping gnu-source-light.conf
 net-analyzer/zabbix gnu-source-light.conf
 net-analyzer/tcpdump gnu-source-light.conf
 net-analyzer/macchanger gnu-source-light.conf
+net-analyzer/openbsd-netcat gnu-source-light.conf
 net-dialup/linux-atm gnu-source-light.conf
 net-dns/pihole gnu-source-light.conf
 net-dns/c-ares std-gnu99.conf
@@ -272,6 +274,7 @@ net-libs/libslirp gnu-source-light.conf
 net-mail/dovecot std-gnu99.conf
 net-misc/freerdp gnu-source-light.conf
 net-misc/rdesktop gnu-source-light.conf
+net-misc/rclone gnu-source-light.conf
 net-misc/radvd gnu-source-light.conf
 net-misc/memcached std-gnu99.conf
 net-misc/modemmanager std-gnu99.conf
@@ -316,6 +319,7 @@ sys-apps/lm-sensors std-gnu99.conf
 sys-apps/lshw std-gnu11.conf
 sys-apps/smartmontools std-gnu11.conf
 sys-apps/pcsc-lite std-gnu11.conf
+sys-apps/pcsc-tools gnu-source-light.conf
 sys-apps/install-xattr gnu-source-light.conf
 sys-apps/ethtool gnu-source-light.conf
 sys-apps/i2c-tools gnu-source-light.conf

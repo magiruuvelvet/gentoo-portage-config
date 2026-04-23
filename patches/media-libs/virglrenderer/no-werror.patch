@@ -1,0 +1,12 @@
+diff --git a/meson.build b/meson.build
+index 193ba32..09ab5b3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -66,6 +66,7 @@ warnings = [
+    '-Wno-overlength-strings',
+    '-Wno-missing-field-initializers',
+    '-Werror=format',
++   '-Wno-embedded-directive',
+ ]
+ 
+ add_project_arguments(cc.get_supported_arguments(warnings), language : 'c')

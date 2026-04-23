@@ -6,12 +6,12 @@ source /etc/portage/hooks/functions/check-env.sh
 
 instprep() {
     echo -e ">>> Removing ${PN} desktop files..."
-    remove_desktop_files
+    #remove_desktop_files
 }
 
 postinst() {
     echo -e ">>> Removing ${PN} desktop files..."
-    rm -f /usr/share/applications/hwmixvolume.desktop
+    #rm -f /usr/share/applications/hwmixvolume.desktop
 }
 
 case "$1" in

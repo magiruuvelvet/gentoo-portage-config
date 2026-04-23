@@ -9,8 +9,15 @@ sys-apps/dbus systemd
 x11-misc/sddm systemd
 sys-fs/udisks systemd
 dev-lang/php systemd
+sys-auth/rtkit systemd
+sys-apps/pcsc-lite systemd
 
 app-containers/docker systemd
+net-wireless/bluez systemd
+sys-libs/pam systemd
+net-misc/networkmanager systemd
+net-misc/modemmanager systemd
+sys-fs/lvm2 systemd
 
 # >> systemd dependency removed with success
 app-accessibility/at-spi2-core -systemd
