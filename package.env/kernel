@@ -3,6 +3,6 @@ sys-kernel/linux-headers gnu-gcc.conf
 sys-kernel/vanilla-sources gnu-gcc.conf
 sys-kernel/gentoo-sources gnu-gcc.conf
 sys-kernel/gentoo-kernel-bin gnu-gcc.conf
-media-video/v4l2loopback gnu-gcc.conf
+media-video/v4l2loopback gnu-gcc-kernel.conf
 sys-boot/gnu-efi gnu-gcc.conf
 app-crypt/sbsigntools gnu-gcc.conf

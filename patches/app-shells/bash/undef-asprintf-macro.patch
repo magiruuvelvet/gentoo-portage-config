@@ -1,0 +1,12 @@
+diff --git a/braces.c b/braces.c
+index fb9230e..36d3102 100644
+--- a/braces.c
++++ b/braces.c
+@@ -66,6 +66,7 @@ extern int errno;
+ #define BRACE_SEQ	0x02
+ #define BRACE_NONE	0x04
+ 
++#undef asprintf
+ extern int asprintf (char **, const char *, ...) __attribute__((__format__ (printf, 2, 3)));
+ 
+ /* Basic idea:
